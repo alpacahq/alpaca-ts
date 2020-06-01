@@ -62,39 +62,6 @@ stream.onTrade((trade) => {
 
 These are all the methods supported by the package.
 
-| Type     | Method                         | Example                                     |
-| :------- | :----------------------------- | :------------------------------------------ |
-| `Client` | `getAccount`                   | [See Example](#getAccount)                  |
-| `Client` | `getOrder`                     | [See Example](#getOrder)                    |
-| `Client` | `getOrders`                    | [See Example](#getOrders)                   |
-| `Client` | `placeOrder`                   | [See Example](#placeOrder)                  |
-| `Client` | `replaceOrder`                 | [See Example](#replaceOrder)                |
-| `Client` | `cancelOrder`                  | [See Example](#cancelOrder)                 |
-| `Client` | `cancelOrders`                 | [See Example](#cancelOrders)                |
-| `Client` | `getPosition`                  | [See Example](#getPosition)                 |
-| `Client` | `getPositions`                 | [See Example](#getPositions)                |
-| `Client` | `closePosition`                | [See Example](#closePosition)               |
-| `Client` | `closePositions`               | [See Example](#closePositions)              |
-| `Client` | `getAsset`                     | [See Example](#getAsset)                    |
-| `Client` | `getAssets`                    | [See Example](#getAssets)                   |
-| `Client` | `getWatchlist`                 | [See Example](#getWatchlist)                |
-| `Client` | `getWatchlists`                | [See Example](#getWatchlists)               |
-| `Client` | `createWatchlist`              | [See Example](#createWatchlist)             |
-| `Client` | `updateWatchlist`              | [See Example](#updateWatchlist)             |
-| `Client` | `addToWatchlist`               | [See Example](#addToWatchlist)              |
-| `Client` | `removeFromWatchlist`          | [See Example](#removeFromWatchlist)         |
-| `Client` | `deleteWatchlist`              | [See Example](#deleteWatchlist)             |
-| `Client` | `getCalendar`                  | [See Example](#getCalendar)                 |
-| `Client` | `getClock`                     | [See Example](#getClock)                    |
-| `Client` | `getAccountConfigurations`     | [See Example](#getAccountConfigurations)    |
-| `Client` | `updateAccountConfigurations`  | [See Example](#updateAccountConfigurations) |
-| `Client` | `getAccountActivities`         | [See Example](#getAccountActivities)        |
-| `Client` | `getPortfolioHistory`          | [See Example](#getPortfolioHistory)         |
-| `Client` | `getBars`                      | [See Example](#getBars)                     |
-| `Client` | `getLastTrade`                 | [See Example](#getLastTrade)                |
-| `Client` | `getLastQuote`                 | [See Example](#getLastQuote)                |
-|          | ...and more, working on README |                                             |
-
 ### getAccount
 
 > **Description**  
@@ -137,7 +104,8 @@ client
 ### getOrders
 
 > **Description**  
-> Retrieves a list of orders for the account, filtered by the supplied query parameters.
+> Retrieves a list of orders for the account, filtered by the supplied query
+> parameters.
 
 > **Reference**  
 > [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
@@ -155,7 +123,8 @@ client
 ### placeOrder
 
 > **Description**  
-> Places a new order for the given account. An order request may be rejected if  
+> Places a new order for the given account. An order request may be rejected
+> if  
 > the account is not authorized for trading, or if the tradable balance is  
 > insufficient to fill the order.
 
