@@ -1,5 +1,6 @@
-> **WARNING** This project is brand-new! Only a few days old. Give me some time
-> to make it production-ready. Right now there may be a few bugs I missed.
+> **WARNING** This project is brand-new!  
+> Only a few days old. Give me some time to make it production-ready.  
+> Right now there may be a few bugs I missed.
 
 # alpaca-trade-api-ts
 
@@ -37,10 +38,10 @@ $ APCA_API_SECRET_KEY=yourKeyGoesHere
 
 Your API key allows 1 simultaneous connection to each server.
 
-| Server           | URL                                | Enum                   |
-| :--------------- | :--------------------------------- | :--------------------- |
-| AccountStream    | `wss://api.alpaca.markets/stream`  | `URL.AccountStream`    |
-| MarketDataStream | `wss://data.alpaca.markets/stream` | `URL.MarketDataStream` |
+| Server             | URL                                | Enum                   |
+| :----------------- | :--------------------------------- | :--------------------- |
+| `AccountStream`    | `wss://api.alpaca.markets/stream`  | `URL.AccountStream`    |
+| `MarketDataStream` | `wss://data.alpaca.markets/stream` | `URL.MarketDataStream` |
 
 Connecting to these servers is easy.
 
