@@ -11,7 +11,7 @@ A TypeScript Node.js library for the Alpaca.markets API.
 ## Installation
 
 ```console
-$ npm install 117/alpaca-trade-api-ts@latest
+$ npm install 117/alpaca-trade-api-ts
 ```
 
 ## Client
