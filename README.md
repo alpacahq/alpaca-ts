@@ -95,7 +95,7 @@ These are all the methods supported by the package.
 | `Client` | `getLastQuote`                 | [See Example](#getLastQuote)                |
 |          | ...and more, working on README |                                             |
 
-### getAccount [(docs reference)](https://alpaca.markets/docs/api-documentation/api-v2/account/)
+### getAccount [(Docs Reference)](https://alpaca.markets/docs/api-documentation/api-v2/account/)
 
 Returns the account associated with the credentials provided.
 
@@ -109,7 +109,7 @@ client
   .catch((error) => console.log(error))
 ```
 
-### getOrder [(docs reference)](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
+### getOrder [(Docs Reference)](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
 
 Retrieves a single order for the given order_id.
 
@@ -123,6 +123,40 @@ client
       `Order ${order.side} ${order.qty} ${order.symbol} @ $${order.filled_avg_price}.`
     )
   })
+  .catch((error) => console.log(error))
+```
+
+### getOrders [(Docs Reference)](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
+
+Retrieves a list of orders for the account, filtered by the supplied query
+parameters.
+
+```typescript
+client
+  .getOrders({
+    limit: 25,
+    status: 'all',
+  })
+  .then((orders) => console.log(`Found ${orders.length} order(s).`))
+  .catch((error) => console.log(error))
+```
+
+### placeOrder [(Docs Reference)](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
+
+Places a new order for the given account. An order request may be rejected if
+the account is not authorized for trading, or if the tradable balance is
+insufficient to fill the order.
+
+```typescript
+client
+  .placeOrder({
+    symbol: 'SPY',
+    qty: 1,
+    side: 'buy',
+    type: 'market',
+    time_in_force: 'day',
+  })
+  .then((order) => console.log(`New order placed with ID ${order.id}.`))
   .catch((error) => console.log(error))
 ```
 
