@@ -18,9 +18,11 @@ $ npm install 117/alpaca-trade-api-ts
 ```typescript
 import { Client } from 'alpaca-trade-api-ts'
 
+// all parameters are optional
 const client = new Client({
-  key: 'yourKeyGoesHere', // optional
-  secret: 'yourKeyGoesHere', // optional
+  key: 'yourKeyGoesHere',
+  secret: 'yourKeyGoesHere',
+  paper: true,
 })
 ```
 
@@ -47,9 +49,10 @@ Connecting to these servers is easy.
 ```typescript
 import { Stream, URL } from 'alpaca-trade-api-ts'
 
+// the client you pass will be used for authentication
 const stream = new Stream(client, { host: URL.MarketDataStream })
 
-// to see subscription success notifications use .onMessage()
+// to see all stream messages use .onMessage
 stream.subscribe(['T.SPY'])
 
 // will get called on each new trade event for SPY
