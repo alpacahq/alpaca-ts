@@ -95,7 +95,10 @@ These are all the methods supported by the package.
 | `Client` | `getLastQuote`                 | [See Example](#getLastQuote)                |
 |          | ...and more, working on README |                                             |
 
-### getAccount [(Docs Reference)](https://alpaca.markets/docs/api-documentation/api-v2/account/)
+### getAccount
+
+> **Docs Reference**  
+> [https://alpaca.markets/docs/api-documentation/api-v2/account/](https://alpaca.markets/docs/api-documentation/api-v2/account/)
 
 Returns the account associated with the credentials provided.
 
@@ -109,7 +112,10 @@ client
   .catch((error) => console.log(error))
 ```
 
-### getOrder [(Docs Reference)](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
+### getOrder
+
+> **Docs Reference**  
+> [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
 
 Retrieves a single order for the given order_id.
 
@@ -126,7 +132,10 @@ client
   .catch((error) => console.log(error))
 ```
 
-### getOrders [(Docs Reference)](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
+### getOrders
+
+> **Docs Reference**  
+> [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
 
 Retrieves a list of orders for the account, filtered by the supplied query
 parameters.
@@ -141,7 +150,10 @@ client
   .catch((error) => console.log(error))
 ```
 
-### placeOrder [(Docs Reference)](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
+### placeOrder
+
+> **Docs Reference**  
+> [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
 
 Places a new order for the given account. An order request may be rejected if
 the account is not authorized for trading, or if the tradable balance is
