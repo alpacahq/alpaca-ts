@@ -1,5 +1,5 @@
 > **WARNING** This project is brand-new! Only a few days old. Give me some time
-> to make it production-ready. Right now there may be a few bugs I missed.
+> to make it production-ready.
 
 # alpaca-trade-api-ts
 
