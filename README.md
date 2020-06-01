@@ -62,36 +62,48 @@ stream.onTrade((trade) => {
 
 These are all the methods supported by the package.
 
-| Type   | Method                        | Returns                          | Example                                     |
-| :----- | :---------------------------- | :------------------------------- | :------------------------------------------ |
-| Client | `getAccount`                  | `Promise<Account>`               | [See Example](#getAccount)                  |
-| Client | `getOrder`                    | `Promise<Order>`                 | [See Example](#getOrder)                    |
-| Client | `getOrders`                   | `Promise<Order[]>`               | [See Example](#getOrders)                   |
-| Client | `placeOrder`                  | `Promise<Order>`                 | [See Example](#placeOrder)                  |
-| Client | `replaceOrder`                | `Promise<Order>`                 | [See Example](#replaceOrder)                |
-| Client | `cancelOrder`                 | `Promise<Order>`                 | [See Example](#cancelOrder)                 |
-| Client | `cancelOrders`                | `Promise<void>`                  | [See Example](#cancelOrders)                |
-| Client | `getPosition`                 | `Promise<Position>`              | [See Example](#getPosition)                 |
-| Client | `getPositions`                | `Promise<Position[]>`            | [See Example](#getPositions)                |
-| Client | `closePosition`               | `Promise<Order>`                 | [See Example](#closePosition)               |
-| Client | `closePositions`              | `Promise<Order[]>`               | [See Example](#closePositions)              |
-| Client | `getAsset`                    | `Promise<Asset>`                 | [See Example](#getAsset)                    |
-| Client | `getAssets`                   | `Promise<Asset[]>`               | [See Example](#getAssets)                   |
-| Client | `getWatchlist`                | `Promise<Watchlist>`             | [See Example](#getWatchlist)                |
-| Client | `getWatchlists`               | `Promise<Watchlist[]>`           | [See Example](#getWatchlists)               |
-| Client | `createWatchlist`             | `Promise<Watchlist[]>`           | [See Example](#createWatchlist)             |
-| Client | `updateWatchlist`             | `Promise<Watchlist>`             | [See Example](#updateWatchlist)             |
-| Client | `addToWatchlist`              | `Promise<Watchlist>`             | [See Example](#addToWatchlist)              |
-| Client | `removeFromWatchlist`         | `Promise<void>`                  | [See Example](#removeFromWatchlist)         |
-| Client | `deleteWatchlist`             | `Promise<void>`                  | [See Example](#deleteWatchlist)             |
-| Client | `getCalendar`                 | `Promise<Calendar>`              | [See Example](#getCalendar)                 |
-| Client | `getClock`                    | `Promise<Clock>`                 | [See Example](#getClock)                    |
-| Client | `getAccountConfigurations`    | `Promise<AccountConfigurations>` | [See Example](#getAccountConfigurations)    |
-| Client | `updateAccountConfigurations` | `Promise<AccountConfigurations>` | [See Example](#updateAccountConfigurations) |
-| Client | `getAccountActivities`        | `Promise<Array<...>[]>`          | [See Example](#getAccountActivities)        |
-| Client | `getPortfolioHistory`         | `Promise<PortfolioHistory>`      | [See Example](#getPortfolioHistory)         |
-| Client | `getBars`                     | `Promise<Bars<Bar>>`             | [See Example](#getBars)                     |
-| Client | `getLastTrade`                | `Promise<LastTradeResponse>`     | [See Example](#getLastTrade)                |
-| Client | `getLastQuote`                | `Promise<LastQuoteResponse>`     | [See Example](#getLastQuote)                |
+| Type   | Method                        | Example                                     |
+| :----- | :---------------------------- | :------------------------------------------ |
+| Client | `getAccount`                  | [See Example](#getAccount)                  |
+| Client | `getOrder`                    | [See Example](#getOrder)                    |
+| Client | `getOrders`                   | [See Example](#getOrders)                   |
+| Client | `placeOrder`                  | [See Example](#placeOrder)                  |
+| Client | `replaceOrder`                | [See Example](#replaceOrder)                |
+| Client | `cancelOrder`                 | [See Example](#cancelOrder)                 |
+| Client | `cancelOrders`                | [See Example](#cancelOrders)                |
+| Client | `getPosition`                 | [See Example](#getPosition)                 |
+| Client | `getPositions`                | [See Example](#getPositions)                |
+| Client | `closePosition`               | [See Example](#closePosition)               |
+| Client | `closePositions`              | [See Example](#closePositions)              |
+| Client | `getAsset`                    | [See Example](#getAsset)                    |
+| Client | `getAssets`                   | [See Example](#getAssets)                   |
+| Client | `getWatchlist`                | [See Example](#getWatchlist)                |
+| Client | `getWatchlists`               | [See Example](#getWatchlists)               |
+| Client | `createWatchlist`             | [See Example](#createWatchlist)             |
+| Client | `updateWatchlist`             | [See Example](#updateWatchlist)             |
+| Client | `addToWatchlist`              | [See Example](#addToWatchlist)              |
+| Client | `removeFromWatchlist`         | [See Example](#removeFromWatchlist)         |
+| Client | `deleteWatchlist`             | [See Example](#deleteWatchlist)             |
+| Client | `getCalendar`                 | [See Example](#getCalendar)                 |
+| Client | `getClock`                    | [See Example](#getClock)                    |
+| Client | `getAccountConfigurations`    | [See Example](#getAccountConfigurations)    |
+| Client | `updateAccountConfigurations` | [See Example](#updateAccountConfigurations) |
+| Client | `getAccountActivities`        | [See Example](#getAccountActivities)        |
+| Client | `getPortfolioHistory`         | [See Example](#getPortfolioHistory)         |
+| Client | `getBars`                     | [See Example](#getBars)                     |
+| Client | `getLastTrade`                | [See Example](#getLastTrade)                |
+| Client | `getLastQuote`                | [See Example](#getLastQuote)                |
 
-Examples are coming soon... give me the rest of the week. :)
+### getAccount
+
+Returns the account associated with the credentials provided.
+
+```typescript
+client
+  .getAccount((account) =>
+    console.log(`my account buying power is ${account.buying_power}`)
+  )
+  .catch((error) => console.log(error))
+```
+
+More examples are coming soon... give me some time or feel free to contribute.
