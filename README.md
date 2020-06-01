@@ -30,6 +30,7 @@ every new client.
 ```console
 $ APCA_API_KEY_ID=yourKeyGoesHere
 $ APCA_API_SECRET_KEY=yourKeyGoesHere
+$ APCA_PAPER=true
 ```
 
 ## Stream
