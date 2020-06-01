@@ -1,0 +1,24 @@
+{
+  "name": "alpaca-trade-api-ts",
+  "version": "0.0.1",
+  "description": "Alpaca trade API in TypeScript.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && $(npm bin)/ava -v"
+  },
+  "author": "117",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@types/node-fetch": "^2.5.7",
+    "@types/qs": "^6.9.3",
+    "@types/ws": "^7.2.4",
+    "http-method-enum": "^1.0.0",
+    "node-fetch": "^2.6.0",
+    "qs": "^6.9.4",
+    "ws": "^7.3.0"
+  },
+  "devDependencies": {
+    "ava": "^3.8.2"
+  }
+}
