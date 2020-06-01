@@ -101,9 +101,7 @@ Returns the account associated with the credentials provided.
 
 ```typescript
 client
-  .getAccount((account) =>
-    console.log(`my account buying power is ${account.buying_power}`)
-  )
+  .getAccount((account) => console.log(account))
   .catch((error) => console.log(error))
 ```
 
