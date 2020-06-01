@@ -63,7 +63,6 @@ stream.onTrade((trade) => {
 These are all the methods supported by the package.
 
 ### getAccount
-#### [https://alpaca.markets/docs/api-documentation/api-v2/account/](https://alpaca.markets/docs/api-documentation/api-v2/account/)
 
 ```typescript
 client
@@ -76,7 +75,6 @@ client
 ```
 
 ### getOrder
-#### [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
 
 ```typescript
 client
@@ -92,7 +90,6 @@ client
 ```
 
 ### getOrders
-#### [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
 
 ```typescript
 client
@@ -105,7 +102,6 @@ client
 ```
 
 ### placeOrder
-#### [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
 
 ```typescript
 client
