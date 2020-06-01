@@ -64,11 +64,7 @@ These are all the methods supported by the package.
 
 ### getAccount
 
-> **Description**  
-> Returns the account associated with the credentials provided.
-
-> **Reference**  
-> [https://alpaca.markets/docs/api-documentation/api-v2/account/](https://alpaca.markets/docs/api-documentation/api-v2/account/)
+#### [https://alpaca.markets/docs/api-documentation/api-v2/account/](https://alpaca.markets/docs/api-documentation/api-v2/account/)
 
 ```typescript
 client
@@ -82,11 +78,7 @@ client
 
 ### getOrder
 
-> **Description**  
-> Retrieves a single order for the given `order_id`.
-
-> **Reference**  
-> [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
+#### [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
 
 ```typescript
 client
@@ -103,12 +95,7 @@ client
 
 ### getOrders
 
-> **Description**  
-> Retrieves a list of orders for the account, filtered by the supplied query
-> parameters.
-
-> **Reference**  
-> [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
+#### [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
 
 ```typescript
 client
@@ -122,14 +109,7 @@ client
 
 ### placeOrder
 
-> **Description**  
-> Places a new order for the given account. An order request may be rejected
-> if  
-> the account is not authorized for trading, or if the tradable balance is  
-> insufficient to fill the order.
-
-> **Reference**  
-> [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
+#### [https://alpaca.markets/docs/api-documentation/api-v2/orders/](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
 
 ```typescript
 client
