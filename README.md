@@ -118,6 +118,6 @@ client
 
 More examples are coming soon... give me some time or feel free to contribute.
 
-### Contribute
+## Contribute
 
-Pull requests are encouraged. 🥳
+Pull requests are encouraged. 😁
