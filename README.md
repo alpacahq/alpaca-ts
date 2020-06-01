@@ -1,4 +1,5 @@
-> **WARNING** This project is brand-new! Only a few days old. Give me some time to make it production-ready. Right now there may be a few bugs I missed.
+> **WARNING** This project is brand-new! Only a few days old. Give me some time
+> to make it production-ready. Right now there may be a few bugs I missed.
 
 # alpaca-trade-api-ts
 
@@ -94,13 +95,34 @@ These are all the methods supported by the package.
 | `Client` | `getLastQuote`                 | [See Example](#getLastQuote)                |
 |          | ...and more, working on README |                                             |
 
-### getAccount
+### getAccount [(docs reference)](https://alpaca.markets/docs/api-documentation/api-v2/account/)
 
 Returns the account associated with the credentials provided.
 
 ```typescript
 client
-  .getAccount((account) => console.log(account))
+  .getAccount()
+  .then((account) => {
+    console.log(`You have $${account.cash} in cash.`)
+    console.log(`You have $${account.buying_power} in buying power.`)
+  })
+  .catch((error) => console.log(error))
+```
+
+### getOrder [(docs reference)](https://alpaca.markets/docs/api-documentation/api-v2/orders/)
+
+Retrieves a single order for the given order_id.
+
+```typescript
+client
+  .getOrder({
+    order_id: '6187635d-04e5-485b-8a94-7ce398b2b81c',
+  })
+  .then((order) => {
+    console.log(
+      `Order ${order.side} ${order.qty} ${order.symbol} @ $${order.filled_avg_price}.`
+    )
+  })
   .catch((error) => console.log(error))
 ```
 
