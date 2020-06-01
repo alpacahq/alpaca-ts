@@ -71,7 +71,7 @@ export declare class Client {
         asset_class?: string;
     }): Promise<Asset[]>;
     getWatchlist(parameters: {
-        watchlist_id: string;
+        uuid: string;
     }): Promise<Watchlist>;
     getWatchlists(): Promise<Watchlist[]>;
     createWatchlist(parameters: {
@@ -79,20 +79,20 @@ export declare class Client {
         symbols?: string[];
     }): Promise<Watchlist[]>;
     updateWatchlist(parameters: {
-        watchlist_id: string;
+        uuid: string;
         name?: string;
         symbols?: string[];
     }): Promise<Watchlist>;
     addToWatchlist(parameters: {
-        watchlist_id: string;
+        uuid: string;
         symbol: string;
     }): Promise<Watchlist>;
     removeFromWatchlist(parameters: {
-        watchlist_id: string;
+        uuid: string;
         symbol: string;
     }): Promise<void>;
     deleteWatchlist(parameters: {
-        watchlist_id: string;
+        uuid: string;
     }): Promise<void>;
     getCalendar(parameters?: {
         start?: Date;

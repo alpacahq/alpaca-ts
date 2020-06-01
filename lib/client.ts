@@ -214,13 +214,9 @@ export class Client {
     )
   }
 
-  getWatchlist(parameters: { watchlist_id: string }): Promise<Watchlist> {
+  getWatchlist(parameters: { uuid: string }): Promise<Watchlist> {
     return new Promise<Watchlist>((resolve, reject) =>
-      this.request(
-        method.GET,
-        URL.Account,
-        `watchlists/${parameters.watchlist_id}`
-      )
+      this.request(method.GET, URL.Account, `watchlists/${parameters.uuid}`)
         .then(resolve)
         .catch(reject)
     )
@@ -246,7 +242,7 @@ export class Client {
   }
 
   updateWatchlist(parameters: {
-    watchlist_id: string
+    uuid: string
     name?: string
     symbols?: string[]
   }): Promise<Watchlist> {
@@ -254,7 +250,7 @@ export class Client {
       this.request(
         method.PUT,
         URL.Account,
-        `watchlists/${parameters.watchlist_id}`,
+        `watchlists/${parameters.uuid}`,
         parameters
       )
         .then(resolve)
@@ -263,14 +259,14 @@ export class Client {
   }
 
   addToWatchlist(parameters: {
-    watchlist_id: string
+    uuid: string
     symbol: string
   }): Promise<Watchlist> {
     return new Promise<Watchlist>((resolve, reject) =>
       this.request(
         method.POST,
         URL.Account,
-        `watchlists/${parameters.watchlist_id}`,
+        `watchlists/${parameters.uuid}`,
         parameters
       )
         .then(resolve)
@@ -279,27 +275,23 @@ export class Client {
   }
 
   removeFromWatchlist(parameters: {
-    watchlist_id: string
+    uuid: string
     symbol: string
   }): Promise<void> {
     return new Promise<void>((resolve, reject) =>
       this.request(
         method.DELETE,
         URL.Account,
-        `watchlists/${parameters.watchlist_id}/${parameters.symbol}`
+        `watchlists/${parameters.uuid}/${parameters.symbol}`
       )
         .then(resolve)
         .catch(reject)
     )
   }
 
-  deleteWatchlist(parameters: { watchlist_id: string }): Promise<void> {
+  deleteWatchlist(parameters: { uuid: string }): Promise<void> {
     return new Promise<void>((resolve, reject) =>
-      this.request(
-        method.DELETE,
-        URL.Account,
-        `watchlists/${parameters.watchlist_id}`
-      )
+      this.request(method.DELETE, URL.Account, `watchlists/${parameters.uuid}`)
         .then(resolve)
         .catch(reject)
     )
@@ -398,6 +390,12 @@ export class Client {
     after?: Date
     until?: Date
   }): Promise<Bars<Bar>> {
+    var transformed = {}
+
+    // join the symbols into a comma-delimited string
+    transformed = parameters
+    transformed['symbols'] = parameters.symbols.join(',')
+
     return new Promise<Bars<Bar>>((resolve, reject) =>
       this.request(
         method.GET,
@@ -442,6 +440,15 @@ export class Client {
     // modify the base url if paper is true
     if (this.options.paper && url == URL.Account) {
       url = URL.Account.replace('api.', 'paper-api.')
+    }
+
+    // convert any dates to ISO 8601 for Alpaca
+    if (data) {
+      for (let [key, value] of Object.entries(data)) {
+        if (value instanceof Date) {
+          data[key] = (value as Date).toISOString()
+        }
+      }
     }
 
     return new Promise<any>(async (resolve, reject) => {

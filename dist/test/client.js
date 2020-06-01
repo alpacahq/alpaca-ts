@@ -102,7 +102,7 @@ ava_1.default('getAsset', async (test) => {
 ava_1.default('getWatchlist', async (test) => {
     await client
         .getWatchlist({
-        watchlist_id: 'test',
+        uuid: 'test',
     })
         .then(() => test.pass())
         .catch(test.fail);
@@ -124,7 +124,7 @@ ava_1.default('createWatchlist', async (test) => {
 ava_1.default('updateWatchlist', async (test) => {
     await client
         .updateWatchlist({
-        watchlist_id: 'test',
+        uuid: 'test',
         name: 'test',
     })
         .then(() => test.pass())
@@ -133,7 +133,7 @@ ava_1.default('updateWatchlist', async (test) => {
 ava_1.default('addToWatchlist', async (test) => {
     await client
         .addToWatchlist({
-        watchlist_id: 'test',
+        uuid: 'test',
         symbol: 'SPY',
     })
         .then(() => test.pass())
@@ -142,7 +142,7 @@ ava_1.default('addToWatchlist', async (test) => {
 ava_1.default('removeFromWatchlist', async (test) => {
     await client
         .removeFromWatchlist({
-        watchlist_id: 'test',
+        uuid: 'test',
         symbol: 'SPY',
     })
         .then(() => test.pass())
@@ -151,7 +151,7 @@ ava_1.default('removeFromWatchlist', async (test) => {
 ava_1.default('deleteWatchlist', async (test) => {
     await client
         .deleteWatchlist({
-        watchlist_id: 'test',
+        uuid: 'test',
     })
         .then(() => test.pass())
         .catch(test.fail);

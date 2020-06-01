@@ -92,7 +92,7 @@ class Client {
             .catch(reject));
     }
     getWatchlist(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.URL.Account, `watchlists/${parameters.watchlist_id}`)
+        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.URL.Account, `watchlists/${parameters.uuid}`)
             .then(resolve)
             .catch(reject));
     }
@@ -107,22 +107,22 @@ class Client {
             .catch(reject));
     }
     updateWatchlist(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.PUT, common_1.URL.Account, `watchlists/${parameters.watchlist_id}`, parameters)
+        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.PUT, common_1.URL.Account, `watchlists/${parameters.uuid}`, parameters)
             .then(resolve)
             .catch(reject));
     }
     addToWatchlist(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.POST, common_1.URL.Account, `watchlists/${parameters.watchlist_id}`, parameters)
+        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.POST, common_1.URL.Account, `watchlists/${parameters.uuid}`, parameters)
             .then(resolve)
             .catch(reject));
     }
     removeFromWatchlist(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `watchlists/${parameters.watchlist_id}/${parameters.symbol}`)
+        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `watchlists/${parameters.uuid}/${parameters.symbol}`)
             .then(resolve)
             .catch(reject));
     }
     deleteWatchlist(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `watchlists/${parameters.watchlist_id}`)
+        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `watchlists/${parameters.uuid}`)
             .then(resolve)
             .catch(reject));
     }
@@ -155,6 +155,10 @@ class Client {
             .catch(reject));
     }
     getBars(parameters) {
+        var transformed = {};
+        // join the symbols into a comma-delimited string
+        transformed = parameters;
+        transformed['symbols'] = parameters.symbols.join(',');
         return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.URL.MarketData, `bars/${parameters.timeframe}?${qs_1.default.stringify(parameters)}`)
             .then(resolve)
             .catch(reject));
@@ -173,6 +177,14 @@ class Client {
         // modify the base url if paper is true
         if (this.options.paper && url == common_1.URL.Account) {
             url = common_1.URL.Account.replace('api.', 'paper-api.');
+        }
+        // convert any dates to ISO 8601 for Alpaca
+        if (data) {
+            for (let [key, value] of Object.entries(data)) {
+                if (value instanceof Date) {
+                    data[key] = value.toISOString();
+                }
+            }
         }
         return new Promise(async (resolve, reject) => {
             await node_fetch_1.default(`${url}/${endpoint}`, {
