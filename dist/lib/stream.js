@@ -80,19 +80,19 @@ class Stream {
                     if ('stream' in object) {
                         switch (object['stream'].split('.')[0]) {
                             case 'trade_updates':
-                                this.__on_trade_update(object);
+                                this.__on_trade_update(object['data']);
                                 break;
                             case 'account_updates':
-                                this.__on_account_update(object);
+                                this.__on_account_update(object['data']);
                                 break;
                             case 'T':
-                                this.__on_trade(object);
+                                this.__on_trade(object['data']);
                                 break;
                             case 'Q':
-                                this.__on_quote(object);
+                                this.__on_quote(object['data']);
                                 break;
                             case 'AM':
-                                this.__on_aggregate_minute(object);
+                                this.__on_aggregate_minute(object['data']);
                                 break;
                         }
                     }
