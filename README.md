@@ -117,3 +117,7 @@ client
 ```
 
 More examples are coming soon... give me some time or feel free to contribute.
+
+### Contribute
+
+Pull requests are encouraged. 🥳
