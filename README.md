@@ -1,5 +1,3 @@
-> **WARNING** This project is brand-new, only a few days old. Everything should be working but there may be bugs.
-
 # alpaca-trade-api-ts
 
 ![](https://badgen.net/npm/v/repeat?color=0061FF)
