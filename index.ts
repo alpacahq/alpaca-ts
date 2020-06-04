@@ -1,6 +1,6 @@
-export { Client } from './lib/client'
-export { Stream } from './lib/stream'
-export { URL } from './lib/common'
+import { Client } from './lib/client'
+import { Stream } from './lib/stream'
+import { URL } from './lib/common'
 
 export {
   Account,
@@ -14,8 +14,13 @@ export {
   TradeActivity,
   NonTradeActivity,
   PortfolioHistory,
-  Bars,
   Bar,
   LastTradeResponse,
   LastQuoteResponse,
 } from './lib/entities'
+
+export default {
+  Client: Client,
+  Stream: Stream,
+  URL: URL,
+}

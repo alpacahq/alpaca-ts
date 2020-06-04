@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var client_1 = require("./lib/client");
-Object.defineProperty(exports, "Client", { enumerable: true, get: function () { return client_1.Client; } });
-var stream_1 = require("./lib/stream");
-Object.defineProperty(exports, "Stream", { enumerable: true, get: function () { return stream_1.Stream; } });
-var common_1 = require("./lib/common");
-Object.defineProperty(exports, "URL", { enumerable: true, get: function () { return common_1.URL; } });
+const client_1 = require("./lib/client");
+const stream_1 = require("./lib/stream");
+const common_1 = require("./lib/common");
+exports.default = {
+    Client: client_1.Client,
+    Stream: stream_1.Stream,
+    URL: common_1.URL,
+};

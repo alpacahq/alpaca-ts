@@ -16,7 +16,6 @@ import {
   TradeActivity,
   NonTradeActivity,
   PortfolioHistory,
-  Bars,
   Bar,
   LastTradeResponse,
   LastQuoteResponse,
@@ -389,14 +388,14 @@ export class Client {
     end?: Date
     after?: Date
     until?: Date
-  }): Promise<Bars<Bar>> {
+  }): Promise<Map<String, Bar[]>> {
     var transformed = {}
 
     // join the symbols into a comma-delimited string
     transformed = parameters
     transformed['symbols'] = parameters.symbols.join(',')
 
-    return new Promise<Bars<Bar>>((resolve, reject) =>
+    return new Promise<Map<String, Bar[]>>((resolve, reject) =>
       this.request(
         method.GET,
         URL.MarketData,

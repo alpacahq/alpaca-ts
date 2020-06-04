@@ -65,9 +65,6 @@ export interface Asset {
     shortable: boolean;
     easy_to_borrow: boolean;
 }
-export interface Bars<Bar> {
-    [index: string]: Bar;
-}
 export interface Bar {
     t: number;
     o: number;

@@ -1,4 +1,4 @@
-import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, TradeActivity, NonTradeActivity, PortfolioHistory, Bars, Bar, LastTradeResponse, LastQuoteResponse } from './entities';
+import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, TradeActivity, NonTradeActivity, PortfolioHistory, Bar, LastTradeResponse, LastQuoteResponse } from './entities';
 export declare class Client {
     options?: {
         key?: string;
@@ -129,7 +129,7 @@ export declare class Client {
         end?: Date;
         after?: Date;
         until?: Date;
-    }): Promise<Bars<Bar>>;
+    }): Promise<Map<String, Bar[]>>;
     getLastTrade(parameters: {
         symbol: string;
     }): Promise<LastTradeResponse>;
