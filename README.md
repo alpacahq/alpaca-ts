@@ -1,6 +1,3 @@
-> **WARNING** This project is brand-new, only a few days old. Everything should
-> be working but there may be bugs.
-
 # alpaca-trade-api-ts
 
 ![](https://badgen.net/npm/v/repeat?color=0061FF)
@@ -50,7 +47,7 @@ import alpaca from 'alpaca-trade-api-ts'
 
 const stream = new alpaca.Stream(client, { host: alpaca.URL.MarketDataStream })
 
-// to see subscription success notifications use .onMessage()
+// to see all stream messages use .onMessage
 stream.subscribe(['T.SPY'])
 
 // will get called on each new trade event for SPY
