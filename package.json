@@ -2,7 +2,7 @@
   "name": "alpaca-trade-api-ts",
   "version": "0.0.1",
   "description": "Alpaca trade API in TypeScript.",
-  "main": "dist/lib",
+  "main": "dist/index",
   "scripts": {
     "build": "tsc",
     "test": "npm run build && $(npm bin)/ava -v"

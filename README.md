@@ -14,9 +14,9 @@ $ npm install 117/alpaca-trade-api-ts
 ## Client
 
 ```typescript
-import alpaca from 'alpaca-trade-api-ts'
+import { Client as AlpacaClient } from 'alpaca-trade-api-ts'
 
-const client = new alpaca.Client({
+const client = new AlpacaClient({
   key: 'yourKeyGoesHere', // optional
   secret: 'yourKeyGoesHere', // optional
 })
@@ -43,9 +43,11 @@ Your API key allows 1 simultaneous connection to each server.
 Connecting to these servers is easy.
 
 ```typescript
-import alpaca from 'alpaca-trade-api-ts'
+import { Stream as AlpacaStream } from 'alpaca-trade-api-ts'
 
-const stream = new alpaca.Stream(client, { host: alpaca.URL.MarketDataStream })
+const stream = new AlpacaStream(client, {
+  host: alpaca.URL.MarketDataStream,
+})
 
 // to see all stream messages use .onMessage
 stream.subscribe(['T.SPY'])
