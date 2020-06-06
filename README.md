@@ -12,12 +12,15 @@ $ npm install 117/alpaca-trade-api-ts
 
 ## Client
 
+> **New feature!** Built in rate-limiter, just pass `rate_limit: true` into client options.
+
 ```typescript
 import { Client } from 'alpaca-trade-api-ts'
 
 const client = new Client({
   key: 'yourKeyGoesHere', // optional
   secret: 'yourKeyGoesHere', // optional
+  rate_limit: true,
 })
 ```
 
