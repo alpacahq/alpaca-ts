@@ -7,10 +7,12 @@ exports.Client = void 0;
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const http_method_enum_1 = __importDefault(require("http-method-enum"));
 const qs_1 = __importDefault(require("qs"));
+const limiter_1 = require("limiter");
 const common_1 = require("./common");
 class Client {
     constructor(options) {
         this.options = options;
+        this.rate_limiter = new limiter_1.RateLimiter(200, 'minute');
         // if the alpaca key hasn't been provided, try env var
         if (!this.options.key) {
             this.options.key = process.env.APCA_API_KEY_ID;
@@ -187,6 +189,10 @@ class Client {
             }
         }
         return new Promise(async (resolve, reject) => {
+            // do rate limiting
+            if (this.options.rate_limit) {
+                await new Promise((resolve) => this.rate_limiter.removeTokens(1, resolve));
+            }
             await node_fetch_1.default(`${url}/${endpoint}`, {
                 method: method,
                 headers: {

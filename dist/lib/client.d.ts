@@ -4,11 +4,14 @@ export declare class Client {
         key?: string;
         secret?: string;
         paper?: boolean;
+        rate_limit?: boolean;
     };
+    private rate_limiter;
     constructor(options?: {
         key?: string;
         secret?: string;
         paper?: boolean;
+        rate_limit?: boolean;
     });
     getAccount(): Promise<Account>;
     getOrder(parameters: {

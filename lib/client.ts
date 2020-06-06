@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import method from 'http-method-enum'
 import qs from 'qs'
+import { RateLimiter } from 'limiter'
 
 import { URL } from './common'
 
@@ -22,11 +23,13 @@ import {
 } from './entities'
 
 export class Client {
+  private rate_limiter: RateLimiter = new RateLimiter(200, 'minute')
   constructor(
     public options?: {
       key?: string
       secret?: string
       paper?: boolean
+      rate_limit?: boolean
     }
   ) {
     // if the alpaca key hasn't been provided, try env var
@@ -451,6 +454,13 @@ export class Client {
     }
 
     return new Promise<any>(async (resolve, reject) => {
+      // do rate limiting
+      if (this.options.rate_limit) {
+        await new Promise<void>((resolve) =>
+          this.rate_limiter.removeTokens(1, resolve)
+        )
+      }
+
       await fetch(`${url}/${endpoint}`, {
         method: method,
         headers: {

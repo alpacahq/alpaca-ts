@@ -1,6 +1,5 @@
 # alpaca-trade-api-ts
 
-![](https://badgen.net/npm/v/repeat?color=0061FF)
 ![](https://badgen.net/badge/code%20style/prettier/ff51bc)
 
 A TypeScript Node.js library for the Alpaca.markets API.
