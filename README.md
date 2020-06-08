@@ -45,10 +45,10 @@ Your API key allows 1 simultaneous connection to each server.
 Connecting to these servers is easy.
 
 ```typescript
-import { Stream } from 'alpaca-trade-api-ts'
+import { Stream, URL } from 'alpaca-trade-api-ts'
 
 const stream = new Stream(client, {
-  host: alpaca.URL.MarketDataStream,
+  host: URL.MarketDataStream,
 })
 
 // to see all stream messages use .onMessage
