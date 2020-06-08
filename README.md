@@ -12,12 +12,15 @@ $ npm install 117/alpaca-trade-api-ts
 
 ## Client
 
+> **New feature!** Built in rate-limiter, just pass `rate_limit: true` into client options.
+
 ```typescript
 import { Client } from 'alpaca-trade-api-ts'
 
 const client = new Client({
   key: 'yourKeyGoesHere', // optional
   secret: 'yourKeyGoesHere', // optional
+  rate_limit: true,
 })
 ```
 
@@ -42,10 +45,10 @@ Your API key allows 1 simultaneous connection to each server.
 Connecting to these servers is easy.
 
 ```typescript
-import { Stream } from 'alpaca-trade-api-ts'
+import { Stream, URL } from 'alpaca-trade-api-ts'
 
 const stream = new Stream(client, {
-  host: alpaca.URL.MarketDataStream,
+  host: URL.MarketDataStream,
 })
 
 // to see all stream messages use .onMessage
