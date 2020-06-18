@@ -86,9 +86,10 @@ export interface Calendar {
 }
 
 export interface Clock {
-  date: string
-  open: string
-  close: string
+  timestamp: string
+  is_open: boolean
+  next_open: string
+  next_close: string
 }
 
 export interface LastQuoteResponse {
