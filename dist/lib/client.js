@@ -12,7 +12,7 @@ const common_1 = require("./common");
 class Client {
     constructor(options) {
         this.options = options;
-        this.rate_limiter = new limiter_1.RateLimiter(200, 'minute');
+        this.rate_limiter = new limiter_1.RateLimiter(199, 'minute');
         // if the alpaca key hasn't been provided, try env var
         if (!this.options.key) {
             this.options.key = process.env.APCA_API_KEY_ID;

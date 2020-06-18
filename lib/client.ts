@@ -23,7 +23,7 @@ import {
 } from './entities'
 
 export class Client {
-  private rate_limiter: RateLimiter = new RateLimiter(175, 'minute')
+  private rate_limiter: RateLimiter = new RateLimiter(199, 'minute')
   constructor(
     public options?: {
       key?: string
