@@ -157,16 +157,16 @@ export class Client {
     )
   }
 
-  getPosition(parameters: { symbol: string }): Promise<Position[]> {
-    return new Promise<Position[]>((resolve, reject) =>
+  getPosition(parameters: { symbol: string }): Promise<Position> {
+    return new Promise<Position>((resolve, reject) =>
       this.request(method.GET, URL.Account, `positions/${parameters.symbol}`)
         .then(resolve)
         .catch(reject)
     )
   }
 
-  getPositions(): Promise<Position> {
-    return new Promise<Position>((resolve, reject) =>
+  getPositions(): Promise<Position[]> {
+    return new Promise<Position[]>((resolve, reject) =>
       this.request(method.GET, URL.Account, `positions`)
         .then(resolve)
         .catch(reject)

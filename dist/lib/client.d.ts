@@ -60,8 +60,8 @@ export declare class Client {
     cancelOrders(): Promise<Order[]>;
     getPosition(parameters: {
         symbol: string;
-    }): Promise<Position[]>;
-    getPositions(): Promise<Position>;
+    }): Promise<Position>;
+    getPositions(): Promise<Position[]>;
     closePosition(parameters: {
         symbol: string;
     }): Promise<Order>;
