@@ -19,8 +19,8 @@ $ npm install 117/alpaca-trade-api-ts
 import { Client } from 'alpaca-trade-api-ts'
 
 const client = new Client({
-  key: 'yourKeyGoesHere', // optional
-  secret: 'yourKeyGoesHere', // optional
+  key: 'yourKeyGoesHere',
+  secret: 'yourKeyGoesHere',
   rate_limit: true,
 })
 ```
