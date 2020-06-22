@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Client = void 0;
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const http_method_enum_1 = __importDefault(require("http-method-enum"));
 const qs_1 = __importDefault(require("qs"));
@@ -44,24 +43,41 @@ class Client {
             .catch(reject));
     }
     placeOrder(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.POST, common_1.URL.Account, `orders`, parameters)
+        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.POST, common_1.URL.Account, `orders`, parameters)
             .then(resolve)
-            .catch(reject));
+            .catch(reject)
+            .finally(() => {
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        }));
+        this._pendingProcesses.push(transaction);
+        return transaction;
     }
     replaceOrder(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.PATCH, common_1.URL.Account, `orders/${parameters.order_id}`, parameters)
+        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.PATCH, common_1.URL.Account, `orders/${parameters.order_id}`, parameters)
             .then(resolve)
             .catch(reject));
+        this._pendingProcesses.push(transaction);
+        return transaction;
     }
     cancelOrder(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `orders/${parameters.order_id}`)
+        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `orders/${parameters.order_id}`)
             .then(resolve)
-            .catch(reject));
+            .catch(reject)
+            .finally(() => {
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        }));
+        this._pendingProcesses.push(transaction);
+        return transaction;
     }
     cancelOrders() {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `orders`)
+        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `orders`)
             .then(resolve)
-            .catch(reject));
+            .catch(reject)
+            .finally(() => {
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        }));
+        this._pendingProcesses.push(transaction);
+        return transaction;
     }
     getPosition(parameters) {
         return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.URL.Account, `positions/${parameters.symbol}`)
@@ -74,14 +90,24 @@ class Client {
             .catch(reject));
     }
     closePosition(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `positions/${parameters.symbol}`)
+        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `positions/${parameters.symbol}`)
             .then(resolve)
-            .catch(reject));
+            .catch(reject)
+            .finally(() => {
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        }));
+        this._pendingProcesses.push(transaction);
+        return transaction;
     }
     closePositions() {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `positions`)
+        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `positions`)
             .then(resolve)
-            .catch(reject));
+            .catch(reject)
+            .finally(() => {
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        }));
+        this._pendingProcesses.push(transaction);
+        return transaction;
     }
     getAsset(parameters) {
         return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.URL.Account, `assets/${parameters.asset_id_or_symbol}`)
@@ -104,29 +130,54 @@ class Client {
             .catch(reject));
     }
     createWatchlist(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.POST, common_1.URL.Account, `watchlists`, parameters)
+        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.POST, common_1.URL.Account, `watchlists`, parameters)
             .then(resolve)
-            .catch(reject));
+            .catch(reject)
+            .finally(() => {
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        }));
+        this._pendingProcesses.push(transaction);
+        return transaction;
     }
     updateWatchlist(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.PUT, common_1.URL.Account, `watchlists/${parameters.uuid}`, parameters)
+        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.PUT, common_1.URL.Account, `watchlists/${parameters.uuid}`, parameters)
             .then(resolve)
-            .catch(reject));
+            .catch(reject)
+            .finally(() => {
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        }));
+        this._pendingProcesses.push(transaction);
+        return transaction;
     }
     addToWatchlist(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.POST, common_1.URL.Account, `watchlists/${parameters.uuid}`, parameters)
+        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.POST, common_1.URL.Account, `watchlists/${parameters.uuid}`, parameters)
             .then(resolve)
-            .catch(reject));
+            .catch(reject)
+            .finally(() => {
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        }));
+        this._pendingProcesses.push(transaction);
+        return transaction;
     }
     removeFromWatchlist(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `watchlists/${parameters.uuid}/${parameters.symbol}`)
+        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `watchlists/${parameters.uuid}/${parameters.symbol}`)
             .then(resolve)
-            .catch(reject));
+            .catch(reject)
+            .finally(() => {
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        }));
+        this._pendingProcesses.push(transaction);
+        return transaction;
     }
     deleteWatchlist(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `watchlists/${parameters.uuid}`)
+        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.URL.Account, `watchlists/${parameters.uuid}`)
             .then(resolve)
-            .catch(reject));
+            .catch(reject)
+            .finally(() => {
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        }));
+        this._pendingProcesses.push(transaction);
+        return transaction;
     }
     getCalendar(parameters) {
         return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.URL.Account, `calendar?${qs_1.default.stringify(parameters)}`)
@@ -142,9 +193,14 @@ class Client {
             .catch(reject));
     }
     updateAccountConfigurations(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.PATCH, common_1.URL.Account, `account/configurations`, parameters)
+        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.PATCH, common_1.URL.Account, `account/configurations`, parameters)
             .then(resolve)
-            .catch(reject));
+            .catch(reject)
+            .finally(() => {
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        }));
+        this._pendingProcesses.push(transaction);
+        return transaction;
     }
     getAccountActivities(parameters) {
         return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.URL.Account, `account/activities/${parameters.activity_type}?${qs_1.default.stringify(parameters)}`)
@@ -174,6 +230,11 @@ class Client {
         return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.URL.MarketData, `last_quote/stocks/${parameters.symbol}`)
             .then(resolve)
             .catch(reject));
+    }
+    //Allows all Promises to complete
+    close() {
+        return Promise.all(this._pendingProcesses)
+            .then(() => { });
     }
     request(method, url, endpoint, data) {
         // modify the base url if paper is true

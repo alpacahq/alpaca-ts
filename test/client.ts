@@ -232,3 +232,10 @@ ava('getLastQuote', async (test) => {
     .then(() => test.pass())
     .catch(test.fail)
 })
+
+ava('close', async (test) => {
+  await client
+    .close()
+    .then(() => test.pass())
+    .catch(() => test.fail())
+})

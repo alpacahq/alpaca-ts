@@ -2,7 +2,6 @@ import fetch from 'node-fetch'
 import method from 'http-method-enum'
 import qs from 'qs'
 import { RateLimiter } from 'limiter'
-
 import { URL } from './common'
 
 import {
@@ -23,7 +22,8 @@ import {
 } from './entities'
 
 export class Client {
-  private rate_limiter: RateLimiter = new RateLimiter(199, 'minute')
+  private rate_limiter: RateLimiter = new RateLimiter(199, 'minute');
+  private _pendingProcesses: Promise<any>[];
   constructor(
     public options?: {
       key?: string
@@ -114,11 +114,17 @@ export class Client {
       limit_price?: number
     }
   }): Promise<Order> {
-    return new Promise<Order>((resolve, reject) =>
+    let transaction = new Promise<Order>((resolve, reject) =>
       this.request(method.POST, URL.Account, `orders`, parameters)
         .then(resolve)
         .catch(reject)
+        .finally(() => {
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        })
     )
+
+    this._pendingProcesses.push(transaction);
+    return transaction;
   }
 
   replaceOrder(parameters: {
@@ -129,7 +135,7 @@ export class Client {
     stop_price?: number
     client_order_id?: string
   }): Promise<Order> {
-    return new Promise<Order>((resolve, reject) =>
+    let transaction = new Promise<Order>((resolve, reject) =>
       this.request(
         method.PATCH,
         URL.Account,
@@ -139,22 +145,37 @@ export class Client {
         .then(resolve)
         .catch(reject)
     )
+
+    this._pendingProcesses.push(transaction);
+    return transaction;
   }
 
   cancelOrder(parameters: { order_id: string }): Promise<Order> {
-    return new Promise<Order>((resolve, reject) =>
+    let transaction = new Promise<Order>((resolve, reject) =>
       this.request(method.DELETE, URL.Account, `orders/${parameters.order_id}`)
         .then(resolve)
         .catch(reject)
+        .finally(() => {
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        })
     )
+
+    this._pendingProcesses.push(transaction);
+    return transaction;
   }
 
   cancelOrders(): Promise<Order[]> {
-    return new Promise<Order[]>((resolve, reject) =>
+    let transaction = new Promise<Order[]>((resolve, reject) =>
       this.request(method.DELETE, URL.Account, `orders`)
         .then(resolve)
         .catch(reject)
+        .finally(() => {
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        })
     )
+
+    this._pendingProcesses.push(transaction);
+    return transaction;
   }
 
   getPosition(parameters: { symbol: string }): Promise<Position> {
@@ -174,19 +195,31 @@ export class Client {
   }
 
   closePosition(parameters: { symbol: string }): Promise<Order> {
-    return new Promise<Order>((resolve, reject) =>
+    let transaction = new Promise<Order>((resolve, reject) =>
       this.request(method.DELETE, URL.Account, `positions/${parameters.symbol}`)
         .then(resolve)
         .catch(reject)
+        .finally(() => {
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        })
     )
+
+    this._pendingProcesses.push(transaction);
+    return transaction;
   }
 
   closePositions(): Promise<Order[]> {
-    return new Promise<Order[]>((resolve, reject) =>
+    let transaction = new Promise<Order[]>((resolve, reject) =>
       this.request(method.DELETE, URL.Account, `positions`)
         .then(resolve)
         .catch(reject)
+        .finally(() => {
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        })
     )
+
+    this._pendingProcesses.push(transaction);
+    return transaction;
   }
 
   getAsset(parameters: { asset_id_or_symbol: string }): Promise<Asset> {
@@ -236,11 +269,17 @@ export class Client {
     name: string
     symbols?: string[]
   }): Promise<Watchlist[]> {
-    return new Promise<Watchlist[]>((resolve, reject) =>
+    let transaction = new Promise<Watchlist[]>((resolve, reject) =>
       this.request(method.POST, URL.Account, `watchlists`, parameters)
         .then(resolve)
         .catch(reject)
+        .finally(() => {
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        })
     )
+
+    this._pendingProcesses.push(transaction);
+    return transaction;
   }
 
   updateWatchlist(parameters: {
@@ -248,7 +287,7 @@ export class Client {
     name?: string
     symbols?: string[]
   }): Promise<Watchlist> {
-    return new Promise<Watchlist>((resolve, reject) =>
+    let transaction = new Promise<Watchlist>((resolve, reject) =>
       this.request(
         method.PUT,
         URL.Account,
@@ -257,14 +296,20 @@ export class Client {
       )
         .then(resolve)
         .catch(reject)
+        .finally(() => {
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        })
     )
+
+    this._pendingProcesses.push(transaction);
+    return transaction;
   }
 
   addToWatchlist(parameters: {
     uuid: string
     symbol: string
   }): Promise<Watchlist> {
-    return new Promise<Watchlist>((resolve, reject) =>
+    let transaction = new Promise<Watchlist>((resolve, reject) =>
       this.request(
         method.POST,
         URL.Account,
@@ -273,14 +318,20 @@ export class Client {
       )
         .then(resolve)
         .catch(reject)
+        .finally(() => {
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        })
     )
+
+    this._pendingProcesses.push(transaction);
+    return transaction;
   }
 
   removeFromWatchlist(parameters: {
     uuid: string
     symbol: string
   }): Promise<void> {
-    return new Promise<void>((resolve, reject) =>
+    let transaction = new Promise<void>((resolve, reject) =>
       this.request(
         method.DELETE,
         URL.Account,
@@ -288,15 +339,27 @@ export class Client {
       )
         .then(resolve)
         .catch(reject)
+        .finally(() => {
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        })
     )
+    
+    this._pendingProcesses.push(transaction);
+    return transaction;
   }
 
   deleteWatchlist(parameters: { uuid: string }): Promise<void> {
-    return new Promise<void>((resolve, reject) =>
+    let transaction = new Promise<void>((resolve, reject) =>
       this.request(method.DELETE, URL.Account, `watchlists/${parameters.uuid}`)
         .then(resolve)
         .catch(reject)
+        .finally(() => {
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        })
     )
+
+    this._pendingProcesses.push(transaction);
+    return transaction;
   }
 
   getCalendar(parameters?: { start?: Date; end?: Date }): Promise<Calendar[]> {
@@ -331,7 +394,7 @@ export class Client {
     suspend_trade?: boolean
     trade_confirm_email?: string
   }): Promise<AccountConfigurations> {
-    return new Promise<AccountConfigurations>((resolve, reject) =>
+    let transaction = new Promise<AccountConfigurations>((resolve, reject) =>
       this.request(
         method.PATCH,
         URL.Account,
@@ -340,7 +403,13 @@ export class Client {
       )
         .then(resolve)
         .catch(reject)
+        .finally(() => {
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+        })
     )
+
+    this._pendingProcesses.push(transaction);
+    return transaction;
   }
 
   getAccountActivities(parameters: {
@@ -431,6 +500,12 @@ export class Client {
         .then(resolve)
         .catch(reject)
     )
+  }
+
+  //Allows all Promises to complete
+  close(): Promise<void> {
+    return Promise.all(this._pendingProcesses)
+    .then(() => {})
   }
 
   private request(
