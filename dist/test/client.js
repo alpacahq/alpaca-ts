@@ -206,3 +206,9 @@ ava_1.default('getLastQuote', async (test) => {
         .then(() => test.pass())
         .catch(test.fail);
 });
+ava_1.default('close', async (test) => {
+    await client
+        .close()
+        .then(() => test.pass())
+        .catch(() => test.fail());
+});
