@@ -1,7 +1,7 @@
 # alpaca-trade-api-ts
 
 ![](https://img.shields.io/github/package-json/v/117/alpaca-trade-api-ts?color=196DFF&style=flat-square)
-![](https://img.shields.io/static/v1?label=written%20in&message=TypeScript&color=6575ff&style=flat-square)
+![](https://img.shields.io/maintenance/yes/2020?style=flat-square)
 ![](https://img.shields.io/static/v1?label=code%20style&message=prettier&color=ff51bc&style=flat-square)
 
 A TypeScript Node.js library for the Alpaca.markets API.
