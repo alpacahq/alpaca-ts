@@ -7,6 +7,7 @@ export declare class Client {
         rate_limit?: boolean;
     };
     private rate_limiter;
+    private _pendingProcesses;
     constructor(options?: {
         key?: string;
         secret?: string;
@@ -139,5 +140,6 @@ export declare class Client {
     getLastQuote(parameters: {
         symbol: string;
     }): Promise<LastQuoteResponse>;
+    close(): Promise<void>;
     private request;
 }
