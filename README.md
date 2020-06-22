@@ -65,6 +65,12 @@ stream.onTrade((trade) => {
 
 These are all the methods supported by the package.
 
+- [getAccount](#getAccount)  
+- [getOrder](#getOrder)  
+- [getOrders](#getOrders)  
+- [placeOrder](#placeOrder)  
+- ... and more
+
 ### getAccount
 
 ```typescript
