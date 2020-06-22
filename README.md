@@ -4,7 +4,7 @@
 ![](https://img.shields.io/maintenance/yes/2020?style=flat-square)
 ![](https://img.shields.io/static/v1?label=code%20style&message=prettier&color=ff51bc&style=flat-square)
 
-A TypeScript Node.js library for the Alpaca.markets API.
+A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.
 
 ## Installation
 
