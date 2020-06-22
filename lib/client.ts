@@ -119,7 +119,7 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         })
     )
 
@@ -156,7 +156,7 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         })
     )
 
@@ -170,7 +170,7 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         })
     )
 
@@ -200,7 +200,7 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         })
     )
 
@@ -214,7 +214,7 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         })
     )
 
@@ -274,7 +274,7 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         })
     )
 
@@ -297,7 +297,7 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         })
     )
 
@@ -319,7 +319,7 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         })
     )
 
@@ -340,7 +340,7 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         })
     )
     
@@ -354,7 +354,7 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         })
     )
 
@@ -404,7 +404,7 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         })
     )
 
@@ -501,7 +501,7 @@ export class Client {
         .catch(reject)
     )
   }
-  
+
   //Allows all Promises to complete
   close(): Promise<void> {
     return Promise.all(this._pendingProcesses)

@@ -47,7 +47,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -64,7 +64,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -74,7 +74,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -94,7 +94,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -104,7 +104,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -134,7 +134,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -144,7 +144,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -154,7 +154,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -164,7 +164,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -174,7 +174,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -197,7 +197,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
