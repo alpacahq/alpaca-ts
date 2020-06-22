@@ -1,6 +1,6 @@
 {
   "name": "alpaca-trade-api-ts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Alpaca trade API in TypeScript.",
   "main": "dist/index",
   "scripts": {
