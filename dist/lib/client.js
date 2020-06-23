@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Client = void 0;
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const http_method_enum_1 = __importDefault(require("http-method-enum"));
 const qs_1 = __importDefault(require("qs"));
@@ -12,6 +13,7 @@ class Client {
     constructor(options) {
         this.options = options;
         this.rate_limiter = new limiter_1.RateLimiter(199, 'minute');
+        this._pendingProcesses = [];
         // if the alpaca key hasn't been provided, try env var
         if (!this.options.key) {
             this.options.key = process.env.APCA_API_KEY_ID;
@@ -47,7 +49,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter((p) => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -64,7 +66,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter((p) => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -74,7 +76,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter((p) => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -94,7 +96,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter((p) => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -104,7 +106,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter((p) => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -134,7 +136,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter((p) => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -144,7 +146,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter((p) => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -154,7 +156,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter((p) => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -164,7 +166,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter((p) => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -174,7 +176,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter((p) => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -197,7 +199,7 @@ class Client {
             .then(resolve)
             .catch(reject)
             .finally(() => {
-            this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+            this._pendingProcesses = this._pendingProcesses.filter((p) => p !== transaction);
         }));
         this._pendingProcesses.push(transaction);
         return transaction;
@@ -233,8 +235,7 @@ class Client {
     }
     //Allows all Promises to complete
     close() {
-        return Promise.all(this._pendingProcesses)
-            .then(() => { });
+        return Promise.all(this._pendingProcesses).then(() => { });
     }
     request(method, url, endpoint, data) {
         // modify the base url if paper is true

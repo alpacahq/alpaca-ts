@@ -22,8 +22,8 @@ import {
 } from './entities'
 
 export class Client {
-  private rate_limiter: RateLimiter = new RateLimiter(199, 'minute');
-  private _pendingProcesses: Promise<any>[];
+  private rate_limiter: RateLimiter = new RateLimiter(199, 'minute')
+  private _pendingProcesses: Promise<any>[] = []
   constructor(
     public options?: {
       key?: string
@@ -119,12 +119,14 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(
+            (p) => p !== transaction
+          )
         })
     )
 
-    this._pendingProcesses.push(transaction);
-    return transaction;
+    this._pendingProcesses.push(transaction)
+    return transaction
   }
 
   replaceOrder(parameters: {
@@ -146,8 +148,8 @@ export class Client {
         .catch(reject)
     )
 
-    this._pendingProcesses.push(transaction);
-    return transaction;
+    this._pendingProcesses.push(transaction)
+    return transaction
   }
 
   cancelOrder(parameters: { order_id: string }): Promise<Order> {
@@ -156,12 +158,14 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(
+            (p) => p !== transaction
+          )
         })
     )
 
-    this._pendingProcesses.push(transaction);
-    return transaction;
+    this._pendingProcesses.push(transaction)
+    return transaction
   }
 
   cancelOrders(): Promise<Order[]> {
@@ -170,12 +174,14 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(
+            (p) => p !== transaction
+          )
         })
     )
 
-    this._pendingProcesses.push(transaction);
-    return transaction;
+    this._pendingProcesses.push(transaction)
+    return transaction
   }
 
   getPosition(parameters: { symbol: string }): Promise<Position> {
@@ -200,12 +206,14 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(
+            (p) => p !== transaction
+          )
         })
     )
 
-    this._pendingProcesses.push(transaction);
-    return transaction;
+    this._pendingProcesses.push(transaction)
+    return transaction
   }
 
   closePositions(): Promise<Order[]> {
@@ -214,12 +222,14 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(
+            (p) => p !== transaction
+          )
         })
     )
 
-    this._pendingProcesses.push(transaction);
-    return transaction;
+    this._pendingProcesses.push(transaction)
+    return transaction
   }
 
   getAsset(parameters: { asset_id_or_symbol: string }): Promise<Asset> {
@@ -274,12 +284,14 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(
+            (p) => p !== transaction
+          )
         })
     )
 
-    this._pendingProcesses.push(transaction);
-    return transaction;
+    this._pendingProcesses.push(transaction)
+    return transaction
   }
 
   updateWatchlist(parameters: {
@@ -297,12 +309,14 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(
+            (p) => p !== transaction
+          )
         })
     )
 
-    this._pendingProcesses.push(transaction);
-    return transaction;
+    this._pendingProcesses.push(transaction)
+    return transaction
   }
 
   addToWatchlist(parameters: {
@@ -319,12 +333,14 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(
+            (p) => p !== transaction
+          )
         })
     )
 
-    this._pendingProcesses.push(transaction);
-    return transaction;
+    this._pendingProcesses.push(transaction)
+    return transaction
   }
 
   removeFromWatchlist(parameters: {
@@ -340,12 +356,14 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(
+            (p) => p !== transaction
+          )
         })
     )
-    
-    this._pendingProcesses.push(transaction);
-    return transaction;
+
+    this._pendingProcesses.push(transaction)
+    return transaction
   }
 
   deleteWatchlist(parameters: { uuid: string }): Promise<void> {
@@ -354,12 +372,14 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(
+            (p) => p !== transaction
+          )
         })
     )
 
-    this._pendingProcesses.push(transaction);
-    return transaction;
+    this._pendingProcesses.push(transaction)
+    return transaction
   }
 
   getCalendar(parameters?: { start?: Date; end?: Date }): Promise<Calendar[]> {
@@ -404,12 +424,14 @@ export class Client {
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(p => p !== transaction);
+          this._pendingProcesses = this._pendingProcesses.filter(
+            (p) => p !== transaction
+          )
         })
     )
 
-    this._pendingProcesses.push(transaction);
-    return transaction;
+    this._pendingProcesses.push(transaction)
+    return transaction
   }
 
   getAccountActivities(parameters: {
@@ -504,8 +526,7 @@ export class Client {
 
   //Allows all Promises to complete
   close(): Promise<void> {
-    return Promise.all(this._pendingProcesses)
-    .then(() => {})
+    return Promise.all(this._pendingProcesses).then(() => {})
   }
 
   private request(
