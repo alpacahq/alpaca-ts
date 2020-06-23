@@ -4,7 +4,8 @@
 ![](https://img.shields.io/maintenance/yes/2020?style=flat-square)
 ![](https://img.shields.io/static/v1?label=code%20style&message=prettier&color=ff51bc&style=flat-square)
 
-A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.
+A TypeScript Node.js library for the https://alpaca.markets REST API and
+WebSocket streams.
 
 ## Installation
 
@@ -14,14 +15,13 @@ $ npm install 117/alpaca-trade-api-ts
 
 ## Client
 
-> **New feature!** Built in rate-limiter, just pass `rate_limit: true` into client options.
-
 ```typescript
 import { Client } from 'alpaca-trade-api-ts'
 
 const client = new Client({
-  key: 'yourKeyGoesHere',
-  secret: 'yourKeyGoesHere',
+  key: '...',
+  secret: '...',
+  paper: true,
   rate_limit: true,
 })
 ```
@@ -35,22 +35,30 @@ $ APCA_API_SECRET_KEY=yourKeyGoesHere
 $ APCA_PAPER=true
 ```
 
+Due to the asynchronous nature of the client it is recommended that you listen
+for interrupts.  
+This waits for pending promises to resolve before exiting the process.
+
+```typescript
+process.on('SIGTERM', await client.close())
+```
+
 ## Stream
 
-Your API key allows 1 simultaneous connection to each server.
+Each API key allows 1 simultaneous connection to each server.
 
-| Server             | URL                                | Enum                   |
-| :----------------- | :--------------------------------- | :--------------------- |
-| `AccountStream`    | `wss://api.alpaca.markets/stream`  | `URL.AccountStream`    |
-| `MarketDataStream` | `wss://data.alpaca.markets/stream` | `URL.MarketDataStream` |
+| URL                                | Enum                       |
+| :--------------------------------- | :------------------------- |
+| `wss://api.alpaca.markets/stream`  | `BaseURL.AccountStream`    |
+| `wss://data.alpaca.markets/stream` | `BaseURL.MarketDataStream` |
 
 Connecting to these servers is easy.
 
 ```typescript
-import { Stream, URL } from 'alpaca-trade-api-ts'
+import { Stream, BaseURL } from 'alpaca-trade-api-ts'
 
 const stream = new Stream(client, {
-  host: URL.MarketDataStream,
+  host: BaseURL.MarketDataStream,
 })
 
 // to see all stream messages use .onMessage
@@ -66,10 +74,12 @@ stream.onTrade((trade) => {
 
 These are all the methods supported by the package.
 
-- [getAccount](#getAccount)  
-- [getOrder](#getOrder)  
-- [getOrders](#getOrders)  
-- [placeOrder](#placeOrder)  
+- [getAccount](#getAccount)
+- [getOrder](#getOrder)
+- [getOrders](#getOrders)
+- [placeOrder](#placeOrder)
+- [replaceOrder](#replaceOrder)
+- [cancelOrder](#cancelOrder)
 - ... and more
 
 ### getAccount
@@ -123,6 +133,29 @@ client
     time_in_force: 'day',
   })
   .then((order) => console.log(`New order placed with ID ${order.id}.`))
+  .catch((error) => console.log(error))
+```
+
+### replaceOrder
+
+```typescript
+client
+  .replaceOrder({
+    order_id: '69a3db8b-cc63-44da-a26a-e3cca9490308',
+    limit_price: 9.74,
+  })
+  .then((order) => console.log(`Order with ID ${order.id} has been replaced.`))
+  .catch((error) => console.log(error))
+```
+
+### cancelOrder
+
+```typescript
+client
+  .cancelOrder({
+    order_id: '69a3db8b-cc63-44da-a26a-e3cca9490308',
+  })
+  .then((order) => console.log(`Order with ID ${order.id} has been cancelled.`))
   .catch((error) => console.log(error))
 ```
 
