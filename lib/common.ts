@@ -1,4 +1,4 @@
-export enum URL {
+export enum BaseURL {
   Account = 'https://api.alpaca.markets/v2',
   AccountStream = 'wss://api.alpaca.markets/stream',
   MarketData = 'https://data.alpaca.markets/v1',
