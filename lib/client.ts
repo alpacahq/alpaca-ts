@@ -1,8 +1,9 @@
 import fetch from 'node-fetch'
 import method from 'http-method-enum'
 import qs from 'qs'
+
 import { RateLimiter } from 'limiter'
-import { URL } from './common'
+import { BaseURL } from './common'
 
 import {
   Account,
@@ -22,8 +23,8 @@ import {
 } from './entities'
 
 export class Client {
-  private rate_limiter: RateLimiter = new RateLimiter(199, 'minute')
-  private _pendingProcesses: Promise<any>[] = []
+  private limiter: RateLimiter = new RateLimiter(199, 'minute')
+  private pendingPromises: Promise<any>[] = []
   constructor(
     public options?: {
       key?: string
@@ -50,7 +51,7 @@ export class Client {
 
   getAccount(): Promise<Account> {
     return new Promise<Account>((resolve, reject) =>
-      this.request(method.GET, URL.Account, 'account')
+      this.request(method.GET, BaseURL.Account, 'account')
         .then(resolve)
         .catch(reject)
     )
@@ -64,7 +65,7 @@ export class Client {
     return new Promise<Order>((resolve, reject) =>
       this.request(
         method.GET,
-        URL.Account,
+        BaseURL.Account,
         `orders/${
           parameters.order_id || parameters.client_order_id
         }?${qs.stringify({
@@ -87,7 +88,7 @@ export class Client {
     return new Promise<Order[]>((resolve, reject) =>
       this.request(
         method.GET,
-        URL.Account,
+        BaseURL.Account,
         `orders?${qs.stringify(parameters)}`
       )
         .then(resolve)
@@ -115,17 +116,17 @@ export class Client {
     }
   }): Promise<Order> {
     let transaction = new Promise<Order>((resolve, reject) =>
-      this.request(method.POST, URL.Account, `orders`, parameters)
+      this.request(method.POST, BaseURL.Account, `orders`, parameters)
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(
+          this.pendingPromises = this.pendingPromises.filter(
             (p) => p !== transaction
           )
         })
     )
 
-    this._pendingProcesses.push(transaction)
+    this.pendingPromises.push(transaction)
     return transaction
   }
 
@@ -140,7 +141,7 @@ export class Client {
     let transaction = new Promise<Order>((resolve, reject) =>
       this.request(
         method.PATCH,
-        URL.Account,
+        BaseURL.Account,
         `orders/${parameters.order_id}`,
         parameters
       )
@@ -148,45 +149,53 @@ export class Client {
         .catch(reject)
     )
 
-    this._pendingProcesses.push(transaction)
+    this.pendingPromises.push(transaction)
     return transaction
   }
 
   cancelOrder(parameters: { order_id: string }): Promise<Order> {
     let transaction = new Promise<Order>((resolve, reject) =>
-      this.request(method.DELETE, URL.Account, `orders/${parameters.order_id}`)
+      this.request(
+        method.DELETE,
+        BaseURL.Account,
+        `orders/${parameters.order_id}`
+      )
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(
+          this.pendingPromises = this.pendingPromises.filter(
             (p) => p !== transaction
           )
         })
     )
 
-    this._pendingProcesses.push(transaction)
+    this.pendingPromises.push(transaction)
     return transaction
   }
 
   cancelOrders(): Promise<Order[]> {
     let transaction = new Promise<Order[]>((resolve, reject) =>
-      this.request(method.DELETE, URL.Account, `orders`)
+      this.request(method.DELETE, BaseURL.Account, `orders`)
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(
+          this.pendingPromises = this.pendingPromises.filter(
             (p) => p !== transaction
           )
         })
     )
 
-    this._pendingProcesses.push(transaction)
+    this.pendingPromises.push(transaction)
     return transaction
   }
 
   getPosition(parameters: { symbol: string }): Promise<Position> {
     return new Promise<Position>((resolve, reject) =>
-      this.request(method.GET, URL.Account, `positions/${parameters.symbol}`)
+      this.request(
+        method.GET,
+        BaseURL.Account,
+        `positions/${parameters.symbol}`
+      )
         .then(resolve)
         .catch(reject)
     )
@@ -194,7 +203,7 @@ export class Client {
 
   getPositions(): Promise<Position[]> {
     return new Promise<Position[]>((resolve, reject) =>
-      this.request(method.GET, URL.Account, `positions`)
+      this.request(method.GET, BaseURL.Account, `positions`)
         .then(resolve)
         .catch(reject)
     )
@@ -202,33 +211,37 @@ export class Client {
 
   closePosition(parameters: { symbol: string }): Promise<Order> {
     let transaction = new Promise<Order>((resolve, reject) =>
-      this.request(method.DELETE, URL.Account, `positions/${parameters.symbol}`)
+      this.request(
+        method.DELETE,
+        BaseURL.Account,
+        `positions/${parameters.symbol}`
+      )
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(
+          this.pendingPromises = this.pendingPromises.filter(
             (p) => p !== transaction
           )
         })
     )
 
-    this._pendingProcesses.push(transaction)
+    this.pendingPromises.push(transaction)
     return transaction
   }
 
   closePositions(): Promise<Order[]> {
     let transaction = new Promise<Order[]>((resolve, reject) =>
-      this.request(method.DELETE, URL.Account, `positions`)
+      this.request(method.DELETE, BaseURL.Account, `positions`)
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(
+          this.pendingPromises = this.pendingPromises.filter(
             (p) => p !== transaction
           )
         })
     )
 
-    this._pendingProcesses.push(transaction)
+    this.pendingPromises.push(transaction)
     return transaction
   }
 
@@ -236,7 +249,7 @@ export class Client {
     return new Promise<Asset>((resolve, reject) =>
       this.request(
         method.GET,
-        URL.Account,
+        BaseURL.Account,
         `assets/${parameters.asset_id_or_symbol}`
       )
         .then(resolve)
@@ -251,7 +264,7 @@ export class Client {
     return new Promise<Asset[]>((resolve, reject) =>
       this.request(
         method.GET,
-        URL.Account,
+        BaseURL.Account,
         `assets?${qs.stringify(parameters)}`
       )
         .then(resolve)
@@ -261,7 +274,7 @@ export class Client {
 
   getWatchlist(parameters: { uuid: string }): Promise<Watchlist> {
     return new Promise<Watchlist>((resolve, reject) =>
-      this.request(method.GET, URL.Account, `watchlists/${parameters.uuid}`)
+      this.request(method.GET, BaseURL.Account, `watchlists/${parameters.uuid}`)
         .then(resolve)
         .catch(reject)
     )
@@ -269,7 +282,7 @@ export class Client {
 
   getWatchlists(): Promise<Watchlist[]> {
     return new Promise<Watchlist[]>((resolve, reject) =>
-      this.request(method.GET, URL.Account, `watchlists`)
+      this.request(method.GET, BaseURL.Account, `watchlists`)
         .then(resolve)
         .catch(reject)
     )
@@ -280,17 +293,17 @@ export class Client {
     symbols?: string[]
   }): Promise<Watchlist[]> {
     let transaction = new Promise<Watchlist[]>((resolve, reject) =>
-      this.request(method.POST, URL.Account, `watchlists`, parameters)
+      this.request(method.POST, BaseURL.Account, `watchlists`, parameters)
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(
+          this.pendingPromises = this.pendingPromises.filter(
             (p) => p !== transaction
           )
         })
     )
 
-    this._pendingProcesses.push(transaction)
+    this.pendingPromises.push(transaction)
     return transaction
   }
 
@@ -302,20 +315,20 @@ export class Client {
     let transaction = new Promise<Watchlist>((resolve, reject) =>
       this.request(
         method.PUT,
-        URL.Account,
+        BaseURL.Account,
         `watchlists/${parameters.uuid}`,
         parameters
       )
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(
+          this.pendingPromises = this.pendingPromises.filter(
             (p) => p !== transaction
           )
         })
     )
 
-    this._pendingProcesses.push(transaction)
+    this.pendingPromises.push(transaction)
     return transaction
   }
 
@@ -326,20 +339,20 @@ export class Client {
     let transaction = new Promise<Watchlist>((resolve, reject) =>
       this.request(
         method.POST,
-        URL.Account,
+        BaseURL.Account,
         `watchlists/${parameters.uuid}`,
         parameters
       )
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(
+          this.pendingPromises = this.pendingPromises.filter(
             (p) => p !== transaction
           )
         })
     )
 
-    this._pendingProcesses.push(transaction)
+    this.pendingPromises.push(transaction)
     return transaction
   }
 
@@ -350,35 +363,39 @@ export class Client {
     let transaction = new Promise<void>((resolve, reject) =>
       this.request(
         method.DELETE,
-        URL.Account,
+        BaseURL.Account,
         `watchlists/${parameters.uuid}/${parameters.symbol}`
       )
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(
+          this.pendingPromises = this.pendingPromises.filter(
             (p) => p !== transaction
           )
         })
     )
 
-    this._pendingProcesses.push(transaction)
+    this.pendingPromises.push(transaction)
     return transaction
   }
 
   deleteWatchlist(parameters: { uuid: string }): Promise<void> {
     let transaction = new Promise<void>((resolve, reject) =>
-      this.request(method.DELETE, URL.Account, `watchlists/${parameters.uuid}`)
+      this.request(
+        method.DELETE,
+        BaseURL.Account,
+        `watchlists/${parameters.uuid}`
+      )
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(
+          this.pendingPromises = this.pendingPromises.filter(
             (p) => p !== transaction
           )
         })
     )
 
-    this._pendingProcesses.push(transaction)
+    this.pendingPromises.push(transaction)
     return transaction
   }
 
@@ -386,7 +403,7 @@ export class Client {
     return new Promise<Calendar[]>((resolve, reject) =>
       this.request(
         method.GET,
-        URL.Account,
+        BaseURL.Account,
         `calendar?${qs.stringify(parameters)}`
       )
         .then(resolve)
@@ -396,13 +413,15 @@ export class Client {
 
   getClock(): Promise<Clock> {
     return new Promise<Clock>((resolve, reject) =>
-      this.request(method.GET, URL.Account, `clock`).then(resolve).catch(reject)
+      this.request(method.GET, BaseURL.Account, `clock`)
+        .then(resolve)
+        .catch(reject)
     )
   }
 
   getAccountConfigurations(): Promise<AccountConfigurations> {
     return new Promise<AccountConfigurations>((resolve, reject) =>
-      this.request(method.GET, URL.Account, `account/configurations`)
+      this.request(method.GET, BaseURL.Account, `account/configurations`)
         .then(resolve)
         .catch(reject)
     )
@@ -417,20 +436,20 @@ export class Client {
     let transaction = new Promise<AccountConfigurations>((resolve, reject) =>
       this.request(
         method.PATCH,
-        URL.Account,
+        BaseURL.Account,
         `account/configurations`,
         parameters
       )
         .then(resolve)
         .catch(reject)
         .finally(() => {
-          this._pendingProcesses = this._pendingProcesses.filter(
+          this.pendingPromises = this.pendingPromises.filter(
             (p) => p !== transaction
           )
         })
     )
 
-    this._pendingProcesses.push(transaction)
+    this.pendingPromises.push(transaction)
     return transaction
   }
 
@@ -447,7 +466,7 @@ export class Client {
       (resolve, reject) =>
         this.request(
           method.GET,
-          URL.Account,
+          BaseURL.Account,
           `account/activities/${parameters.activity_type}?${qs.stringify(
             parameters
           )}`
@@ -466,7 +485,7 @@ export class Client {
     return new Promise<PortfolioHistory>((resolve, reject) =>
       this.request(
         method.GET,
-        URL.Account,
+        BaseURL.Account,
         `account/portfolio/history?${qs.stringify(parameters)}`
       )
         .then(resolve)
@@ -492,7 +511,7 @@ export class Client {
     return new Promise<Map<String, Bar[]>>((resolve, reject) =>
       this.request(
         method.GET,
-        URL.MarketData,
+        BaseURL.MarketData,
         `bars/${parameters.timeframe}?${qs.stringify(parameters)}`
       )
         .then(resolve)
@@ -504,7 +523,7 @@ export class Client {
     return new Promise<LastTradeResponse>((resolve, reject) =>
       this.request(
         method.GET,
-        URL.MarketData,
+        BaseURL.MarketData,
         `last/stocks/${parameters.symbol}`
       )
         .then(resolve)
@@ -516,7 +535,7 @@ export class Client {
     return new Promise<LastQuoteResponse>((resolve, reject) =>
       this.request(
         method.GET,
-        URL.MarketData,
+        BaseURL.MarketData,
         `last_quote/stocks/${parameters.symbol}`
       )
         .then(resolve)
@@ -524,9 +543,9 @@ export class Client {
     )
   }
 
-  //Allows all Promises to complete
-  close(): Promise<void> {
-    return Promise.all(this._pendingProcesses).then(() => {})
+  // allow all promises to complete
+  async close(): Promise<void> {
+    await Promise.all(this.pendingPromises)
   }
 
   private request(
@@ -536,8 +555,8 @@ export class Client {
     data?: any
   ): Promise<any> {
     // modify the base url if paper is true
-    if (this.options.paper && url == URL.Account) {
-      url = URL.Account.replace('api.', 'paper-api.')
+    if (this.options.paper && url == BaseURL.Account) {
+      url = BaseURL.Account.replace('api.', 'paper-api.')
     }
 
     // convert any dates to ISO 8601 for Alpaca
@@ -553,7 +572,7 @@ export class Client {
       // do rate limiting
       if (this.options.rate_limit) {
         await new Promise<void>((resolve) =>
-          this.rate_limiter.removeTokens(1, resolve)
+          this.limiter.removeTokens(1, resolve)
         )
       }
 
