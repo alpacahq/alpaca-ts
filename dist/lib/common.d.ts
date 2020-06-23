@@ -1,4 +1,4 @@
-export declare enum URL {
+export declare enum BaseURL {
     Account = "https://api.alpaca.markets/v2",
     AccountStream = "wss://api.alpaca.markets/stream",
     MarketData = "https://data.alpaca.markets/v1",

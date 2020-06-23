@@ -6,8 +6,8 @@ export declare class Client {
         paper?: boolean;
         rate_limit?: boolean;
     };
-    private rate_limiter;
-    private _pendingProcesses;
+    private limiter;
+    private pendingPromises;
     constructor(options?: {
         key?: string;
         secret?: string;

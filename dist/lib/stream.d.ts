@@ -8,16 +8,16 @@ export declare class Stream {
         reconnectWarmupInSeconds?: number;
         verbose?: boolean;
     };
-    private __connection;
-    private __state;
-    private __message_queue;
-    private __subscriptions;
-    private __on_message;
-    private __on_trade;
-    private __on_quote;
-    private __on_aggregate_minute;
-    private __on_account_update;
-    private __on_trade_update;
+    private connection;
+    private state;
+    private messageQueue;
+    private subscriptions;
+    private _onMessage;
+    private _onTrade;
+    private _onQuote;
+    private _onAggregateMinute;
+    private _onAccountUpdate;
+    private _onTradeUpdate;
     constructor(client: Client, options: {
         host: string;
         reconnect?: boolean;

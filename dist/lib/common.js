@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.URL = void 0;
-var URL;
-(function (URL) {
-    URL["Account"] = "https://api.alpaca.markets/v2";
-    URL["AccountStream"] = "wss://api.alpaca.markets/stream";
-    URL["MarketData"] = "https://data.alpaca.markets/v1";
-    URL["MarketDataStream"] = "wss://data.alpaca.markets/stream";
-})(URL = exports.URL || (exports.URL = {}));
+exports.BaseURL = void 0;
+var BaseURL;
+(function (BaseURL) {
+    BaseURL["Account"] = "https://api.alpaca.markets/v2";
+    BaseURL["AccountStream"] = "wss://api.alpaca.markets/stream";
+    BaseURL["MarketData"] = "https://data.alpaca.markets/v1";
+    BaseURL["MarketDataStream"] = "wss://data.alpaca.markets/stream";
+})(BaseURL = exports.BaseURL || (exports.BaseURL = {}));
