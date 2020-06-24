@@ -80,6 +80,7 @@ These are all the methods supported by the package.
 - [placeOrder](#placeOrder)
 - [replaceOrder](#replaceOrder)
 - [cancelOrder](#cancelOrder)
+- [cancelOrders](#cancelOrders)
 - ... and more
 
 ### getAccount
@@ -156,6 +157,19 @@ client
     order_id: '69a3db8b-cc63-44da-a26a-e3cca9490308',
   })
   .then((order) => console.log(`Order with ID ${order.id} has been cancelled.`))
+  .catch((error) => console.log(error))
+```
+
+### cancelOrders
+
+```typescript
+client
+  .cancelOrders()
+  .then((orders) =>
+    orders.forEach((order) =>
+      console.log(`Order with ID ${order.id} has been cancelled.`)
+    )
+  )
   .catch((error) => console.log(error))
 ```
 
