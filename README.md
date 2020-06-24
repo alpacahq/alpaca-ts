@@ -26,6 +26,13 @@ const client = new Client({
 })
 ```
 
+Due to the asynchronous nature of the client it is recommended that you listen
+for interrupts. Awaiting the `.close()` method will allow pending promises to resolve before exiting the process.
+
+```typescript
+process.on('SIGTERM', await client.close())
+```
+
 You can also use environment variables which will be automatically applied to
 every new client.
 
@@ -33,14 +40,6 @@ every new client.
 $ APCA_API_KEY_ID=yourKeyGoesHere
 $ APCA_API_SECRET_KEY=yourKeyGoesHere
 $ APCA_PAPER=true
-```
-
-Due to the asynchronous nature of the client it is recommended that you listen
-for interrupts.  
-This waits for pending promises to resolve before exiting the process.
-
-```typescript
-process.on('SIGTERM', await client.close())
 ```
 
 ## Stream
