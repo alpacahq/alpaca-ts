@@ -7,10 +7,14 @@
 A TypeScript Node.js library for the https://alpaca.markets REST API and
 WebSocket streams.
 
+- [Client](#Client)
+- [Stream](#Stream)
+- [Methods](#Methods)
+
 ## Installation
 
 ```console
-$ npm install 117/alpaca-trade-api-ts
+$ npm i 117/alpaca-trade-api-ts
 ```
 
 ## Client
@@ -26,13 +30,6 @@ const client = new Client({
 })
 ```
 
-Due to the asynchronous nature of the client it is recommended that you listen
-for interrupts. Awaiting the `.close()` method will allow pending promises to resolve before exiting the process.
-
-```typescript
-process.on('SIGTERM', await client.close())
-```
-
 You can also use environment variables which will be automatically applied to
 every new client.
 
@@ -40,6 +37,14 @@ every new client.
 $ APCA_API_KEY_ID=yourKeyGoesHere
 $ APCA_API_SECRET_KEY=yourKeyGoesHere
 $ APCA_PAPER=true
+```
+
+Due to the asynchronous nature of the client it is recommended that you listen
+for interrupts.
+
+```typescript
+// allow pending promises to resolve before exiting the process.
+process.on('SIGTERM', await client.close())
 ```
 
 ## Stream
