@@ -45,7 +45,7 @@ for interrupts.
 
 ```typescript
 // allow pending promises to resolve before exiting the process.
-process.on('SIGTERM', await client.close())
+process.on('SIGTERM', async () => await client.close())
 ```
 
 ## Stream
