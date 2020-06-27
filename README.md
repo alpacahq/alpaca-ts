@@ -21,7 +21,7 @@ $ npm i 117/alpaca-trade-api-ts
 ## Client
 
 ```typescript
-import alpaca from 'alpaca-trade-api-ts'
+import * as alpaca from 'alpaca-trade-api-ts'
 
 const client = new alpaca.Client({
   key: '...',
@@ -60,7 +60,7 @@ An API key is allowed 1 simultaneous connection to each server.
 Connecting to them is easy.
 
 ```typescript
-import alpaca from 'alpaca-trade-api-ts'
+import * as alpaca from 'alpaca-trade-api-ts'
 
 const stream = new alpaca.Stream(client, {
   host: alpaca.BaseURL.MarketDataStream,
