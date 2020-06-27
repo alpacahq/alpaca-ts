@@ -31,7 +31,7 @@ const client = new Client({
 })
 ```
 
-You can also use environment variables which will be automatically applied to
+You can also use environment variables which will be applied to
 every new client.
 
 ```console
@@ -40,7 +40,7 @@ $ APCA_API_SECRET_KEY=yourKeyGoesHere
 $ APCA_PAPER=true
 ```
 
-Due to the asynchronous nature of the client it is recommended that you listen
+Due to the asynchronous nature of the client we recommended you listen
 for interrupts.
 
 ```typescript
