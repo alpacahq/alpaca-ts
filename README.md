@@ -50,14 +50,14 @@ process.on('SIGTERM', async () => await client.close())
 
 ## Stream
 
-Each API key allows 1 simultaneous connection to each server.
+An API key is allowed 1 simultaneous connection to each server.
 
 | URL                                | Enum                       |
 | :--------------------------------- | :------------------------- |
 | `wss://api.alpaca.markets/stream`  | `BaseURL.AccountStream`    |
 | `wss://data.alpaca.markets/stream` | `BaseURL.MarketDataStream` |
 
-Connecting to these servers is easy.
+Connecting to them is easy.
 
 ```typescript
 import { Stream, BaseURL } from 'alpaca-trade-api-ts'
