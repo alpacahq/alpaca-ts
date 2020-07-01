@@ -22,6 +22,147 @@ import {
   LastQuoteResponse,
 } from './entities'
 
+export interface GetOrderOptions {
+  order_id?: string
+  client_order_id?: string
+  nested?: boolean
+}
+
+export interface GetOrdersOptions {
+  status?: string
+  limit?: number
+  after?: Date
+  until?: Date
+  direction?: string
+  nested?: boolean
+}
+
+export interface PlaceOrderOptions {
+  symbol: string
+  qty: number
+  side: 'buy' | 'sell'
+  type: 'market' | 'limit' | 'stop' | 'stop_limit'
+  time_in_force: 'day' | 'gtc' | 'opg' | 'cls' | 'ioc' | 'fok'
+  limit_price?: number
+  stop_price?: number
+  extended_hours?: boolean
+  client_order_id?: string
+  order_class?: 'simple' | 'bracket' | 'oco' | 'oto'
+  take_profit?: {
+    limit_price: number
+  }
+  stop_loss?: {
+    stop_price: number
+    limit_price?: number
+  }
+}
+
+export interface ReplaceOrderOptions {
+  order_id: string
+  qty?: number
+  time_in_force?: string
+  limit_price?: number
+  stop_price?: number
+  client_order_id?: string
+}
+
+export interface CancelOrderOptions {
+  order_id: string
+}
+
+export interface GetPositionOptions {
+  symbol: string
+} 
+
+export interface ClosePositionOptions {
+  symbol: string
+}
+
+export interface GetAssetOptions {
+  asset_id_or_symbol: string
+}
+
+export interface GetAssetsOptions {
+  status?: 'active' | 'inactive'
+  asset_class?: string // i don't know where to find all asset classes
+}
+
+export interface GetWatchListOptions {
+  uuid: string
+}
+
+export interface CreateWatchListOptions {
+  name: string
+  symbols?: string[]
+}
+
+export interface UpdateWatchListOptions {
+  uuid: string
+  name?: string
+  symbols?: string[]
+}
+
+export interface AddToWatchListOptions {
+  uuid: string
+  symbol: string
+}
+
+export interface RemoveFromWatchListOptions {
+  uuid: string
+  symbol: string
+}
+
+export interface DeleteWatchListOptions {
+  uuid: string
+}
+
+export interface GetCalendarOptions {
+  start?: Date
+  end?: Date
+}
+
+export interface UpdateAccountConfigurationsOptions {
+  dtbp_check?: string
+  no_shorting?: boolean
+  suspend_trade?: boolean
+  trade_confirm_email?: string
+}
+
+export interface GetAccountActivitiesOptions {
+  activity_type: string
+  date?: Date
+  until?: Date
+  after?: Date
+  direction?: 'asc' | 'desc'
+  page_size?: number
+  page_token?: string
+}
+
+export interface GetPortfolioHistoryOptions {
+  period?: string
+  timeframe?: string
+  date_end?: Date
+  extended_hours?: boolean
+}
+
+export interface GetBarsOptions {
+  timeframe?: string
+  symbols: string[]
+  limit?: number
+  start?: Date
+  end?: Date
+  after?: Date
+  until?: Date
+}
+
+export interface GetLastTradeOptions {
+  symbol: string
+}
+
+export interface GetLastQuoteOptions {
+  symbol: string
+}
+
 export class Client {
   private limiter: RateLimiter = new RateLimiter(199, 'minute')
   private pendingPromises: Promise<any>[] = []
@@ -57,11 +198,7 @@ export class Client {
     )
   }
 
-  getOrder(parameters: {
-    order_id?: string
-    client_order_id?: string
-    nested?: boolean
-  }): Promise<Order> {
+  getOrder(parameters: GetOrderOptions): Promise<Order> {
     return new Promise<Order>((resolve, reject) =>
       this.request(
         method.GET,
@@ -77,14 +214,7 @@ export class Client {
     )
   }
 
-  getOrders(parameters?: {
-    status?: string
-    limit?: number
-    after?: Date
-    until?: Date
-    direction?: string
-    nested?: boolean
-  }): Promise<Order[]> {
+  getOrders(parameters?: GetOrdersOptions): Promise<Order[]> {
     return new Promise<Order[]>((resolve, reject) =>
       this.request(
         method.GET,
@@ -96,25 +226,7 @@ export class Client {
     )
   }
 
-  placeOrder(parameters: {
-    symbol: string
-    qty: number
-    side: 'buy' | 'sell'
-    type: 'market' | 'limit' | 'stop' | 'stop_limit'
-    time_in_force: 'day' | 'gtc' | 'opg' | 'cls' | 'ioc' | 'fok'
-    limit_price?: number
-    stop_price?: number
-    extended_hours?: boolean
-    client_order_id?: string
-    order_class?: 'simple' | 'bracket' | 'oco' | 'oto'
-    take_profit?: {
-      limit_price: number
-    }
-    stop_loss?: {
-      stop_price: number
-      limit_price?: number
-    }
-  }): Promise<Order> {
+  placeOrder(parameters: PlaceOrderOptions): Promise<Order> {
     let transaction = new Promise<Order>((resolve, reject) =>
       this.request(method.POST, BaseURL.Account, `orders`, parameters)
         .then(resolve)
@@ -130,14 +242,7 @@ export class Client {
     return transaction
   }
 
-  replaceOrder(parameters: {
-    order_id: string
-    qty?: number
-    time_in_force?: string
-    limit_price?: number
-    stop_price?: number
-    client_order_id?: string
-  }): Promise<Order> {
+  replaceOrder(parameters: ReplaceOrderOptions): Promise<Order> {
     let transaction = new Promise<Order>((resolve, reject) =>
       this.request(
         method.PATCH,
@@ -153,7 +258,7 @@ export class Client {
     return transaction
   }
 
-  cancelOrder(parameters: { order_id: string }): Promise<Order> {
+  cancelOrder(parameters: CancelOrderOptions): Promise<Order> {
     let transaction = new Promise<Order>((resolve, reject) =>
       this.request(
         method.DELETE,
@@ -189,7 +294,7 @@ export class Client {
     return transaction
   }
 
-  getPosition(parameters: { symbol: string }): Promise<Position> {
+  getPosition(parameters: GetPositionOptions): Promise<Position> {
     return new Promise<Position>((resolve, reject) =>
       this.request(
         method.GET,
@@ -209,7 +314,7 @@ export class Client {
     )
   }
 
-  closePosition(parameters: { symbol: string }): Promise<Order> {
+  closePosition(parameters: ClosePositionOptions): Promise<Order> {
     let transaction = new Promise<Order>((resolve, reject) =>
       this.request(
         method.DELETE,
@@ -245,7 +350,7 @@ export class Client {
     return transaction
   }
 
-  getAsset(parameters: { asset_id_or_symbol: string }): Promise<Asset> {
+  getAsset(parameters: GetAssetOptions): Promise<Asset> {
     return new Promise<Asset>((resolve, reject) =>
       this.request(
         method.GET,
@@ -257,10 +362,7 @@ export class Client {
     )
   }
 
-  getAssets(parameters?: {
-    status?: 'active' | 'inactive'
-    asset_class?: string // i don't know where to find all asset classes
-  }): Promise<Asset[]> {
+  getAssets(parameters?: GetAssetsOptions): Promise<Asset[]> {
     return new Promise<Asset[]>((resolve, reject) =>
       this.request(
         method.GET,
@@ -272,7 +374,7 @@ export class Client {
     )
   }
 
-  getWatchlist(parameters: { uuid: string }): Promise<Watchlist> {
+  getWatchlist(parameters: GetWatchListOptions): Promise<Watchlist> {
     return new Promise<Watchlist>((resolve, reject) =>
       this.request(method.GET, BaseURL.Account, `watchlists/${parameters.uuid}`)
         .then(resolve)
@@ -288,10 +390,7 @@ export class Client {
     )
   }
 
-  createWatchlist(parameters: {
-    name: string
-    symbols?: string[]
-  }): Promise<Watchlist[]> {
+  createWatchlist(parameters: CreateWatchListOptions): Promise<Watchlist[]> {
     let transaction = new Promise<Watchlist[]>((resolve, reject) =>
       this.request(method.POST, BaseURL.Account, `watchlists`, parameters)
         .then(resolve)
@@ -307,11 +406,7 @@ export class Client {
     return transaction
   }
 
-  updateWatchlist(parameters: {
-    uuid: string
-    name?: string
-    symbols?: string[]
-  }): Promise<Watchlist> {
+  updateWatchlist(parameters: UpdateWatchListOptions): Promise<Watchlist> {
     let transaction = new Promise<Watchlist>((resolve, reject) =>
       this.request(
         method.PUT,
@@ -332,10 +427,7 @@ export class Client {
     return transaction
   }
 
-  addToWatchlist(parameters: {
-    uuid: string
-    symbol: string
-  }): Promise<Watchlist> {
+  addToWatchlist(parameters: AddToWatchListOptions): Promise<Watchlist> {
     let transaction = new Promise<Watchlist>((resolve, reject) =>
       this.request(
         method.POST,
@@ -356,10 +448,7 @@ export class Client {
     return transaction
   }
 
-  removeFromWatchlist(parameters: {
-    uuid: string
-    symbol: string
-  }): Promise<void> {
+  removeFromWatchlist(parameters: RemoveFromWatchListOptions): Promise<void> {
     let transaction = new Promise<void>((resolve, reject) =>
       this.request(
         method.DELETE,
@@ -379,7 +468,7 @@ export class Client {
     return transaction
   }
 
-  deleteWatchlist(parameters: { uuid: string }): Promise<void> {
+  deleteWatchlist(parameters: DeleteWatchListOptions): Promise<void> {
     let transaction = new Promise<void>((resolve, reject) =>
       this.request(
         method.DELETE,
@@ -399,7 +488,7 @@ export class Client {
     return transaction
   }
 
-  getCalendar(parameters?: { start?: Date; end?: Date }): Promise<Calendar[]> {
+  getCalendar(parameters?: GetCalendarOptions): Promise<Calendar[]> {
     return new Promise<Calendar[]>((resolve, reject) =>
       this.request(
         method.GET,
@@ -427,12 +516,7 @@ export class Client {
     )
   }
 
-  updateAccountConfigurations(parameters: {
-    dtbp_check?: string
-    no_shorting?: boolean
-    suspend_trade?: boolean
-    trade_confirm_email?: string
-  }): Promise<AccountConfigurations> {
+  updateAccountConfigurations(parameters: UpdateAccountConfigurationsOptions): Promise<AccountConfigurations> {
     let transaction = new Promise<AccountConfigurations>((resolve, reject) =>
       this.request(
         method.PATCH,
@@ -453,15 +537,7 @@ export class Client {
     return transaction
   }
 
-  getAccountActivities(parameters: {
-    activity_type: string
-    date?: Date
-    until?: Date
-    after?: Date
-    direction?: 'asc' | 'desc'
-    page_size?: number
-    page_token?: string
-  }): Promise<Array<NonTradeActivity | TradeActivity>[]> {
+  getAccountActivities(parameters: GetAccountActivitiesOptions): Promise<Array<NonTradeActivity | TradeActivity>[]> {
     return new Promise<Array<NonTradeActivity | TradeActivity>[]>(
       (resolve, reject) =>
         this.request(
@@ -476,12 +552,7 @@ export class Client {
     )
   }
 
-  getPortfolioHistory(parameters?: {
-    period?: string
-    timeframe?: string
-    date_end?: Date
-    extended_hours?: boolean
-  }): Promise<PortfolioHistory> {
+  getPortfolioHistory(parameters?: GetPortfolioHistoryOptions): Promise<PortfolioHistory> {
     return new Promise<PortfolioHistory>((resolve, reject) =>
       this.request(
         method.GET,
@@ -493,15 +564,7 @@ export class Client {
     )
   }
 
-  getBars(parameters: {
-    timeframe?: string
-    symbols: string[]
-    limit?: number
-    start?: Date
-    end?: Date
-    after?: Date
-    until?: Date
-  }): Promise<Map<String, Bar[]>> {
+  getBars(parameters: GetBarsOptions): Promise<Map<String, Bar[]>> {
     var transformed = {}
 
     // join the symbols into a comma-delimited string
@@ -519,7 +582,7 @@ export class Client {
     )
   }
 
-  getLastTrade(parameters: { symbol: string }): Promise<LastTradeResponse> {
+  getLastTrade(parameters: GetLastTradeOptions): Promise<LastTradeResponse> {
     return new Promise<LastTradeResponse>((resolve, reject) =>
       this.request(
         method.GET,
@@ -531,7 +594,7 @@ export class Client {
     )
   }
 
-  getLastQuote(parameters: { symbol: string }): Promise<LastQuoteResponse> {
+  getLastQuote(parameters: GetLastQuoteOptions): Promise<LastQuoteResponse> {
     return new Promise<LastQuoteResponse>((resolve, reject) =>
       this.request(
         method.GET,

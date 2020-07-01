@@ -1,4 +1,123 @@
 import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, TradeActivity, NonTradeActivity, PortfolioHistory, Bar, LastTradeResponse, LastQuoteResponse } from './entities';
+export interface GetOrderOptions {
+    order_id?: string;
+    client_order_id?: string;
+    nested?: boolean;
+}
+export interface GetOrdersOptions {
+    status?: string;
+    limit?: number;
+    after?: Date;
+    until?: Date;
+    direction?: string;
+    nested?: boolean;
+}
+export interface PlaceOrderOptions {
+    symbol: string;
+    qty: number;
+    side: 'buy' | 'sell';
+    type: 'market' | 'limit' | 'stop' | 'stop_limit';
+    time_in_force: 'day' | 'gtc' | 'opg' | 'cls' | 'ioc' | 'fok';
+    limit_price?: number;
+    stop_price?: number;
+    extended_hours?: boolean;
+    client_order_id?: string;
+    order_class?: 'simple' | 'bracket' | 'oco' | 'oto';
+    take_profit?: {
+        limit_price: number;
+    };
+    stop_loss?: {
+        stop_price: number;
+        limit_price?: number;
+    };
+}
+export interface ReplaceOrderOptions {
+    order_id: string;
+    qty?: number;
+    time_in_force?: string;
+    limit_price?: number;
+    stop_price?: number;
+    client_order_id?: string;
+}
+export interface CancelOrderOptions {
+    order_id: string;
+}
+export interface GetPositionOptions {
+    symbol: string;
+}
+export interface ClosePositionOptions {
+    symbol: string;
+}
+export interface GetAssetOptions {
+    asset_id_or_symbol: string;
+}
+export interface GetAssetsOptions {
+    status?: 'active' | 'inactive';
+    asset_class?: string;
+}
+export interface GetWatchListOptions {
+    uuid: string;
+}
+export interface CreateWatchListOptions {
+    name: string;
+    symbols?: string[];
+}
+export interface UpdateWatchListOptions {
+    uuid: string;
+    name?: string;
+    symbols?: string[];
+}
+export interface AddToWatchListOptions {
+    uuid: string;
+    symbol: string;
+}
+export interface RemoveFromWatchListOptions {
+    uuid: string;
+    symbol: string;
+}
+export interface DeleteWatchListOptions {
+    uuid: string;
+}
+export interface GetCalendarOptions {
+    start?: Date;
+    end?: Date;
+}
+export interface UpdateAccountConfigurationsOptions {
+    dtbp_check?: string;
+    no_shorting?: boolean;
+    suspend_trade?: boolean;
+    trade_confirm_email?: string;
+}
+export interface GetAccountActivitiesOptions {
+    activity_type: string;
+    date?: Date;
+    until?: Date;
+    after?: Date;
+    direction?: 'asc' | 'desc';
+    page_size?: number;
+    page_token?: string;
+}
+export interface GetPortfolioHistoryOptions {
+    period?: string;
+    timeframe?: string;
+    date_end?: Date;
+    extended_hours?: boolean;
+}
+export interface GetBarsOptions {
+    timeframe?: string;
+    symbols: string[];
+    limit?: number;
+    start?: Date;
+    end?: Date;
+    after?: Date;
+    until?: Date;
+}
+export interface GetLastTradeOptions {
+    symbol: string;
+}
+export interface GetLastQuoteOptions {
+    symbol: string;
+}
 export declare class Client {
     options?: {
         key?: string;
@@ -15,131 +134,34 @@ export declare class Client {
         rate_limit?: boolean;
     });
     getAccount(): Promise<Account>;
-    getOrder(parameters: {
-        order_id?: string;
-        client_order_id?: string;
-        nested?: boolean;
-    }): Promise<Order>;
-    getOrders(parameters?: {
-        status?: string;
-        limit?: number;
-        after?: Date;
-        until?: Date;
-        direction?: string;
-        nested?: boolean;
-    }): Promise<Order[]>;
-    placeOrder(parameters: {
-        symbol: string;
-        qty: number;
-        side: 'buy' | 'sell';
-        type: 'market' | 'limit' | 'stop' | 'stop_limit';
-        time_in_force: 'day' | 'gtc' | 'opg' | 'cls' | 'ioc' | 'fok';
-        limit_price?: number;
-        stop_price?: number;
-        extended_hours?: boolean;
-        client_order_id?: string;
-        order_class?: 'simple' | 'bracket' | 'oco' | 'oto';
-        take_profit?: {
-            limit_price: number;
-        };
-        stop_loss?: {
-            stop_price: number;
-            limit_price?: number;
-        };
-    }): Promise<Order>;
-    replaceOrder(parameters: {
-        order_id: string;
-        qty?: number;
-        time_in_force?: string;
-        limit_price?: number;
-        stop_price?: number;
-        client_order_id?: string;
-    }): Promise<Order>;
-    cancelOrder(parameters: {
-        order_id: string;
-    }): Promise<Order>;
+    getOrder(parameters: GetOrderOptions): Promise<Order>;
+    getOrders(parameters?: GetOrdersOptions): Promise<Order[]>;
+    placeOrder(parameters: PlaceOrderOptions): Promise<Order>;
+    replaceOrder(parameters: ReplaceOrderOptions): Promise<Order>;
+    cancelOrder(parameters: CancelOrderOptions): Promise<Order>;
     cancelOrders(): Promise<Order[]>;
-    getPosition(parameters: {
-        symbol: string;
-    }): Promise<Position>;
+    getPosition(parameters: GetPositionOptions): Promise<Position>;
     getPositions(): Promise<Position[]>;
-    closePosition(parameters: {
-        symbol: string;
-    }): Promise<Order>;
+    closePosition(parameters: ClosePositionOptions): Promise<Order>;
     closePositions(): Promise<Order[]>;
-    getAsset(parameters: {
-        asset_id_or_symbol: string;
-    }): Promise<Asset>;
-    getAssets(parameters?: {
-        status?: 'active' | 'inactive';
-        asset_class?: string;
-    }): Promise<Asset[]>;
-    getWatchlist(parameters: {
-        uuid: string;
-    }): Promise<Watchlist>;
+    getAsset(parameters: GetAssetOptions): Promise<Asset>;
+    getAssets(parameters?: GetAssetsOptions): Promise<Asset[]>;
+    getWatchlist(parameters: GetWatchListOptions): Promise<Watchlist>;
     getWatchlists(): Promise<Watchlist[]>;
-    createWatchlist(parameters: {
-        name: string;
-        symbols?: string[];
-    }): Promise<Watchlist[]>;
-    updateWatchlist(parameters: {
-        uuid: string;
-        name?: string;
-        symbols?: string[];
-    }): Promise<Watchlist>;
-    addToWatchlist(parameters: {
-        uuid: string;
-        symbol: string;
-    }): Promise<Watchlist>;
-    removeFromWatchlist(parameters: {
-        uuid: string;
-        symbol: string;
-    }): Promise<void>;
-    deleteWatchlist(parameters: {
-        uuid: string;
-    }): Promise<void>;
-    getCalendar(parameters?: {
-        start?: Date;
-        end?: Date;
-    }): Promise<Calendar[]>;
+    createWatchlist(parameters: CreateWatchListOptions): Promise<Watchlist[]>;
+    updateWatchlist(parameters: UpdateWatchListOptions): Promise<Watchlist>;
+    addToWatchlist(parameters: AddToWatchListOptions): Promise<Watchlist>;
+    removeFromWatchlist(parameters: RemoveFromWatchListOptions): Promise<void>;
+    deleteWatchlist(parameters: DeleteWatchListOptions): Promise<void>;
+    getCalendar(parameters?: GetCalendarOptions): Promise<Calendar[]>;
     getClock(): Promise<Clock>;
     getAccountConfigurations(): Promise<AccountConfigurations>;
-    updateAccountConfigurations(parameters: {
-        dtbp_check?: string;
-        no_shorting?: boolean;
-        suspend_trade?: boolean;
-        trade_confirm_email?: string;
-    }): Promise<AccountConfigurations>;
-    getAccountActivities(parameters: {
-        activity_type: string;
-        date?: Date;
-        until?: Date;
-        after?: Date;
-        direction?: 'asc' | 'desc';
-        page_size?: number;
-        page_token?: string;
-    }): Promise<Array<NonTradeActivity | TradeActivity>[]>;
-    getPortfolioHistory(parameters?: {
-        period?: string;
-        timeframe?: string;
-        date_end?: Date;
-        extended_hours?: boolean;
-    }): Promise<PortfolioHistory>;
-    getBars(parameters: {
-        timeframe?: string;
-        symbols: string[];
-        limit?: number;
-        start?: Date;
-        end?: Date;
-        after?: Date;
-        until?: Date;
-    }): Promise<Map<String, Bar[]>>;
-    getLastTrade(parameters: {
-        symbol: string;
-    }): Promise<LastTradeResponse>;
-    getLastQuote(parameters: {
-        symbol: string;
-    }): Promise<LastQuoteResponse>;
+    updateAccountConfigurations(parameters: UpdateAccountConfigurationsOptions): Promise<AccountConfigurations>;
+    getAccountActivities(parameters: GetAccountActivitiesOptions): Promise<Array<NonTradeActivity | TradeActivity>[]>;
+    getPortfolioHistory(parameters?: GetPortfolioHistoryOptions): Promise<PortfolioHistory>;
+    getBars(parameters: GetBarsOptions): Promise<Map<String, Bar[]>>;
+    getLastTrade(parameters: GetLastTradeOptions): Promise<LastTradeResponse>;
+    getLastQuote(parameters: GetLastQuoteOptions): Promise<LastQuoteResponse>;
     close(): Promise<void>;
     private request;
 }
