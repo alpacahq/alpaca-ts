@@ -10,7 +10,7 @@ WebSocket streams.
 
 - [Client](#Client)
 - [Stream](#Stream)
-- [Methods](#Methods)
+- [Examples](#Examples)
 
 ## Installation
 
@@ -75,9 +75,7 @@ stream.onTrade((trade) => {
 })
 ```
 
-## Methods
-
-These are all the methods supported by the package.
+## Examples
 
 - [isAuthenticated](#isAuthenticated)
 - [getAccount](#getAccount)
