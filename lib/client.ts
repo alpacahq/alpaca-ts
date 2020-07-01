@@ -553,7 +553,7 @@ export class Client {
 
   // allow all promises to complete
   async close(): Promise<void> {
-    await Promise.all(this.pendingPromises)
+    return await Promise.all(this.pendingPromises).then(() => {})
   }
 
   private request(

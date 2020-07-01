@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Client = void 0;
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const http_method_enum_1 = __importDefault(require("http-method-enum"));
 const qs_1 = __importDefault(require("qs"));
@@ -242,7 +241,7 @@ class Client {
     }
     // allow all promises to complete
     async close() {
-        await Promise.all(this.pendingPromises);
+        return await Promise.all(this.pendingPromises).then(() => { });
     }
     request(method, url, endpoint, data) {
         // modify the base url if paper is true
