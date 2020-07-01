@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WebSocketState = void 0;
 var WebSocketState;
 (function (WebSocketState) {
     WebSocketState["NOT_CONNECTED"] = "not_connected";
