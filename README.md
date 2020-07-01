@@ -31,8 +31,8 @@ const client = new alpaca.Client({
 })
 ```
 
-You can also use environment variables which will be applied to
-every new client.
+You can also use environment variables which will be applied to every new
+client.
 
 ```console
 $ APCA_API_KEY_ID=yourKeyGoesHere
@@ -40,8 +40,8 @@ $ APCA_API_SECRET_KEY=yourKeyGoesHere
 $ APCA_PAPER=true
 ```
 
-Due to the asynchronous nature of the client we recommended you listen
-for interrupts.
+Due to the asynchronous nature of the client we recommended you listen for
+interrupts.
 
 ```typescript
 // allow pending promises to resolve before exiting the process.
@@ -79,6 +79,7 @@ stream.onTrade((trade) => {
 
 These are all the methods supported by the package.
 
+- [isAuthenticated](#isAuthenticated)
 - [getAccount](#getAccount)
 - [getOrder](#getOrder)
 - [getOrders](#getOrders)
@@ -87,6 +88,16 @@ These are all the methods supported by the package.
 - [cancelOrder](#cancelOrder)
 - [cancelOrders](#cancelOrders)
 - ... and more
+
+### isAuthenticated
+
+```typescript
+client
+  .isAuthenticated()
+  .then((authenticated) =>
+    console.log(`Is this client authenticated? ${authenticated}`)
+  )
+```
 
 ### getAccount
 
