@@ -27,6 +27,11 @@ class Client {
             this.options.paper = true;
         }
     }
+    isAuthenticated() {
+        return new Promise((resolve) => this.getAccount()
+            .then(() => resolve(true))
+            .catch(() => resolve(false)));
+    }
     getAccount() {
         return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, 'account')
             .then(resolve)

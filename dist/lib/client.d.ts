@@ -14,6 +14,7 @@ export declare class Client {
         paper?: boolean;
         rate_limit?: boolean;
     });
+    isAuthenticated(): Promise<boolean>;
     getAccount(): Promise<Account>;
     getOrder(parameters: {
         order_id?: string;

@@ -49,6 +49,14 @@ export class Client {
     }
   }
 
+  isAuthenticated(): Promise<boolean> {
+    return new Promise<boolean>((resolve) =>
+      this.getAccount()
+        .then(() => resolve(true))
+        .catch(() => resolve(false))
+    )
+  }
+
   getAccount(): Promise<Account> {
     return new Promise<Account>((resolve, reject) =>
       this.request(method.GET, BaseURL.Account, 'account')
