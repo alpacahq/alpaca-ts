@@ -1,10 +1,10 @@
 import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, TradeActivity, NonTradeActivity, PortfolioHistory, Bar, LastTradeResponse, LastQuoteResponse } from './entities';
-export interface GetOrderOptions {
+export interface GetOrderParameters {
     order_id?: string;
     client_order_id?: string;
     nested?: boolean;
 }
-export interface GetOrdersOptions {
+export interface GetOrdersParameters {
     status?: string;
     limit?: number;
     after?: Date;
@@ -12,7 +12,7 @@ export interface GetOrdersOptions {
     direction?: string;
     nested?: boolean;
 }
-export interface PlaceOrderOptions {
+export interface PlaceOrderParameters {
     symbol: string;
     qty: number;
     side: 'buy' | 'sell';
@@ -31,7 +31,7 @@ export interface PlaceOrderOptions {
         limit_price?: number;
     };
 }
-export interface ReplaceOrderOptions {
+export interface ReplaceOrderParameters {
     order_id: string;
     qty?: number;
     time_in_force?: string;
@@ -39,56 +39,56 @@ export interface ReplaceOrderOptions {
     stop_price?: number;
     client_order_id?: string;
 }
-export interface CancelOrderOptions {
+export interface CancelOrderParameters {
     order_id: string;
 }
-export interface GetPositionOptions {
+export interface GetPositionParameters {
     symbol: string;
 }
-export interface ClosePositionOptions {
+export interface ClosePositionParameters {
     symbol: string;
 }
-export interface GetAssetOptions {
+export interface GetAssetParameters {
     asset_id_or_symbol: string;
 }
-export interface GetAssetsOptions {
+export interface GetAssetsParameters {
     status?: 'active' | 'inactive';
     asset_class?: string;
 }
-export interface GetWatchListOptions {
+export interface GetWatchListParameters {
     uuid: string;
 }
-export interface CreateWatchListOptions {
+export interface CreateWatchListParameters {
     name: string;
     symbols?: string[];
 }
-export interface UpdateWatchListOptions {
+export interface UpdateWatchListParameters {
     uuid: string;
     name?: string;
     symbols?: string[];
 }
-export interface AddToWatchListOptions {
+export interface AddToWatchListParameters {
     uuid: string;
     symbol: string;
 }
-export interface RemoveFromWatchListOptions {
+export interface RemoveFromWatchListParameters {
     uuid: string;
     symbol: string;
 }
-export interface DeleteWatchListOptions {
+export interface DeleteWatchListParameters {
     uuid: string;
 }
-export interface GetCalendarOptions {
+export interface GetCalendarParameters {
     start?: Date;
     end?: Date;
 }
-export interface UpdateAccountConfigurationsOptions {
+export interface UpdateAccountConfigurationsParameters {
     dtbp_check?: string;
     no_shorting?: boolean;
     suspend_trade?: boolean;
     trade_confirm_email?: string;
 }
-export interface GetAccountActivitiesOptions {
+export interface GetAccountActivitiesParameters {
     activity_type: string;
     date?: Date;
     until?: Date;
@@ -97,13 +97,13 @@ export interface GetAccountActivitiesOptions {
     page_size?: number;
     page_token?: string;
 }
-export interface GetPortfolioHistoryOptions {
+export interface GetPortfolioHistoryParameters {
     period?: string;
     timeframe?: string;
     date_end?: Date;
     extended_hours?: boolean;
 }
-export interface GetBarsOptions {
+export interface GetBarsParameters {
     timeframe?: string;
     symbols: string[];
     limit?: number;
@@ -112,10 +112,10 @@ export interface GetBarsOptions {
     after?: Date;
     until?: Date;
 }
-export interface GetLastTradeOptions {
+export interface GetLastTradeParameters {
     symbol: string;
 }
-export interface GetLastQuoteOptions {
+export interface GetLastQuoteParameters {
     symbol: string;
 }
 export declare class Client {
@@ -134,34 +134,34 @@ export declare class Client {
         rate_limit?: boolean;
     });
     getAccount(): Promise<Account>;
-    getOrder(parameters: GetOrderOptions): Promise<Order>;
-    getOrders(parameters?: GetOrdersOptions): Promise<Order[]>;
-    placeOrder(parameters: PlaceOrderOptions): Promise<Order>;
-    replaceOrder(parameters: ReplaceOrderOptions): Promise<Order>;
-    cancelOrder(parameters: CancelOrderOptions): Promise<Order>;
+    getOrder(parameters: GetOrderParameters): Promise<Order>;
+    getOrders(parameters?: GetOrdersParameters): Promise<Order[]>;
+    placeOrder(parameters: PlaceOrderParameters): Promise<Order>;
+    replaceOrder(parameters: ReplaceOrderParameters): Promise<Order>;
+    cancelOrder(parameters: CancelOrderParameters): Promise<Order>;
     cancelOrders(): Promise<Order[]>;
-    getPosition(parameters: GetPositionOptions): Promise<Position>;
+    getPosition(parameters: GetPositionParameters): Promise<Position>;
     getPositions(): Promise<Position[]>;
-    closePosition(parameters: ClosePositionOptions): Promise<Order>;
+    closePosition(parameters: ClosePositionParameters): Promise<Order>;
     closePositions(): Promise<Order[]>;
-    getAsset(parameters: GetAssetOptions): Promise<Asset>;
-    getAssets(parameters?: GetAssetsOptions): Promise<Asset[]>;
-    getWatchlist(parameters: GetWatchListOptions): Promise<Watchlist>;
+    getAsset(parameters: GetAssetParameters): Promise<Asset>;
+    getAssets(parameters?: GetAssetsParameters): Promise<Asset[]>;
+    getWatchlist(parameters: GetWatchListParameters): Promise<Watchlist>;
     getWatchlists(): Promise<Watchlist[]>;
-    createWatchlist(parameters: CreateWatchListOptions): Promise<Watchlist[]>;
-    updateWatchlist(parameters: UpdateWatchListOptions): Promise<Watchlist>;
-    addToWatchlist(parameters: AddToWatchListOptions): Promise<Watchlist>;
-    removeFromWatchlist(parameters: RemoveFromWatchListOptions): Promise<void>;
-    deleteWatchlist(parameters: DeleteWatchListOptions): Promise<void>;
-    getCalendar(parameters?: GetCalendarOptions): Promise<Calendar[]>;
+    createWatchlist(parameters: CreateWatchListParameters): Promise<Watchlist[]>;
+    updateWatchlist(parameters: UpdateWatchListParameters): Promise<Watchlist>;
+    addToWatchlist(parameters: AddToWatchListParameters): Promise<Watchlist>;
+    removeFromWatchlist(parameters: RemoveFromWatchListParameters): Promise<void>;
+    deleteWatchlist(parameters: DeleteWatchListParameters): Promise<void>;
+    getCalendar(parameters?: GetCalendarParameters): Promise<Calendar[]>;
     getClock(): Promise<Clock>;
     getAccountConfigurations(): Promise<AccountConfigurations>;
-    updateAccountConfigurations(parameters: UpdateAccountConfigurationsOptions): Promise<AccountConfigurations>;
-    getAccountActivities(parameters: GetAccountActivitiesOptions): Promise<Array<NonTradeActivity | TradeActivity>[]>;
-    getPortfolioHistory(parameters?: GetPortfolioHistoryOptions): Promise<PortfolioHistory>;
-    getBars(parameters: GetBarsOptions): Promise<Map<String, Bar[]>>;
-    getLastTrade(parameters: GetLastTradeOptions): Promise<LastTradeResponse>;
-    getLastQuote(parameters: GetLastQuoteOptions): Promise<LastQuoteResponse>;
+    updateAccountConfigurations(parameters: UpdateAccountConfigurationsParameters): Promise<AccountConfigurations>;
+    getAccountActivities(parameters: GetAccountActivitiesParameters): Promise<Array<NonTradeActivity | TradeActivity>[]>;
+    getPortfolioHistory(parameters?: GetPortfolioHistoryParameters): Promise<PortfolioHistory>;
+    getBars(parameters: GetBarsParameters): Promise<Map<String, Bar[]>>;
+    getLastTrade(parameters: GetLastTradeParameters): Promise<LastTradeResponse>;
+    getLastQuote(parameters: GetLastQuoteParameters): Promise<LastQuoteResponse>;
     close(): Promise<void>;
     private request;
 }
