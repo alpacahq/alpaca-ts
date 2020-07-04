@@ -45,7 +45,10 @@ interrupts.
 
 ```typescript
 // allow pending promises to resolve before exiting the process.
-process.on('SIGTERM', async () => await client.close())
+process.on('SIGINT', async () => {
+  await alpacaClient.close()
+  process.exit(0)
+})
 ```
 
 ## Stream
