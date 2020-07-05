@@ -1,5 +1,8 @@
 "use strict";
+// this file is for shared enums or constants
+// (anything that has a value but isnt an interface)
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BaseURL = void 0;
 var BaseURL;
 (function (BaseURL) {
     BaseURL["Account"] = "https://api.alpaca.markets/v2";

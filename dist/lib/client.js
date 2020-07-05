@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Client = void 0;
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const http_method_enum_1 = __importDefault(require("http-method-enum"));
 const qs_1 = __importDefault(require("qs"));
@@ -26,222 +27,155 @@ class Client {
             this.options.paper = true;
         }
     }
-    isAuthenticated() {
-        return new Promise((resolve) => this.getAccount()
-            .then(() => resolve(true))
-            .catch(() => resolve(false)));
+    async isAuthenticated() {
+        return await this.getAccount()
+            .then(() => true)
+            .catch(() => false);
     }
     getAccount() {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, 'account')
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, 'account');
     }
     getOrder(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `orders/${parameters.order_id || parameters.client_order_id}?${qs_1.default.stringify({
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `orders/${parameters.order_id || parameters.client_order_id}?${qs_1.default.stringify({
             nested: parameters.nested,
-        })}`)
-            .then(resolve)
-            .catch(reject));
+        })}`);
     }
     getOrders(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `orders?${qs_1.default.stringify(parameters)}`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `orders?${qs_1.default.stringify(parameters)}`);
     }
     placeOrder(parameters) {
-        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.POST, common_1.BaseURL.Account, `orders`, parameters)
-            .then(resolve)
-            .catch(reject)
-            .finally(() => {
+        let transaction = this.request(http_method_enum_1.default.POST, common_1.BaseURL.Account, `orders`, parameters).finally(() => {
             this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
-        }));
+        });
         this.pendingPromises.push(transaction);
         return transaction;
     }
     replaceOrder(parameters) {
-        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.PATCH, common_1.BaseURL.Account, `orders/${parameters.order_id}`, parameters)
-            .then(resolve)
-            .catch(reject));
+        let transaction = this.request(http_method_enum_1.default.PATCH, common_1.BaseURL.Account, `orders/${parameters.order_id}`, parameters).finally(() => {
+            this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
+        });
         this.pendingPromises.push(transaction);
         return transaction;
     }
     cancelOrder(parameters) {
-        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.BaseURL.Account, `orders/${parameters.order_id}`)
-            .then(resolve)
-            .catch(reject)
-            .finally(() => {
+        let transaction = this.request(http_method_enum_1.default.DELETE, common_1.BaseURL.Account, `orders/${parameters.order_id}`).finally(() => {
             this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
-        }));
+        });
         this.pendingPromises.push(transaction);
         return transaction;
     }
     cancelOrders() {
-        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.BaseURL.Account, `orders`)
-            .then(resolve)
-            .catch(reject)
-            .finally(() => {
+        let transaction = this.request(http_method_enum_1.default.DELETE, common_1.BaseURL.Account, `orders`).finally(() => {
             this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
-        }));
+        });
         this.pendingPromises.push(transaction);
         return transaction;
     }
     getPosition(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `positions/${parameters.symbol}`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `positions/${parameters.symbol}`);
     }
     getPositions() {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `positions`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `positions`);
     }
     closePosition(parameters) {
-        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.BaseURL.Account, `positions/${parameters.symbol}`)
-            .then(resolve)
-            .catch(reject)
-            .finally(() => {
+        let transaction = this.request(http_method_enum_1.default.DELETE, common_1.BaseURL.Account, `positions/${parameters.symbol}`).finally(() => {
             this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
-        }));
+        });
         this.pendingPromises.push(transaction);
         return transaction;
     }
     closePositions() {
-        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.BaseURL.Account, `positions`)
-            .then(resolve)
-            .catch(reject)
-            .finally(() => {
+        let transaction = this.request(http_method_enum_1.default.DELETE, common_1.BaseURL.Account, `positions`).finally(() => {
             this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
-        }));
+        });
         this.pendingPromises.push(transaction);
         return transaction;
     }
     getAsset(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `assets/${parameters.asset_id_or_symbol}`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `assets/${parameters.asset_id_or_symbol}`);
     }
     getAssets(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `assets?${qs_1.default.stringify(parameters)}`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `assets?${qs_1.default.stringify(parameters)}`);
     }
     getWatchlist(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `watchlists/${parameters.uuid}`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `watchlists/${parameters.uuid}`);
     }
     getWatchlists() {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `watchlists`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `watchlists`);
     }
     createWatchlist(parameters) {
-        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.POST, common_1.BaseURL.Account, `watchlists`, parameters)
-            .then(resolve)
-            .catch(reject)
-            .finally(() => {
+        let transaction = this.request(http_method_enum_1.default.POST, common_1.BaseURL.Account, `watchlists`, parameters).finally(() => {
             this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
-        }));
+        });
         this.pendingPromises.push(transaction);
         return transaction;
     }
     updateWatchlist(parameters) {
-        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.PUT, common_1.BaseURL.Account, `watchlists/${parameters.uuid}`, parameters)
-            .then(resolve)
-            .catch(reject)
-            .finally(() => {
+        let transaction = this.request(http_method_enum_1.default.PUT, common_1.BaseURL.Account, `watchlists/${parameters.uuid}`, parameters).finally(() => {
             this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
-        }));
+        });
         this.pendingPromises.push(transaction);
         return transaction;
     }
     addToWatchlist(parameters) {
-        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.POST, common_1.BaseURL.Account, `watchlists/${parameters.uuid}`, parameters)
-            .then(resolve)
-            .catch(reject)
-            .finally(() => {
+        let transaction = this.request(http_method_enum_1.default.POST, common_1.BaseURL.Account, `watchlists/${parameters.uuid}`, parameters).finally(() => {
             this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
-        }));
+        });
         this.pendingPromises.push(transaction);
         return transaction;
     }
     removeFromWatchlist(parameters) {
-        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.BaseURL.Account, `watchlists/${parameters.uuid}/${parameters.symbol}`)
-            .then(resolve)
-            .catch(reject)
-            .finally(() => {
+        let transaction = this.request(http_method_enum_1.default.DELETE, common_1.BaseURL.Account, `watchlists/${parameters.uuid}/${parameters.symbol}`).finally(() => {
             this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
-        }));
+        });
         this.pendingPromises.push(transaction);
         return transaction;
     }
     deleteWatchlist(parameters) {
-        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.DELETE, common_1.BaseURL.Account, `watchlists/${parameters.uuid}`)
-            .then(resolve)
-            .catch(reject)
-            .finally(() => {
+        let transaction = this.request(http_method_enum_1.default.DELETE, common_1.BaseURL.Account, `watchlists/${parameters.uuid}`).finally(() => {
             this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
-        }));
+        });
         this.pendingPromises.push(transaction);
         return transaction;
     }
     getCalendar(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `calendar?${qs_1.default.stringify(parameters)}`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `calendar?${qs_1.default.stringify(parameters)}`);
     }
     getClock() {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `clock`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `clock`);
     }
     getAccountConfigurations() {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `account/configurations`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `account/configurations`);
     }
     updateAccountConfigurations(parameters) {
-        let transaction = new Promise((resolve, reject) => this.request(http_method_enum_1.default.PATCH, common_1.BaseURL.Account, `account/configurations`, parameters)
-            .then(resolve)
-            .catch(reject)
-            .finally(() => {
+        let transaction = this.request(http_method_enum_1.default.PATCH, common_1.BaseURL.Account, `account/configurations`, parameters).finally(() => {
             this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
-        }));
+        });
         this.pendingPromises.push(transaction);
         return transaction;
     }
     getAccountActivities(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `account/activities/${parameters.activity_type}?${qs_1.default.stringify(parameters)}`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `account/activities/${parameters.activity_type}?${qs_1.default.stringify(parameters)}`);
     }
     getPortfolioHistory(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `account/portfolio/history?${qs_1.default.stringify(parameters)}`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, `account/portfolio/history?${qs_1.default.stringify(parameters)}`);
     }
     getBars(parameters) {
         var transformed = {};
         // join the symbols into a comma-delimited string
         transformed = parameters;
         transformed['symbols'] = parameters.symbols.join(',');
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.MarketData, `bars/${parameters.timeframe}?${qs_1.default.stringify(parameters)}`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.MarketData, `bars/${parameters.timeframe}?${qs_1.default.stringify(parameters)}`);
     }
     getLastTrade(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.MarketData, `last/stocks/${parameters.symbol}`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.MarketData, `last/stocks/${parameters.symbol}`);
     }
     getLastQuote(parameters) {
-        return new Promise((resolve, reject) => this.request(http_method_enum_1.default.GET, common_1.BaseURL.MarketData, `last_quote/stocks/${parameters.symbol}`)
-            .then(resolve)
-            .catch(reject));
+        return this.request(http_method_enum_1.default.GET, common_1.BaseURL.MarketData, `last_quote/stocks/${parameters.symbol}`);
     }
     // allow all promises to complete
     async close() {
-        return await Promise.all(this.pendingPromises).then(() => { });
+        return Promise.all(this.pendingPromises).then(() => { });
     }
     request(method, url, endpoint, data) {
         // modify the base url if paper is true
@@ -270,15 +204,11 @@ class Client {
                 body: JSON.stringify(data),
             })
                 .then((response) => response.json())
-                .then((response) => {
-                // is it an alpaca error response?
-                if ('code' in response && 'message' in response) {
-                    reject(response);
-                }
-                else {
-                    resolve(response);
-                }
-            })
+                .then((response) => 
+            // is it an alpaca error response?
+            'code' in response && 'message' in response
+                ? reject(response)
+                : resolve(response))
                 .catch(reject);
         });
     }

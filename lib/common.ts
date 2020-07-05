@@ -1,3 +1,6 @@
+// this file is for shared enums or constants
+// (anything that has a value but isnt an interface)
+
 export enum BaseURL {
   Account = 'https://api.alpaca.markets/v2',
   AccountStream = 'wss://api.alpaca.markets/stream',
