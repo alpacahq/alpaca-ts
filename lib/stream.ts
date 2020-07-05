@@ -2,15 +2,7 @@ import WebSocket from 'ws';
 import { EventEmitter } from "events";
 import { Client } from './client';
 
-import {
-  Message,
-  WebSocketState,
-  TradeUpdate,
-  AccountUpdate,
-  AggregateMinute,
-  Quote,
-  Trade,
-} from './entities';
+import { WebSocketState } from './entities';
 
 export class Stream extends EventEmitter {
   private connection: WebSocket
@@ -31,17 +23,9 @@ export class Stream extends EventEmitter {
     // Makes a new event emitter :D
     super();
 
-    // bind our provided options to the defaults
-    this.options = Object.bind(
-      {
-        host: options.host,
-        reconnect: true,
-        // did not write a back-off strategy because 30 seconds has always worked well for me
-        reconnectWarmupInSeconds: 30,
-        verbose: true,
-      },
-      options
-    )
+    // Since host is required.
+    if(!options.host)
+      throw new Error("You need to provide a host url to connect to!\n(Don't forget you can only have 1 websocket per host ;)");
 
     // if pending a reconnection
     if (this.state == WebSocketState.CLOSED_PENDING_RECONNECT) {/// uhhhhh wth is this and what are you doing
@@ -61,18 +45,15 @@ export class Stream extends EventEmitter {
 
     // if we haven't made a connection, create one now
     if (!this.connection) {
-      this.connection = new WebSocket(options.host)
-      this.connection.once(
-        'open',
-        () => (this.state = WebSocketState.PENDING_AUTHORIZATION)
+      this.connection = new WebSocket(options.host).once(
+        'open', () => (this.state = WebSocketState.PENDING_AUTHORIZATION)
       )
 
       // handle a close by terminating the connection
       this.connection.once('close', () => {
         // if no reconnect is specified, we use a special state
-        if (!options.reconnect) {
-          this.state = WebSocketState.CLOSED_NO_RECONNECT
-        }
+        if (!options.reconnect)
+          return this.state = WebSocketState.CLOSED_NO_RECONNECT
         // we are now waiting for the next chance to reconnect
         this.state = WebSocketState.CLOSED_PENDING_RECONNECT
         // undefine the connection so it will be re-made on the next tick
@@ -83,20 +64,15 @@ export class Stream extends EventEmitter {
       this.connection.on('message', (message) => {
         const object = JSON.parse(message.toString())
         // if the state is pending auth and this is an auth message, change the state
-        if (this.state == WebSocketState.PENDING_AUTHORIZATION) {
-          // < {"stream":"authorization","data":{"action":"authenticate","status":"authorized"}}
-          if ('stream' in object && object['stream'] == 'authorization') {
-            if (object.data.status == 'authorized') {
-              // all good :D
-              this.state = WebSocketState.CONNECTED
-            } else {
-              // decide how to handle failed authorizations? idk yet
-            }
-          }
-        }
+        // < {"stream":"authorization","data":{"action":"authenticate","status":"authorized"}}
+        if (this.state == WebSocketState.PENDING_AUTHORIZATION && 'stream' in object && object['stream'] == 'authorization')
+          if (object.data.status == 'authorized')
+            // all good :D
+            this.state = WebSocketState.CONNECTED
+          else true;
 
         // callback regardless of whether or not we acted on the message above
-        this.emit("message", object)
+        this.emit("message", object);
 
         // call any of the convenience methods that apply to this message
         if ('stream' in object)
@@ -105,7 +81,7 @@ export class Stream extends EventEmitter {
             account_updates: "account_updates",
             T: "trade", Q: "quote", AM: "aggregate_minute"
           }[(object.stream as String).split('.')[0]], object.data);
-      })
+      });
 
       // for now handle errors by just sending them to the callback
       // in the future we may need a strategy here
@@ -131,7 +107,7 @@ export class Stream extends EventEmitter {
         // attempt to clear the message queue
         for (var i = 0; i < this.messageQueue.length; i++)
           this.connection.send(this.messageQueue.shift())
-        break
+        break;
     }
   }
 
@@ -155,9 +131,9 @@ export class Stream extends EventEmitter {
 
   unsubscribe(channels: string[]) {
     // remove these channels
-    this.subscriptions = this.subscriptions.filter(
-      channel => !channels.includes(channel)
-    )
+    for(let i = 0, ln = this.subscriptions.length; i < ln; i ++)
+      if(channels.includes(this.subscriptions[i]))
+        this.subscriptions.splice(i, 1);
 
     // send the removal
     this.send({

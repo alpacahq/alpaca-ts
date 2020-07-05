@@ -41,7 +41,7 @@ A client for handling all account based requests.
 
 ### `Client` Initialization
 
-The standard way to initialize 
+The standard way to initialize the client.
 
 ```typescript
 // Import the Client
