@@ -5,13 +5,13 @@ import { Client } from './client';
 export declare interface StreamEvents {
   open: (connection: Stream) => void;
   close: (connection: Stream) => void;
+  authenticated: (connection: Stream) => void;
   trade: (data: Object) => void;
   message: (data: Object) => void;
   error: (error: Error) => void;
 }
 
 export declare interface Stream {
-  connection: WebSocket;
   on<U extends keyof StreamEvents>(
     event: U, listener: StreamEvents[U]
   ): this;
@@ -21,8 +21,9 @@ export declare interface Stream {
 }
 
 export class Stream extends EventEmitter {
+  public subscriptions: string[] = [];
   public connection: WebSocket;
-  public subscriptions: string[] = []
+  public authenticated: boolean = false;
 
   constructor(
     private client: Client,
@@ -65,7 +66,7 @@ export class Stream extends EventEmitter {
           if (object.data.status == 'authorized')
 
             // all good :D
-            console.log("Connected to the websocket!!! yay.")
+            this.authenticated = true, this.emit("authenticated", this), console.log("Connected to the websocket!!! yay.")
 
           else {
 
@@ -89,13 +90,21 @@ export class Stream extends EventEmitter {
       })
 
       // Emits an error event.
-      .on('error', (err: Error) => this.emit("error", err))
+      .on('error', (err: Error) => this.emit("error", err));
 
-      // Sends an authentication request
-      .send({ action: "authenticate", data: { key_id: client.options.key, secret_key: client.options.secret } })
+    // Sends an authentication request
+    this.connection.send({ action: "authenticate", data: { key_id: client.options.key, secret_key: client.options.secret } })
   }
 
+  /**
+   * Sends a message to the connected websocket.
+   * @param message The message itself
+   */
   send(message: any): this {
+
+    // You need to be authenticated to send further messages
+    if(!this.authenticated)
+      throw new Error("You can't send a message until you are authenticated!")
 
     // Sends the message.
     this.connection.send(message);
