@@ -55,6 +55,8 @@ export class Client {
       rate_limit?: boolean
     }
   ) {
+
+    
     // if the alpaca key hasn't been provided, try env var
     if (!this.options.key) {
       this.options.key = process.env.APCA_API_KEY_ID
@@ -72,9 +74,13 @@ export class Client {
   }
 
   async isAuthenticated(): Promise<boolean> {
-    return await this.getAccount()
-      .then(() => true)
-      .catch(() => false)
+    try {
+      await this.getAccount()
+      return true
+    }
+    catch (e) {
+      return false
+    }
   }
 
   getAccount(): Promise<Account> {
@@ -256,9 +262,7 @@ export class Client {
       `watchlists/${parameters.uuid}`,
       parameters
     ).finally(() => {
-      this.pendingPromises = this.pendingPromises.filter(
-        (p) => p !== transaction
-      )
+      this.pendingPromises.splice(this.pendingPromises.indexOf(transaction), 1);
     })
 
     this.pendingPromises.push(transaction)
