@@ -1,6 +1,6 @@
 {
   "name": "alpaca-trade-api-ts",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "main": "dist/index",
   "scripts": {
@@ -9,6 +9,7 @@
   },
   "author": "117",
   "contributors": [
+    "AqilCont",
     "KalebMills"
   ],
   "license": "Apache-2.0",
