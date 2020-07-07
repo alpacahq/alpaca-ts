@@ -12,8 +12,8 @@ WebSocket streams.
 **Table of Contents:**
 
 - [Installation](#installation)
-- [`alpaca.Client`](#alpacaclient)
-  - [`Client` Initialization](#client-initialization)
+- [Client](#alpacaclient)
+  - [Initialization](#client-initialization)
   - [Methods](#methods)
     - [isAuthenticated](#isauthenticated)
     - [getAccount](#getaccount)
@@ -23,10 +23,10 @@ WebSocket streams.
     - [replaceOrder](#replaceorder)
     - [cancelOrder](#cancelorder)
     - [cancelOrders](#cancelorders)
-  - [Stream](#stream)
-    - [`alpaca.Stream` Initialization](#alpacastream-initialization)
-  - [BaseURL](#baseurl)
-  - [Contribute](#contribute)
+- [Stream](#stream)
+  - [Initialization](#alpacastream-initialization)
+- [BaseURL](#baseurl)
+- [Contribute](#contribute)
 
 ## Installation
 
