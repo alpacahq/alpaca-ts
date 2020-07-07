@@ -9,7 +9,7 @@
 A TypeScript Node.js library for the <https://alpaca.markets> REST API and
 WebSocket streams.
 
-**Table of Contents:**
+**Table of Contents**
 
 - [Installation](#installation)
 - [Client](#alpacaclient)
