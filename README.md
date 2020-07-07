@@ -13,7 +13,7 @@ WebSocket streams.
 
 - [Installation](#installation)
 - [Client](#alpacaclient)
-  - [Initialization](#client-initialization)
+  - [Initialization](#alpacaclient)
   - [Methods](#methods)
     - [isAuthenticated](#isauthenticated)
     - [getAccount](#getaccount)
@@ -24,7 +24,7 @@ WebSocket streams.
     - [cancelOrder](#cancelorder)
     - [cancelOrders](#cancelorders)
 - [Stream](#stream)
-  - [Initialization](#alpacastream-initialization)
+  - [Initialization](#stream)
 - [BaseURL](#baseurl)
 - [Contribute](#contribute)
 
@@ -34,11 +34,11 @@ WebSocket streams.
 > npm i 117/alpaca-trade-api-ts
 ```
 
-## `alpaca.Client`
+## Client
 
 A client for handling all account based requests.
 
-### `Client` Initialization
+### Initialization
 
 The standard way to initialize the client.
 
@@ -169,7 +169,7 @@ await client.cancelOrders()
 
 An Alpaca websocket API for streamlining the exchange of requests and data to and from the Alpaca servers.
 
-### `alpaca.Stream` Initialization
+### Initialization
 
 An API key is allowed 1 simultaneous connection to each server. Connecting to them is easy:
 
