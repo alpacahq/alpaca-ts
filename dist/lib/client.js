@@ -28,9 +28,13 @@ class Client {
         }
     }
     async isAuthenticated() {
-        return await this.getAccount()
-            .then(() => true)
-            .catch(() => false);
+        try {
+            await this.getAccount();
+            return true;
+        }
+        catch (e) {
+            return false;
+        }
     }
     getAccount() {
         return this.request(http_method_enum_1.default.GET, common_1.BaseURL.Account, 'account');
@@ -112,7 +116,7 @@ class Client {
     }
     updateWatchlist(parameters) {
         let transaction = this.request(http_method_enum_1.default.PUT, common_1.BaseURL.Account, `watchlists/${parameters.uuid}`, parameters).finally(() => {
-            this.pendingPromises = this.pendingPromises.filter((p) => p !== transaction);
+            this.pendingPromises.splice(this.pendingPromises.indexOf(transaction), 1);
         });
         this.pendingPromises.push(transaction);
         return transaction;
