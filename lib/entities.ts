@@ -315,13 +315,9 @@ export interface GetOrderParameters {
   nested?: boolean
 }
 
-export interface GetOrderParameters {
+export interface GetOrdersParameters {
   order_id?: string
   client_order_id?: string
-  nested?: boolean
-}
-
-export interface GetOrdersParameters {
   status?: string
   limit?: number
   after?: Date
