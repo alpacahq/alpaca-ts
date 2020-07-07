@@ -13,7 +13,7 @@ WebSocket streams.
 
 - [Installation](#installation)
 - [Client](#alpacaclient)
-  - [Initialization](#alpacaclient)
+  - [Initialization](#client)
   - [Methods](#methods)
     - [isAuthenticated](#isauthenticated)
     - [getAccount](#getaccount)
