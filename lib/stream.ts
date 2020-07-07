@@ -82,7 +82,7 @@ export class Stream extends EventEmitter {
             this.connection.close();
 
             // Then throws an error
-            throw new Error("There was an error in authorizing your websocket connection. Object received: " + object.toString())
+            throw new Error("There was an error in authorizing your websocket connection. Object received: " + JSON.stringify(object))
           }
 
         // callback regardless of whether or not we acted on the message above
