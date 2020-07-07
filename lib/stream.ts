@@ -49,7 +49,15 @@ export class Stream extends EventEmitter {
     this.connection = new WebSocket(options.host)
     
       // Emits when the websocket is open
-      .once('open', () => this.emit("open", this))
+      .once('open', () => {
+        
+        // Sends an authentication request if you aren't authorized yet
+        if(!this.authenticated)
+          this.connection.send({ action: "authenticate", data: { key_id: client.options.key, secret_key: client.options.secret } })
+
+        // Emits the open event
+        this.emit("open", this)
+      })
 
       // Emit a close event on websocket close.
       .once('close', () => this.emit("close", this))
@@ -91,9 +99,6 @@ export class Stream extends EventEmitter {
 
       // Emits an error event.
       .on('error', (err: Error) => this.emit("error", err));
-
-    // Sends an authentication request
-    this.connection.send({ action: "authenticate", data: { key_id: client.options.key, secret_key: client.options.secret } })
   }
 
   /**
