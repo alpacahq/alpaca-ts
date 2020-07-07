@@ -3,12 +3,40 @@ import { EventEmitter } from "events";
 import { Client } from './client';
 
 export declare interface StreamEvents {
+
+  /**
+   * Emitted when the websocket finally connects. (Authentication message is automatically sent)
+   */
   open: (connection: Stream) => void;
+
+  /**
+   * When the websocket closes, intentionally or unintentionally
+   */
   close: (connection: Stream) => void;
+
+  /**
+   * Emitted on successful authentication
+   */
   authenticated: (connection: Stream) => void;
-  trade: (data: Object) => void;
-  message: (data: Object) => void;
+
+  /**
+   * Emitted for any error
+   */
   error: (error: Error) => void;
+
+  /**
+   * Emitted for all messages
+  */
+  message: (data: Object) => void;
+  
+  /**
+   * I'm to lazy to do these/don't know what they are for.
+   */
+  trade: (data: Object) => void;
+  trade_updates: (data: Object) => void;
+  account_updates: (data: Object) => void;
+  quote: (data: Object) => void;
+  aggregate_minute: (data: Object) => void;
 }
 
 export declare interface Stream {
@@ -53,7 +81,7 @@ export class Stream extends EventEmitter {
         
         // Sends an authentication request if you aren't authorized yet
         if(!this.authenticated)
-          this.connection.send('{"action":"authenticate","data":{"key_id": "' + client.options.key + '", "secret_key": "' + client.options.secret + '"}}')
+          this.connection.send('{"action":"authenticate","data":{"key_id":"' + client.options.key + '","secret_key":"' + client.options.secret + '"}}')
 
         // Emits the open event
         this.emit("open", this)
@@ -82,7 +110,7 @@ export class Stream extends EventEmitter {
             this.connection.close();
 
             // Then throws an error
-            throw new Error("There was an error in authorizing your websocket connection. Object received: " + JSON.stringify(object))
+            throw new Error("There was an error in authorizing your websocket connection. Object received: " + JSON.stringify(object, null, 2))
           }
 
         // callback regardless of whether or not we acted on the message above
