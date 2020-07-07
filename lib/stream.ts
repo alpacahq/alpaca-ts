@@ -53,7 +53,7 @@ export class Stream extends EventEmitter {
         
         // Sends an authentication request if you aren't authorized yet
         if(!this.authenticated)
-          this.connection.send({ action: "authenticate", data: { key_id: client.options.key, secret_key: client.options.secret } })
+          this.connection.send("{ action: 'authenticate', data: { key_id: '" + client.options.key + "', secret_key: '" + client.options.secret + "' } }")
 
         // Emits the open event
         this.emit("open", this)
