@@ -91,11 +91,7 @@ export class Client {
     return this.request(
       method.GET,
       BaseURL.Account,
-      `orders/${
-        parameters.order_id || parameters.client_order_id
-      }?${qs.stringify({
-        nested: parameters.nested,
-      })}`
+      `orders/${parameters.order_id || parameters.client_order_id}?${qs.stringify({ nested: parameters.nested })}`
     )
   }
 
@@ -114,9 +110,7 @@ export class Client {
       `orders`,
       parameters
     ).finally(() => {
-      this.pendingPromises = this.pendingPromises.filter(
-        (p) => p !== transaction
-      )
+      this.pendingPromises.splice(this.pendingPromises.indexOf(transaction), 1);
     })
 
     this.pendingPromises.push(transaction)
@@ -130,9 +124,7 @@ export class Client {
       `orders/${parameters.order_id}`,
       parameters
     ).finally(() => {
-      this.pendingPromises = this.pendingPromises.filter(
-        (p) => p !== transaction
-      )
+      this.pendingPromises.splice(this.pendingPromises.indexOf(transaction), 1);
     })
 
     this.pendingPromises.push(transaction)
@@ -145,9 +137,7 @@ export class Client {
       BaseURL.Account,
       `orders/${parameters.order_id}`
     ).finally(() => {
-      this.pendingPromises = this.pendingPromises.filter(
-        (p) => p !== transaction
-      )
+      this.pendingPromises.splice(this.pendingPromises.indexOf(transaction), 1);
     })
 
     this.pendingPromises.push(transaction)
@@ -160,9 +150,7 @@ export class Client {
       BaseURL.Account,
       `orders`
     ).finally(() => {
-      this.pendingPromises = this.pendingPromises.filter(
-        (p) => p !== transaction
-      )
+      this.pendingPromises.splice(this.pendingPromises.indexOf(transaction), 1);
     })
 
     this.pendingPromises.push(transaction)
@@ -187,9 +175,7 @@ export class Client {
       BaseURL.Account,
       `positions/${parameters.symbol}`
     ).finally(() => {
-      this.pendingPromises = this.pendingPromises.filter(
-        (p) => p !== transaction
-      )
+      this.pendingPromises.splice(this.pendingPromises.indexOf(transaction), 1);
     })
 
     this.pendingPromises.push(transaction)
@@ -202,9 +188,7 @@ export class Client {
       BaseURL.Account,
       `positions`
     ).finally(() => {
-      this.pendingPromises = this.pendingPromises.filter(
-        (p) => p !== transaction
-      )
+      this.pendingPromises.splice(this.pendingPromises.indexOf(transaction), 1);
     })
 
     this.pendingPromises.push(transaction)
@@ -246,9 +230,7 @@ export class Client {
       `watchlists`,
       parameters
     ).finally(() => {
-      this.pendingPromises = this.pendingPromises.filter(
-        (p) => p !== transaction
-      )
+      this.pendingPromises.splice(this.pendingPromises.indexOf(transaction), 1);
     })
 
     this.pendingPromises.push(transaction)
@@ -380,10 +362,7 @@ export class Client {
     transformed = parameters
     transformed['symbols'] = parameters.symbols.join(',')
 
-    return this.request(
-      method.GET,
-      BaseURL.MarketData,
-      `bars/${parameters.timeframe}?${qs.stringify(parameters)}`
+    return this.request(method.GET, BaseURL.MarketData,`bars/${parameters.timeframe}?${qs.stringify(parameters)}`
     )
   }
 
@@ -405,53 +384,49 @@ export class Client {
 
   // allow all promises to complete
   async close(): Promise<void> {
-    return Promise.all(this.pendingPromises).then(() => {})
+
+    // Finishes all promises.
+    await Promise.all(this.pendingPromises);
+
+    // Returns null
+    return null;
   }
 
-  private request(
+  private async request(
     method: method,
     url: string,
     endpoint: string,
     data?: any
   ): Promise<any> {
+
     // modify the base url if paper is true
-    if (this.options.paper && url == BaseURL.Account) {
-      url = BaseURL.Account.replace('api.', 'paper-api.')
-    }
+    if (this.options.paper && url == BaseURL.Account)
+      url = BaseURL.Account.replace('api.', 'paper-api.');
 
     // convert any dates to ISO 8601 for Alpaca
-    if (data) {
-      for (let [key, value] of Object.entries(data)) {
-        if (value instanceof Date) {
+    if (data)
+      for (let [key, value] of Object.entries(data))
+        if (value instanceof Date)
           data[key] = (value as Date).toISOString()
-        }
-      }
-    }
+    
+    // do rate limiting
+    if (this.options.rate_limit)
+      await new Promise<void>(resolve => this.limiter.removeTokens(1, resolve))
 
-    return new Promise<any>(async (resolve, reject) => {
-      // do rate limiting
-      if (this.options.rate_limit) {
-        await new Promise<void>((resolve) =>
-          this.limiter.removeTokens(1, resolve)
-        )
-      }
+    // Fetches the response and converts it to JSON
+    const res = (await fetch(`${url}/${endpoint}`, {
+      method, headers: {
+        'APCA-API-KEY-ID': this.options.key,
+        'APCA-API-SECRET-KEY': this.options.secret,
+      },
+      body: JSON.stringify(data),
+    }).catch(err => { throw new Error(err) })).json();
+      
+    // Is it an alpaca error response?
+    if('code' in res && 'message' in res)
+      throw new Error("Alpaca error detected in request response: " + JSON.stringify(res));
 
-      await fetch(`${url}/${endpoint}`, {
-        method: method,
-        headers: {
-          'APCA-API-KEY-ID': this.options.key,
-          'APCA-API-SECRET-KEY': this.options.secret,
-        },
-        body: JSON.stringify(data),
-      })
-        .then((response) => response.json())
-        .then((response) =>
-          // is it an alpaca error response?
-          'code' in response && 'message' in response
-            ? reject(response)
-            : resolve(response)
-        )
-        .catch(reject)
-    })
+    // Returns the finalized response.
+    return res;
   }
 }
