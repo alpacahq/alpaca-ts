@@ -175,20 +175,27 @@ An API key is allowed 1 simultaneous connection to each server. Connecting to th
 
 ```typescript
 // Imports the Alpaca websocket stream API
-import { Stream, BaseURL } from 'alpaca-trade-api-ts';
+import * as alpaca from 'alpaca-trade-api-ts';
 
-// Creates a websocket stream
-const stream = new Stream(client, {
-  host: BaseURL.MarketDataStream,
-});
+const stream = new alpaca.Stream(alpacaClient, {
+  host: alpaca.BaseURL.MarketDataStream,
+})
 
-// To see all stream messages use .onMessage
-stream.subscribe(['T.SPY']);
+// wait for authentication
+stream.on('authenticated', () => {
+  // subscribe to a channel
+  stream.send({
+    action: 'listen',
+    data: {
+      streams: ['AM.SPY'],
+    },
+  })
 
-// Will get called on each new trade event for SPY
-stream.onTrade((trade) => {
-  console.log(trade)
-});
+  // receive the messages
+  stream.on('aggregate_minute', (message) => {
+    console.log(message)
+  })
+})
 ```
 
 ## BaseURL
