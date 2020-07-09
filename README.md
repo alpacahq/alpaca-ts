@@ -64,21 +64,6 @@ client.
 > set APCA_PAPER=true
 ```
 
-Due to the asynchronous nature of the client we recommended you listen for
-interrupts.
-
-```typescript
-// Allow pending promises to resolve before exiting the process.
-process.on('SIGINT', async () => {
-
-  // Properly closes the client.
-  await alpacaClient.close()
-
-  // Then exits the process
-  process.exit(0)
-})
-```
-
 ### Methods
 
 All Client instance methods.
