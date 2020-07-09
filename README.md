@@ -9,11 +9,11 @@
 A TypeScript Node.js library for the <https://alpaca.markets> REST API and
 WebSocket streams.
 
-**Table of Contents**
+## Contents
 
 - [Installation](#installation)
 - [Client](#alpacaclient)
-  - [Initialization](#client)
+  - [Instance](#client)
   - [Methods](#methods)
     - [isAuthenticated](#isauthenticated)
     - [getAccount](#getaccount)
@@ -24,7 +24,7 @@ WebSocket streams.
     - [cancelOrder](#cancelorder)
     - [cancelOrders](#cancelorders)
 - [Stream](#stream)
-  - [Initialization](#stream)
+  - [Instance](#stream)
 - [BaseURL](#baseurl)
 - [Contribute](#contribute)
 
@@ -38,7 +38,7 @@ WebSocket streams.
 
 A client for handling all account based requests.
 
-### Initialization
+### Instance
 
 The standard way to initialize the client.
 
@@ -169,7 +169,7 @@ await client.cancelOrders()
 
 An Alpaca websocket API for streamlining the exchange of requests and data to and from the Alpaca servers.
 
-### Initialization
+### Instance
 
 An API key is allowed 1 simultaneous connection to each server. Connecting to them is easy:
 
