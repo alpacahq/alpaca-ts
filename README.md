@@ -10,41 +10,31 @@ WebSocket streams.
 
 ## Contents
 
-- [Installation](#installation)
-- [Client](#alpacaclient)
-  - [Instance](#client)
-  - [Methods](#methods)
-    - [isAuthenticated](#isauthenticated)
-    - [getAccount](#getaccount)
-    - [getOrder](#getorder)
-    - [getOrders](#getorders)
-    - [placeOrder](#placeorder)
-    - [replaceOrder](#replaceorder)
-    - [cancelOrder](#cancelorder)
-    - [cancelOrders](#cancelorders)
+- [Install](#install)
+- [Client](#client)
 - [Stream](#stream)
-  - [Instance](#stream)
 - [Contribute](#contribute)
 
-## Installation
+## Install
+
+From NPM:
 
 ```cmd
 > npm i @master-chief/alpaca
 ```
 
+From GitHub:
+
+```cmd
+> npm i 117/alpaca
+```
+
 ## Client
-
-A client for handling all account based requests.
-
-### Instance
-
-The standard way to initialize the client.
 
 ```typescript
 import * as alpaca from '@master-chief/alpaca'
 
-// create the client
-const client = new alpaca.Client({
+let client = new alpaca.Client({
   credentials: {
     key: 'mykey',
     secret: 'mysecret',
@@ -54,38 +44,52 @@ const client = new alpaca.Client({
 })
 ```
 
-You can also use environment variables which will be applied to every new
-client.
+The following methods are available on the client.
 
-```cmd
-> set APCA_API_KEY_ID=yourKeyGoesHere
-> set APCA_API_SECRET_KEY=yourKeyGoesHere
-> set APCA_PAPER=true
-```
+- [isAuthenticated](#isauthenticated)
+- [getAccount](#getaccount)
+- [getOrder](#getorder)
+- [getOrders](#getorders)
+- [placeOrder](#placeorder)
+- [replaceOrder](#replaceorder)
+- [cancelOrder](#cancelorder)
+- [cancelOrders](#cancelorders)
+- [getPosition](#getposition)
+- [getPositions](#getpositions)
+- [closePosition](#closePosition)
+- [closePositions](#closePositions)
+- [getAsset](#getasset)
+- [getAssets](#getassets)
+- [getWatchlist](#getwatchlist)
+- [getWatchlists](#getwatchlists)
+- [createWatchlist](#createwatchlist)
+- [updateWatchlist](#updatewatchlist)
+- [addToWatchlist](#addtowatchlist)
+- [removeFromWatchlist](#removefromwatchlist)
+- [deleteWatchlist](#deletewatchlist)
+- [getCalendar](#getcalendar)
+- [getClock](#getclock)
+- [getAccountConfigurations](#getAccountConfigurations)
+- [updateAccountConfigurations](#updateAccountConfigurations)
+- [getAccountActivities](#getAccountActivities)
+- [getPortfolioHistory](#getPortfolioHistory)
+- [getBars](#getbars)
+- [getLastTrade](#getlasttrade)
+- [getLastQuote](#getlastquote)
 
-### Methods
-
-All Client instance methods.
-
-#### isAuthenticated
-
-Checks if the client is authenticated.
+### isAuthenticated
 
 ```typescript
 await client.isAuthenticated()
 ```
 
-#### getAccount
-
-Connects to an Alpaca account.
+### getAccount
 
 ```typescript
 await client.getAccount()
 ```
 
-#### getOrder
-
-Gets a specific order.
+### getOrder
 
 ```typescript
 await client.getOrder({
@@ -93,9 +97,7 @@ await client.getOrder({
 })
 ```
 
-#### getOrders
-
-Gets all orders made by the client.
+### getOrders
 
 ```typescript
 await client.getOrders({
@@ -104,9 +106,7 @@ await client.getOrders({
 })
 ```
 
-#### placeOrder
-
-Places an order using your account.
+### placeOrder
 
 ```typescript
 await client.placeOrder({
@@ -118,9 +118,7 @@ await client.placeOrder({
 })
 ```
 
-#### replaceOrder
-
-Re-places an order(to change some details maybe).
+### replaceOrder
 
 ```typescript
 await client.replaceOrder({
@@ -129,9 +127,7 @@ await client.replaceOrder({
 })
 ```
 
-#### cancelOrder
-
-Cancels an order.
+### cancelOrder
 
 ```typescript
 await client.cancelOrder({
@@ -139,45 +135,240 @@ await client.cancelOrder({
 })
 ```
 
-#### cancelOrders
-
-Cancels every single order(be sure to not make a typo here!)
+### cancelOrders
 
 ```typescript
 await client.cancelOrders()
 ```
 
-> More examples are coming soon... give me some time or feel free to contribute.
+### getPosition
+
+```typescript
+await client.getPosition({ symbol: 'SPY' })
+```
+
+### getPositions
+
+```typescript
+await client.getPositions()
+```
+
+### closePosition
+
+```typescript
+await client.closePosition({ symbol: 'SPY' })
+```
+
+### closePositions
+
+```typescript
+await client.closePositions()
+```
+
+### getAsset
+
+```typescript
+await client.getAsset({ asset_id_or_symbol: 'SPY' })
+```
+
+### getAssets
+
+```typescript
+await client.getAssets({ status: 'active' })
+```
+
+### getWatchlist
+
+```typescript
+await client.getWatchlist({ uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128' })
+```
+
+### getWatchlists
+
+```typescript
+await client.getWatchlists()
+```
+
+### createWatchlist
+
+```typescript
+await client.createWatchlist({
+  name: 'my watchlist',
+  symbols: ['SPY', 'DIA', 'EEM', 'XLF'],
+})
+```
+
+### updateWatchlist
+
+```typescript
+await client.updateWatchlist({
+  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
+  name: 'new watchlist name',
+  symbols: ['TSLA', 'AAPL'],
+})
+```
+
+### addToWatchlist
+
+```typescript
+await client.addToWatchlist({
+  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
+  symbol: 'F',
+})
+```
+
+### removeFromWatchlist
+
+```typescript
+await client.removeFromWatchlist({
+  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
+  symbol: 'F',
+})
+```
+
+### deleteWatchlist
+
+```typescript
+await client.deleteWatchlist({
+  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
+})
+```
+
+### getCalender
+
+```typescript
+await client.getCalendar({ start: new Date(), end: new Date() })
+```
+
+### getClock
+
+```typescript
+await client.getClock()
+```
+
+### getAccountConfigurations
+
+```typescript
+await client.getAccountConfigurations()
+```
+
+### updateAccountConfigurations
+
+```typescript
+await client.updateAccountConfigurations({
+  no_shorting: true,
+  suspend_trade: true,
+})
+```
+
+### getAccountActivities
+
+```typescript
+await client.getAccountActivities({
+  activity_type: 'FILL',
+})
+```
+
+### getPortfolioHistory
+
+```typescript
+await client.getPortfolioHistory({
+  period: '1D',
+  timeframe: '1Min',
+})
+```
+
+### getBars
+
+```typescript
+await client.getBars({
+  symbols: ['SPY', 'DIA', 'XLF'],
+})
+```
+
+### getLastTrade
+
+```typescript
+await client.getLastTrade({
+  symbol: 'SPY',
+})
+```
+
+### getLastQuote
+
+```typescript
+await client.getLastQuote({
+  symbol: 'SPY',
+})
+```
 
 ## Stream
 
-An Alpaca websocket API for streamlining the exchange of requests and data to
-and from the Alpaca servers.
-
-### Instance
-
-An API key is allowed 1 simultaneous connection to each server. Connecting to
-them is easy:
+> Note: Each key is allowed only 1 simultaneous connection to each host.
 
 ```typescript
 import * as alpaca from '@master-chief/alpaca'
 
-// create the stream
-const stream = new alpaca.Stream({
+let stream = new alpaca.Stream({
   credentials: {
     key: 'mykey',
     secret: 'mysecret',
   },
   host: alpaca.URL.WSS_MARKET_DATA,
 })
+```
 
-// subscribe once authenticated with the server
+The following events are available on the market data stream.
+
+- [aggregate_minute](#aggregate_minute)
+- [quote](#quote)
+- [trade](#trade)
+
+### aggregate_minute
+
+```typescript
 stream.on('authenticated', () => stream.subscribe(['AM.SPY']))
+stream.on('aggregate_minute', console.log)
+```
 
-// listen for new aggregates
-stream.on('aggregate_minute', (aggregate) => {
-  console.log(aggregate)
-})
+### quote
+
+```typescript
+stream.on('authenticated', () => stream.subscribe(['Q.SPY']))
+stream.on('quote', console.log)
+```
+
+### trade
+
+```typescript
+stream.on('authenticated', () => stream.subscribe(['T.SPY']))
+stream.on('trade', console.log)
+```
+
+### trade
+
+```typescript
+stream.on('authenticated', () => stream.subscribe(['T.SPY']))
+stream.on('trade', console.log)
+```
+
+The following events are available on the account stream.
+
+- [trade_updates](#trade_updates)
+- [account_updates](#account_updates)
+
+### trade_updates
+
+```typescript
+stream.on('authenticated', () => stream.subscribe(['trade_updates']))
+stream.on('trade_updates', console.log)
+```
+
+### account_updates
+
+```typescript
+stream.on('authenticated', () => stream.subscribe(['account_updates']))
+stream.on('account_updates', console.log)
 ```
 
 ## Contribute
