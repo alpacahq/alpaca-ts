@@ -1,8 +1,9 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "main": "dist",
+  "types": "types",
   "keywords": [
     "alpaca",
     "alpaca-trade-api",
@@ -15,7 +16,6 @@
     "stocks",
     "stock"
   ],
-  "types": "types",
   "scripts": {
     "build": "tsc",
     "test": "npm run build && $(npm bin)/ava -v"
