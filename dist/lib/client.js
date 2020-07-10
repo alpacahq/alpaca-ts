@@ -153,7 +153,3 @@ class Client {
     }
 }
 exports.Client = Client;
-const client = new Client({ credentials: { key: '', secret: '' } });
-client.getLastTrade({
-    symbol: 'SPY',
-});
