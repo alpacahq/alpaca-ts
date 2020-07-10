@@ -6,6 +6,7 @@
     "declaration": true,
     "strict": false,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "declarationDir": "types"
   }
 }

@@ -1,18 +1,31 @@
 {
-  "name": "alpaca-trade-api-ts",
-  "version": "0.2.0",
+  "name": "@master-chief/alpaca",
+  "version": "1.0.4",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
-  "main": "dist/index",
+  "main": "dist",
+  "keywords": [
+    "alpaca",
+    "alpaca-trade-api",
+    "alpaca-trade-api-ts",
+    "trading",
+    "exchange",
+    "bot",
+    "alpaca markets",
+    "markets",
+    "stocks",
+    "stock"
+  ],
+  "types": "types",
   "scripts": {
     "build": "tsc",
     "test": "npm run build && $(npm bin)/ava -v"
   },
-  "author": "117",
+  "author": "master-chief",
   "contributors": [
     "AqilCont",
     "KalebMills"
   ],
-  "license": "Apache-2.0",
+  "license": "ISC",
   "dependencies": {
     "http-method-enum": "^1.0.0",
     "limiter": "^1.1.5",

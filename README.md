@@ -1,8 +1,7 @@
+# alpaca
 
-# alpaca-trade-api-ts
-
-![Version](https://img.shields.io/github/package-json/v/117/alpaca-trade-api-ts?color=196DFF&style=flat-square)
-![Language](https://img.shields.io/github/languages/code-size/117/alpaca-trade-api-ts?color=F1A42E&style=flat-square)
+![Version](https://img.shields.io/github/package-json/v/117/alpaca?color=196DFF&style=flat-square)
+![Language](https://img.shields.io/github/languages/code-size/117/alpaca?color=F1A42E&style=flat-square)
 ![Maintenance](https://img.shields.io/maintenance/yes/2020?style=flat-square)
 ![Prettier(idk)](https://img.shields.io/static/v1?label=code%20style&message=prettier&color=ff51bc&style=flat-square)
 
@@ -25,13 +24,12 @@ WebSocket streams.
     - [cancelOrders](#cancelorders)
 - [Stream](#stream)
   - [Instance](#stream)
-- [BaseURL](#baseurl)
 - [Contribute](#contribute)
 
 ## Installation
 
 ```cmd
-> npm i 117/alpaca-trade-api-ts
+> npm i @master-chief/alpaca
 ```
 
 ## Client
@@ -43,13 +41,14 @@ A client for handling all account based requests.
 The standard way to initialize the client.
 
 ```typescript
-// Import the Client
-import { Client } from 'alpaca-trade-api-ts'
+import * as alpaca from '@master-chief/alpaca'
 
-// The actual initialization
-const client = new Client({
-  key: '...',
-  secret: '...',
+// create the client
+const client = new alpaca.Client({
+  credentials: {
+    key: 'mykey',
+    secret: 'mysecret',
+  },
   paper: true,
   rate_limit: true,
 })
@@ -152,17 +151,25 @@ await client.cancelOrders()
 
 ## Stream
 
-An Alpaca websocket API for streamlining the exchange of requests and data to and from the Alpaca servers.
+An Alpaca websocket API for streamlining the exchange of requests and data to
+and from the Alpaca servers.
 
 ### Instance
 
-An API key is allowed 1 simultaneous connection to each server. Connecting to them is easy:
+An API key is allowed 1 simultaneous connection to each server. Connecting to
+them is easy:
 
 ```typescript
-// Imports the Alpaca websocket stream API
-import * as alpaca from 'alpaca-trade-api-ts';
+import * as alpaca from '@master-chief/alpaca'
 
-const stream = new Stream(client, { host: BaseURL.MarketDataStream })
+// create the stream
+const stream = new alpaca.Stream({
+  credentials: {
+    key: 'mykey',
+    secret: 'mysecret',
+  },
+  host: alpaca.URL.WSS_MARKET_DATA,
+})
 
 // subscribe once authenticated with the server
 stream.on('authenticated', () => stream.subscribe(['AM.SPY']))
@@ -172,15 +179,6 @@ stream.on('aggregate_minute', (aggregate) => {
   console.log(aggregate)
 })
 ```
-
-## BaseURL
-
-Contains 2 properties used for securing a connection to an Alpaca websocket:
-
-| URL                                | Enum                       |
-| :--------------------------------- | :------------------------- |
-| `wss://api.alpaca.markets/stream`  | `BaseURL.AccountStream`    |
-| `wss://data.alpaca.markets/stream` | `BaseURL.MarketDataStream` |
 
 ## Contribute
 
