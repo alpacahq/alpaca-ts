@@ -1,0 +1,11 @@
+name: prettier
+on: [pull_request, issues]
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    steps:
+    - name: prettier-action
+      uses: creyD/prettier_action@v3.0
+      with:
+        # Commit message
+        commit_message: prettier code enforced 🦄
