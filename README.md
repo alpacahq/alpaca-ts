@@ -2,7 +2,7 @@
 
 ![Version](https://img.shields.io/github/package-json/v/117/alpaca?color=196DFF&style=flat-square)
 ![Language](https://img.shields.io/github/languages/code-size/117/alpaca?color=F1A42E&style=flat-square)
-![Maintenance](https://img.shields.io/maintenance/yes/2020?style=flat-square)
+![Maintenance](https://img.shields.io/github/workflow/status/117/alpaca/continuous-integration?style=flat-square)
 ![Prettier(idk)](https://img.shields.io/static/v1?label=code%20style&message=prettier&color=ff51bc&style=flat-square)
 
 A TypeScript Node.js library for the <https://alpaca.markets> REST API and
