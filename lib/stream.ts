@@ -30,7 +30,7 @@ export class Stream extends EventEmitter {
   public authenticated: boolean = false
 
   constructor(
-    protected params?: {
+    protected params: {
       credentials: {
         key: string
         secret: string

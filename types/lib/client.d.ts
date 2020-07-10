@@ -1,8 +1,8 @@
 import * as entities from './entities';
 import * as params from './params';
 export declare class Client {
-    protected params?: {
-        credentials?: {
+    protected params: {
+        credentials: {
             key: string;
             secret: string;
         };
@@ -10,8 +10,8 @@ export declare class Client {
         rate_limit?: boolean;
     };
     private limiter;
-    constructor(params?: {
-        credentials?: {
+    constructor(params: {
+        credentials: {
             key: string;
             secret: string;
         };

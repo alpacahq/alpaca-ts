@@ -12,35 +12,15 @@ export class Client {
   private limiter: RateLimiter = new RateLimiter(199, 'minute')
 
   constructor(
-    protected params?: {
-      credentials?: {
+    protected params: {
+      credentials: {
         key: string
         secret: string
       }
       paper?: boolean
       rate_limit?: boolean
     }
-  ) {
-    // default undefined if not provided
-    if (!('credentials' in params)) {
-      params.credentials = { key: undefined, secret: undefined }
-    }
-
-    // if the alpaca key hasn't been provided, try env var
-    if (!this.params.credentials.key) {
-      this.params.credentials.key = process.env.APCA_API_KEY_ID
-    }
-
-    // if the alpaca secret hasn't been provided, try env var
-    if (!this.params.credentials.secret) {
-      this.params.credentials.secret = process.env.APCA_API_SECRET_KEY
-    }
-
-    // if url has been set as an env var, check if it's for paper
-    if (process.env.APCA_PAPER && process.env.APCA_PAPER == 'true') {
-      this.params.paper = true
-    }
-  }
+  ) {}
 
   async isAuthenticated(): Promise<boolean> {
     try {
@@ -314,3 +294,9 @@ export class Client {
     })
   }
 }
+
+const client = new Client({ credentials: { key: '', secret: '' } })
+
+client.getLastTrade({
+  symbol: 'SPY',
+})

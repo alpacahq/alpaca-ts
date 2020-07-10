@@ -19,7 +19,7 @@ export declare interface StreamEvents {
     aggregate_minute: (data: Object) => void;
 }
 export declare class Stream extends EventEmitter {
-    protected params?: {
+    protected params: {
         credentials: {
             key: string;
             secret: string;
@@ -29,7 +29,7 @@ export declare class Stream extends EventEmitter {
     subscriptions: string[];
     connection: WebSocket;
     authenticated: boolean;
-    constructor(params?: {
+    constructor(params: {
         credentials: {
             key: string;
             secret: string;
