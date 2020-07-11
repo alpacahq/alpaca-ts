@@ -5,8 +5,7 @@
 ![Maintenance](https://img.shields.io/github/workflow/status/117/alpaca/continuous-integration?style=flat-square)
 ![Prettier(idk)](https://img.shields.io/static/v1?label=code%20style&message=prettier&color=ff51bc&style=flat-square)
 
-A TypeScript Node.js library for the <https://alpaca.markets> REST API and
-WebSocket streams.
+a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams
 
 ## Contents
 
