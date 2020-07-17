@@ -283,12 +283,11 @@ export class Client {
         },
         body: JSON.stringify(data),
       })
-        .then((response) => response.json())
-        .then((response) =>
-          // is it an alpaca error response?
-          'code' in response && 'message' in response
-            ? reject(response)
-            : resolve(response)
+        .then(
+          async (response) => (await response.json().catch(() => false)) || {}
+        )
+        .then((json) =>
+          'code' in json && 'message' in json ? reject(json) : resolve(json)
         )
         .catch(reject)
     })
