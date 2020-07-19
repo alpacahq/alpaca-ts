@@ -4,12 +4,12 @@ jobs:
   prettier:
     runs-on: ubuntu-latest
     steps:
-    - name: checkout
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.head_ref }}
-    - name: prettify
-      uses: creyD/prettier_action@v2.2
-      with:
-        prettier_options: --write **/*.{js,md}
-        commit_message: made prettier 🦄
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - name: prettify
+        uses: creyD/prettier_action@v2.2
+        with:
+          prettier_options: --write **/*.{js,md}
+          commit_message: made prettier 🦄
