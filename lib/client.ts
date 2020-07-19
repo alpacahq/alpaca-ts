@@ -65,7 +65,7 @@ export class Client {
       await this.getAccount()
       return true
     } catch {
-      return false
+      throw new Error('not authenticated')
     }
   }
 
