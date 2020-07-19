@@ -38,7 +38,7 @@ If you wish to use env vars, populate these fields with `process.env` on your
 own.
 
 ```typescript
-import { Client } from "@master-chief/alpaca"
+import { Client } from "@master-chief/alpaca";
 
 const client = new Client({
   credentials: {
@@ -318,7 +318,7 @@ If you wish to use env vars, populate these fields with `process.env` on your
 own.
 
 ```typescript
-import { Stream } from "@master-chief/alpaca"
+import { Stream } from "@master-chief/alpaca";
 
 const stream = new Stream({
   credentials: {
