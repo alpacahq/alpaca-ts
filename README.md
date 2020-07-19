@@ -13,11 +13,7 @@ WebSocket streams.
 - [Features](#features)
 - [Install](#install)
 - [Client](#client)
-  - [Creating a new client](#creating_a_new_client)
-  - [Examples](creating_a_new_client)
 - [Stream](#stream)
-  - [Creating a new stream](#creating_a_new_stream)
-  - [Examples](#creating_a_new_stream)
 
 ## Features
 
