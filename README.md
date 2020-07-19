@@ -1,18 +1,19 @@
 # alpaca
 
-![Version](https://img.shields.io/github/package-json/v/117/alpaca?color=196DFF&style=flat-square)
-![Language](https://img.shields.io/github/languages/code-size/117/alpaca?color=F1A42E&style=flat-square)
-![Maintenance](https://img.shields.io/github/workflow/status/117/alpaca/continuous-integration?style=flat-square)
-![Prettier(idk)](https://img.shields.io/static/v1?label=code%20style&message=prettier&color=ff51bc&style=flat-square)
+![version](https://img.shields.io/github/package-json/v/117/alpaca?color=196DFF&style=flat-square)
+![language](https://img.shields.io/github/languages/code-size/117/alpaca?color=F1A42E&style=flat-square)
+![maintenance](https://img.shields.io/github/workflow/status/117/alpaca/continuous-integration?style=flat-square)
+![prettier](https://img.shields.io/static/v1?label=code%20style&message=prettier&color=ff51bc&style=flat-square)
 
-a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams
+A TypeScript Node.js library for the https://alpaca.markets REST API and
+WebSocket streams.
 
-## Contents
+## Features
 
-- [Install](#install)
-- [Client](#client)
-- [Stream](#stream)
-- [Contribute](#contribute)
+- [x] Fully asynchronous API.
+- [x] Extensible `Client` and `Stream` classes.
+- [x] Built-in rate limiting.
+- [x] A 1:1 mapping of the official Alpaca [docs](https://docs.alpaca.markets/).
 
 ## Install
 
@@ -22,354 +23,328 @@ From NPM:
 > npm i @master-chief/alpaca
 ```
 
-From GitHub:
+### Client
 
-```cmd
-> npm i 117/alpaca
-```
+#### Creating a new client
 
-## Client
+If you wish to use env vars, populate these fields with `process.env` on your
+own.
 
 ```typescript
-import * as alpaca from "@master-chief/alpaca";
-
-let client = new alpaca.Client({
+const client = new alpaca.Client({
   credentials: {
-    key: "mykey",
-    secret: "mysecret",
+    key: '...',
+    secret: '...',
   },
   paper: true,
   rate_limit: true,
-});
+})
 ```
 
-The following methods are available on the client.
+#### Examples
 
-- [isAuthenticated](#isauthenticated)
-- [getAccount](#getaccount)
-- [getOrder](#getorder)
-- [getOrders](#getorders)
-- [placeOrder](#placeorder)
-- [replaceOrder](#replaceorder)
-- [cancelOrder](#cancelorder)
-- [cancelOrders](#cancelorders)
-- [getPosition](#getposition)
-- [getPositions](#getpositions)
-- [closePosition](#closePosition)
-- [closePositions](#closePositions)
-- [getAsset](#getasset)
-- [getAssets](#getassets)
-- [getWatchlist](#getwatchlist)
-- [getWatchlists](#getwatchlists)
-- [createWatchlist](#createwatchlist)
-- [updateWatchlist](#updatewatchlist)
-- [addToWatchlist](#addtowatchlist)
-- [removeFromWatchlist](#removefromwatchlist)
-- [deleteWatchlist](#deletewatchlist)
-- [getCalendar](#getcalendar)
-- [getClock](#getclock)
-- [getAccountConfigurations](#getAccountConfigurations)
-- [updateAccountConfigurations](#updateAccountConfigurations)
-- [getAccountActivities](#getAccountActivities)
-- [getPortfolioHistory](#getPortfolioHistory)
-- [getBars](#getbars)
-- [getLastTrade](#getlasttrade)
-- [getLastQuote](#getlastquote)
+The following examples demonstrate all methods available on the client.
 
-### isAuthenticated
+##### isAuthenticated
 
 ```typescript
-await client.isAuthenticated();
+await client.isAuthenticated()
 ```
 
-### getAccount
+##### getAccount
 
 ```typescript
-await client.getAccount();
+await client.getAccount()
 ```
 
-### getOrder
+##### getOrder
 
 ```typescript
 await client.getOrder({
-  order_id: "6187635d-04e5-485b-8a94-7ce398b2b81c",
-});
+  order_id: '6187635d-04e5-485b-8a94-7ce398b2b81c',
+})
 ```
 
-### getOrders
+##### getOrders
 
 ```typescript
 await client.getOrders({
   limit: 25,
-  status: "all",
-});
+  status: 'all',
+})
 ```
 
-### placeOrder
+##### placeOrder
 
 ```typescript
 await client.placeOrder({
-  symbol: "SPY",
+  symbol: 'SPY',
   qty: 1,
-  side: "buy",
-  type: "market",
-  time_in_force: "day",
-});
+  side: 'buy',
+  type: 'market',
+  time_in_force: 'day',
+})
 ```
 
-### replaceOrder
+##### replaceOrder
 
 ```typescript
 await client.replaceOrder({
-  order_id: "69a3db8b-cc63-44da-a26a-e3cca9490308",
+  order_id: '69a3db8b-cc63-44da-a26a-e3cca9490308',
   limit_price: 9.74,
-});
+})
 ```
 
-### cancelOrder
+##### cancelOrder
 
 ```typescript
 await client.cancelOrder({
-  order_id: "69a3db8b-cc63-44da-a26a-e3cca9490308",
-});
+  order_id: '69a3db8b-cc63-44da-a26a-e3cca9490308',
+})
 ```
 
-### cancelOrders
+##### cancelOrders
 
 ```typescript
-await client.cancelOrders();
+await client.cancelOrders()
 ```
 
-### getPosition
+##### getPosition
 
 ```typescript
-await client.getPosition({ symbol: "SPY" });
+await client.getPosition({ symbol: 'SPY' })
 ```
 
-### getPositions
+##### getPositions
 
 ```typescript
-await client.getPositions();
+await client.getPositions()
 ```
 
-### closePosition
+##### closePosition
 
 ```typescript
-await client.closePosition({ symbol: "SPY" });
+await client.closePosition({ symbol: 'SPY' })
 ```
 
-### closePositions
+##### closePositions
 
 ```typescript
-await client.closePositions();
+await client.closePositions()
 ```
 
-### getAsset
+##### getAsset
 
 ```typescript
-await client.getAsset({ asset_id_or_symbol: "SPY" });
+await client.getAsset({ asset_id_or_symbol: 'SPY' })
 ```
 
-### getAssets
+##### getAssets
 
 ```typescript
-await client.getAssets({ status: "active" });
+await client.getAssets({ status: 'active' })
 ```
 
-### getWatchlist
+##### getWatchlist
 
 ```typescript
-await client.getWatchlist({ uuid: "2000e463-6f87-41c0-a8ba-3e40cbf67128" });
+await client.getWatchlist({ uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128' })
 ```
 
-### getWatchlists
+##### getWatchlists
 
 ```typescript
-await client.getWatchlists();
+await client.getWatchlists()
 ```
 
-### createWatchlist
+##### createWatchlist
 
 ```typescript
 await client.createWatchlist({
-  name: "my watchlist",
-  symbols: ["SPY", "DIA", "EEM", "XLF"],
-});
+  name: 'my watchlist',
+  symbols: ['SPY', 'DIA', 'EEM', 'XLF'],
+})
 ```
 
-### updateWatchlist
+##### updateWatchlist
 
 ```typescript
 await client.updateWatchlist({
-  uuid: "2000e463-6f87-41c0-a8ba-3e40cbf67128",
-  name: "new watchlist name",
-  symbols: ["TSLA", "AAPL"],
-});
+  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
+  name: 'new watchlist name',
+  symbols: ['TSLA', 'AAPL'],
+})
 ```
 
-### addToWatchlist
+##### addToWatchlist
 
 ```typescript
 await client.addToWatchlist({
-  uuid: "2000e463-6f87-41c0-a8ba-3e40cbf67128",
-  symbol: "F",
-});
+  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
+  symbol: 'F',
+})
 ```
 
-### removeFromWatchlist
+##### removeFromWatchlist
 
 ```typescript
 await client.removeFromWatchlist({
-  uuid: "2000e463-6f87-41c0-a8ba-3e40cbf67128",
-  symbol: "F",
-});
+  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
+  symbol: 'F',
+})
 ```
 
-### deleteWatchlist
+##### deleteWatchlist
 
 ```typescript
 await client.deleteWatchlist({
-  uuid: "2000e463-6f87-41c0-a8ba-3e40cbf67128",
-});
+  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
+})
 ```
 
-### getCalender
+##### getCalender
 
 ```typescript
-await client.getCalendar({ start: new Date(), end: new Date() });
+await client.getCalendar({ start: new Date(), end: new Date() })
 ```
 
-### getClock
+##### getClock
 
 ```typescript
-await client.getClock();
+await client.getClock()
 ```
 
-### getAccountConfigurations
+##### getAccountConfigurations
 
 ```typescript
-await client.getAccountConfigurations();
+await client.getAccountConfigurations()
 ```
 
-### updateAccountConfigurations
+##### updateAccountConfigurations
 
 ```typescript
 await client.updateAccountConfigurations({
   no_shorting: true,
   suspend_trade: true,
-});
+})
 ```
 
-### getAccountActivities
+##### getAccountActivities
 
 ```typescript
 await client.getAccountActivities({
-  activity_type: "FILL",
-});
+  activity_type: 'FILL',
+})
 ```
 
-### getPortfolioHistory
+##### getPortfolioHistory
 
 ```typescript
 await client.getPortfolioHistory({
-  period: "1D",
-  timeframe: "1Min",
-});
+  period: '1D',
+  timeframe: '1Min',
+})
 ```
 
-### getBars
+##### getBars
 
 ```typescript
 await client.getBars({
-  symbols: ["SPY", "DIA", "XLF"],
-});
+  symbols: ['SPY', 'DIA', 'XLF'],
+})
 ```
 
-### getLastTrade
+##### getLastTrade
 
 ```typescript
 await client.getLastTrade({
-  symbol: "SPY",
-});
+  symbol: 'SPY',
+})
 ```
 
-### getLastQuote
+##### getLastQuote
 
 ```typescript
 await client.getLastQuote({
-  symbol: "SPY",
-});
+  symbol: 'SPY',
+})
 ```
 
 ## Stream
 
-> Note: Each key is allowed only 1 simultaneous connection to each host.
+#### Creating a new stream
+
+If you wish to use env vars, populate these fields with `process.env` on your
+own.
 
 ```typescript
-import * as alpaca from "@master-chief/alpaca";
-
-let stream = new alpaca.Stream({
+const stream = new alpaca.Stream({
   credentials: {
-    key: "mykey",
-    secret: "mysecret",
+    key: '...',
+    secret: '...',
   },
-  host: alpaca.URL.WSS_MARKET_DATA,
+  stream: 'market_data',
+})
+```
+
+#### Examples
+
+The following examples demonstrate all events available on the stream.
+
+##### aggregate_minute
+
+```typescript
+stream.on("authenticated", () => {
+  stream.subscribe(["AM.SPY"])
+  stream.on("aggregate_minute", ...);
 });
 ```
 
-The following events are available on the market data stream.
-
-- [aggregate_minute](#aggregate_minute)
-- [quote](#quote)
-- [trade](#trade)
-
-### aggregate_minute
+##### quote
 
 ```typescript
-stream.on("authenticated", () => stream.subscribe(["AM.SPY"]));
-stream.on("aggregate_minute", console.log);
+stream.on("authenticated", () => {
+  stream.subscribe(["Q.SPY"]));
+  stream.on("quote", ...);
+})
 ```
 
-### quote
+##### trade
 
 ```typescript
-stream.on("authenticated", () => stream.subscribe(["Q.SPY"]));
-stream.on("quote", console.log);
+stream.on("authenticated", () => {
+  stream.subscribe(["T.SPY"]));
+  stream.on("trade", ...);
+})
 ```
 
-### trade
+##### trade
 
 ```typescript
-stream.on("authenticated", () => stream.subscribe(["T.SPY"]));
-stream.on("trade", console.log);
+stream.on("authenticated", () => {
+  stream.subscribe(["T.SPY"]));
+  stream.on("trade", ...);
+})
 ```
 
-### trade
+##### trade_updates
 
 ```typescript
-stream.on("authenticated", () => stream.subscribe(["T.SPY"]));
-stream.on("trade", console.log);
+stream.on("authenticated", () => {
+  stream.subscribe(["trade_updates"]));
+  stream.on("trade_updates", ...);
+})
 ```
 
-The following events are available on the account stream.
-
-- [trade_updates](#trade_updates)
-- [account_updates](#account_updates)
-
-### trade_updates
+##### account_updates
 
 ```typescript
-stream.on("authenticated", () => stream.subscribe(["trade_updates"]));
-stream.on("trade_updates", console.log);
+stream.on("authenticated", () => {
+  stream.subscribe(["account_updates"]));
+  stream.on("account_updates", ...);
+})
 ```
 
-### account_updates
+## Contributing
 
-```typescript
-stream.on("authenticated", () => stream.subscribe(["account_updates"]));
-stream.on("account_updates", console.log);
-```
-
-## Contribute
-
-Pull requests are encouraged. 😁
+Pull requests are encouraged. 🥳

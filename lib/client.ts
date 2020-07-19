@@ -2,21 +2,59 @@ import fetch from 'node-fetch'
 import method from 'http-method-enum'
 import qs from 'qs'
 
-import * as entities from './entities'
-import * as params from './params'
+import urls from './urls'
 
 import { RateLimiter } from 'limiter'
-import { URL } from './url'
+
+import {
+  Account,
+  Order,
+  Position,
+  Asset,
+  Watchlist,
+  Calendar,
+  Clock,
+  AccountConfigurations,
+  NonTradeActivity,
+  TradeActivity,
+  PortfolioHistory,
+  Bar,
+  LastQuote,
+  LastTrade,
+  Credentials,
+} from './entities'
+
+import {
+  GetOrder,
+  GetOrders,
+  PlaceOrder,
+  ReplaceOrder,
+  CancelOrder,
+  GetPosition,
+  ClosePosition,
+  GetAsset,
+  GetAssets,
+  GetWatchList,
+  CreateWatchList,
+  UpdateWatchList,
+  AddToWatchList,
+  RemoveFromWatchList,
+  DeleteWatchList,
+  GetCalendar,
+  UpdateAccountConfigurations,
+  GetAccountActivities,
+  GetPortfolioHistory,
+  GetBars,
+  GetLastTrade,
+  GetLastQuote,
+} from './params'
 
 export class Client {
   private limiter: RateLimiter = new RateLimiter(199, 'minute')
 
   constructor(
-    protected params: {
-      credentials: {
-        key: string
-        secret: string
-      }
+    protected options: {
+      credentials: Credentials
       paper?: boolean
       rate_limit?: boolean
     }
@@ -31,193 +69,189 @@ export class Client {
     }
   }
 
-  getAccount(): Promise<entities.Account> {
-    return this.request(method.GET, URL.REST_ACCOUNT, 'account')
+  getAccount(): Promise<Account> {
+    return this.request(method.GET, urls.rest.account, 'account')
   }
 
-  getOrder(params: params.GetOrder): Promise<entities.Order> {
+  getOrder(params: GetOrder): Promise<Order> {
     return this.request(
       method.GET,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `orders/${params.order_id || params.client_order_id}?${qs.stringify({
         nested: params.nested,
       })}`
     )
   }
 
-  getOrders(params?: params.GetOrders): Promise<entities.Order[]> {
+  getOrders(params?: GetOrders): Promise<Order[]> {
     return this.request(
       method.GET,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `orders?${qs.stringify(params)}`
     )
   }
 
-  placeOrder(params: params.PlaceOrder): Promise<entities.Order> {
-    return this.request(method.POST, URL.REST_ACCOUNT, `orders`, params)
+  placeOrder(params: PlaceOrder): Promise<Order> {
+    return this.request(method.POST, urls.rest.account, `orders`, params)
   }
 
-  replaceOrder(params: params.ReplaceOrder): Promise<entities.Order> {
+  replaceOrder(params: ReplaceOrder): Promise<Order> {
     return this.request(
       method.PATCH,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `orders/${params.order_id}`,
       params
     )
   }
 
-  cancelOrder(params: params.CancelOrder): Promise<entities.Order> {
+  cancelOrder(params: CancelOrder): Promise<Order> {
     return this.request(
       method.DELETE,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `orders/${params.order_id}`
     )
   }
 
-  cancelOrders(): Promise<entities.Order[]> {
-    return this.request(method.DELETE, URL.REST_ACCOUNT, `orders`)
+  cancelOrders(): Promise<Order[]> {
+    return this.request(method.DELETE, urls.rest.account, `orders`)
   }
 
-  getPosition(params: params.GetPosition): Promise<entities.Position> {
+  getPosition(params: GetPosition): Promise<Position> {
     return this.request(
       method.GET,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `positions/${params.symbol}`
     )
   }
 
-  getPositions(): Promise<entities.Position[]> {
-    return this.request(method.GET, URL.REST_ACCOUNT, `positions`)
+  getPositions(): Promise<Position[]> {
+    return this.request(method.GET, urls.rest.account, `positions`)
   }
 
-  closePosition(params: params.ClosePosition): Promise<entities.Order> {
+  closePosition(params: ClosePosition): Promise<Order> {
     return this.request(
       method.DELETE,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `positions/${params.symbol}`
     )
   }
 
-  closePositions(): Promise<entities.Order[]> {
-    return this.request(method.DELETE, URL.REST_ACCOUNT, `positions`)
+  closePositions(): Promise<Order[]> {
+    return this.request(method.DELETE, urls.rest.account, `positions`)
   }
 
-  getAsset(params: params.GetAsset): Promise<entities.Asset> {
+  getAsset(params: GetAsset): Promise<Asset> {
     return this.request(
       method.GET,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `assets/${params.asset_id_or_symbol}`
     )
   }
 
-  getAssets(params?: params.GetAssets): Promise<entities.Asset[]> {
+  getAssets(params?: GetAssets): Promise<Asset[]> {
     return this.request(
       method.GET,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `assets?${qs.stringify(params)}`
     )
   }
 
-  getWatchlist(params: params.GetWatchList): Promise<entities.Watchlist> {
+  getWatchlist(params: GetWatchList): Promise<Watchlist> {
     return this.request(
       method.GET,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `watchlists/${params.uuid}`
     )
   }
 
-  getWatchlists(): Promise<entities.Watchlist[]> {
-    return this.request(method.GET, URL.REST_ACCOUNT, `watchlists`)
+  getWatchlists(): Promise<Watchlist[]> {
+    return this.request(method.GET, urls.rest.account, `watchlists`)
   }
 
-  createWatchlist(
-    params: params.CreateWatchList
-  ): Promise<entities.Watchlist[]> {
-    return this.request(method.POST, URL.REST_ACCOUNT, `watchlists`, params)
+  createWatchlist(params: CreateWatchList): Promise<Watchlist[]> {
+    return this.request(method.POST, urls.rest.account, `watchlists`, params)
   }
 
-  updateWatchlist(params: params.UpdateWatchList): Promise<entities.Watchlist> {
+  updateWatchlist(params: UpdateWatchList): Promise<Watchlist> {
     return this.request(
       method.PUT,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `watchlists/${params.uuid}`,
       params
     )
   }
 
-  addToWatchlist(params: params.AddToWatchList): Promise<entities.Watchlist> {
+  addToWatchlist(params: AddToWatchList): Promise<Watchlist> {
     return this.request(
       method.POST,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `watchlists/${params.uuid}`,
       params
     )
   }
 
-  removeFromWatchlist(params: params.RemoveFromWatchList): Promise<void> {
+  removeFromWatchlist(params: RemoveFromWatchList): Promise<void> {
     return this.request(
       method.DELETE,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `watchlists/${params.uuid}/${params.symbol}`
     )
   }
 
-  deleteWatchlist(params: params.DeleteWatchList): Promise<void> {
+  deleteWatchlist(params: DeleteWatchList): Promise<void> {
     return this.request(
       method.DELETE,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `watchlists/${params.uuid}`
     )
   }
 
-  getCalendar(params?: params.GetCalendar): Promise<entities.Calendar[]> {
+  getCalendar(params?: GetCalendar): Promise<Calendar[]> {
     return this.request(
       method.GET,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `calendar?${qs.stringify(params)}`
     )
   }
 
-  getClock(): Promise<entities.Clock> {
-    return this.request(method.GET, URL.REST_ACCOUNT, `clock`)
+  getClock(): Promise<Clock> {
+    return this.request(method.GET, urls.rest.account, `clock`)
   }
 
-  getAccountConfigurations(): Promise<entities.AccountConfigurations> {
-    return this.request(method.GET, URL.REST_ACCOUNT, `account/configurations`)
+  getAccountConfigurations(): Promise<AccountConfigurations> {
+    return this.request(method.GET, urls.rest.account, `account/configurations`)
   }
 
   updateAccountConfigurations(
-    params: params.UpdateAccountConfigurations
-  ): Promise<entities.AccountConfigurations> {
+    params: UpdateAccountConfigurations
+  ): Promise<AccountConfigurations> {
     return this.request(
       method.PATCH,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `account/configurations`,
       params
     )
   }
 
   getAccountActivities(
-    params: params.GetAccountActivities
-  ): Promise<Array<entities.NonTradeActivity | entities.TradeActivity>[]> {
+    params: GetAccountActivities
+  ): Promise<Array<NonTradeActivity | TradeActivity>[]> {
     return this.request(
       method.GET,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `account/activities/${params.activity_type}?${qs.stringify(params)}`
     )
   }
 
-  getPortfolioHistory(
-    params?: params.GetPortfolioHistory
-  ): Promise<entities.PortfolioHistory> {
+  getPortfolioHistory(params?: GetPortfolioHistory): Promise<PortfolioHistory> {
     return this.request(
       method.GET,
-      URL.REST_ACCOUNT,
+      urls.rest.account,
       `account/portfolio/history?${qs.stringify(params)}`
     )
   }
 
-  getBars(params: params.GetBars): Promise<Map<String, entities.Bar[]>> {
+  getBars(params: GetBars): Promise<Map<String, Bar[]>> {
     var transformed = {}
 
     // join the symbols into a comma-delimited string
@@ -226,23 +260,23 @@ export class Client {
 
     return this.request(
       method.GET,
-      URL.REST_MARKET_DATA,
+      urls.rest.market_data,
       `bars/${params.timeframe}?${qs.stringify(params)}`
     )
   }
 
-  getLastTrade(params: params.GetLastTrade): Promise<entities.LastTrade> {
+  getLastTrade(params: GetLastTrade): Promise<LastTrade> {
     return this.request(
       method.GET,
-      URL.REST_MARKET_DATA,
+      urls.rest.market_data,
       `last/stocks/${params.symbol}`
     )
   }
 
-  getLastQuote(params: params.GetLastQuote): Promise<entities.LastQuote> {
+  getLastQuote(params: GetLastQuote): Promise<LastQuote> {
     return this.request(
       method.GET,
-      URL.REST_MARKET_DATA,
+      urls.rest.market_data,
       `last_quote/stocks/${params.symbol}`
     )
   }
@@ -254,8 +288,8 @@ export class Client {
     data?: any
   ): Promise<any> {
     // modify the base url if paper is true
-    if (this.params.paper && url == URL.REST_ACCOUNT) {
-      url = URL.REST_ACCOUNT.replace('api.', 'paper-api.')
+    if (this.options.paper && url == urls.rest.account) {
+      url = urls.rest.account.replace('api.', 'paper-api.')
     }
 
     // convert any dates to ISO 8601 for Alpaca
@@ -269,7 +303,7 @@ export class Client {
 
     return new Promise<any>(async (resolve, reject) => {
       // do rate limiting
-      if (this.params.rate_limit) {
+      if (this.options.rate_limit) {
         await new Promise<void>((resolve) =>
           this.limiter.removeTokens(1, resolve)
         )
@@ -278,12 +312,13 @@ export class Client {
       await fetch(`${url}/${endpoint}`, {
         method: method,
         headers: {
-          'APCA-API-KEY-ID': this.params.credentials.key,
-          'APCA-API-SECRET-KEY': this.params.credentials.secret,
+          'APCA-API-KEY-ID': this.options.credentials.key,
+          'APCA-API-SECRET-KEY': this.options.credentials.secret,
         },
         body: JSON.stringify(data),
       })
         .then(
+          // if json parse fails we default to an empty object
           async (response) => (await response.json().catch(() => false)) || {}
         )
         .then((json) =>

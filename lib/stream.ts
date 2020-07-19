@@ -1,7 +1,8 @@
 import WebSocket from 'ws'
 
 import { EventEmitter } from 'events'
-import { URL } from './url'
+import { Credentials } from './entities'
+import urls from './urls'
 
 export declare interface Stream {
   on<U extends keyof StreamEvents>(event: U, listener: StreamEvents[U]): this
@@ -25,29 +26,36 @@ export declare interface StreamEvents {
 }
 
 export class Stream extends EventEmitter {
-  public subscriptions: string[] = []
-  public connection: WebSocket
-  public authenticated: boolean = false
+  private host: string
+  private connection: WebSocket
+  private subscriptions: string[] = []
+  private authenticated: boolean = false
 
   constructor(
     protected params: {
-      credentials: {
-        key: string
-        secret: string
-      }
-      host: URL
+      credentials: Credentials
+      stream: 'account' | 'market_data'
     }
   ) {
-    // Makes a new event emitter :D
+    // construct EventEmitter
     super()
 
-    // if we haven't made a connection, create one now
-    this.connection = new WebSocket(params.host)
+    // assign the host we will connect to
+    switch (params.stream) {
+      case 'account':
+        this.host = urls.websocket.account
+        break
+      case 'market_data':
+        this.host = urls.websocket.market_data
+        break
+      default:
+        this.host = 'unknown'
+    }
 
-      // Emits when the websocket is open
+    this.connection = new WebSocket(this.host)
       .once('open', () => {
-        // Sends an authentication request if you aren't authorized yet
-        if (!this.authenticated)
+        // if we are not authenticated yet send a request now
+        if (!this.authenticated) {
           this.connection.send(
             JSON.stringify({
               action: 'authenticate',
@@ -57,43 +65,37 @@ export class Stream extends EventEmitter {
               },
             })
           )
+        }
 
-        // Emits the open event
+        // pass the open
         this.emit('open', this)
       })
-
-      // Emit a close event on websocket close.
+      // pass the close
       .once('close', () => this.emit('close', this))
-
-      // listen to incoming messages
       .on('message', (message) => {
-        // Parses the object
+        // parse the incoming message
         const object = JSON.parse(message.toString())
 
-        // if the state is pending auth and this is an auth message, change the state
-        // < {"stream":"authorization","data":{"action":"authenticate","status":"authorized"}}
-        if ('stream' in object && object.stream == 'authorization')
-          if (object.data.status == 'authorized')
-            // all good :D
-            (this.authenticated = true),
-              this.emit('authenticated', this),
-              console.log('Connected to the websocket.')
-          else {
-            // Closes the connection
+        // if the message is an authorization response
+        if ('stream' in object && object.stream == 'authorization') {
+          if (object.data.status == 'authorized') {
+            this.authenticated = true
+            this.emit('authenticated', this)
+            console.log('Connected to the websocket.')
+          } else {
             this.connection.close()
-
-            // Then throws an error
             throw new Error(
               'There was an error in authorizing your websocket connection. Object received: ' +
                 JSON.stringify(object, null, 2)
             )
           }
+        }
 
-        // callback regardless of whether or not we acted on the message above
+        // pass the message
         this.emit('message', object)
 
-        // call any of the convenience methods that apply to this message
-        if ('stream' in object)
+        // emit based on the stream
+        if ('stream' in object) {
           this.emit(
             {
               trade_updates: 'trade_updates',
@@ -104,43 +106,35 @@ export class Stream extends EventEmitter {
             }[(object.stream as String).split('.')[0]],
             object.data
           )
+        }
       })
-
-      // Emits an error event.
+      // pass the error
       .on('error', (err: Error) => this.emit('error', err))
   }
 
-  /**
-   * Sends a message to the connected websocket.
-   * @param message The message itself
-   */
   send(message: any): this {
-    // You need to be authenticated to send further messages
+    // don't bother if we aren't authenticated yet
     if (!this.authenticated) {
       throw new Error("You can't send a message until you are authenticated!")
     }
 
-    // convert object to json
+    // if the message is in object form, stringify it for the user
     if (typeof message == 'object') {
       message = JSON.stringify(message)
     }
 
-    // Sends the message.
+    // send it off
     this.connection.send(message)
 
-    // Returns instance, making this chainable
+    // chainable return
     return this
   }
 
-  /**
-   * Subscribes to channels
-   * @param channels The channels you want to subscribe to
-   */
   subscribe(channels: string[]): this {
-    // Adds a subscription
+    // add these channels internally
     this.subscriptions.push(...channels)
 
-    // Sends a message specifying to subscribe.
+    // try to subscribe to them
     return this.send(
       JSON.stringify({
         action: 'listen',
@@ -151,17 +145,15 @@ export class Stream extends EventEmitter {
     )
   }
 
-  /**
-   * Unsubscribes from given channels
-   * @param channels The channels you want to unsubscribe from
-   */
   unsubscribe(channels: string[]): this {
-    // Removes these channels
-    for (let i = 0, ln = this.subscriptions.length; i < ln; i++)
-      if (channels.includes(this.subscriptions[i]))
+    // remove these channels internally
+    for (let i = 0, ln = this.subscriptions.length; i < ln; i++) {
+      if (channels.includes(this.subscriptions[i])) {
         this.subscriptions.splice(i, 1)
+      }
+    }
 
-    // Send the removal to the websocket
+    // try to unsubscribe from them
     return this.send(
       JSON.stringify({
         action: 'unlisten',
