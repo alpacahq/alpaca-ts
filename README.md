@@ -8,6 +8,17 @@
 A TypeScript Node.js library for the https://alpaca.markets REST API and
 WebSocket streams.
 
+## Contents
+
+- [Features](#features)
+- [Install](#install)
+- [Client](#client)
+  - [Creating a new client](#creating_a_new_client)
+  - [Examples](creating_a_new_client)
+- [Stream](#stream)
+  - [Creating a new stream](#creating_a_new_stream)
+  - [Examples](#creating_a_new_stream)
+
 ## Features
 
 - [x] Fully asynchronous API.
