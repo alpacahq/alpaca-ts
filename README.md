@@ -296,60 +296,24 @@ const stream = new alpaca.Stream({
 
 #### Examples
 
-The following examples demonstrate all events available on the stream.
+The following examples demonstrate common methods available on the stream.
 
-##### aggregate_minute
+##### subscribe
 
 ```typescript
-stream.on("authenticated", () => {
-  stream.subscribe(["AM.SPY"])
-  stream.on("aggregate_minute", ...);
-});
+stream.subscribe(["AM.SPY"]);
 ```
 
-##### quote
+##### unsubscribe
 
 ```typescript
-stream.on("authenticated", () => {
-  stream.subscribe(["Q.SPY"]));
-  stream.on("quote", ...);
-})
+stream.unsubscribe(["AM.SPY"]));
 ```
 
-##### trade
+##### on
 
 ```typescript
-stream.on("authenticated", () => {
-  stream.subscribe(["T.SPY"]));
-  stream.on("trade", ...);
-})
-```
-
-##### trade
-
-```typescript
-stream.on("authenticated", () => {
-  stream.subscribe(["T.SPY"]));
-  stream.on("trade", ...);
-})
-```
-
-##### trade_updates
-
-```typescript
-stream.on("authenticated", () => {
-  stream.subscribe(["trade_updates"]));
-  stream.on("trade_updates", ...);
-})
-```
-
-##### account_updates
-
-```typescript
-stream.on("authenticated", () => {
-  stream.subscribe(["account_updates"]));
-  stream.on("account_updates", ...);
-})
+stream.on("aggregate_minute", ...)
 ```
 
 ## Contributing
