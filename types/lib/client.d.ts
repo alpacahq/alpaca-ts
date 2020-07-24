@@ -37,7 +37,7 @@ export declare class Client {
     getClock(): Promise<Clock>;
     getAccountConfigurations(): Promise<AccountConfigurations>;
     updateAccountConfigurations(params: UpdateAccountConfigurations): Promise<AccountConfigurations>;
-    getAccountActivities(params: GetAccountActivities): Promise<Array<NonTradeActivity | TradeActivity>[]>;
+    getAccountActivities(params: GetAccountActivities): Promise<Array<NonTradeActivity | TradeActivity>>;
     getPortfolioHistory(params?: GetPortfolioHistory): Promise<PortfolioHistory>;
     getBars(params: GetBars): Promise<Map<String, Bar[]>>;
     getLastTrade(params: GetLastTrade): Promise<LastTrade>;

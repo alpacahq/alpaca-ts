@@ -17,9 +17,9 @@ export interface DeleteWatchList {
 }
 export interface GetAccountActivities {
     activity_type: string;
-    date?: Date;
-    until?: Date;
-    after?: Date;
+    date?: string;
+    until?: string;
+    after?: string;
     direction?: 'asc' | 'desc';
     page_size?: number;
     page_token?: string;

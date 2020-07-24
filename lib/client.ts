@@ -235,7 +235,7 @@ export class Client {
 
   getAccountActivities(
     params: GetAccountActivities
-  ): Promise<Array<NonTradeActivity | TradeActivity>[]> {
+  ): Promise<Array<NonTradeActivity | TradeActivity>> {
     return this.request(
       method.GET,
       urls.rest.account,

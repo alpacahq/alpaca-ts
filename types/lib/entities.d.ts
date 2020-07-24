@@ -118,15 +118,6 @@ export interface LastTrade {
         timestamp: number;
     };
 }
-export interface NonTradeActivity {
-    activity_type: string;
-    id: string;
-    date: string;
-    net_amount: string;
-    symbol: string;
-    qty: string;
-    per_share_amount: string;
-}
 export interface Order {
     id: string;
     client_order_id: string;
@@ -216,6 +207,15 @@ export interface TradeActivity {
     transaction_time: string;
     order_id: string;
     type: string;
+}
+export interface NonTradeActivity {
+    activity_type: string;
+    id: string;
+    date: string;
+    net_amount: string;
+    symbol: string;
+    qty: string;
+    per_share_amount: string;
 }
 export interface TradeUpdate {
     event: string;
