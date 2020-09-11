@@ -2,11 +2,13 @@ import fetch from 'node-fetch'
 import method from 'http-method-enum'
 import qs from 'qs'
 
+import { Parser } from './parser'
 import urls from './urls'
 
 import { RateLimiter } from 'limiter'
 
 import {
+  RawAccount,
   Account,
   Order,
   Position,
@@ -51,6 +53,7 @@ import {
 
 export class Client {
   private limiter: RateLimiter = new RateLimiter(199, 'minute')
+  private parser: Parser = new Parser()
 
   constructor(
     protected options: {
@@ -69,8 +72,9 @@ export class Client {
     }
   }
 
-  getAccount(): Promise<Account> {
-    return this.request(method.GET, urls.rest.account, 'account')
+  async getAccount(): Promise<Account> {
+    const rawAccount = await this.request<RawAccount>(method.GET, urls.rest.account, 'account')
+    return this.parser.parseAccount(rawAccount)
   }
 
   getOrder(params: GetOrder): Promise<Order> {
@@ -281,12 +285,12 @@ export class Client {
     )
   }
 
-  private request(
+  private request<T = any>(
     method: method,
     url: string,
     endpoint: string,
-    data?: any
-  ): Promise<any> {
+    data?: { [key: string]: any }
+  ): Promise<T> {
     // modify the base url if paper is true
     if (this.options.paper && url == urls.rest.account) {
       url = urls.rest.account.replace('api.', 'paper-api.')
