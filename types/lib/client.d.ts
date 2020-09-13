@@ -7,6 +7,7 @@ export declare class Client {
         rate_limit?: boolean;
     };
     private limiter;
+    private parser;
     constructor(options: {
         credentials: Credentials;
         paper?: boolean;

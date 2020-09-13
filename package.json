@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -17,7 +17,8 @@
     "stock"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "npm run clean && tsc",
+    "clean": "rimraf dist types",
     "test": "npm run build && $(npm bin)/ava -v"
   },
   "author": "master-chief",
@@ -37,6 +38,7 @@
     "@types/node-fetch": "^2.5.7",
     "@types/qs": "^6.9.3",
     "@types/ws": "^7.2.4",
-    "ava": "^3.8.2"
+    "ava": "^3.8.2",
+    "rimraf": "3.0.2"
   }
 }
