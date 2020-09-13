@@ -44,31 +44,31 @@ export declare type AccountStatus =
 /**
  * The account is onboarding.
  */
-'ONBOARDING' | 
+'ONBOARDING'
 /**
  * The account application submission failed for some reason.
  */
-'SUBMISSION_FAILED' | 
+ | 'SUBMISSION_FAILED'
 /**
  * The account application has been submitted for review.
  */
-'SUBMITTED' | 
+ | 'SUBMITTED'
 /**
  * The account information is being updated.
  */
-'ACCOUNT_UPDATED' | 
+ | 'ACCOUNT_UPDATED'
 /**
  * The final account approval is pending.
  */
-'APPROVAL_PENDING' | 
+ | 'APPROVAL_PENDING'
 /**
  * The account is active for trading.
  */
-'ACTIVE' | 
+ | 'ACTIVE'
 /**
  * The account application has been rejected.
  */
-'REJECTED';
+ | 'REJECTED';
 /**
  * Information related to an Alpaca account, such as account status, funds, and various
  * flags relevant to an account’s ability to trade.

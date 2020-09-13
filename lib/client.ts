@@ -73,7 +73,11 @@ export class Client {
   }
 
   async getAccount(): Promise<Account> {
-    const rawAccount = await this.request<RawAccount>(method.GET, urls.rest.account, 'account')
+    const rawAccount = await this.request<RawAccount>(
+      method.GET,
+      urls.rest.account,
+      'account'
+    )
     return this.parser.parseAccount(rawAccount)
   }
 

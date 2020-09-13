@@ -24,7 +24,8 @@
   "author": "master-chief",
   "contributors": [
     "AqilCont",
-    "KalebMills"
+    "KalebMills",
+    "lbstr"
   ],
   "license": "ISC",
   "dependencies": {
