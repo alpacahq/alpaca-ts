@@ -2,6 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Stream = exports.Client = void 0;
 var client_1 = require("./lib/client");
-Object.defineProperty(exports, "Client", { enumerable: true, get: function () { return client_1.Client; } });
+Object.defineProperty(exports, "Client", {
+  enumerable: true,
+  get: function () {
+    return client_1.Client;
+  },
+});
 var stream_1 = require("./lib/stream");
-Object.defineProperty(exports, "Stream", { enumerable: true, get: function () { return stream_1.Stream; } });
+Object.defineProperty(exports, "Stream", {
+  enumerable: true,
+  get: function () {
+    return stream_1.Stream;
+  },
+});
