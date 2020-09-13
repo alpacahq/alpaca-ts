@@ -79,12 +79,14 @@ export interface PlaceOrder {
     symbol: string;
     qty: number;
     side: 'buy' | 'sell';
-    type: 'market' | 'limit' | 'stop' | 'stop_limit';
+    type: 'market' | 'limit' | 'stop' | 'stop_limit' | 'trailing_stop';
     time_in_force: 'day' | 'gtc' | 'opg' | 'cls' | 'ioc' | 'fok';
     limit_price?: number;
     stop_price?: number;
     extended_hours?: boolean;
     client_order_id?: string;
+    trail_price?: number;
+    trail_percent?: number;
     order_class?: 'simple' | 'bracket' | 'oco' | 'oto';
     take_profit?: {
         limit_price: number;
