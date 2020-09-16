@@ -34,8 +34,8 @@ class Client {
     );
     return this.parser.parseAccount(rawAccount);
   }
-  getOrder(params) {
-    return this.request(
+  async getOrder(params) {
+    const rawOrder = await this.request(
       http_method_enum_1.default.GET,
       urls_1.default.rest.account,
       `orders/${
@@ -44,71 +44,81 @@ class Client {
         nested: params.nested,
       })}`
     );
+    return this.parser.parseOrder(rawOrder);
   }
-  getOrders(params) {
-    return this.request(
+  async getOrders(params) {
+    const rawOrders = await this.request(
       http_method_enum_1.default.GET,
       urls_1.default.rest.account,
       `orders?${qs_1.default.stringify(params)}`
     );
+    return this.parser.parseOrders(rawOrders);
   }
-  placeOrder(params) {
-    return this.request(
+  async placeOrder(params) {
+    const rawOrder = await this.request(
       http_method_enum_1.default.POST,
       urls_1.default.rest.account,
       `orders`,
       params
     );
+    return this.parser.parseOrder(rawOrder);
   }
-  replaceOrder(params) {
-    return this.request(
+  async replaceOrder(params) {
+    const rawOrder = await this.request(
       http_method_enum_1.default.PATCH,
       urls_1.default.rest.account,
       `orders/${params.order_id}`,
       params
     );
+    return this.parser.parseOrder(rawOrder);
   }
-  cancelOrder(params) {
-    return this.request(
+  async cancelOrder(params) {
+    const rawOrder = await this.request(
       http_method_enum_1.default.DELETE,
       urls_1.default.rest.account,
       `orders/${params.order_id}`
     );
+    return this.parser.parseOrder(rawOrder);
   }
-  cancelOrders() {
-    return this.request(
+  async cancelOrders() {
+    const rawOrders = await this.request(
       http_method_enum_1.default.DELETE,
       urls_1.default.rest.account,
       `orders`
     );
+    return this.parser.parseOrders(rawOrders);
   }
-  getPosition(params) {
-    return this.request(
+  async getPosition(params) {
+    const rawPosition = await this.request(
       http_method_enum_1.default.GET,
       urls_1.default.rest.account,
       `positions/${params.symbol}`
     );
+    return this.parser.parsePosition(rawPosition);
   }
-  getPositions() {
-    return this.request(
+  async getPositions() {
+    const rawPositions = await this.request(
       http_method_enum_1.default.GET,
       urls_1.default.rest.account,
       `positions`
     );
+    return this.parser.parsePositions(rawPositions);
   }
-  closePosition(params) {
-    return this.request(
+  async closePosition(params) {
+    const rawOrder = await this.request(
       http_method_enum_1.default.DELETE,
       urls_1.default.rest.account,
       `positions/${params.symbol}`
     );
+    return this.parser.parseOrder(rawOrder);
   }
-  closePositions() {
-    return this.request(
+  async closePositions() {
+    const rawOrders = await this.request(
       http_method_enum_1.default.DELETE,
       urls_1.default.rest.account,
       `positions`
     );
+    return this.parser.parseOrders(rawOrders);
   }
   getAsset(params) {
     return this.request(

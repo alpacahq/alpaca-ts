@@ -24,6 +24,8 @@ import {
   LastQuote,
   LastTrade,
   Credentials,
+  RawOrder,
+  RawPosition,
 } from './entities'
 
 import {
@@ -81,71 +83,81 @@ export class Client {
     return this.parser.parseAccount(rawAccount)
   }
 
-  getOrder(params: GetOrder): Promise<Order> {
-    return this.request(
+  async getOrder(params: GetOrder): Promise<Order> {
+    const rawOrder = await this.request<RawOrder>(
       method.GET,
       urls.rest.account,
       `orders/${params.order_id || params.client_order_id}?${qs.stringify({
         nested: params.nested,
       })}`
     )
+    return this.parser.parseOrder(rawOrder)
   }
 
-  getOrders(params?: GetOrders): Promise<Order[]> {
-    return this.request(
+  async getOrders(params?: GetOrders): Promise<Order[]> {
+    const rawOrders = await this.request<RawOrder[]>(
       method.GET,
       urls.rest.account,
       `orders?${qs.stringify(params)}`
     )
+    return this.parser.parseOrders(rawOrders)
   }
 
-  placeOrder(params: PlaceOrder): Promise<Order> {
-    return this.request(method.POST, urls.rest.account, `orders`, params)
+  async placeOrder(params: PlaceOrder): Promise<Order> {
+    const rawOrder = await this.request<RawOrder>(method.POST, urls.rest.account, `orders`, params)
+    return this.parser.parseOrder(rawOrder);
   }
 
-  replaceOrder(params: ReplaceOrder): Promise<Order> {
-    return this.request(
+  async replaceOrder(params: ReplaceOrder): Promise<Order> {
+    const rawOrder = await this.request<RawOrder>(
       method.PATCH,
       urls.rest.account,
       `orders/${params.order_id}`,
       params
     )
+    return this.parser.parseOrder(rawOrder)
   }
 
-  cancelOrder(params: CancelOrder): Promise<Order> {
-    return this.request(
+  async cancelOrder(params: CancelOrder): Promise<Order> {
+    const rawOrder = await this.request<RawOrder>(
       method.DELETE,
       urls.rest.account,
       `orders/${params.order_id}`
     )
+    return this.parser.parseOrder(rawOrder)
   }
 
-  cancelOrders(): Promise<Order[]> {
-    return this.request(method.DELETE, urls.rest.account, `orders`)
+  async cancelOrders(): Promise<Order[]> {
+    const rawOrders = await this.request<RawOrder[]>(method.DELETE, urls.rest.account, `orders`)
+    return this.parser.parseOrders(rawOrders)
   }
 
-  getPosition(params: GetPosition): Promise<Position> {
-    return this.request(
+  async getPosition(params: GetPosition): Promise<Position> {
+    const rawPosition = await this.request<RawPosition>(
       method.GET,
       urls.rest.account,
       `positions/${params.symbol}`
     )
+    return this.parser.parsePosition(rawPosition)
   }
 
-  getPositions(): Promise<Position[]> {
-    return this.request(method.GET, urls.rest.account, `positions`)
+  async getPositions(): Promise<Position[]> {
+    const rawPositions = await this.request<RawPosition[]>(method.GET, urls.rest.account, `positions`)
+    return this.parser.parsePositions(rawPositions)
   }
 
-  closePosition(params: ClosePosition): Promise<Order> {
-    return this.request(
+  async closePosition(params: ClosePosition): Promise<Order> {
+    const rawOrder = await this.request<RawOrder>(
       method.DELETE,
       urls.rest.account,
       `positions/${params.symbol}`
     )
+    return this.parser.parseOrder(rawOrder)
   }
 
-  closePositions(): Promise<Order[]> {
-    return this.request(method.DELETE, urls.rest.account, `positions`)
+  async closePositions(): Promise<Order[]> {
+    const rawOrders = await this.request<RawOrder[]>(method.DELETE, urls.rest.account, `positions`)
+    return this.parser.parseOrders(rawOrders)
   }
 
   getAsset(params: GetAsset): Promise<Asset> {
@@ -309,7 +321,7 @@ export class Client {
       }
     }
 
-    return new Promise<any>(async (resolve, reject) => {
+    return new Promise<T>(async (resolve, reject) => {
       // do rate limiting
       if (this.options.rate_limit) {
         await new Promise<void>((resolve) =>

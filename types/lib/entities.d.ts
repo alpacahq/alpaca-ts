@@ -71,7 +71,7 @@ export declare type AccountStatus =
  | 'REJECTED';
 /**
  * Information related to an Alpaca account, such as account status, funds, and various
- * flags relevant to an account’s ability to trade.
+ * flags relevant to an account's ability to trade.
  */
 export interface Account {
     /**
@@ -281,7 +281,11 @@ export interface LastTrade {
         timestamp: number;
     };
 }
-export interface Order {
+/**
+ * The order entity with unparsed fields, exactly as Alpaca provides it.
+ * We encourage you to use the Order interface, which has many of these fields parsed.
+ */
+export interface RawOrder {
     id: string;
     client_order_id: string;
     created_at: string;
@@ -293,7 +297,7 @@ export interface Order {
     failed_at: string;
     replaced_at: string;
     replaced_by: string;
-    replaces: any;
+    replaces: string;
     asset_id: string;
     symbol: string;
     asset_class: string;
@@ -307,7 +311,262 @@ export interface Order {
     filled_avg_price: string;
     status: string;
     extended_hours: boolean;
-    legs: any;
+    legs: RawOrder[];
+    trail_price: string;
+    trail_percent: string;
+    hwm: string;
+}
+export declare type OrderType = 'market' | 'limit' | 'stop' | 'stop_limit' | 'trailing_stop';
+export declare type OrderSide = 'buy' | 'sell';
+export declare type OrderTimeInForce = 
+/**
+ * A day order is eligible for execution only on the day it is live. By default, the
+ * order is only valid during Regular Trading Hours (9:30am - 4:00pm ET). If unfilled
+ * after the closing auction, it is automatically canceled. If submitted after the
+ * close, it is queued and submitted the following trading day. However, if marked as
+ * eligible for extended hours, the order can also execute during supported extended
+ * hours.
+ */
+'day' | 
+/**
+ * The order is good until canceled. Non-marketable GTC limit orders are subject to
+ * price adjustments to offset corporate actions affecting the issue. We do not
+ * currently support Do Not Reduce(DNR) orders to opt out of such price adjustments.
+ */
+'gtc' | 
+/**
+ * Use this TIF with a market/limit order type to submit "market on open" (MOO) and
+ * "limit on open" (LOO) orders. This order is eligible to execute only in the market
+ * opening auction. Any unfilled orders after the open will be cancelled. OPG orders
+ * submitted after 9:28am but before 7:00pm ET will be rejected. OPG orders submitted
+ * after 7:00pm will be queued and routed to the following day's opening auction. On
+ * open/on close orders are routed to the primary exchange. Such orders do not
+ * necessarily execute exactly at 9:30am / 4:00pm ET but execute per the exchange's
+ * auction rules.
+ */
+'opg' | 
+/**
+ * Use this TIF with a market/limit order type to submit "market on close" (MOC) and
+ * "limit on close" (LOC) orders. This order is eligible to execute only in the market
+ * closing auction. Any unfilled orders after the close will be cancelled. CLS orders
+ * submitted after 3:50pm but before 7:00pm ET will be rejected. CLS orders submitted
+ * after 7:00pm will be queued and routed to the following day's closing auction. Only
+ * available with API v2.
+ */
+'cls' | 
+/**
+ * An Immediate Or Cancel (IOC) order requires all or part of the order to be executed
+ * immediately. Any unfilled portion of the order is canceled. Only available with API
+ * v2.
+ */
+'ioc' | 
+/**
+ * A Fill or Kill (FOK) order is only executed if the entire order quantity can be
+ * filled, otherwise the order is canceled. Only available with API v2.
+ */
+'fok';
+export declare type OrderStatus = 
+/**
+ * The order has been received by Alpaca, and routed to exchanges for execution. This
+ * is the usual initial state of an order.
+ */
+'new' | 
+/**
+ * The order has been partially filled.
+ */
+'partially_filled' | 
+/**
+ * The order has been filled, and no further updates will occur for the order.
+ */
+'filled' | 
+/**
+ * The order is done executing for the day, and will not receive further updates until
+ * the next trading day.
+ */
+'done_for_day' | 
+/**
+ * The order has been canceled, and no further updates will occur for the order. This
+ * can be either due to a cancel request by the user, or the order has been canceled by
+ * the exchanges due to its time-in-force.
+ */
+'canceled' | 
+/**
+ * The order has expired, and no further updates will occur for the order.
+ */
+'expired' | 
+/**
+ * The order was replaced by another order, or was updated due to a market event such
+ * as corporate action.
+ */
+'replaced' | 
+/**
+ * The order is waiting to be canceled.
+ */
+'pending_cancel' | 
+/**
+ * The order is waiting to be replaced by another order. The order will reject cancel
+ * request while in this state.
+ */
+'pending_replace' | 
+/**
+ * (Uncommon) The order has been received by Alpaca, but hasn't yet been routed to the
+ * execution venue. This could be seen often out side of trading session hours.
+ */
+'accepted' | 
+/**
+ * (Uncommon) The order has been received by Alpaca, and routed to the exchanges, but
+ * has not yet been accepted for execution. This state only occurs on rare occasions.
+ */
+'pending_new' | 
+/**
+ * (Uncommon) The order has been received by exchanges, and is evaluated for pricing.
+ * This state only occurs on rare occasions.
+ */
+'accepted_for_bidding' | 
+/**
+ * (Uncommon) The order has been stopped, and a trade is guaranteed for the order,
+ * usually at a stated price or better, but has not yet occurred. This state only
+ * occurs on rare occasions.
+ */
+'stopped' | 
+/**
+ * (Uncommon) The order has been rejected, and no further updates will occur for the
+ * order. This state occurs on rare occasions and may occur based on various conditions
+ * decided by the exchanges.
+ */
+'rejected' | 
+/**
+ * (Uncommon) The order has been suspended, and is not eligible for trading. This state
+ * only occurs on rare occasions.
+ */
+'suspended' | 
+/**
+ * (Uncommon) The order has been completed for the day (either filled or done for day),
+ * but remaining settlement calculations are still pending. This state only occurs on
+ * rare occasions.
+ */
+'calculated';
+/**
+ * An Order in Alpaca
+ */
+export interface Order {
+    /**
+     * Order id
+     */
+    id: string;
+    /**
+     * Client unique order id
+     */
+    client_order_id: string;
+    /**
+     * When the order was created
+     */
+    created_at: string;
+    /**
+     * When the order was last updated
+     */
+    updated_at: string;
+    /**
+     * When the order was submitted
+     */
+    submitted_at: string;
+    /**
+     * When the order was filled
+     */
+    filled_at: string;
+    /**
+     * When the order expired
+     */
+    expired_at: string;
+    /**
+     * When the order was canceled
+     */
+    canceled_at: string;
+    /**
+     * When the order failed
+     */
+    failed_at: string;
+    /**
+     * When the order was last replaced
+     */
+    replaced_at: string;
+    /**
+     * The order ID that this order was replaced by
+     */
+    replaced_by: string;
+    /**
+     * The order ID that this order replaces
+     */
+    replaces: string;
+    /**
+     * Asset ID
+     */
+    asset_id: string;
+    /**
+     * Asset symbol
+     */
+    symbol: string;
+    /**
+     * Asset class
+     */
+    asset_class: string;
+    /**
+     * Ordered quantity
+     */
+    qty: number;
+    /**
+     * Filled quantity
+     */
+    filled_qty: number;
+    /**
+     * Order type (market, limit, stop, stop_limit, trailing_stop)
+     */
+    type: OrderType;
+    /**
+     * Buy or sell
+     */
+    side: OrderSide;
+    /**
+     * Order Time in Force
+     */
+    time_in_force: OrderTimeInForce;
+    /**
+     * Limit price
+     */
+    limit_price: number;
+    /**
+     * Stop price
+     */
+    stop_price: number;
+    /**
+     * Filled average price
+     */
+    filled_avg_price: number;
+    /**
+     * The status of the order
+     */
+    status: OrderStatus;
+    /**
+     * If true, eligible for execution outside regular trading hours.
+     */
+    extended_hours: boolean;
+    /**
+     * When querying non-simple order_class orders in a nested style, an array of Order
+     * entities associated with this order. Otherwise, null.
+     */
+    legs: Order[];
+    /**
+     * The dollar value away from the high water mark for trailing stop orders.
+     */
+    trail_price: number;
+    /**
+     * The percent value away from the high water mark for trailing stop orders.
+     */
+    trail_percent: number;
+    /**
+     * The highest (lowest) market price seen since the trailing stop order was submitted.
+     */
+    hwm: number;
 }
 export interface PortfolioHistory {
     timestamp: number[];
@@ -317,7 +576,11 @@ export interface PortfolioHistory {
     base_value: number;
     timeframe: string;
 }
-export interface Position {
+/**
+ * A position with unparsed fields, exactly as Alpaca provides it.
+ * We encourage you to use the Position interface, which has many of these fields parsed.
+ */
+export interface RawPosition {
     asset_id: string;
     symbol: string;
     exchange: string;
@@ -334,6 +597,76 @@ export interface Position {
     current_price: string;
     lastday_price: string;
     change_today: string;
+}
+export declare type PositionSide = 'long' | 'short';
+/**
+ * A position in Alpaca
+ */
+export interface Position {
+    /**
+     * Asset ID
+     */
+    asset_id: string;
+    /**
+     * Symbol name of the asset
+     */
+    symbol: string;
+    /**
+     * Exchange name of the asset
+     */
+    exchange: string;
+    /**
+     * Asset class name
+     */
+    asset_class: string;
+    /**
+     * Average entry price of the position
+     */
+    avg_entry_price: number;
+    /**
+     * The number of shares
+     */
+    qty: number;
+    /**
+     * long or short
+     */
+    side: PositionSide;
+    /**
+     * Total dollar amount of the position
+     */
+    market_value: number;
+    /**
+     * Total cost basis in dollar
+     */
+    cost_basis: number;
+    /**
+     * Unrealized profit/loss in dollars
+     */
+    unrealized_pl: number;
+    /**
+     * Unrealized profit/loss percent (by a factor of 1)
+     */
+    unrealized_plpc: number;
+    /**
+     * Unrealized profit/loss in dollars for the day
+     */
+    unrealized_intraday_pl: number;
+    /**
+     * Unrealized profit/loss percent (by a factor of 1)
+     */
+    unrealized_intraday_plpc: number;
+    /**
+     * Current asset price per share
+     */
+    current_price: number;
+    /**
+     * Last day's asset price per share based on the closing value of the last trading day
+     */
+    lastday_price: number;
+    /**
+     * Percent change from last day price (by a factor of 1)
+     */
+    change_today: number;
 }
 export interface Quote {
     ev: string;
