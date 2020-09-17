@@ -9,6 +9,7 @@ class Parser {
     try {
       return {
         ...rawAccount,
+        raw: () => rawAccount,
         buying_power: this.parseNumber(rawAccount.buying_power),
         regt_buying_power: this.parseNumber(rawAccount.regt_buying_power),
         daytrading_buying_power: this.parseNumber(
@@ -40,6 +41,7 @@ class Parser {
     try {
       return {
         ...rawOrder,
+        raw: () => rawOrder,
         qty: this.parseNumber(rawOrder.qty),
         filled_qty: this.parseNumber(rawOrder.filled_qty),
         type: rawOrder.type,
@@ -71,6 +73,7 @@ class Parser {
     try {
       return {
         ...rawPosition,
+        raw: () => rawPosition,
         avg_entry_price: this.parseNumber(rawPosition.avg_entry_price),
         qty: this.parseNumber(rawPosition.qty),
         side: rawPosition.side,

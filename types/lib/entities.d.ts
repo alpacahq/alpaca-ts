@@ -75,6 +75,10 @@ export declare type AccountStatus =
  */
 export interface Account {
     /**
+     * Get the raw data, exactly as it came from Alpaca
+     */
+    raw(): RawAccount;
+    /**
      * If true, the account activity by user is prohibited.
      */
     account_blocked: boolean;
@@ -451,6 +455,10 @@ export declare type OrderStatus =
  */
 export interface Order {
     /**
+     * Get the raw data, exactly as it came from Alpaca
+     */
+    raw(): RawOrder;
+    /**
      * Order id
      */
     id: string;
@@ -603,6 +611,10 @@ export declare type PositionSide = 'long' | 'short';
  * A position in Alpaca
  */
 export interface Position {
+    /**
+     * Get the raw data, exactly as it came from Alpaca
+     */
+    raw(): RawPosition;
     /**
      * Asset ID
      */
