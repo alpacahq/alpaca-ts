@@ -1,5 +1,5 @@
-export { Client } from './lib/client'
-export { Stream } from './lib/stream'
+export { AlpacaClient } from './lib/client'
+export { AlpacaStream } from './lib/stream'
 
 export {
   Account,

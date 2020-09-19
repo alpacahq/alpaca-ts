@@ -4,18 +4,21 @@ import { EventEmitter } from 'events'
 import { Credentials } from './entities'
 import urls from './urls'
 
-export declare interface Stream {
-  on<U extends keyof StreamEvents>(event: U, listener: StreamEvents[U]): this
-  emit<U extends keyof StreamEvents>(
+export declare interface AlpacaStream {
+  on<U extends keyof AlpacaStreamEvents>(
     event: U,
-    ...args: Parameters<StreamEvents[U]>
+    listener: AlpacaStreamEvents[U]
+  ): this
+  emit<U extends keyof AlpacaStreamEvents>(
+    event: U,
+    ...args: Parameters<AlpacaStreamEvents[U]>
   ): boolean
 }
 
-export declare interface StreamEvents {
-  open: (connection: Stream) => void
-  close: (connection: Stream) => void
-  authenticated: (connection: Stream) => void
+export declare interface AlpacaStreamEvents {
+  open: (connection: AlpacaStream) => void
+  close: (connection: AlpacaStream) => void
+  authenticated: (connection: AlpacaStream) => void
   error: (error: Error) => void
   message: (data: Object) => void
   trade: (data: Object) => void
@@ -25,7 +28,7 @@ export declare interface StreamEvents {
   aggregate_minute: (data: Object) => void
 }
 
-export class Stream extends EventEmitter {
+export class AlpacaStream extends EventEmitter {
   private host: string
   private connection: WebSocket
   private subscriptions: string[] = []

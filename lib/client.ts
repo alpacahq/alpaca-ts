@@ -53,7 +53,7 @@ import {
   GetLastQuote,
 } from './params'
 
-export class Client {
+export class AlpacaClient {
   private limiter: RateLimiter = new RateLimiter(199, 'minute')
   private parser: Parser = new Parser()
 

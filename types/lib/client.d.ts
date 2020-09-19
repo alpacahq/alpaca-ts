@@ -1,6 +1,6 @@
 import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, NonTradeActivity, TradeActivity, PortfolioHistory, Bar, LastQuote, LastTrade, Credentials } from './entities';
 import { GetOrder, GetOrders, PlaceOrder, ReplaceOrder, CancelOrder, GetPosition, ClosePosition, GetAsset, GetAssets, GetWatchList, CreateWatchList, UpdateWatchList, AddToWatchList, RemoveFromWatchList, DeleteWatchList, GetCalendar, UpdateAccountConfigurations, GetAccountActivities, GetPortfolioHistory, GetBars, GetLastTrade, GetLastQuote } from './params';
-export declare class Client {
+export declare class AlpacaClient {
     protected options: {
         credentials: Credentials;
         paper?: boolean;

@@ -1,14 +1,14 @@
 /// <reference types="node" />
 import { EventEmitter } from 'events';
 import { Credentials } from './entities';
-export declare interface Stream {
-    on<U extends keyof StreamEvents>(event: U, listener: StreamEvents[U]): this;
-    emit<U extends keyof StreamEvents>(event: U, ...args: Parameters<StreamEvents[U]>): boolean;
+export declare interface AlpacaStream {
+    on<U extends keyof AlpacaStreamEvents>(event: U, listener: AlpacaStreamEvents[U]): this;
+    emit<U extends keyof AlpacaStreamEvents>(event: U, ...args: Parameters<AlpacaStreamEvents[U]>): boolean;
 }
-export declare interface StreamEvents {
-    open: (connection: Stream) => void;
-    close: (connection: Stream) => void;
-    authenticated: (connection: Stream) => void;
+export declare interface AlpacaStreamEvents {
+    open: (connection: AlpacaStream) => void;
+    close: (connection: AlpacaStream) => void;
+    authenticated: (connection: AlpacaStream) => void;
     error: (error: Error) => void;
     message: (data: Object) => void;
     trade: (data: Object) => void;
@@ -17,7 +17,7 @@ export declare interface StreamEvents {
     quote: (data: Object) => void;
     aggregate_minute: (data: Object) => void;
 }
-export declare class Stream extends EventEmitter {
+export declare class AlpacaStream extends EventEmitter {
     protected params: {
         credentials: Credentials;
         stream: 'account' | 'market_data';
