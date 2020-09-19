@@ -1,4 +1,4 @@
-import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, NonTradeActivity, TradeActivity, PortfolioHistory, Bar, LastQuote, LastTrade, Credentials } from './entities';
+import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, PortfolioHistory, Bar, LastQuote, LastTrade, Credentials, Activity } from './entities';
 import { GetOrder, GetOrders, PlaceOrder, ReplaceOrder, CancelOrder, GetPosition, ClosePosition, GetAsset, GetAssets, GetWatchList, CreateWatchList, UpdateWatchList, AddToWatchList, RemoveFromWatchList, DeleteWatchList, GetCalendar, UpdateAccountConfigurations, GetAccountActivities, GetPortfolioHistory, GetBars, GetLastTrade, GetLastQuote } from './params';
 export declare class AlpacaClient {
     protected options: {
@@ -38,7 +38,7 @@ export declare class AlpacaClient {
     getClock(): Promise<Clock>;
     getAccountConfigurations(): Promise<AccountConfigurations>;
     updateAccountConfigurations(params: UpdateAccountConfigurations): Promise<AccountConfigurations>;
-    getAccountActivities(params: GetAccountActivities): Promise<Array<NonTradeActivity | TradeActivity>>;
+    getAccountActivities(params: GetAccountActivities): Promise<Activity[]>;
     getPortfolioHistory(params?: GetPortfolioHistory): Promise<PortfolioHistory>;
     getBars(params: GetBars): Promise<Map<String, Bar[]>>;
     getLastTrade(params: GetLastTrade): Promise<LastTrade>;

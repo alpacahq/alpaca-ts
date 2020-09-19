@@ -198,10 +198,22 @@ export interface Account {
     transfers_blocked: boolean;
 }
 export interface AccountConfigurations {
-    dtbp_check: string;
+    /**
+     * both, entry, or exit. Controls Day Trading Margin Call (DTMC) checks.
+     */
+    dtbp_check: 'both' | 'entry' | 'exit';
+    /**
+     * If true, account becomes long-only mode.
+     */
     no_shorting: boolean;
+    /**
+     * If true, new orders are blocked.
+     */
     suspend_trade: boolean;
-    trade_confirm_email: string;
+    /**
+     * all or none. If none, emails for order fills are not sent.
+     */
+    trade_confirm_email: 'all' | 'none';
 }
 export interface AccountUpdate {
     id: string;
@@ -228,60 +240,196 @@ export interface AggregateMinute {
     s: number;
     e: number;
 }
+export declare type AssetExchange = 'AMEX' | 'ARCA' | 'BATS' | 'NYSE' | 'NASDAQ' | 'NYSEARCA';
+export declare type AssetStatus = 'active' | 'inactive';
+/**
+ * The assets API serves as the master list of assets available for trade and data
+ * consumption from Alpaca. Assets are sorted by asset class, exchange and symbol. Some
+ * assets are only available for data consumption via Polygon, and are not tradable with
+ * Alpaca. These assets will be marked with the flag tradable=false.
+ */
 export interface Asset {
+    /**
+     * Asset ID
+     */
     id: string;
+    /**
+     * "us_equity"
+     */
     class: string;
-    exchange: string;
+    /**
+     * AMEX, ARCA, BATS, NYSE, NASDAQ or NYSEARCA
+     */
+    exchange: AssetExchange;
+    /**
+     * Asset symbol
+     */
     symbol: string;
-    status: string;
+    /**
+     * active or inactive
+     */
+    status: AssetStatus;
+    /**
+     * Asset is tradable on Alpaca or not
+     */
     tradable: boolean;
+    /**
+     * Asset is marginable or not
+     */
     marginable: boolean;
+    /**
+     * Asset is shortable or not
+     */
     shortable: boolean;
+    /**
+     * Asset is easy-to-borrow or not (filtering for easy_to_borrow = True is the best way
+     * to check whether the name is currently available to short at Alpaca).
+     */
     easy_to_borrow: boolean;
 }
+/**
+ * Price and volume data during a particular time interval
+ */
 export interface Bar {
+    /**
+     * the beginning time of this bar as a Unix epoch in seconds
+     */
     t: number;
+    /**
+     * open price
+     */
     o: number;
+    /**
+     * high price
+     */
     h: number;
+    /**
+     * low price
+     */
     l: number;
+    /**
+     * close price
+     */
     c: number;
+    /**
+     * volume
+     */
     v: number;
 }
+/**
+ * Contains the time of open and close for a market on a particular day from 1970 to 2029
+ */
 export interface Calendar {
+    /**
+     * Date string in YYYY-MM-DD format
+     */
     date: string;
+    /**
+     * The time the market opens at on this date in HH:MM format
+     */
     open: string;
+    /**
+     * The time the market closes at on this date in HH:MM format
+     */
     close: string;
 }
+/**
+ * The clock API serves the current market timestamp, whether or not the market is
+ * currently open, as well as the times of the next market open and close.
+ */
 export interface Clock {
+    /**
+     * Current timestamp
+     */
     timestamp: string;
+    /**
+     * Whether or not the market is open
+     */
     is_open: boolean;
+    /**
+     * Next market open timestamp
+     */
     next_open: string;
+    /**
+     * Next market close timestamp
+     */
     next_close: string;
 }
+/**
+ * Last quote details for a symbol
+ */
 export interface LastQuote {
     status: string;
     symbol: string;
     last: {
+        /**
+         * the current ask price
+         */
         askprice: number;
+        /**
+         * the current ask size
+         */
         asksize: number;
+        /**
+         * the exchange code of the ask quote
+         */
         askexchange: number;
+        /**
+         * the current bid price
+         */
         bidprice: number;
+        /**
+         * the current bid size
+         */
         bidsize: number;
+        /**
+         * the exchange code of the bid quote
+         */
         bidexchange: number;
+        /**
+         * epoch timestamp in nanoseconds
+         */
         timestamp: number;
     };
 }
+/**
+ * Last trade details for a symbol
+ */
 export interface LastTrade {
     status: string;
     symbol: string;
     last: {
+        /**
+         * last trade price
+         */
         price: number;
+        /**
+         * last trade volume size
+         */
         size: number;
+        /**
+         * exchange code where the last trade was made
+         */
         exchange: number;
+        /**
+         * condition flag 1
+         */
         cond1: number;
+        /**
+         * condition flag 2
+         */
         cond2: number;
+        /**
+         * condition flag 3
+         */
         cond3: number;
+        /**
+         * condition flag 4
+         */
         cond4: number;
+        /**
+         * epoch timestamp in nanoseconds
+         */
         timestamp: number;
     };
 }
@@ -576,12 +724,33 @@ export interface Order {
      */
     hwm: number;
 }
+/**
+ * Timeseries data for equity and profit loss information of the account
+ */
 export interface PortfolioHistory {
+    /**
+     * time of each data element, left-labeled (the beginning of time window)
+     */
     timestamp: number[];
+    /**
+     * equity value of the account in dollar amount as of the end of each time window
+     */
     equity: number[];
+    /**
+     * profit/loss in dollar from the base value
+     */
     profit_loss: number[];
+    /**
+     * profit/loss in percentage from the base value
+     */
     profit_loss_pct: number[];
+    /**
+     * basis in dollar of the profit loss calculation
+     */
     base_value: number;
+    /**
+     * time window size of each data element
+     */
     timeframe: string;
 }
 /**
@@ -703,8 +872,8 @@ export interface Trade {
     c: number[];
     z: number;
 }
-export interface TradeActivity {
-    activity_type: string;
+export interface RawTradeActivity {
+    activity_type: 'FILL';
     cum_qty: string;
     id: string;
     leaves_qty: string;
@@ -716,7 +885,61 @@ export interface TradeActivity {
     order_id: string;
     type: string;
 }
-export interface NonTradeActivity {
+export declare type TradeActivityActivityType = 'FILL';
+export declare type TradeActivityType = 'fill' | 'partial_fill';
+export declare type TradeActivitySide = 'buy' | 'sell';
+export interface TradeActivity {
+    /**
+     * Get the raw data, exactly as it came from Alpaca
+     */
+    raw(): RawTradeActivity;
+    /**
+     * FILL
+     */
+    activity_type: TradeActivityActivityType;
+    /**
+     * The cumulative quantity of shares involved in the execution.
+     */
+    cum_qty: number;
+    /**
+     * An id for the activity. Always in "::" format. Can be sent as page_token in requests
+     * to facilitate the paging of results.
+     */
+    id: string;
+    /**
+     * For partially_filled orders, the quantity of shares that are left to be filled.
+     */
+    leaves_qty: number;
+    /**
+     * The per-share price that the trade was executed at.
+     */
+    price: number;
+    /**
+     * The number of shares involved in the trade execution.
+     */
+    qty: number;
+    /**
+     * buy or sell
+     */
+    side: TradeActivitySide;
+    /**
+     * The symbol of the security being traded.
+     */
+    symbol: string;
+    /**
+     * The time at which the execution occurred.
+     */
+    transaction_time: string;
+    /**
+     * The id for the order that filled.
+     */
+    order_id: string;
+    /**
+     * fill or partial_fill
+     */
+    type: TradeActivityType;
+}
+export interface RawNonTradeActivity {
     activity_type: string;
     id: string;
     date: string;
@@ -725,6 +948,181 @@ export interface NonTradeActivity {
     qty: string;
     per_share_amount: string;
 }
+export declare type NonTradeActivityActivityType = 
+/**
+ * Order fills (both partial and full fills)
+ */
+'FILL' | 
+/**
+ * Cash transactions (both CSD and CSR)
+ */
+'TRANS' | 
+/**
+ * Miscellaneous or rarely used activity types (All types except those in TRANS, DIV,
+ * or FILL)
+ */
+'MISC' | 
+/**
+ * ACATS IN/OUT (Cash)
+ */
+'ACATC' | 
+/**
+ * ACATS IN/OUT (Securities)
+ */
+'ACATS' | 
+/**
+ * Cash disbursement(+)
+ */
+'CSD' | 
+/**
+ * Cash receipt(-)
+ */
+'CSR' | 
+/**
+ * Dividends
+ */
+'DIV' | 
+/**
+ * Dividend (capital gain long term)
+ */
+'DIVCGL' | 
+/**
+ * Dividend (capital gain short term)
+ */
+'DIVCGS' | 
+/**
+ * Dividend fee
+ */
+'DIVFEE' | 
+/**
+ * Dividend adjusted (Foreign Tax Withheld)
+ */
+'DIVFT' | 
+/**
+ * Dividend adjusted (NRA Withheld)
+ */
+'DIVNRA' | 
+/**
+ * Dividend return of capital
+ */
+'DIVROC' | 
+/**
+ * Dividend adjusted (Tefra Withheld)
+ */
+'DIVTW' | 
+/**
+ * Dividend (tax exempt)
+ */
+'DIVTXEX' | 
+/**
+ * Interest (credit/margin)
+ */
+'INT' | 
+/**
+ * Interest adjusted (NRA Withheld)
+ */
+'INTNRA' | 
+/**
+ * Interest adjusted (Tefra Withheld)
+ */
+'INTTW' | 
+/**
+ * Journal entry
+ */
+'JNL' | 
+/**
+ * Journal entry (cash)
+ */
+'JNLC' | 
+/**
+ * Journal entry (stock)
+ */
+'JNLS' | 
+/**
+ * Merger/Acquisition
+ */
+'MA' | 
+/**
+ * Name change
+ */
+'NC' | 
+/**
+ * Option assignment
+ */
+'OPASN' | 
+/**
+ * Option expiration
+ */
+'OPEXP' | 
+/**
+ * Option exercise
+ */
+'OPXRC' | 
+/**
+ * Pass Thru Charge
+ */
+'PTC' | 
+/**
+ * Pass Thru Rebate
+ */
+'PTR' | 
+/**
+ * Reorg CA
+ */
+'REORG' | 
+/**
+ * Symbol change
+ */
+'SC' | 
+/**
+ * Stock spinoff
+ */
+'SSO' | 
+/**
+ * Stock split
+ */
+'SSP';
+export interface NonTradeActivity {
+    /**
+     * Get the raw data, exactly as it came from Alpaca
+     */
+    raw(): RawNonTradeActivity;
+    /**
+     * Activity type
+     */
+    activity_type: NonTradeActivityActivityType;
+    /**
+     * An ID for the activity, always in "::" format. Can be sent as page_token in requests
+     * to facilitate the paging of results.
+     */
+    id: string;
+    /**
+     * The date on which the activity occurred or on which the transaction associated with
+     * the activity settled.
+     */
+    date: string;
+    /**
+     * The net amount of money (positive or negative) associated with the activity.
+     */
+    net_amount: number;
+    /**
+     * The symbol of the security involved with the activity. Not present for all activity
+     * types.
+     */
+    symbol: string;
+    /**
+     * For dividend activities, the number of shares that contributed to the payment. Not
+     * present for other activity types.
+     */
+    qty: number;
+    /**
+     * For dividend activities, the average amount paid per share. Not present for other
+     * activity types.
+     */
+    per_share_amount: number;
+}
+export declare type RawActivity = RawTradeActivity | RawNonTradeActivity;
+export declare type Activity = TradeActivity | NonTradeActivity;
 export interface TradeUpdate {
     event: string;
     price: string;
@@ -741,10 +1139,28 @@ export interface TradeUpdate {
     };
 }
 export interface Watchlist {
+    /**
+     * account ID
+     */
     account_id: string;
+    /**
+     * the content of this watchlist, in the order as registered by the client
+     */
     assets: Asset[];
+    /**
+     * When the watchlist was created
+     */
     created_at: string;
+    /**
+     * watchlist id
+     */
     id: string;
+    /**
+     * user-defined watchlist name (up to 64 characters)
+     */
     name: string;
+    /**
+     * When the watchlist was last updated
+     */
     updated_at: string;
 }

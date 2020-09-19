@@ -1,6 +1,6 @@
 import {
   Account, RawAccount, AccountStatus, RawOrder, OrderType, OrderSide, Order,
-  OrderTimeInForce, OrderStatus, RawPosition, Position, PositionSide
+  OrderTimeInForce, OrderStatus, RawPosition, Position, PositionSide, RawTradeActivity, TradeActivity, TradeActivitySide, TradeActivityType, TradeActivityActivityType, RawNonTradeActivity, NonTradeActivity, NonTradeActivityActivityType, RawActivity, Activity
 } from './entities'
 
 export class Parser {
@@ -105,6 +105,67 @@ export class Parser {
     return rawPositions
       ? rawPositions.map(this.parsePosition)
       : null;
+  }
+
+  parseTradeActivity(rawTradeActivity: RawTradeActivity): TradeActivity {
+    if (!rawTradeActivity) {
+      return null
+    }
+
+    try {
+      return {
+        ...rawTradeActivity,
+        raw: () => rawTradeActivity,
+        activity_type: rawTradeActivity.activity_type as TradeActivityActivityType,
+        cum_qty: this.parseNumber(rawTradeActivity.cum_qty),
+        leaves_qty: this.parseNumber(rawTradeActivity.leaves_qty),
+        price: this.parseNumber(rawTradeActivity.price),
+        qty: this.parseNumber(rawTradeActivity.qty),
+        side: rawTradeActivity.side as TradeActivitySide,
+        type: rawTradeActivity.type as TradeActivityType
+      };
+    } catch (err) {
+      throw new Error(`TradeActivity parsing failed. Error: ${err.message}`)
+    }
+  }
+
+  parseNonTradeActivity(rawNonTradeActivity: RawNonTradeActivity): NonTradeActivity {
+    if (!rawNonTradeActivity) {
+      return null
+    }
+
+    try {
+      return {
+        ...rawNonTradeActivity,
+        raw: () => rawNonTradeActivity,
+        activity_type: rawNonTradeActivity.activity_type as NonTradeActivityActivityType,
+        net_amount: this.parseNumber(rawNonTradeActivity.net_amount),
+        qty: this.parseNumber(rawNonTradeActivity.qty),
+        per_share_amount: this.parseNumber(rawNonTradeActivity.per_share_amount)
+      };
+    } catch (err) {
+      throw new Error(`NonTradeActivity parsing failed. Error: ${err.message}`)
+    }
+  }
+
+  parseActivities(rawActivities: Array<RawActivity>): Array<Activity> {
+    if (!rawActivities) {
+      return null;
+    }
+
+    try {
+      return rawActivities.map((rawActivity) =>
+        this.isTradeActivity(rawActivity)
+          ? this.parseTradeActivity(rawActivity)
+          : this.parseNonTradeActivity(rawActivity)
+      )
+    } catch (err) {
+      throw new Error(`Activity parsing failed. Error: ${err.message}`)
+    }
+  }
+
+  private isTradeActivity(rawActivity: RawActivity): rawActivity is RawTradeActivity {
+    return rawActivity.activity_type === 'FILL';
   }
 
   private parseNumber(numStr: string): number {

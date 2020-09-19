@@ -26,6 +26,8 @@ import {
   Credentials,
   RawOrder,
   RawPosition,
+  RawActivity,
+  Activity,
 } from './entities'
 
 import {
@@ -253,14 +255,13 @@ export class AlpacaClient {
     )
   }
 
-  getAccountActivities(
-    params: GetAccountActivities
-  ): Promise<Array<NonTradeActivity | TradeActivity>> {
-    return this.request(
+  async getAccountActivities(params: GetAccountActivities): Promise<Activity[]> {
+    const rawActivities = await this.request<RawActivity[]>(
       method.GET,
       urls.rest.account,
       `account/activities/${params.activity_type}?${qs.stringify(params)}`
     )
+    return this.parser.parseActivities(rawActivities)
   }
 
   getPortfolioHistory(params?: GetPortfolioHistory): Promise<PortfolioHistory> {
