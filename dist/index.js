@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AlpacaStream = exports.AlpacaClient = void 0;
 var client_1 = require("./lib/client");
 Object.defineProperty(exports, "AlpacaClient", {
   enumerable: true,

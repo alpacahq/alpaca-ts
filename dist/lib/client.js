@@ -215,14 +215,15 @@ class AlpacaClient {
       params
     );
   }
-  getAccountActivities(params) {
-    return this.request(
+  async getAccountActivities(params) {
+    const rawActivities = await this.request(
       http_method_enum_1.default.GET,
       urls_1.default.rest.account,
       `account/activities/${params.activity_type}?${qs_1.default.stringify(
         params
       )}`
     );
+    return this.parser.parseActivities(rawActivities);
   }
   getPortfolioHistory(params) {
     return this.request(
