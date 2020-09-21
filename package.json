@@ -19,7 +19,9 @@
   "scripts": {
     "build": "npm run clean && tsc",
     "clean": "rimraf dist types",
-    "test": "npm run build && $(npm bin)/ava -v"
+    "test": "npm run build && npm run test:unit",
+    "test:unit": "jest",
+    "test:watch": "jest --watchAll"
   },
   "author": "master-chief",
   "contributors": [
@@ -36,10 +38,13 @@
     "ws": "^7.3.0"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.14",
     "@types/node-fetch": "^2.5.7",
     "@types/qs": "^6.9.3",
     "@types/ws": "^7.2.4",
-    "ava": "^3.8.2",
-    "rimraf": "3.0.2"
+    "jest": "^26.4.2",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.4.0",
+    "typescript": "^4.0.3"
   }
 }
