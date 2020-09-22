@@ -1,10 +1,9 @@
 import fetch from 'node-fetch'
 import method from 'http-method-enum'
 import qs from 'qs'
-
-import { Parser } from './parser'
 import urls from './urls'
 
+import { Parser } from './parser'
 import { RateLimiter } from 'limiter'
 
 import {
@@ -106,8 +105,13 @@ export class AlpacaClient {
   }
 
   async placeOrder(params: PlaceOrder): Promise<Order> {
-    const rawOrder = await this.request<RawOrder>(method.POST, urls.rest.account, `orders`, params)
-    return this.parser.parseOrder(rawOrder);
+    const rawOrder = await this.request<RawOrder>(
+      method.POST,
+      urls.rest.account,
+      `orders`,
+      params
+    )
+    return this.parser.parseOrder(rawOrder)
   }
 
   async replaceOrder(params: ReplaceOrder): Promise<Order> {
@@ -130,7 +134,11 @@ export class AlpacaClient {
   }
 
   async cancelOrders(): Promise<Order[]> {
-    const rawOrders = await this.request<RawOrder[]>(method.DELETE, urls.rest.account, `orders`)
+    const rawOrders = await this.request<RawOrder[]>(
+      method.DELETE,
+      urls.rest.account,
+      `orders`
+    )
     return this.parser.parseOrders(rawOrders)
   }
 
@@ -144,7 +152,11 @@ export class AlpacaClient {
   }
 
   async getPositions(): Promise<Position[]> {
-    const rawPositions = await this.request<RawPosition[]>(method.GET, urls.rest.account, `positions`)
+    const rawPositions = await this.request<RawPosition[]>(
+      method.GET,
+      urls.rest.account,
+      `positions`
+    )
     return this.parser.parsePositions(rawPositions)
   }
 
@@ -158,7 +170,11 @@ export class AlpacaClient {
   }
 
   async closePositions(): Promise<Order[]> {
-    const rawOrders = await this.request<RawOrder[]>(method.DELETE, urls.rest.account, `positions`)
+    const rawOrders = await this.request<RawOrder[]>(
+      method.DELETE,
+      urls.rest.account,
+      `positions`
+    )
     return this.parser.parseOrders(rawOrders)
   }
 
@@ -255,7 +271,9 @@ export class AlpacaClient {
     )
   }
 
-  async getAccountActivities(params: GetAccountActivities): Promise<Activity[]> {
+  async getAccountActivities(
+    params: GetAccountActivities
+  ): Promise<Activity[]> {
     const rawActivities = await this.request<RawActivity[]>(
       method.GET,
       urls.rest.account,
