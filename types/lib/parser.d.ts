@@ -8,6 +8,5 @@ export declare class Parser {
     parseTradeActivity(rawTradeActivity: RawTradeActivity): TradeActivity;
     parseNonTradeActivity(rawNonTradeActivity: RawNonTradeActivity): NonTradeActivity;
     parseActivities(rawActivities: Array<RawActivity>): Array<Activity>;
-    private isTradeActivity;
     private parseNumber;
 }

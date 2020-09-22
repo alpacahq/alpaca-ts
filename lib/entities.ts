@@ -1030,98 +1030,7 @@ export interface Trade {
   z: number
 }
 
-export interface RawTradeActivity {
-  activity_type: 'FILL'
-  cum_qty: string
-  id: string
-  leaves_qty: string
-  price: string
-  qty: string
-  side: string
-  symbol: string
-  transaction_time: string
-  order_id: string
-  type: string
-}
-
-export type TradeActivityActivityType = 'FILL';
-export type TradeActivityType = 'fill' | 'partial_fill';
-export type TradeActivitySide = 'buy' | 'sell';
-
-export interface TradeActivity {
-  /**
-   * Get the raw data, exactly as it came from Alpaca
-   */
-  raw(): RawTradeActivity,
-
-  /**
-   * FILL
-   */
-  activity_type: TradeActivityActivityType
-
-  /**
-   * The cumulative quantity of shares involved in the execution.
-   */
-  cum_qty: number
-
-  /**
-   * An id for the activity. Always in "::" format. Can be sent as page_token in requests
-   * to facilitate the paging of results.
-   */
-  id: string
-
-  /**
-   * For partially_filled orders, the quantity of shares that are left to be filled.
-   */
-  leaves_qty: number
-
-  /**
-   * The per-share price that the trade was executed at.
-   */
-  price: number
-
-  /**
-   * The number of shares involved in the trade execution.
-   */
-  qty: number
-
-  /**
-   * buy or sell
-   */
-  side: TradeActivitySide
-
-  /**
-   * The symbol of the security being traded.
-   */
-  symbol: string
-
-  /**
-   * The time at which the execution occurred.
-   */
-  transaction_time: string
-
-  /**
-   * The id for the order that filled.
-   */
-  order_id: string
-
-  /**
-   * fill or partial_fill
-   */
-  type: TradeActivityType
-}
-
-export interface RawNonTradeActivity {
-  activity_type: string
-  id: string
-  date: string
-  net_amount: string
-  symbol: string
-  qty: string
-  per_share_amount: string
-}
-
-export type NonTradeActivityActivityType =
+export type ActivityType =
   /**
    * Order fills (both partial and full fills)
    */
@@ -1290,6 +1199,98 @@ export type NonTradeActivityActivityType =
    */
   'SSP';
 
+export interface RawTradeActivity {
+  // Only FILL
+  activity_type: Extract<ActivityType, 'FILL'>
+  cum_qty: string
+  id: string
+  leaves_qty: string
+  price: string
+  qty: string
+  side: string
+  symbol: string
+  transaction_time: string
+  order_id: string
+  type: string
+}
+
+export interface RawNonTradeActivity {
+  // Everything except FILL
+  activity_type: Exclude<ActivityType, 'FILL'>
+  id: string
+  date: string
+  net_amount: string
+  symbol: string
+  qty: string
+  per_share_amount: string
+}
+
+export type TradeActivityType = 'fill' | 'partial_fill';
+export type TradeActivitySide = 'buy' | 'sell';
+
+export interface TradeActivity {
+  /**
+   * Get the raw data, exactly as it came from Alpaca
+   */
+  raw(): RawTradeActivity,
+
+  /**
+   * FILL
+   */
+  activity_type: Extract<ActivityType, 'FILL'>
+
+  /**
+   * The cumulative quantity of shares involved in the execution.
+   */
+  cum_qty: number
+
+  /**
+   * An id for the activity. Always in "::" format. Can be sent as page_token in requests
+   * to facilitate the paging of results.
+   */
+  id: string
+
+  /**
+   * For partially_filled orders, the quantity of shares that are left to be filled.
+   */
+  leaves_qty: number
+
+  /**
+   * The per-share price that the trade was executed at.
+   */
+  price: number
+
+  /**
+   * The number of shares involved in the trade execution.
+   */
+  qty: number
+
+  /**
+   * buy or sell
+   */
+  side: TradeActivitySide
+
+  /**
+   * The symbol of the security being traded.
+   */
+  symbol: string
+
+  /**
+   * The time at which the execution occurred.
+   */
+  transaction_time: string
+
+  /**
+   * The id for the order that filled.
+   */
+  order_id: string
+
+  /**
+   * fill or partial_fill
+   */
+  type: TradeActivityType
+}
+
 export interface NonTradeActivity {
   /**
    * Get the raw data, exactly as it came from Alpaca
@@ -1299,7 +1300,7 @@ export interface NonTradeActivity {
   /**
    * Activity type
    */
-  activity_type: NonTradeActivityActivityType
+  activity_type: Exclude<ActivityType, 'FILL'>
 
   /**
    * An ID for the activity, always in "::" format. Can be sent as page_token in requests

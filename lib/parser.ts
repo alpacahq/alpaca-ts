@@ -1,6 +1,8 @@
 import {
   Account, RawAccount, AccountStatus, RawOrder, OrderType, OrderSide, Order,
-  OrderTimeInForce, OrderStatus, RawPosition, Position, PositionSide, RawTradeActivity, TradeActivity, TradeActivitySide, TradeActivityType, TradeActivityActivityType, RawNonTradeActivity, NonTradeActivity, NonTradeActivityActivityType, RawActivity, Activity
+  OrderTimeInForce, OrderStatus, RawPosition, Position, PositionSide, RawTradeActivity,
+  TradeActivity, TradeActivitySide, TradeActivityType, RawNonTradeActivity,
+  NonTradeActivity, RawActivity, Activity
 } from './entities'
 
 export class Parser {
@@ -56,9 +58,7 @@ export class Parser {
         stop_price: this.parseNumber(rawOrder.stop_price),
         filled_avg_price: this.parseNumber(rawOrder.filled_avg_price),
         status: rawOrder.status as OrderStatus,
-        legs: rawOrder.legs && rawOrder.legs.length
-          ? rawOrder.legs.map(this.parseOrder)
-          : null,
+        legs: this.parseOrders(rawOrder.legs),
         trail_price: this.parseNumber(rawOrder.trail_price),
         trail_percent: this.parseNumber(rawOrder.trail_percent),
         hwm: this.parseNumber(rawOrder.hwm)
@@ -70,7 +70,7 @@ export class Parser {
 
   parseOrders(rawOrders: RawOrder[]): Order[] {
     return rawOrders
-      ? rawOrders.map(this.parseOrder)
+      ? rawOrders.map(order => this.parseOrder(order))
       : null;
   }
 
@@ -103,7 +103,7 @@ export class Parser {
 
   parsePositions(rawPositions: RawPosition[]): Position[] {
     return rawPositions
-      ? rawPositions.map(this.parsePosition)
+      ? rawPositions.map(pos => this.parsePosition(pos))
       : null;
   }
 
@@ -116,7 +116,6 @@ export class Parser {
       return {
         ...rawTradeActivity,
         raw: () => rawTradeActivity,
-        activity_type: rawTradeActivity.activity_type as TradeActivityActivityType,
         cum_qty: this.parseNumber(rawTradeActivity.cum_qty),
         leaves_qty: this.parseNumber(rawTradeActivity.leaves_qty),
         price: this.parseNumber(rawTradeActivity.price),
@@ -138,7 +137,6 @@ export class Parser {
       return {
         ...rawNonTradeActivity,
         raw: () => rawNonTradeActivity,
-        activity_type: rawNonTradeActivity.activity_type as NonTradeActivityActivityType,
         net_amount: this.parseNumber(rawNonTradeActivity.net_amount),
         qty: this.parseNumber(rawNonTradeActivity.qty),
         per_share_amount: this.parseNumber(rawNonTradeActivity.per_share_amount)
@@ -155,17 +153,13 @@ export class Parser {
 
     try {
       return rawActivities.map((rawActivity) =>
-        this.isTradeActivity(rawActivity)
+        rawActivity.activity_type === 'FILL'
           ? this.parseTradeActivity(rawActivity)
           : this.parseNonTradeActivity(rawActivity)
       )
     } catch (err) {
       throw new Error(`Activity parsing failed. Error: ${err.message}`)
     }
-  }
-
-  private isTradeActivity(rawActivity: RawActivity): rawActivity is RawTradeActivity {
-    return rawActivity.activity_type === 'FILL';
   }
 
   private parseNumber(numStr: string): number {

@@ -51,10 +51,7 @@ class Parser {
         stop_price: this.parseNumber(rawOrder.stop_price),
         filled_avg_price: this.parseNumber(rawOrder.filled_avg_price),
         status: rawOrder.status,
-        legs:
-          rawOrder.legs && rawOrder.legs.length
-            ? rawOrder.legs.map(this.parseOrder)
-            : null,
+        legs: this.parseOrders(rawOrder.legs),
         trail_price: this.parseNumber(rawOrder.trail_price),
         trail_percent: this.parseNumber(rawOrder.trail_percent),
         hwm: this.parseNumber(rawOrder.hwm),
@@ -64,7 +61,7 @@ class Parser {
     }
   }
   parseOrders(rawOrders) {
-    return rawOrders ? rawOrders.map(this.parseOrder) : null;
+    return rawOrders ? rawOrders.map((order) => this.parseOrder(order)) : null;
   }
   parsePosition(rawPosition) {
     if (!rawPosition) {
@@ -96,7 +93,9 @@ class Parser {
     }
   }
   parsePositions(rawPositions) {
-    return rawPositions ? rawPositions.map(this.parsePosition) : null;
+    return rawPositions
+      ? rawPositions.map((pos) => this.parsePosition(pos))
+      : null;
   }
   parseTradeActivity(rawTradeActivity) {
     if (!rawTradeActivity) {
@@ -106,7 +105,6 @@ class Parser {
       return {
         ...rawTradeActivity,
         raw: () => rawTradeActivity,
-        activity_type: rawTradeActivity.activity_type,
         cum_qty: this.parseNumber(rawTradeActivity.cum_qty),
         leaves_qty: this.parseNumber(rawTradeActivity.leaves_qty),
         price: this.parseNumber(rawTradeActivity.price),
@@ -126,7 +124,6 @@ class Parser {
       return {
         ...rawNonTradeActivity,
         raw: () => rawNonTradeActivity,
-        activity_type: rawNonTradeActivity.activity_type,
         net_amount: this.parseNumber(rawNonTradeActivity.net_amount),
         qty: this.parseNumber(rawNonTradeActivity.qty),
         per_share_amount: this.parseNumber(
@@ -143,16 +140,13 @@ class Parser {
     }
     try {
       return rawActivities.map((rawActivity) =>
-        this.isTradeActivity(rawActivity)
+        rawActivity.activity_type === "FILL"
           ? this.parseTradeActivity(rawActivity)
           : this.parseNonTradeActivity(rawActivity)
       );
     } catch (err) {
       throw new Error(`Activity parsing failed. Error: ${err.message}`);
     }
-  }
-  isTradeActivity(rawActivity) {
-    return rawActivity.activity_type === "FILL";
   }
   parseNumber(numStr) {
     return parseFloat(numStr);
