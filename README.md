@@ -59,7 +59,7 @@ Alpaca provides numbers as strings. From [their docs](https://alpaca.markets/doc
 This package provides numbers as `number` instead, which is what most developers want. If you want the original data, as it came from Alpaca, you can call `raw()` on any entity.
 
 ```javascript
-const client = new Client({}),
+const client = new Client({ ... }),
   account = await client.getAccount(),
   rawAccount = account.raw()
 
