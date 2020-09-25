@@ -1,10 +1,7 @@
 import fetch from 'node-fetch'
-import method from 'http-method-enum'
 import qs from 'qs'
-
-import urls from './urls.js'
-
 import limiter from 'limiter'
+import urls from './urls.js'
 
 import {
   Account,
@@ -70,12 +67,12 @@ export class Client {
   }
 
   getAccount(): Promise<Account> {
-    return this.request(method.GET, urls.rest.account, 'account')
+    return this.request('GET', urls.rest.account, 'account')
   }
 
   getOrder(params: GetOrder): Promise<Order> {
     return this.request(
-      method.GET,
+      'GET',
       urls.rest.account,
       `orders/${params.order_id || params.client_order_id}?${qs.stringify({
         nested: params.nested,
@@ -85,19 +82,19 @@ export class Client {
 
   getOrders(params?: GetOrders): Promise<Order[]> {
     return this.request(
-      method.GET,
+      'GET',
       urls.rest.account,
       `orders?${qs.stringify(params)}`
     )
   }
 
   placeOrder(params: PlaceOrder): Promise<Order> {
-    return this.request(method.POST, urls.rest.account, `orders`, params)
+    return this.request('POST', urls.rest.account, `orders`, params)
   }
 
   replaceOrder(params: ReplaceOrder): Promise<Order> {
     return this.request(
-      method.PATCH,
+      'PATCH',
       urls.rest.account,
       `orders/${params.order_id}`,
       params
@@ -106,43 +103,39 @@ export class Client {
 
   cancelOrder(params: CancelOrder): Promise<Order> {
     return this.request(
-      method.DELETE,
+      'DELETE',
       urls.rest.account,
       `orders/${params.order_id}`
     )
   }
 
   cancelOrders(): Promise<Order[]> {
-    return this.request(method.DELETE, urls.rest.account, `orders`)
+    return this.request('DELETE', urls.rest.account, `orders`)
   }
 
   getPosition(params: GetPosition): Promise<Position> {
-    return this.request(
-      method.GET,
-      urls.rest.account,
-      `positions/${params.symbol}`
-    )
+    return this.request('GET', urls.rest.account, `positions/${params.symbol}`)
   }
 
   getPositions(): Promise<Position[]> {
-    return this.request(method.GET, urls.rest.account, `positions`)
+    return this.request('GET', urls.rest.account, `positions`)
   }
 
   closePosition(params: ClosePosition): Promise<Order> {
     return this.request(
-      method.DELETE,
+      'DELETE',
       urls.rest.account,
       `positions/${params.symbol}`
     )
   }
 
   closePositions(): Promise<Order[]> {
-    return this.request(method.DELETE, urls.rest.account, `positions`)
+    return this.request('DELETE', urls.rest.account, `positions`)
   }
 
   getAsset(params: GetAsset): Promise<Asset> {
     return this.request(
-      method.GET,
+      'GET',
       urls.rest.account,
       `assets/${params.asset_id_or_symbol}`
     )
@@ -150,31 +143,27 @@ export class Client {
 
   getAssets(params?: GetAssets): Promise<Asset[]> {
     return this.request(
-      method.GET,
+      'GET',
       urls.rest.account,
       `assets?${qs.stringify(params)}`
     )
   }
 
   getWatchlist(params: GetWatchList): Promise<Watchlist> {
-    return this.request(
-      method.GET,
-      urls.rest.account,
-      `watchlists/${params.uuid}`
-    )
+    return this.request('GET', urls.rest.account, `watchlists/${params.uuid}`)
   }
 
   getWatchlists(): Promise<Watchlist[]> {
-    return this.request(method.GET, urls.rest.account, `watchlists`)
+    return this.request('GET', urls.rest.account, `watchlists`)
   }
 
   createWatchlist(params: CreateWatchList): Promise<Watchlist[]> {
-    return this.request(method.POST, urls.rest.account, `watchlists`, params)
+    return this.request('POST', urls.rest.account, `watchlists`, params)
   }
 
   updateWatchlist(params: UpdateWatchList): Promise<Watchlist> {
     return this.request(
-      method.PUT,
+      'PUT',
       urls.rest.account,
       `watchlists/${params.uuid}`,
       params
@@ -183,7 +172,7 @@ export class Client {
 
   addToWatchlist(params: AddToWatchList): Promise<Watchlist> {
     return this.request(
-      method.POST,
+      'POST',
       urls.rest.account,
       `watchlists/${params.uuid}`,
       params
@@ -192,7 +181,7 @@ export class Client {
 
   removeFromWatchlist(params: RemoveFromWatchList): Promise<void> {
     return this.request(
-      method.DELETE,
+      'DELETE',
       urls.rest.account,
       `watchlists/${params.uuid}/${params.symbol}`
     )
@@ -200,7 +189,7 @@ export class Client {
 
   deleteWatchlist(params: DeleteWatchList): Promise<void> {
     return this.request(
-      method.DELETE,
+      'DELETE',
       urls.rest.account,
       `watchlists/${params.uuid}`
     )
@@ -208,25 +197,25 @@ export class Client {
 
   getCalendar(params?: GetCalendar): Promise<Calendar[]> {
     return this.request(
-      method.GET,
+      'GET',
       urls.rest.account,
       `calendar?${qs.stringify(params)}`
     )
   }
 
   getClock(): Promise<Clock> {
-    return this.request(method.GET, urls.rest.account, `clock`)
+    return this.request('GET', urls.rest.account, `clock`)
   }
 
   getAccountConfigurations(): Promise<AccountConfigurations> {
-    return this.request(method.GET, urls.rest.account, `account/configurations`)
+    return this.request('GET', urls.rest.account, `account/configurations`)
   }
 
   updateAccountConfigurations(
     params: UpdateAccountConfigurations
   ): Promise<AccountConfigurations> {
     return this.request(
-      method.PATCH,
+      'PATCH',
       urls.rest.account,
       `account/configurations`,
       params
@@ -237,7 +226,7 @@ export class Client {
     params: GetAccountActivities
   ): Promise<Array<NonTradeActivity | TradeActivity>> {
     return this.request(
-      method.GET,
+      'GET',
       urls.rest.account,
       `account/activities/${params.activity_type}?${qs.stringify(params)}`
     )
@@ -245,7 +234,7 @@ export class Client {
 
   getPortfolioHistory(params?: GetPortfolioHistory): Promise<PortfolioHistory> {
     return this.request(
-      method.GET,
+      'GET',
       urls.rest.account,
       `account/portfolio/history?${qs.stringify(params)}`
     )
@@ -259,7 +248,7 @@ export class Client {
     transformed['symbols'] = params.symbols.join(',')
 
     return this.request(
-      method.GET,
+      'GET',
       urls.rest.market_data,
       `bars/${params.timeframe}?${qs.stringify(params)}`
     )
@@ -267,7 +256,7 @@ export class Client {
 
   getLastTrade(params: GetLastTrade): Promise<LastTrade> {
     return this.request(
-      method.GET,
+      'GET',
       urls.rest.market_data,
       `last/stocks/${params.symbol}`
     )
@@ -275,14 +264,14 @@ export class Client {
 
   getLastQuote(params: GetLastQuote): Promise<LastQuote> {
     return this.request(
-      method.GET,
+      'GET',
       urls.rest.market_data,
       `last_quote/stocks/${params.symbol}`
     )
   }
 
   private request(
-    method: method,
+    method: string,
     url: string,
     endpoint: string,
     data?: any
@@ -315,7 +304,7 @@ export class Client {
           'APCA-API-KEY-ID': this.options.credentials.key,
           'APCA-API-SECRET-KEY': this.options.credentials.secret,
         },
-        body: JSON.stringify(data),
+        body: data ? JSON.stringify(data) : undefined,
       })
         .then(
           // if json parse fails we default to an empty object
