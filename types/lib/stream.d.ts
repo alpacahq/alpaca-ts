@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import { EventEmitter } from 'events';
-import { Credentials } from './entities';
+import { Credentials } from './entities.js';
 export declare interface Stream {
     on<U extends keyof StreamEvents>(event: U, listener: StreamEvents[U]): this;
     emit<U extends keyof StreamEvents>(event: U, ...args: Parameters<StreamEvents[U]>): boolean;

@@ -1,5 +1,5 @@
-export { Client } from './lib/client'
-export { Stream } from './lib/stream'
+export { Client } from './lib/client.js'
+export { Stream } from './lib/stream.js'
 
 export {
   Account,
@@ -16,7 +16,7 @@ export {
   Bar,
   LastQuote,
   LastTrade,
-} from './lib/entities'
+} from './lib/entities.js'
 
 export {
   GetOrder,
@@ -41,4 +41,4 @@ export {
   GetBars,
   GetLastTrade,
   GetLastQuote,
-} from './lib/params'
+} from './lib/params.js'

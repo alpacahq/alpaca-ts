@@ -2,9 +2,9 @@ import fetch from 'node-fetch'
 import method from 'http-method-enum'
 import qs from 'qs'
 
-import urls from './urls'
+import urls from './urls.js'
 
-import { RateLimiter } from 'limiter'
+import limiter from 'limiter'
 
 import {
   Account,
@@ -22,7 +22,7 @@ import {
   LastQuote,
   LastTrade,
   Credentials,
-} from './entities'
+} from './entities.js'
 
 import {
   GetOrder,
@@ -47,10 +47,10 @@ import {
   GetBars,
   GetLastTrade,
   GetLastQuote,
-} from './params'
+} from './params.js'
 
 export class Client {
-  private limiter: RateLimiter = new RateLimiter(199, 'minute')
+  private limiter = new limiter.RateLimiter(199, 'minute')
 
   constructor(
     protected options: {
