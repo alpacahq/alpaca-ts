@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import qs from 'qs';
-import urls from './urls';
-import { Parser } from './parser';
+import urls from './urls.js';
+import { Parser } from './parser.js';
 import { RateLimiter } from 'limiter';
 export class AlpacaClient {
     constructor(options) {

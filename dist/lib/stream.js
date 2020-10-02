@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
+import urls from './urls.js';
 import { EventEmitter } from 'events';
-import urls from './urls';
 export class AlpacaStream extends EventEmitter {
     constructor(params) {
         // construct EventEmitter

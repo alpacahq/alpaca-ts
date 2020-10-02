@@ -1,8 +1,8 @@
 import fetch from 'node-fetch'
 import qs from 'qs'
-import urls from './urls'
+import urls from './urls.js'
 
-import { Parser } from './parser'
+import { Parser } from './parser.js'
 import { RateLimiter } from 'limiter'
 
 import {
@@ -24,7 +24,7 @@ import {
   RawPosition,
   RawActivity,
   Activity,
-} from './entities'
+} from './entities.js'
 
 import {
   GetOrder,
@@ -49,7 +49,7 @@ import {
   GetBars,
   GetLastTrade,
   GetLastQuote,
-} from './params'
+} from './params.js'
 
 export class AlpacaClient {
   private limiter: RateLimiter = new RateLimiter(199, 'minute')

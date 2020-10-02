@@ -1,4 +1,4 @@
-import { Parser } from '../parser';
+import { Parser } from '../parser.js';
 describe('Parser', () => {
     describe('parseAccount', () => {
         it('should handle missing input', () => {
@@ -16,7 +16,7 @@ describe('Parser', () => {
         it('should parse buying power to a number', () => {
             const parser = new Parser();
             const rawAccount = {
-                buying_power: '123.456'
+                buying_power: '123.456',
             };
             const account = parser.parseAccount(rawAccount);
             expect(account.buying_power).toBe(123.456);
@@ -38,7 +38,7 @@ describe('Parser', () => {
         it('should parse qty to a number', () => {
             const parser = new Parser();
             const rawOrder = {
-                qty: '42'
+                qty: '42',
             };
             const account = parser.parseOrder(rawOrder);
             expect(account.qty).toBe(42);
@@ -46,9 +46,11 @@ describe('Parser', () => {
         it('should parse legs if they exist', () => {
             const parser = new Parser();
             const rawOrder = {
-                legs: [{
-                        qty: '7'
-                    }]
+                legs: [
+                    {
+                        qty: '7',
+                    },
+                ],
             };
             const order = parser.parseOrder(rawOrder);
             expect(order.legs[0].qty).toBe(7);
@@ -56,7 +58,7 @@ describe('Parser', () => {
         it(`should not parse legs if they don't exist`, () => {
             const parser = new Parser();
             const rawOrder = {
-                legs: null
+                legs: null,
             };
             const order = parser.parseOrder(rawOrder);
             expect(order.legs).toBeNull();
@@ -65,9 +67,11 @@ describe('Parser', () => {
     describe('parseOrders', () => {
         it('should parse orders if they exist', () => {
             const parser = new Parser();
-            const rawOrders = [{
-                    qty: '42'
-                }];
+            const rawOrders = [
+                {
+                    qty: '42',
+                },
+            ];
             const orders = parser.parseOrders(rawOrders);
             expect(orders[0].qty).toBe(42);
         });
@@ -93,7 +97,7 @@ describe('Parser', () => {
         it('should parse qty to a number', () => {
             const parser = new Parser();
             const rawPosition = {
-                qty: '42'
+                qty: '42',
             };
             const position = parser.parsePosition(rawPosition);
             expect(position.qty).toBe(42);
@@ -108,9 +112,11 @@ describe('Parser', () => {
         });
         it(`should not parse positions if they don't exist`, () => {
             const parser = new Parser();
-            const rawPositions = [{
-                    qty: '42'
-                }];
+            const rawPositions = [
+                {
+                    qty: '42',
+                },
+            ];
             const result = parser.parsePositions(rawPositions);
             expect(result[0].qty).toBe(42);
         });
@@ -131,7 +137,7 @@ describe('Parser', () => {
         it('should parse qty to a number', () => {
             const parser = new Parser();
             const rawTradeActivity = {
-                qty: '42'
+                qty: '42',
             };
             const position = parser.parseTradeActivity(rawTradeActivity);
             expect(position.qty).toBe(42);
@@ -153,7 +159,7 @@ describe('Parser', () => {
         it('should parse qty to a number', () => {
             const parser = new Parser();
             const rawNonTradeActivity = {
-                qty: '42'
+                qty: '42',
             };
             const position = parser.parseNonTradeActivity(rawNonTradeActivity);
             expect(position.qty).toBe(42);
@@ -170,12 +176,12 @@ describe('Parser', () => {
             const rawActivities = [
                 {
                     activity_type: 'FILL',
-                    price: '6.66'
+                    price: '6.66',
                 },
                 {
                     activity_type: 'TRANS',
-                    net_amount: '123.45'
-                }
+                    net_amount: '123.45',
+                },
             ];
             const activities = parser.parseActivities(rawActivities);
             expect(activities[0].price).toBe(6.66);

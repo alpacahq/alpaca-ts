@@ -1,2 +1,2 @@
-export { AlpacaClient } from './lib/client';
-export { AlpacaStream } from './lib/stream';
+export { AlpacaClient } from './lib/client.js';
+export { AlpacaStream } from './lib/stream.js';
