@@ -12,8 +12,8 @@ WebSocket streams
 
 - [Features](#features)
 - [Install](#install)
-- [AlpacaClient](#alpacaclient)
-- [AlpacaStream](#alpacastream)
+- [Client](#client)
+- [Stream](#stream)
 
 ## Features
 
@@ -31,7 +31,7 @@ From NPM:
 > npm i @master-chief/alpaca
 ```
 
-### AlpacaClient
+### Client
 
 #### Creating a new client
 
@@ -331,7 +331,7 @@ await client.getLastQuote({
 })
 ```
 
-## AlpacaStream
+## Stream
 
 #### Creating a new stream
 
