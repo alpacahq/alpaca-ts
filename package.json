@@ -24,6 +24,16 @@
     "test:unit": "jest",
     "test:watch": "jest --watchAll"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/lib"
+    ],
+    "testMatch": [
+      "**/tests/**/*.test.ts"
+    ]
+  },
   "author": "master-chief",
   "contributors": [
     "lbstr",

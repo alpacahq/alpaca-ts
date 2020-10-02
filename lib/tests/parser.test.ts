@@ -1,4 +1,4 @@
-import { Parser } from '../parser.js'
+import { Parser } from '../parser'
 
 import {
   RawAccount,
@@ -8,7 +8,7 @@ import {
   RawNonTradeActivity,
   TradeActivity,
   NonTradeActivity,
-} from '../entities.js'
+} from '../entities'
 
 describe('Parser', () => {
   describe('parseAccount', () => {

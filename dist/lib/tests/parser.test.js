@@ -1,4 +1,4 @@
-import { Parser } from '../parser.js';
+import { Parser } from '../parser';
 describe('Parser', () => {
     describe('parseAccount', () => {
         it('should handle missing input', () => {
