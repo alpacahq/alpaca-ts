@@ -38,8 +38,8 @@ export class Parser {
                 raw: () => rawClock,
                 timestamp: new Date(rawClock.timestamp),
                 is_open: rawClock.is_open,
+                next_open: new Date(rawClock.next_open),
                 next_close: new Date(rawClock.next_close),
-                next_open: new Date(rawClock.next_close),
             };
         }
         catch (err) {
