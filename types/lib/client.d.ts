@@ -6,6 +6,7 @@ export declare class AlpacaClient {
         paper?: boolean;
         rate_limit?: boolean;
     };
+    private limiter;
     private mutex;
     private parser;
     constructor(options: {

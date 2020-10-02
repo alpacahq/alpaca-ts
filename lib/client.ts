@@ -1,8 +1,9 @@
 import qs from 'qs'
 import fetch from 'node-fetch'
 import urls from './urls.js'
+import limiter from 'limiter'
 
-import { Mutex, MutexInterface } from 'async-mutex'
+import { Mutex } from 'async-mutex'
 import { Parser } from './parser.js'
 
 import {
@@ -52,6 +53,7 @@ import {
 } from './params.js'
 
 export class AlpacaClient {
+  private limiter = new limiter.RateLimiter(200, 'minute')
   private mutex = new Mutex()
   private parser = new Parser()
 
@@ -327,9 +329,8 @@ export class AlpacaClient {
     }
 
     return new Promise<T>(async (resolve, reject) => {
-      let release: MutexInterface.Releaser
+      let release = () => null
 
-      // do rate limiting
       if (this.options.rate_limit) {
         release = await this.mutex.acquire()
       }
@@ -343,17 +344,14 @@ export class AlpacaClient {
           },
           body: JSON.stringify(data),
         })
-          .then(
-            // if json parse fails we default to an empty object
-            async (response) => (await response.json().catch(() => false)) || {}
-          )
+          // if json parse fails we default to an empty object
+          .then(async (resp) => (await resp.json().catch(() => false)) || {})
           .then((json) =>
             'code' in json && 'message' in json ? reject(json) : resolve(json)
           )
           .catch(reject)
       } finally {
-        // 300 ms to maintain 200 requests per minute
-        setTimeout(release, 300)
+        this.limiter.removeTokens(1, release)
       }
     })
   }
