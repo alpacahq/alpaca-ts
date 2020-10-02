@@ -1,12 +1,12 @@
-import fetch from 'node-fetch';
 import qs from 'qs';
+import limiter from 'limiter';
+import fetch from 'node-fetch';
 import urls from './urls.js';
 import { Parser } from './parser.js';
-import { RateLimiter } from 'limiter';
 export class AlpacaClient {
     constructor(options) {
         this.options = options;
-        this.limiter = new RateLimiter(199, 'minute');
+        this.limiter = new limiter.RateLimiter(199, 'minute');
         this.parser = new Parser();
     }
     async isAuthenticated() {

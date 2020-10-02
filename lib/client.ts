@@ -1,9 +1,9 @@
-import fetch from 'node-fetch'
 import qs from 'qs'
+import limiter from 'limiter'
+import fetch from 'node-fetch'
 import urls from './urls.js'
 
 import { Parser } from './parser.js'
-import { RateLimiter } from 'limiter'
 
 import {
   RawAccount,
@@ -52,7 +52,7 @@ import {
 } from './params.js'
 
 export class AlpacaClient {
-  private limiter: RateLimiter = new RateLimiter(199, 'minute')
+  private limiter = new limiter.RateLimiter(199, 'minute')
   private parser: Parser = new Parser()
 
   constructor(
