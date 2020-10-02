@@ -1,9 +1,10 @@
 {
   "name": "@master-chief/alpaca",
   "version": "2.0.0",
-  "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
+  "description": "a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
+  "type": "module",
   "keywords": [
     "alpaca",
     "alpaca-trade-api-js",
@@ -25,13 +26,12 @@
   },
   "author": "master-chief",
   "contributors": [
+    "lbstr",
     "AqilCont",
-    "KalebMills",
-    "lbstr"
+    "KalebMills"
   ],
   "license": "ISC",
   "dependencies": {
-    "http-method-enum": "^1.0.0",
     "limiter": "^1.1.5",
     "node-fetch": "^2.6.0",
     "qs": "^6.9.4",
