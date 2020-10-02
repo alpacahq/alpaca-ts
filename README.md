@@ -50,21 +50,19 @@ const client = new Client({
 });
 ```
 
-#### String parsing
+#### Parsing
 
 Alpaca provides numbers as strings. From [their docs](https://alpaca.markets/docs/api-documentation/api-v2/#numbers):
 
 > Decimal numbers are returned as strings to preserve full precision across platforms. When making a request, it is recommended that you also convert your numbers to strings to avoid truncation and precision errors.
 
-This package provides numbers as `number` instead, which is what most developers want. If you want the original data, as it came from Alpaca, you can call `raw()` on any entity.
+This package provides numbers as `number` instead, and date strings as `Date` objects which is what most developers want out of the box. If you want the original data, as it came from Alpaca, you can call `raw()` on any entity.
 
 ```javascript
-const client = new Client({ ... }),
-  account = await client.getAccount(),
-  rawAccount = account.raw()
+const account = await client.getAccount()
 
 console.log(typeof account.buying_power) // number
-console.log(typeof rawAccount.buying_power) // string
+console.log(typeof account.raw().buying_power) // string
 ```
 
 #### Examples
