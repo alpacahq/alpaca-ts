@@ -1,3 +1,7 @@
+/**
+ * Your Alpaca key id and secret.
+ * Can be passed to the AlpacaClient and AlpacaStream.
+ */
 export interface Credentials {
     key: string;
     secret: string;
