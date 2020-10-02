@@ -1,12 +1,12 @@
 import qs from 'qs';
-import limiter from 'limiter';
 import fetch from 'node-fetch';
 import urls from './urls.js';
+import { Mutex } from 'async-mutex';
 import { Parser } from './parser.js';
 export class AlpacaClient {
     constructor(options) {
         this.options = options;
-        this.limiter = new limiter.RateLimiter(199, 'minute');
+        this.mutex = new Mutex();
         this.parser = new Parser();
     }
     async isAuthenticated() {
@@ -125,23 +125,30 @@ export class AlpacaClient {
             }
         }
         return new Promise(async (resolve, reject) => {
+            let release;
             // do rate limiting
             if (this.options.rate_limit) {
-                await new Promise((resolve) => this.limiter.removeTokens(1, resolve));
+                release = await this.mutex.acquire();
             }
-            await fetch(`${url}/${endpoint}`, {
-                method: method,
-                headers: {
-                    'APCA-API-KEY-ID': this.options.credentials.key,
-                    'APCA-API-SECRET-KEY': this.options.credentials.secret,
-                },
-                body: JSON.stringify(data),
-            })
-                .then(
-            // if json parse fails we default to an empty object
-            async (response) => (await response.json().catch(() => false)) || {})
-                .then((json) => 'code' in json && 'message' in json ? reject(json) : resolve(json))
-                .catch(reject);
+            try {
+                await fetch(`${url}/${endpoint}`, {
+                    method: method,
+                    headers: {
+                        'APCA-API-KEY-ID': this.options.credentials.key,
+                        'APCA-API-SECRET-KEY': this.options.credentials.secret,
+                    },
+                    body: JSON.stringify(data),
+                })
+                    .then(
+                // if json parse fails we default to an empty object
+                async (response) => (await response.json().catch(() => false)) || {})
+                    .then((json) => 'code' in json && 'message' in json ? reject(json) : resolve(json))
+                    .catch(reject);
+            }
+            finally {
+                // 300 ms to maintain 200 requests per minute
+                setTimeout(release, 300);
+            }
         });
     }
 }

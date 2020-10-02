@@ -42,7 +42,7 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "limiter": "^1.1.5",
+    "async-mutex": "^0.2.4",
     "node-fetch": "^2.6.0",
     "qs": "^6.9.4",
     "ws": "^7.3.0"
