@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Parser = void 0;
-class Parser {
+export class Parser {
     parseAccount(rawAccount) {
         if (!rawAccount) {
             return null;
@@ -14,6 +11,7 @@ class Parser {
                 regt_buying_power: this.parseNumber(rawAccount.regt_buying_power),
                 daytrading_buying_power: this.parseNumber(rawAccount.daytrading_buying_power),
                 cash: this.parseNumber(rawAccount.cash),
+                created_at: new Date(rawAccount.created_at),
                 portfolio_value: this.parseNumber(rawAccount.portfolio_value),
                 multiplier: this.parseNumber(rawAccount.multiplier),
                 equity: this.parseNumber(rawAccount.equity),
@@ -31,6 +29,23 @@ class Parser {
             throw new Error(`Account parsing failed. Error: ${err.message}`);
         }
     }
+    parseClock(rawClock) {
+        if (!rawClock) {
+            return null;
+        }
+        try {
+            return {
+                raw: () => rawClock,
+                timestamp: new Date(rawClock.timestamp),
+                is_open: rawClock.is_open,
+                next_close: new Date(rawClock.next_close),
+                next_open: new Date(rawClock.next_close),
+            };
+        }
+        catch (err) {
+            throw new Error(`Order parsing failed. Error: ${err.message}`);
+        }
+    }
     parseOrder(rawOrder) {
         if (!rawOrder) {
             return null;
@@ -39,6 +54,14 @@ class Parser {
             return {
                 ...rawOrder,
                 raw: () => rawOrder,
+                created_at: new Date(rawOrder.created_at),
+                updated_at: new Date(rawOrder.updated_at),
+                submitted_at: new Date(rawOrder.submitted_at),
+                filled_at: new Date(rawOrder.filled_at),
+                expired_at: new Date(rawOrder.expired_at),
+                canceled_at: new Date(rawOrder.canceled_at),
+                failed_at: new Date(rawOrder.failed_at),
+                replaced_at: new Date(rawOrder.replaced_at),
                 qty: this.parseNumber(rawOrder.qty),
                 filled_qty: this.parseNumber(rawOrder.filled_qty),
                 type: rawOrder.type,
@@ -146,4 +169,3 @@ class Parser {
         return parseFloat(numStr);
     }
 }
-exports.Parser = Parser;

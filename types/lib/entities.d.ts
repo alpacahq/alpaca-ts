@@ -100,7 +100,7 @@ export interface Account {
     /**
      * Timestamp this account was created at
      */
-    created_at: string;
+    created_at: Date;
     /**
      * "USD"
      */
@@ -333,15 +333,25 @@ export interface Calendar {
      */
     close: string;
 }
+export interface RawClock {
+    timestamp: string;
+    is_open: boolean;
+    next_open: string;
+    next_close: string;
+}
 /**
  * The clock API serves the current market timestamp, whether or not the market is
  * currently open, as well as the times of the next market open and close.
  */
 export interface Clock {
     /**
+     * Get the raw data, exactly as it came from Alpaca
+     */
+    raw(): RawClock;
+    /**
      * Current timestamp
      */
-    timestamp: string;
+    timestamp: Date;
     /**
      * Whether or not the market is open
      */
@@ -349,11 +359,11 @@ export interface Clock {
     /**
      * Next market open timestamp
      */
-    next_open: string;
+    next_open: Date;
     /**
      * Next market close timestamp
      */
-    next_close: string;
+    next_close: Date;
 }
 /**
  * Last quote details for a symbol
@@ -617,35 +627,35 @@ export interface Order {
     /**
      * When the order was created
      */
-    created_at: string;
+    created_at: Date;
     /**
      * When the order was last updated
      */
-    updated_at: string;
+    updated_at: Date;
     /**
      * When the order was submitted
      */
-    submitted_at: string;
+    submitted_at: Date;
     /**
      * When the order was filled
      */
-    filled_at: string;
+    filled_at: Date;
     /**
      * When the order expired
      */
-    expired_at: string;
+    expired_at: Date;
     /**
      * When the order was canceled
      */
-    canceled_at: string;
+    canceled_at: Date;
     /**
      * When the order failed
      */
-    failed_at: string;
+    failed_at: Date;
     /**
      * When the order was last replaced
      */
-    replaced_at: string;
+    replaced_at: Date;
     /**
      * The order ID that this order was replaced by
      */
