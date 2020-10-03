@@ -1,9 +1,12 @@
-import fetch from 'node-fetch'
 import qs from 'qs'
-import limiter from 'limiter'
+import fetch from 'node-fetch'
 import urls from './urls.js'
+import limiter from 'limiter'
+
+import { Parser } from './parser.js'
 
 import {
+  RawAccount,
   Account,
   Order,
   Position,
@@ -12,13 +15,15 @@ import {
   Calendar,
   Clock,
   AccountConfigurations,
-  NonTradeActivity,
-  TradeActivity,
   PortfolioHistory,
   Bar,
   LastQuote,
   LastTrade,
   Credentials,
+  RawOrder,
+  RawPosition,
+  RawActivity,
+  Activity,
 } from './entities.js'
 
 import {
@@ -46,8 +51,9 @@ import {
   GetLastQuote,
 } from './params.js'
 
-export class Client {
-  private limiter = new limiter.RateLimiter(199, 'minute')
+export class AlpacaClient {
+  private limiter = new limiter.RateLimiter(200, 'minute')
+  private parser = new Parser()
 
   constructor(
     protected options: {
@@ -62,75 +68,101 @@ export class Client {
       await this.getAccount()
       return true
     } catch {
-      throw new Error('not authenticated')
+      return false
     }
   }
 
-  getAccount(): Promise<Account> {
-    return this.request('GET', urls.rest.account, 'account')
-  }
-
-  getOrder(params: GetOrder): Promise<Order> {
-    return this.request(
-      'GET',
-      urls.rest.account,
-      `orders/${params.order_id || params.client_order_id}?${qs.stringify({
-        nested: params.nested,
-      })}`
+  async getAccount(): Promise<Account> {
+    return this.parser.parseAccount(
+      await this.request<RawAccount>('GET', urls.rest.account, 'account')
     )
   }
 
-  getOrders(params?: GetOrders): Promise<Order[]> {
-    return this.request(
-      'GET',
-      urls.rest.account,
-      `orders?${qs.stringify(params)}`
+  async getOrder(params: GetOrder): Promise<Order> {
+    return this.parser.parseOrder(
+      await this.request<RawOrder>(
+        'GET',
+        urls.rest.account,
+        `orders/${params.order_id || params.client_order_id}?${qs.stringify({
+          nested: params.nested,
+        })}`
+      )
     )
   }
 
-  placeOrder(params: PlaceOrder): Promise<Order> {
-    return this.request('POST', urls.rest.account, `orders`, params)
-  }
-
-  replaceOrder(params: ReplaceOrder): Promise<Order> {
-    return this.request(
-      'PATCH',
-      urls.rest.account,
-      `orders/${params.order_id}`,
-      params
+  async getOrders(params?: GetOrders): Promise<Order[]> {
+    return this.parser.parseOrders(
+      await this.request<RawOrder[]>(
+        'GET',
+        urls.rest.account,
+        `orders?${qs.stringify(params)}`
+      )
     )
   }
 
-  cancelOrder(params: CancelOrder): Promise<Order> {
-    return this.request(
-      'DELETE',
-      urls.rest.account,
-      `orders/${params.order_id}`
+  async placeOrder(params: PlaceOrder): Promise<Order> {
+    return this.parser.parseOrder(
+      await this.request<RawOrder>('POST', urls.rest.account, `orders`, params)
     )
   }
 
-  cancelOrders(): Promise<Order[]> {
-    return this.request('DELETE', urls.rest.account, `orders`)
-  }
-
-  getPosition(params: GetPosition): Promise<Position> {
-    return this.request('GET', urls.rest.account, `positions/${params.symbol}`)
-  }
-
-  getPositions(): Promise<Position[]> {
-    return this.request('GET', urls.rest.account, `positions`)
-  }
-
-  closePosition(params: ClosePosition): Promise<Order> {
-    return this.request(
-      'DELETE',
-      urls.rest.account,
-      `positions/${params.symbol}`
+  async replaceOrder(params: ReplaceOrder): Promise<Order> {
+    return this.parser.parseOrder(
+      await this.request<RawOrder>(
+        'PATCH',
+        urls.rest.account,
+        `orders/${params.order_id}`,
+        params
+      )
     )
   }
 
-  closePositions(): Promise<Order[]> {
-    return this.request('DELETE', urls.rest.account, `positions`)
+  async cancelOrder(params: CancelOrder): Promise<Order> {
+    return this.parser.parseOrder(
+      await this.request<RawOrder>(
+        'DELETE',
+        urls.rest.account,
+        `orders/${params.order_id}`
+      )
+    )
+  }
+
+  async cancelOrders(): Promise<Order[]> {
+    return this.parser.parseOrders(
+      await this.request<RawOrder[]>('DELETE', urls.rest.account, `orders`)
+    )
+  }
+
+  async getPosition(params: GetPosition): Promise<Position> {
+    return this.parser.parsePosition(
+      await this.request<RawPosition>(
+        'GET',
+        urls.rest.account,
+        `positions/${params.symbol}`
+      )
+    )
+  }
+
+  async getPositions(): Promise<Position[]> {
+    return this.parser.parsePositions(
+      await this.request<RawPosition[]>('GET', urls.rest.account, `positions`)
+    )
+  }
+
+  async closePosition(params: ClosePosition): Promise<Order> {
+    return this.parser.parseOrder(
+      await this.request<RawOrder>(
+        'DELETE',
+        urls.rest.account,
+        `positions/${params.symbol}`
+      )
+    )
+  }
+
+  async closePositions(): Promise<Order[]> {
+    return this.parser.parseOrders(
+      await this.request<RawOrder[]>('DELETE', urls.rest.account, `positions`)
+    )
   }
 
   getAsset(params: GetAsset): Promise<Asset> {
@@ -203,8 +235,10 @@ export class Client {
     )
   }
 
-  getClock(): Promise<Clock> {
-    return this.request('GET', urls.rest.account, `clock`)
+  async getClock(): Promise<Clock> {
+    return this.parser.parseClock(
+      await this.request('GET', urls.rest.account, `clock`)
+    )
   }
 
   getAccountConfigurations(): Promise<AccountConfigurations> {
@@ -222,13 +256,15 @@ export class Client {
     )
   }
 
-  getAccountActivities(
+  async getAccountActivities(
     params: GetAccountActivities
-  ): Promise<Array<NonTradeActivity | TradeActivity>> {
-    return this.request(
-      'GET',
-      urls.rest.account,
-      `account/activities/${params.activity_type}?${qs.stringify(params)}`
+  ): Promise<Activity[]> {
+    return this.parser.parseActivities(
+      await this.request<RawActivity[]>(
+        'GET',
+        urls.rest.account,
+        `account/activities/${params.activity_type}?${qs.stringify(params)}`
+      )
     )
   }
 
@@ -270,12 +306,12 @@ export class Client {
     )
   }
 
-  private request(
+  private request<T = any>(
     method: string,
     url: string,
     endpoint: string,
-    data?: any
-  ): Promise<any> {
+    data?: { [key: string]: any }
+  ): Promise<T> {
     // modify the base url if paper is true
     if (this.options.paper && url == urls.rest.account) {
       url = urls.rest.account.replace('api.', 'paper-api.')
@@ -290,12 +326,9 @@ export class Client {
       }
     }
 
-    return new Promise<any>(async (resolve, reject) => {
-      // do rate limiting
+    return new Promise<T>(async (resolve, reject) => {
       if (this.options.rate_limit) {
-        await new Promise<void>((resolve) =>
-          this.limiter.removeTokens(1, resolve)
-        )
+        await new Promise((resolve) => this.limiter.removeTokens(1, resolve))
       }
 
       await fetch(`${url}/${endpoint}`, {
@@ -304,12 +337,10 @@ export class Client {
           'APCA-API-KEY-ID': this.options.credentials.key,
           'APCA-API-SECRET-KEY': this.options.credentials.secret,
         },
-        body: data ? JSON.stringify(data) : undefined,
+        body: JSON.stringify(data),
       })
-        .then(
-          // if json parse fails we default to an empty object
-          async (response) => (await response.json().catch(() => false)) || {}
-        )
+        // if json parse fails we default to an empty object
+        .then(async (resp) => (await resp.json().catch(() => false)) || {})
         .then((json) =>
           'code' in json && 'message' in json ? reject(json) : resolve(json)
         )

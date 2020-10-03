@@ -18,8 +18,9 @@ WebSocket streams
 ## Features
 
 - [x] Fully asynchronous API.
-- [x] Extensible `Client` and `Stream` classes.
+- [x] Extensible `AlpacaClient` and `AlpacaStream` classes.
 - [x] Built-in rate limiting.
+- [x] Built-in number and date parsing.
 - [x] A 1:1 mapping of the official Alpaca [docs](https://docs.alpaca.markets/).
 
 ## Install
@@ -38,16 +39,36 @@ If you wish to use env vars, populate these fields with `process.env` on your
 own.
 
 ```typescript
-import { Client } from "@master-chief/alpaca";
+import { AlpacaClient } from '@master-chief/alpaca'
 
-const client = new Client({
+const client = new AlpacaClient({
   credentials: {
-    key: "...",
-    secret: "...",
+    key: '...',
+    secret: '...',
   },
   paper: true,
   rate_limit: true,
-});
+})
+```
+
+#### Parsing
+
+Alpaca provides numbers as strings. From
+[their docs](https://alpaca.markets/docs/api-documentation/api-v2/#numbers):
+
+> Decimal numbers are returned as strings to preserve full precision across
+> platforms. When making a request, it is recommended that you also convert your
+> numbers to strings to avoid truncation and precision errors.
+
+This package provides numbers as `number` instead, and date strings as `Date`
+objects which is what most developers want out of the box. If you want the
+original data, as it came from Alpaca, you can call `raw()` on any entity.
+
+```javascript
+const account = await client.getAccount()
+
+console.log(typeof account.buying_power) // number
+console.log(typeof account.raw().buying_power) // string
 ```
 
 #### Examples
@@ -88,21 +109,21 @@ The following methods are available on the client.
 ##### isAuthenticated
 
 ```typescript
-await client.isAuthenticated();
+await client.isAuthenticated()
 ```
 
 ##### getAccount
 
 ```typescript
-await client.getAccount();
+await client.getAccount()
 ```
 
 ##### getOrder
 
 ```typescript
 await client.getOrder({
-  order_id: "6187635d-04e5-485b-8a94-7ce398b2b81c",
-});
+  order_id: '6187635d-04e5-485b-8a94-7ce398b2b81c',
+})
 ```
 
 ##### getOrders
@@ -110,154 +131,154 @@ await client.getOrder({
 ```typescript
 await client.getOrders({
   limit: 25,
-  status: "all",
-});
+  status: 'all',
+})
 ```
 
 ##### placeOrder
 
 ```typescript
 await client.placeOrder({
-  symbol: "SPY",
+  symbol: 'SPY',
   qty: 1,
-  side: "buy",
-  type: "market",
-  time_in_force: "day",
-});
+  side: 'buy',
+  type: 'market',
+  time_in_force: 'day',
+})
 ```
 
 ##### replaceOrder
 
 ```typescript
 await client.replaceOrder({
-  order_id: "69a3db8b-cc63-44da-a26a-e3cca9490308",
+  order_id: '69a3db8b-cc63-44da-a26a-e3cca9490308',
   limit_price: 9.74,
-});
+})
 ```
 
 ##### cancelOrder
 
 ```typescript
 await client.cancelOrder({
-  order_id: "69a3db8b-cc63-44da-a26a-e3cca9490308",
-});
+  order_id: '69a3db8b-cc63-44da-a26a-e3cca9490308',
+})
 ```
 
 ##### cancelOrders
 
 ```typescript
-await client.cancelOrders();
+await client.cancelOrders()
 ```
 
 ##### getPosition
 
 ```typescript
-await client.getPosition({ symbol: "SPY" });
+await client.getPosition({ symbol: 'SPY' })
 ```
 
 ##### getPositions
 
 ```typescript
-await client.getPositions();
+await client.getPositions()
 ```
 
 ##### closePosition
 
 ```typescript
-await client.closePosition({ symbol: "SPY" });
+await client.closePosition({ symbol: 'SPY' })
 ```
 
 ##### closePositions
 
 ```typescript
-await client.closePositions();
+await client.closePositions()
 ```
 
 ##### getAsset
 
 ```typescript
-await client.getAsset({ asset_id_or_symbol: "SPY" });
+await client.getAsset({ asset_id_or_symbol: 'SPY' })
 ```
 
 ##### getAssets
 
 ```typescript
-await client.getAssets({ status: "active" });
+await client.getAssets({ status: 'active' })
 ```
 
 ##### getWatchlist
 
 ```typescript
-await client.getWatchlist({ uuid: "2000e463-6f87-41c0-a8ba-3e40cbf67128" });
+await client.getWatchlist({ uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128' })
 ```
 
 ##### getWatchlists
 
 ```typescript
-await client.getWatchlists();
+await client.getWatchlists()
 ```
 
 ##### createWatchlist
 
 ```typescript
 await client.createWatchlist({
-  name: "my watchlist",
-  symbols: ["SPY", "DIA", "EEM", "XLF"],
-});
+  name: 'my watchlist',
+  symbols: ['SPY', 'DIA', 'EEM', 'XLF'],
+})
 ```
 
 ##### updateWatchlist
 
 ```typescript
 await client.updateWatchlist({
-  uuid: "2000e463-6f87-41c0-a8ba-3e40cbf67128",
-  name: "new watchlist name",
-  symbols: ["TSLA", "AAPL"],
-});
+  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
+  name: 'new watchlist name',
+  symbols: ['TSLA', 'AAPL'],
+})
 ```
 
 ##### addToWatchlist
 
 ```typescript
 await client.addToWatchlist({
-  uuid: "2000e463-6f87-41c0-a8ba-3e40cbf67128",
-  symbol: "F",
-});
+  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
+  symbol: 'F',
+})
 ```
 
 ##### removeFromWatchlist
 
 ```typescript
 await client.removeFromWatchlist({
-  uuid: "2000e463-6f87-41c0-a8ba-3e40cbf67128",
-  symbol: "F",
-});
+  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
+  symbol: 'F',
+})
 ```
 
 ##### deleteWatchlist
 
 ```typescript
 await client.deleteWatchlist({
-  uuid: "2000e463-6f87-41c0-a8ba-3e40cbf67128",
-});
+  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
+})
 ```
 
 ##### getCalender
 
 ```typescript
-await client.getCalendar({ start: new Date(), end: new Date() });
+await client.getCalendar({ start: new Date(), end: new Date() })
 ```
 
 ##### getClock
 
 ```typescript
-await client.getClock();
+await client.getClock()
 ```
 
 ##### getAccountConfigurations
 
 ```typescript
-await client.getAccountConfigurations();
+await client.getAccountConfigurations()
 ```
 
 ##### updateAccountConfigurations
@@ -266,48 +287,48 @@ await client.getAccountConfigurations();
 await client.updateAccountConfigurations({
   no_shorting: true,
   suspend_trade: true,
-});
+})
 ```
 
 ##### getAccountActivities
 
 ```typescript
 await client.getAccountActivities({
-  activity_type: "FILL",
-});
+  activity_type: 'FILL',
+})
 ```
 
 ##### getPortfolioHistory
 
 ```typescript
 await client.getPortfolioHistory({
-  period: "1D",
-  timeframe: "1Min",
-});
+  period: '1D',
+  timeframe: '1Min',
+})
 ```
 
 ##### getBars
 
 ```typescript
 await client.getBars({
-  symbols: ["SPY", "DIA", "XLF"],
-});
+  symbols: ['SPY', 'DIA', 'XLF'],
+})
 ```
 
 ##### getLastTrade
 
 ```typescript
 await client.getLastTrade({
-  symbol: "SPY",
-});
+  symbol: 'SPY',
+})
 ```
 
 ##### getLastQuote
 
 ```typescript
 await client.getLastQuote({
-  symbol: "SPY",
-});
+  symbol: 'SPY',
+})
 ```
 
 ## Stream
@@ -318,15 +339,15 @@ If you wish to use env vars, populate these fields with `process.env` on your
 own.
 
 ```typescript
-import { Stream } from "@master-chief/alpaca";
+import { AlpacaStream } from '@master-chief/alpaca'
 
-const stream = new Stream({
+const stream = new AlpacaStream({
   credentials: {
-    key: "...",
-    secret: "...",
+    key: '...',
+    secret: '...',
   },
-  stream: "market_data",
-});
+  stream: 'market_data',
+})
 ```
 
 #### Events
@@ -350,7 +371,7 @@ The following methods are available on the stream.
 ##### subscribe
 
 ```typescript
-stream.subscribe(["AM.SPY"]);
+stream.subscribe(['AM.SPY'])
 ```
 
 ##### unsubscribe

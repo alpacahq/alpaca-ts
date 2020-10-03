@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "description": "a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
@@ -18,11 +18,25 @@
     "stock"
   ],
   "scripts": {
-    "build": "tsc",
-    "test": "npm run build && $(npm bin)/ava -v"
+    "build": "npm run clean && tsc",
+    "clean": "rimraf dist types",
+    "test": "npm run build && npm run test:unit",
+    "test:unit": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/lib"
+    ],
+    "testMatch": [
+      "**/tests/**/*.test.ts"
+    ]
   },
   "author": "master-chief",
   "contributors": [
+    "lbstr",
     "AqilCont",
     "KalebMills"
   ],
@@ -34,8 +48,13 @@
     "ws": "^7.3.0"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.14",
     "@types/node-fetch": "^2.5.7",
     "@types/qs": "^6.9.3",
-    "@types/ws": "^7.2.4"
+    "@types/ws": "^7.2.4",
+    "jest": "^26.4.2",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.4.0",
+    "typescript": "^4.0.3"
   }
 }

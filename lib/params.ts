@@ -1,3 +1,5 @@
+import { OrderSide, OrderType, OrderTimeInForce } from './entities.js'
+
 export interface AddToWatchList {
   uuid: string
   symbol: string
@@ -69,11 +71,11 @@ export interface GetOrder {
 }
 
 export interface GetOrders {
-  status?: string
+  status?: 'open' | 'closed' | 'all'
   limit?: number
   after?: Date
   until?: Date
-  direction?: string
+  direction?: 'asc' | 'desc'
   nested?: boolean
 }
 
@@ -95,15 +97,15 @@ export interface GetWatchList {
 export interface PlaceOrder {
   symbol: string
   qty: number
-  side: 'buy' | 'sell'
-  type: 'market' | 'limit' | 'stop' | 'stop_limit' | 'trailing_stop'
-  time_in_force: 'day' | 'gtc' | 'opg' | 'cls' | 'ioc' | 'fok'
+  side: OrderSide
+  type: OrderType
+  time_in_force: OrderTimeInForce
   limit_price?: number
   stop_price?: number
-  trail_price?: number
-  trail_percent?: number
   extended_hours?: boolean
   client_order_id?: string
+  trail_price?: number
+  trail_percent?: number
   order_class?: 'simple' | 'bracket' | 'oco' | 'oto'
   take_profit?: {
     limit_price: number
@@ -122,7 +124,7 @@ export interface RemoveFromWatchList {
 export interface ReplaceOrder {
   order_id: string
   qty?: number
-  time_in_force?: string
+  time_in_force?: OrderTimeInForce
   limit_price?: number
   stop_price?: number
   client_order_id?: string

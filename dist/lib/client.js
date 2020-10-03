@@ -1,11 +1,13 @@
-import fetch from 'node-fetch';
 import qs from 'qs';
-import limiter from 'limiter';
+import fetch from 'node-fetch';
 import urls from './urls.js';
-export class Client {
+import limiter from 'limiter';
+import { Parser } from './parser.js';
+export class AlpacaClient {
     constructor(options) {
         this.options = options;
-        this.limiter = new limiter.RateLimiter(199, 'minute');
+        this.limiter = new limiter.RateLimiter(200, 'minute');
+        this.parser = new Parser();
     }
     async isAuthenticated() {
         try {
@@ -13,43 +15,43 @@ export class Client {
             return true;
         }
         catch {
-            throw new Error('not authenticated');
+            return false;
         }
     }
-    getAccount() {
-        return this.request('GET', urls.rest.account, 'account');
+    async getAccount() {
+        return this.parser.parseAccount(await this.request('GET', urls.rest.account, 'account'));
     }
-    getOrder(params) {
-        return this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}?${qs.stringify({
+    async getOrder(params) {
+        return this.parser.parseOrder(await this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}?${qs.stringify({
             nested: params.nested,
-        })}`);
+        })}`));
     }
-    getOrders(params) {
-        return this.request('GET', urls.rest.account, `orders?${qs.stringify(params)}`);
+    async getOrders(params) {
+        return this.parser.parseOrders(await this.request('GET', urls.rest.account, `orders?${qs.stringify(params)}`));
     }
-    placeOrder(params) {
-        return this.request('POST', urls.rest.account, `orders`, params);
+    async placeOrder(params) {
+        return this.parser.parseOrder(await this.request('POST', urls.rest.account, `orders`, params));
     }
-    replaceOrder(params) {
-        return this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params);
+    async replaceOrder(params) {
+        return this.parser.parseOrder(await this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
     }
-    cancelOrder(params) {
-        return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`);
+    async cancelOrder(params) {
+        return this.parser.parseOrder(await this.request('DELETE', urls.rest.account, `orders/${params.order_id}`));
     }
-    cancelOrders() {
-        return this.request('DELETE', urls.rest.account, `orders`);
+    async cancelOrders() {
+        return this.parser.parseOrders(await this.request('DELETE', urls.rest.account, `orders`));
     }
-    getPosition(params) {
-        return this.request('GET', urls.rest.account, `positions/${params.symbol}`);
+    async getPosition(params) {
+        return this.parser.parsePosition(await this.request('GET', urls.rest.account, `positions/${params.symbol}`));
     }
-    getPositions() {
-        return this.request('GET', urls.rest.account, `positions`);
+    async getPositions() {
+        return this.parser.parsePositions(await this.request('GET', urls.rest.account, `positions`));
     }
-    closePosition(params) {
-        return this.request('DELETE', urls.rest.account, `positions/${params.symbol}`);
+    async closePosition(params) {
+        return this.parser.parseOrder(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
     }
-    closePositions() {
-        return this.request('DELETE', urls.rest.account, `positions`);
+    async closePositions() {
+        return this.parser.parseOrders(await this.request('DELETE', urls.rest.account, `positions`));
     }
     getAsset(params) {
         return this.request('GET', urls.rest.account, `assets/${params.asset_id_or_symbol}`);
@@ -81,8 +83,8 @@ export class Client {
     getCalendar(params) {
         return this.request('GET', urls.rest.account, `calendar?${qs.stringify(params)}`);
     }
-    getClock() {
-        return this.request('GET', urls.rest.account, `clock`);
+    async getClock() {
+        return this.parser.parseClock(await this.request('GET', urls.rest.account, `clock`));
     }
     getAccountConfigurations() {
         return this.request('GET', urls.rest.account, `account/configurations`);
@@ -90,8 +92,8 @@ export class Client {
     updateAccountConfigurations(params) {
         return this.request('PATCH', urls.rest.account, `account/configurations`, params);
     }
-    getAccountActivities(params) {
-        return this.request('GET', urls.rest.account, `account/activities/${params.activity_type}?${qs.stringify(params)}`);
+    async getAccountActivities(params) {
+        return this.parser.parseActivities(await this.request('GET', urls.rest.account, `account/activities/${params.activity_type}?${qs.stringify(params)}`));
     }
     getPortfolioHistory(params) {
         return this.request('GET', urls.rest.account, `account/portfolio/history?${qs.stringify(params)}`);
@@ -123,7 +125,6 @@ export class Client {
             }
         }
         return new Promise(async (resolve, reject) => {
-            // do rate limiting
             if (this.options.rate_limit) {
                 await new Promise((resolve) => this.limiter.removeTokens(1, resolve));
             }
@@ -133,11 +134,10 @@ export class Client {
                     'APCA-API-KEY-ID': this.options.credentials.key,
                     'APCA-API-SECRET-KEY': this.options.credentials.secret,
                 },
-                body: data ? JSON.stringify(data) : undefined,
+                body: JSON.stringify(data),
             })
-                .then(
-            // if json parse fails we default to an empty object
-            async (response) => (await response.json().catch(() => false)) || {})
+                // if json parse fails we default to an empty object
+                .then(async (resp) => (await resp.json().catch(() => false)) || {})
                 .then((json) => 'code' in json && 'message' in json ? reject(json) : resolve(json))
                 .catch(reject);
         });
