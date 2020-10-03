@@ -3,7 +3,6 @@ import fetch from 'node-fetch'
 import urls from './urls.js'
 import limiter from 'limiter'
 
-import { Mutex } from 'async-mutex'
 import { Parser } from './parser.js'
 
 import {
@@ -54,7 +53,6 @@ import {
 
 export class AlpacaClient {
   private limiter = new limiter.RateLimiter(200, 'minute')
-  private mutex = new Mutex()
   private parser = new Parser()
 
   constructor(
@@ -329,30 +327,24 @@ export class AlpacaClient {
     }
 
     return new Promise<T>(async (resolve, reject) => {
-      let release = () => null
-
       if (this.options.rate_limit) {
-        release = await this.mutex.acquire()
+        await new Promise((resolve) => this.limiter.removeTokens(1, resolve))
       }
 
-      try {
-        await fetch(`${url}/${endpoint}`, {
-          method: method,
-          headers: {
-            'APCA-API-KEY-ID': this.options.credentials.key,
-            'APCA-API-SECRET-KEY': this.options.credentials.secret,
-          },
-          body: JSON.stringify(data),
-        })
-          // if json parse fails we default to an empty object
-          .then(async (resp) => (await resp.json().catch(() => false)) || {})
-          .then((json) =>
-            'code' in json && 'message' in json ? reject(json) : resolve(json)
-          )
-          .catch(reject)
-      } finally {
-        this.limiter.removeTokens(1, release)
-      }
+      await fetch(`${url}/${endpoint}`, {
+        method: method,
+        headers: {
+          'APCA-API-KEY-ID': this.options.credentials.key,
+          'APCA-API-SECRET-KEY': this.options.credentials.secret,
+        },
+        body: JSON.stringify(data),
+      })
+        // if json parse fails we default to an empty object
+        .then(async (resp) => (await resp.json().catch(() => false)) || {})
+        .then((json) =>
+          'code' in json && 'message' in json ? reject(json) : resolve(json)
+        )
+        .catch(reject)
     })
   }
 }

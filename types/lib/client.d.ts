@@ -7,7 +7,6 @@ export declare class AlpacaClient {
         rate_limit?: boolean;
     };
     private limiter;
-    private mutex;
     private parser;
     constructor(options: {
         credentials: Credentials;
