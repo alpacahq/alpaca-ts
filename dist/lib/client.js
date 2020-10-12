@@ -138,7 +138,7 @@ export class AlpacaClient {
             })
                 // if json parse fails we default to an empty object
                 .then(async (resp) => (await resp.json().catch(() => false)) || {})
-                .then((json) => 'code' in json && 'message' in json ? reject(json) : resolve(json))
+                .then((resp) => 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp))
                 .catch(reject);
         });
     }
