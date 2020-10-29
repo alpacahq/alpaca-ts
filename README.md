@@ -312,6 +312,7 @@ await client.getPortfolioHistory({
 ```typescript
 await client.getBars({
   symbols: ['SPY', 'DIA', 'XLF'],
+  timeframe: '1Min',
 })
 ```
 

@@ -276,7 +276,7 @@ export class AlpacaClient {
     )
   }
 
-  getBars(params: GetBars): Promise<Map<String, Bar[]>> {
+  getBars(params: GetBars): Promise<{ [symbol: string]: Bar[] }> {
     var transformed = {}
 
     // join the symbols into a comma-delimited string

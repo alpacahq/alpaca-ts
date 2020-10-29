@@ -42,7 +42,7 @@ export interface GetAssets {
 }
 
 export interface GetBars {
-  timeframe?: string
+  timeframe: string
   symbols: string[]
   limit?: number
   start?: Date

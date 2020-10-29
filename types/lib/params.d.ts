@@ -33,7 +33,7 @@ export interface GetAssets {
     asset_class?: string;
 }
 export interface GetBars {
-    timeframe?: string;
+    timeframe: string;
     symbols: string[];
     limit?: number;
     start?: Date;
