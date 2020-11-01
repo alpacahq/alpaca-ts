@@ -1,7 +1,13 @@
-import WebSocket from 'ws';
-import urls from './urls.js';
-import { EventEmitter } from 'events';
-export class AlpacaStream extends EventEmitter {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AlpacaStream = void 0;
+const ws_1 = __importDefault(require("ws"));
+const urls_js_1 = __importDefault(require("./urls.js"));
+const events_1 = require("events");
+class AlpacaStream extends events_1.EventEmitter {
     constructor(params) {
         // construct EventEmitter
         super();
@@ -11,15 +17,15 @@ export class AlpacaStream extends EventEmitter {
         // assign the host we will connect to
         switch (params.stream) {
             case 'account':
-                this.host = urls.websocket.account;
+                this.host = urls_js_1.default.websocket.account;
                 break;
             case 'market_data':
-                this.host = urls.websocket.market_data;
+                this.host = urls_js_1.default.websocket.market_data;
                 break;
             default:
                 this.host = 'unknown';
         }
-        this.connection = new WebSocket(this.host)
+        this.connection = new ws_1.default(this.host)
             .once('open', () => {
             // if we are not authenticated yet send a request now
             if (!this.authenticated) {
@@ -109,3 +115,4 @@ export class AlpacaStream extends EventEmitter {
         }));
     }
 }
+exports.AlpacaStream = AlpacaStream;
