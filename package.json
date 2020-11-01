@@ -1,10 +1,9 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
-  "type": "module",
   "keywords": [
     "alpaca",
     "alpaca-trade-api-js",
