@@ -31,9 +31,9 @@ From NPM:
 > npm i @master-chief/alpaca
 ```
 
-### Client
+## Client
 
-#### Creating a new client
+### Creating a new client
 
 If you wish to use env vars, populate these fields with `process.env` on your
 own.
@@ -51,7 +51,7 @@ const client = new AlpacaClient({
 })
 ```
 
-#### Parsing
+### Parsing
 
 Alpaca provides numbers as strings. From
 [their docs](https://alpaca.markets/docs/api-documentation/api-v2/#numbers):
@@ -71,7 +71,7 @@ console.log(typeof account.buying_power) // number
 console.log(typeof account.raw().buying_power) // string
 ```
 
-#### Examples
+### Examples
 
 The following methods are available on the client.
 
@@ -106,19 +106,19 @@ The following methods are available on the client.
 - [getLastTrade](#getlasttrade)
 - [getLastQuote](#getlastquote)
 
-##### isAuthenticated
+#### isAuthenticated
 
 ```typescript
 await client.isAuthenticated()
 ```
 
-##### getAccount
+#### getAccount
 
 ```typescript
 await client.getAccount()
 ```
 
-##### getOrder
+#### getOrder
 
 ```typescript
 await client.getOrder({
@@ -126,7 +126,7 @@ await client.getOrder({
 })
 ```
 
-##### getOrders
+#### getOrders
 
 ```typescript
 await client.getOrders({
@@ -135,7 +135,7 @@ await client.getOrders({
 })
 ```
 
-##### placeOrder
+#### placeOrder
 
 ```typescript
 await client.placeOrder({
@@ -147,7 +147,7 @@ await client.placeOrder({
 })
 ```
 
-##### replaceOrder
+#### replaceOrder
 
 ```typescript
 await client.replaceOrder({
@@ -156,7 +156,7 @@ await client.replaceOrder({
 })
 ```
 
-##### cancelOrder
+#### cancelOrder
 
 ```typescript
 await client.cancelOrder({
@@ -164,61 +164,61 @@ await client.cancelOrder({
 })
 ```
 
-##### cancelOrders
+#### cancelOrders
 
 ```typescript
 await client.cancelOrders()
 ```
 
-##### getPosition
+#### getPosition
 
 ```typescript
 await client.getPosition({ symbol: 'SPY' })
 ```
 
-##### getPositions
+#### getPositions
 
 ```typescript
 await client.getPositions()
 ```
 
-##### closePosition
+#### closePosition
 
 ```typescript
 await client.closePosition({ symbol: 'SPY' })
 ```
 
-##### closePositions
+#### closePositions
 
 ```typescript
 await client.closePositions()
 ```
 
-##### getAsset
+#### getAsset
 
 ```typescript
 await client.getAsset({ asset_id_or_symbol: 'SPY' })
 ```
 
-##### getAssets
+#### getAssets
 
 ```typescript
 await client.getAssets({ status: 'active' })
 ```
 
-##### getWatchlist
+#### getWatchlist
 
 ```typescript
 await client.getWatchlist({ uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128' })
 ```
 
-##### getWatchlists
+#### getWatchlists
 
 ```typescript
 await client.getWatchlists()
 ```
 
-##### createWatchlist
+#### createWatchlist
 
 ```typescript
 await client.createWatchlist({
@@ -227,7 +227,7 @@ await client.createWatchlist({
 })
 ```
 
-##### updateWatchlist
+#### updateWatchlist
 
 ```typescript
 await client.updateWatchlist({
@@ -237,7 +237,7 @@ await client.updateWatchlist({
 })
 ```
 
-##### addToWatchlist
+#### addToWatchlist
 
 ```typescript
 await client.addToWatchlist({
@@ -246,7 +246,7 @@ await client.addToWatchlist({
 })
 ```
 
-##### removeFromWatchlist
+#### removeFromWatchlist
 
 ```typescript
 await client.removeFromWatchlist({
@@ -255,7 +255,7 @@ await client.removeFromWatchlist({
 })
 ```
 
-##### deleteWatchlist
+#### deleteWatchlist
 
 ```typescript
 await client.deleteWatchlist({
@@ -263,25 +263,25 @@ await client.deleteWatchlist({
 })
 ```
 
-##### getCalender
+#### getCalender
 
 ```typescript
 await client.getCalendar({ start: new Date(), end: new Date() })
 ```
 
-##### getClock
+#### getClock
 
 ```typescript
 await client.getClock()
 ```
 
-##### getAccountConfigurations
+#### getAccountConfigurations
 
 ```typescript
 await client.getAccountConfigurations()
 ```
 
-##### updateAccountConfigurations
+#### updateAccountConfigurations
 
 ```typescript
 await client.updateAccountConfigurations({
@@ -290,7 +290,7 @@ await client.updateAccountConfigurations({
 })
 ```
 
-##### getAccountActivities
+#### getAccountActivities
 
 ```typescript
 await client.getAccountActivities({
@@ -298,7 +298,7 @@ await client.getAccountActivities({
 })
 ```
 
-##### getPortfolioHistory
+#### getPortfolioHistory
 
 ```typescript
 await client.getPortfolioHistory({
@@ -307,7 +307,7 @@ await client.getPortfolioHistory({
 })
 ```
 
-##### getBars
+#### getBars
 
 ```typescript
 await client.getBars({
@@ -316,7 +316,7 @@ await client.getBars({
 })
 ```
 
-##### getLastTrade
+#### getLastTrade
 
 ```typescript
 await client.getLastTrade({
@@ -324,7 +324,7 @@ await client.getLastTrade({
 })
 ```
 
-##### getLastQuote
+#### getLastQuote
 
 ```typescript
 await client.getLastQuote({
@@ -334,7 +334,7 @@ await client.getLastQuote({
 
 ## Stream
 
-#### Creating a new stream
+### Creating a new stream
 
 If you wish to use env vars, populate these fields with `process.env` on your
 own.
@@ -351,7 +351,7 @@ const stream = new AlpacaStream({
 })
 ```
 
-#### Events
+### Events
 
 | Event              | Stream        |
 | :----------------- | :------------ |
@@ -361,7 +361,7 @@ const stream = new AlpacaStream({
 | `trade_updates`    | `account`     |
 | `account_updates`  | `account`     |
 
-#### Examples
+### Examples
 
 The following methods are available on the stream.
 
@@ -369,19 +369,19 @@ The following methods are available on the stream.
 - [unsubscribe](#unsubscribe)
 - [on](#on)
 
-##### subscribe
+#### subscribe
 
 ```typescript
 stream.subscribe(['AM.SPY'])
 ```
 
-##### unsubscribe
+#### unsubscribe
 
 ```typescript
 stream.unsubscribe(["AM.SPY"]));
 ```
 
-##### on
+#### on
 
 ```typescript
 stream.on("aggregate_minute", ...)
