@@ -14,6 +14,7 @@ WebSocket streams
 - [Install](#install)
 - [Client](#client)
 - [Stream](#stream)
+- [Contributing](#contributing)
 
 ## Features
 
