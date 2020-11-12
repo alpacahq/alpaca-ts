@@ -38,6 +38,7 @@ export class AlpacaStream extends EventEmitter {
     protected params: {
       credentials: Credentials
       stream: 'account' | 'market_data'
+      paper?: boolean
     }
   ) {
     // construct EventEmitter
@@ -46,7 +47,9 @@ export class AlpacaStream extends EventEmitter {
     // assign the host we will connect to
     switch (params.stream) {
       case 'account':
-        this.host = urls.websocket.account
+        this.host = params.paper
+          ? urls.websocket.account_paper
+          : urls.websocket.account
         break
       case 'market_data':
         this.host = urls.websocket.market_data

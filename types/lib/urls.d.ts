@@ -5,6 +5,7 @@ declare const _default: {
     };
     websocket: {
         account: string;
+        account_paper: string;
         market_data: string;
     };
 };

@@ -21,6 +21,7 @@ export declare class AlpacaStream extends EventEmitter {
     protected params: {
         credentials: Credentials;
         stream: 'account' | 'market_data';
+        paper?: boolean;
     };
     private host;
     private connection;
@@ -29,6 +30,7 @@ export declare class AlpacaStream extends EventEmitter {
     constructor(params: {
         credentials: Credentials;
         stream: 'account' | 'market_data';
+        paper?: boolean;
     });
     send(message: any): this;
     subscribe(channels: string[]): this;

@@ -17,7 +17,9 @@ class AlpacaStream extends events_1.EventEmitter {
         // assign the host we will connect to
         switch (params.stream) {
             case 'account':
-                this.host = urls_js_1.default.websocket.account;
+                this.host = params.paper
+                    ? urls_js_1.default.websocket.account_paper
+                    : urls_js_1.default.websocket.account;
                 break;
             case 'market_data':
                 this.host = urls_js_1.default.websocket.market_data;
