@@ -348,6 +348,7 @@ const stream = new AlpacaStream({
     key: '...',
     secret: '...',
   },
+  paper: true,
   stream: 'market_data',
 })
 ```
