@@ -44,8 +44,8 @@ import { AlpacaClient } from '@master-chief/alpaca'
 
 const client = new AlpacaClient({
   credentials: {
-    key: '...',
-    secret: '...',
+    key: '***',
+    secret: '******',
   },
   paper: true,
   rate_limit: true,
@@ -345,8 +345,8 @@ import { AlpacaStream } from '@master-chief/alpaca'
 
 const stream = new AlpacaStream({
   credentials: {
-    key: '...',
-    secret: '...',
+    key: '***',
+    secret: '******',
   },
   paper: true,
   stream: 'market_data',
