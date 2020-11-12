@@ -1,6 +1,14 @@
 export { AlpacaClient } from './lib/client.js'
 export { AlpacaStream } from './lib/stream.js'
 
+import { AlpacaClient } from './lib/client.js'
+import { AlpacaStream } from './lib/stream.js'
+
+export default {
+  AlpacaClient: AlpacaClient,
+  AlpacaStream: AlpacaStream,
+}
+
 export {
   Account,
   Order,
