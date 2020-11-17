@@ -40,9 +40,9 @@ If you wish to use env vars, populate these fields with `process.env` on your
 own.
 
 ```typescript
-import alpaca from '@master-chief/alpaca'
+import { AlpacaClient } from '@master-chief/alpaca'
 
-const client = new alpaca.AlpacaClient({
+const client = new AlpacaClient({
   credentials: {
     key: '***',
     secret: '******',
@@ -341,9 +341,9 @@ If you wish to use env vars, populate these fields with `process.env` on your
 own.
 
 ```typescript
-import alpaca from '@master-chief/alpaca'
+import { AlpacaStream } from '@master-chief/alpaca'
 
-const stream = new alpaca.AlpacaStream({
+const stream = new AlpacaStream({
   credentials: {
     key: '***',
     secret: '******',
