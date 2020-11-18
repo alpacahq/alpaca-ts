@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "2.5.6",
+  "version": "2.6.6",
   "description": "a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams",
   "keywords": [
     "alpaca",
@@ -18,13 +18,13 @@
   "main": "./dist/common/index.cjs",
   "types": "./types/index.d.ts",
   "exports": {
-    "import": "./dist/index.mjs",
+    "import": "./dist/module/.mjs",
     "require": "./dist/common/index.cjs"
   },
   "scripts": {
     "build": "npm run clean && npm run build:module && npm run build:common",
-    "build:module": "tsc -p tsconfig.module.json && find dist/module -name \"*.js\" | sed 's/^\\(.*\\)\\.js$/mv \"\\1.js\" \"\\1.mjs\"/' | sh && $(sed -i '' -e 's/\\.js/\\.mjs/g' $(find ./dist/module -type f))",
-    "build:common": "tsc -p tsconfig.common.json && find dist/common -name \"*.js\" | sed 's/^\\(.*\\)\\.js$/mv \"\\1.js\" \"\\1.cjs\"/' | sh && $(sed -i '' -e 's/\\.js/\\.cjs/g' $(find ./dist/common -type f))",
+    "build:module": "tsc -p tsconfig.module.json && find dist/module -name \"*.js\" | sed 's/^\\(.*\\)\\.js$/mv \"\\1.js\" \"\\1.mjs\"/' | sh && $(sed -i '' -rEe \"s/\\.js'/\\.mjs'/g\" $(find ./dist/module -type f))",
+    "build:common": "tsc -p tsconfig.common.json && find dist/common -name \"*.js\" | sed 's/^\\(.*\\)\\.js$/mv \"\\1.js\" \"\\1.cjs\"/' | sh && $(sed -i '' -rEe 's/\\.js\"/\\.cjs\"/g' $(find ./dist/common -type f))",
     "clean": "rimraf dist types",
     "test": "npm run test:unit",
     "test:unit": "jest",

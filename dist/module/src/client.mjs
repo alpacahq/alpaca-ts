@@ -174,7 +174,7 @@ export class AlpacaClient {
                 body: JSON.stringify(data),
             })
                 // if json parse fails we default to an empty object
-                .then((resp) => __awaiter(this, void 0, void 0, function* () { return (yield resp.mjson().catch(() => false)) || {}; }))
+                .then((resp) => __awaiter(this, void 0, void 0, function* () { return (yield resp.json().catch(() => false)) || {}; }))
                 .then((resp) => 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp))
                 .catch(reject);
         }));
