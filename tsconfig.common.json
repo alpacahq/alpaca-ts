@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "dist/cjs",
+    "outDir": "dist/common",
     "target": "ES6",
     "module": "CommonJS",
     "lib": ["ES6"],

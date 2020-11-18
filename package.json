@@ -1,10 +1,7 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "2.3.5",
+  "version": "2.4.5",
   "description": "a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "types/index.d.ts",
   "keywords": [
     "alpaca",
     "alpaca-trade-api-js",
@@ -17,8 +14,17 @@
     "stocks",
     "stock"
   ],
+  "type": "module",
+  "main": "./dist/common/index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/common/index.js"
+  },
   "scripts": {
-    "build": "npm run clean && tsc -p tsconfig.cjs.json & tsc -p tsconfig.esm.json",
+    "build": "npm run clean && npm run build:esm & npm run build:common",
+    "build:esm": "tsc -p tsconfig.json",
+    "build:common": "tsc -p tsconfig.common.json",
     "clean": "rimraf dist types",
     "test": "npm run test:unit",
     "test:unit": "jest",
