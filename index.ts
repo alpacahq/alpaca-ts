@@ -1,5 +1,5 @@
-export { AlpacaClient } from './lib/client.js'
-export { AlpacaStream } from './lib/stream.js'
+export { AlpacaClient } from './src/client.js'
+export { AlpacaStream } from './src/stream.js'
 
 export {
   Account,
@@ -16,7 +16,7 @@ export {
   Bar,
   LastQuote,
   LastTrade,
-} from './lib/entities.js'
+} from './src/entities.js'
 
 export {
   GetOrder,
@@ -41,4 +41,4 @@ export {
   GetBars,
   GetLastTrade,
   GetLastQuote,
-} from './lib/params.js'
+} from './src/params.js'
