@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlpacaClient = void 0;
 const qs_1 = __importDefault(require("qs"));
 const node_fetch_1 = __importDefault(require("node-fetch"));
-const urls_js_1 = __importDefault(require("./urls.js"));
+const urls_js_1 = __importDefault(require("./urls.cjs"));
 const limiter_1 = __importDefault(require("limiter"));
-const parser_js_1 = require("./parser.js");
+const parser_js_1 = require("./parser.cjs");
 class AlpacaClient {
     constructor(options) {
         this.options = options;
@@ -180,7 +180,7 @@ class AlpacaClient {
                 body: JSON.stringify(data),
             })
                 // if json parse fails we default to an empty object
-                .then((resp) => __awaiter(this, void 0, void 0, function* () { return (yield resp.json().catch(() => false)) || {}; }))
+                .then((resp) => __awaiter(this, void 0, void 0, function* () { return (yield resp.cjson().catch(() => false)) || {}; }))
                 .then((resp) => 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp))
                 .catch(reject);
         }));

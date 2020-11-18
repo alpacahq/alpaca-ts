@@ -9,9 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import qs from 'qs';
 import fetch from 'node-fetch';
-import urls from './urls.js';
+import urls from './urls.mjs';
 import limiter from 'limiter';
-import { Parser } from './parser.js';
+import { Parser } from './parser.mjs';
 export class AlpacaClient {
     constructor(options) {
         this.options = options;
@@ -174,7 +174,7 @@ export class AlpacaClient {
                 body: JSON.stringify(data),
             })
                 // if json parse fails we default to an empty object
-                .then((resp) => __awaiter(this, void 0, void 0, function* () { return (yield resp.json().catch(() => false)) || {}; }))
+                .then((resp) => __awaiter(this, void 0, void 0, function* () { return (yield resp.mjson().catch(() => false)) || {}; }))
                 .then((resp) => 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp))
                 .catch(reject);
         }));
