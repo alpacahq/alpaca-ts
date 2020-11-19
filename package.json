@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "2.7.9",
+  "version": "2.8.0",
   "description": "a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams",
   "author": "master-chief",
   "contributors": [
@@ -22,11 +22,11 @@
     "stock"
   ],
   "type": "module",
+  "main": "./dist/cjs/index.cjs",
   "types": "./types/index.d.ts",
-  "main": "./dist/cjs/index.js",
   "exports": {
     "import": "./dist/mjs/index.mjs",
-    "require": "./dist/cjs/index.js"
+    "require": "./dist/cjs/index.cjs"
   },
   "scripts": {
     "build": "npm run clean && npm run build:mjs && npm run build:cjs && ./remap.sh",
