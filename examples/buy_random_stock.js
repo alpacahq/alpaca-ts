@@ -16,12 +16,12 @@ let { AlpacaClient } = require('@master-chief/alpaca')
       status: 'active',
     }),
     // pick a stock randomly
-    stock = assets[Math.floor(Math.random() * assets.length)].symbol
+    random = assets[Math.floor(Math.random() * assets.length)]
 
   // buy the stock
   client
     .placeOrder({
-      symbol: stock.symbol,
+      symbol: random.symbol,
       side: 'buy',
       type: 'market',
       time_in_force: 'day',
