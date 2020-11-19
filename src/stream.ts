@@ -2,7 +2,7 @@ import WebSocket from 'ws'
 import urls from './urls.js'
 
 import { EventEmitter } from 'events'
-import { Credentials } from './entities'
+import { Credentials } from './entities.js'
 
 export declare interface AlpacaStream {
   on<U extends keyof AlpacaStreamEvents>(

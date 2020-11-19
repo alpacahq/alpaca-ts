@@ -1,9 +1,9 @@
 import qs from 'qs'
 import fetch from 'node-fetch'
-import urls from './urls'
+import urls from './urls.js'
 import limiter from 'limiter'
 
-import { Parser } from './parser'
+import { Parser } from './parser.js'
 
 import {
   RawAccount,

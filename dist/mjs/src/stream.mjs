@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import WebSocket from 'ws';
-import urls from './urls.js';
+import urls from './urls.mjs';
 import { EventEmitter } from 'events';
 var AlpacaStream = /** @class */ (function (_super) {
     __extends(AlpacaStream, _super);

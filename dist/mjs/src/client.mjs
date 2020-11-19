@@ -36,9 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 import qs from 'qs';
 import fetch from 'node-fetch';
-import urls from './urls';
+import urls from './urls.mjs';
 import limiter from 'limiter';
-import { Parser } from './parser';
+import { Parser } from './parser.mjs';
 var AlpacaClient = /** @class */ (function () {
     function AlpacaClient(options) {
         this.options = options;

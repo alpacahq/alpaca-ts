@@ -18,7 +18,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.AlpacaStream = void 0;
 var ws_1 = __importDefault(require("ws"));
-var urls_js_1 = __importDefault(require("./urls.js"));
+var urls_js_1 = __importDefault(require("./urls.cjs"));
 var events_1 = require("events");
 var AlpacaStream = /** @class */ (function (_super) {
     __extends(AlpacaStream, _super);
