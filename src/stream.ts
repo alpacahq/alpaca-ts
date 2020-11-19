@@ -2,7 +2,7 @@ import WebSocket from 'ws'
 import urls from './urls.js'
 
 import { EventEmitter } from 'events'
-import { Credentials } from './entities.js'
+import { Credentials } from './entities'
 
 export declare interface AlpacaStream {
   on<U extends keyof AlpacaStreamEvents>(
@@ -38,7 +38,6 @@ export class AlpacaStream extends EventEmitter {
     protected params: {
       credentials: Credentials
       stream: 'account' | 'market_data'
-      paper?: boolean
     }
   ) {
     // construct EventEmitter
@@ -47,7 +46,7 @@ export class AlpacaStream extends EventEmitter {
     // assign the host we will connect to
     switch (params.stream) {
       case 'account':
-        this.host = params.paper
+        this.host = params.credentials.key.startsWith('PK')
           ? urls.websocket.account_paper
           : urls.websocket.account
         break

@@ -1,9 +1,9 @@
 import qs from 'qs'
 import fetch from 'node-fetch'
-import urls from './urls.js'
+import urls from './urls'
 import limiter from 'limiter'
 
-import { Parser } from './parser.js'
+import { Parser } from './parser'
 
 import {
   RawAccount,
@@ -58,7 +58,6 @@ export class AlpacaClient {
   constructor(
     protected options: {
       credentials: Credentials
-      paper?: boolean
       rate_limit?: boolean
     }
   ) {}
@@ -312,8 +311,11 @@ export class AlpacaClient {
     endpoint: string,
     data?: { [key: string]: any }
   ): Promise<T> {
-    // modify the base url if paper is true
-    if (this.options.paper && url == urls.rest.account) {
+    // modify the base url if paper key
+    if (
+      this.options.credentials.key.startsWith('PK') &&
+      url == urls.rest.account
+    ) {
       url = urls.rest.account.replace('api.', 'paper-api.')
     }
 

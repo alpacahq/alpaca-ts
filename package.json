@@ -1,7 +1,14 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "2.6.7",
+  "version": "2.7.8",
   "description": "a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams",
+  "author": "master-chief",
+  "contributors": [
+    "lbstr",
+    "AqilCont",
+    "KalebMills"
+  ],
+  "license": "ISC",
   "keywords": [
     "alpaca",
     "alpaca-trade-api-js",
@@ -15,16 +22,16 @@
     "stock"
   ],
   "type": "module",
-  "main": "./dist/common/index.cjs",
   "types": "./types/index.d.ts",
+  "main": "./dist/cjs/index.js",
   "exports": {
-    "import": "./dist/module/index.mjs",
-    "require": "./dist/common/index.cjs"
+    "import": "./dist/mjs/index.mjs",
+    "require": "./dist/cjs/index.js"
   },
   "scripts": {
-    "build": "npm run clean && npm run build:module && npm run build:common",
-    "build:module": "tsc -p tsconfig.module.json && find dist/module -name \"*.js\" | sed 's/^\\(.*\\)\\.js$/mv \"\\1.js\" \"\\1.mjs\"/' | sh && $(sed -i '' -rEe \"s/\\.js'/\\.mjs'/g\" $(find ./dist/module -type f))",
-    "build:common": "tsc -p tsconfig.common.json && find dist/common -name \"*.js\" | sed 's/^\\(.*\\)\\.js$/mv \"\\1.js\" \"\\1.cjs\"/' | sh && $(sed -i '' -rEe 's/\\.js\"/\\.cjs\"/g' $(find ./dist/common -type f))",
+    "build": "npm run clean && npm run build:mjs && npm run build:cjs",
+    "build:mjs": "tsc --outDir dist/mjs --moduleResolution node --allowSyntheticDefaultImports --module esnext *.ts && find dist/mjs -name \"*.js\" | sed 's/^\\(.*\\)\\.js$/mv \"\\1.js\" \"\\1.mjs\"/' | sh",
+    "build:cjs": "tsc --outDir dist/cjs --moduleResolution node --esModuleInterop *.ts",
     "clean": "rimraf dist types",
     "test": "npm run test:unit",
     "test:unit": "jest",
@@ -33,20 +40,10 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "roots": [
-      "<rootDir>/src"
-    ],
     "testMatch": [
-      "**/tests/**/*.test.ts"
+      "**/*.test.ts"
     ]
   },
-  "author": "master-chief",
-  "contributors": [
-    "lbstr",
-    "AqilCont",
-    "KalebMills"
-  ],
-  "license": "ISC",
   "dependencies": {
     "limiter": "^1.1.5",
     "node-fetch": "^2.6.0",

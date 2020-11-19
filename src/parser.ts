@@ -21,7 +21,7 @@ import {
   Activity,
   RawClock,
   Clock,
-} from './entities.js'
+} from './entities'
 
 export class Parser {
   parseAccount(rawAccount: RawAccount): Account {

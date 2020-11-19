@@ -14,15 +14,18 @@ WebSocket streams
 - [Install](#install)
 - [Client](#client)
 - [Stream](#stream)
+- [Examples](#examples)
 - [Contributing](#contributing)
 
 ## Features
 
 - [x] Fully asynchronous API.
+- [x] Fully typed.
 - [x] Extensible `AlpacaClient` and `AlpacaStream` classes.
 - [x] Built-in rate limiting.
 - [x] Built-in number and date parsing.
 - [x] A 1:1 mapping of the official Alpaca [docs](https://docs.alpaca.markets/).
+- [x] Hybrid CommonJS and ESM support.
 
 ## Install
 
@@ -37,7 +40,7 @@ From NPM:
 ### Creating a new client
 
 If you wish to use env vars, populate these fields with `process.env` on your
-own.
+own. Paper account key detection is automatic.
 
 ```typescript
 import { AlpacaClient } from '@master-chief/alpaca'
@@ -47,12 +50,11 @@ const client = new AlpacaClient({
     key: '***',
     secret: '******',
   },
-  paper: true,
   rate_limit: true,
 })
 ```
 
-### Parsing
+### Built-in parsing
 
 Alpaca provides numbers as strings. From
 [their docs](https://alpaca.markets/docs/api-documentation/api-v2/#numbers):
@@ -72,7 +74,7 @@ console.log(typeof account.buying_power) // number
 console.log(typeof account.raw().buying_power) // string
 ```
 
-### Examples
+### Methods
 
 The following methods are available on the client.
 
@@ -348,7 +350,6 @@ const stream = new AlpacaStream({
     key: '***',
     secret: '******',
   },
-  paper: true,
   stream: 'market_data',
 })
 ```
@@ -363,7 +364,7 @@ const stream = new AlpacaStream({
 | `trade_updates`    | `account`     |
 | `account_updates`  | `account`     |
 
-### Examples
+### Methods
 
 The following methods are available on the stream.
 
@@ -389,6 +390,11 @@ stream.unsubscribe(["AM.SPY"]));
 stream.on("aggregate_minute", ...)
 ```
 
+## Examples
+
+Don't know where to start? Check out our community-made examples
+[here](https://github.com/117/alpaca/tree/master/examples).
+
 ## Contributing
 
-Pull requests are encouraged. 😁
+Pull requests are encouraged 😍!
