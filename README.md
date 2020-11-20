@@ -1,7 +1,6 @@
 # alpaca
 
 ![version](https://img.shields.io/github/package-json/v/117/alpaca?color=196DFF&style=flat-square)
-![downloads](https://img.shields.io/npm/dt/@master-chief/alpaca?color=7D2CF9&style=flat-square)
 ![code](https://img.shields.io/github/languages/code-size/117/alpaca?color=F1A42E&style=flat-square)
 ![build](https://img.shields.io/github/workflow/status/117/alpaca/test?style=flat-square)
 ![prettier](https://img.shields.io/static/v1?label=code%20style&message=prettier&color=ff51bc&style=flat-square)
