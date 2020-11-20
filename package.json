@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "description": "a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams",
   "author": "master-chief",
   "contributors": [
@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "npm run clean && npm run build:mjs && npm run build:cjs && ./remap.sh",
-    "build:mjs": "tsc --outDir dist/mjs --moduleResolution node --allowSyntheticDefaultImports --module esnext *.ts",
+    "build:mjs": "tsc --outDir dist/mjs --moduleResolution node --allowSyntheticDefaultImports -d --declarationDir types --module esnext *.ts",
     "build:cjs": "tsc --outDir dist/cjs --moduleResolution node --esModuleInterop *.ts",
     "clean": "rimraf dist types",
     "test": "npm run test:unit",
