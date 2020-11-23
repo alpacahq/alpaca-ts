@@ -139,18 +139,13 @@ await client.getAccount()
 #### getOrder
 
 ```typescript
-await client.getOrder({
-  order_id: '6187635d-04e5-485b-8a94-7ce398b2b81c',
-})
+await client.getOrder({ order_id: '6187635d-04e5-485b-8a94-7ce398b2b81c' })
 ```
 
 #### getOrders
 
 ```typescript
-await client.getOrders({
-  limit: 25,
-  status: 'all',
-})
+await client.getOrders({ limit: 25, status: 'all' })
 ```
 
 #### placeOrder
@@ -177,9 +172,7 @@ await client.replaceOrder({
 #### cancelOrder
 
 ```typescript
-await client.cancelOrder({
-  order_id: '69a3db8b-cc63-44da-a26a-e3cca9490308',
-})
+await client.cancelOrder({ order_id: '69a3db8b-cc63-44da-a26a-e3cca9490308' })
 ```
 
 #### cancelOrders
@@ -276,9 +269,7 @@ await client.removeFromWatchlist({
 #### deleteWatchlist
 
 ```typescript
-await client.deleteWatchlist({
-  uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128',
-})
+await client.deleteWatchlist({ uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128' })
 ```
 
 #### getCalender
@@ -311,43 +302,31 @@ await client.updateAccountConfigurations({
 #### getAccountActivities
 
 ```typescript
-await client.getAccountActivities({
-  activity_type: 'FILL',
-})
+await client.getAccountActivities({ activity_type: 'FILL' })
 ```
 
 #### getPortfolioHistory
 
 ```typescript
-await client.getPortfolioHistory({
-  period: '1D',
-  timeframe: '1Min',
-})
+await client.getPortfolioHistory({ period: '1D', timeframe: '1Min' })
 ```
 
 #### getBars
 
 ```typescript
-await client.getBars({
-  symbols: ['SPY', 'DIA', 'XLF'],
-  timeframe: '1Min',
-})
+await client.getBars({ symbols: ['SPY', 'DIA', 'XLF'], timeframe: '1Min' })
 ```
 
 #### getLastTrade
 
 ```typescript
-await client.getLastTrade({
-  symbol: 'SPY',
-})
+await client.getLastTrade({ symbol: 'SPY' })
 ```
 
 #### getLastQuote
 
 ```typescript
-await client.getLastQuote({
-  symbol: 'SPY',
-})
+await client.getLastQuote({ symbol: 'SPY' })
 ```
 
 ## Stream
