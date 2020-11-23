@@ -1,8 +1,8 @@
 import qs from 'qs'
 import fetch from 'node-fetch'
 import urls from './urls.js'
-import limiter from 'limiter'
 
+import { RateLimiter } from 'limiter'
 import { Parser } from './parser.js'
 
 import {
@@ -52,14 +52,14 @@ import {
 } from './params.js'
 
 export class AlpacaClient {
-  private limiter = new limiter.RateLimiter(200, 'minute')
+  private limiter = new RateLimiter(200, 'minute')
   private parser = new Parser()
 
   constructor(
     protected options: {
       credentials: Credentials
       rate_limit?: boolean
-    }
+    },
   ) {}
 
   async isAuthenticated(): Promise<boolean> {
@@ -73,7 +73,7 @@ export class AlpacaClient {
 
   async getAccount(): Promise<Account> {
     return this.parser.parseAccount(
-      await this.request<RawAccount>('GET', urls.rest.account, 'account')
+      await this.request<RawAccount>('GET', urls.rest.account, 'account'),
     )
   }
 
@@ -84,8 +84,8 @@ export class AlpacaClient {
         urls.rest.account,
         `orders/${params.order_id || params.client_order_id}?${qs.stringify({
           nested: params.nested,
-        })}`
-      )
+        })}`,
+      ),
     )
   }
 
@@ -94,14 +94,14 @@ export class AlpacaClient {
       await this.request<RawOrder[]>(
         'GET',
         urls.rest.account,
-        `orders?${qs.stringify(params)}`
-      )
+        `orders?${qs.stringify(params)}`,
+      ),
     )
   }
 
   async placeOrder(params: PlaceOrder): Promise<Order> {
     return this.parser.parseOrder(
-      await this.request<RawOrder>('POST', urls.rest.account, `orders`, params)
+      await this.request<RawOrder>('POST', urls.rest.account, `orders`, params),
     )
   }
 
@@ -111,8 +111,8 @@ export class AlpacaClient {
         'PATCH',
         urls.rest.account,
         `orders/${params.order_id}`,
-        params
-      )
+        params,
+      ),
     )
   }
 
@@ -121,14 +121,14 @@ export class AlpacaClient {
       await this.request<RawOrder>(
         'DELETE',
         urls.rest.account,
-        `orders/${params.order_id}`
-      )
+        `orders/${params.order_id}`,
+      ),
     )
   }
 
   async cancelOrders(): Promise<Order[]> {
     return this.parser.parseOrders(
-      await this.request<RawOrder[]>('DELETE', urls.rest.account, `orders`)
+      await this.request<RawOrder[]>('DELETE', urls.rest.account, `orders`),
     )
   }
 
@@ -137,14 +137,14 @@ export class AlpacaClient {
       await this.request<RawPosition>(
         'GET',
         urls.rest.account,
-        `positions/${params.symbol}`
-      )
+        `positions/${params.symbol}`,
+      ),
     )
   }
 
   async getPositions(): Promise<Position[]> {
     return this.parser.parsePositions(
-      await this.request<RawPosition[]>('GET', urls.rest.account, `positions`)
+      await this.request<RawPosition[]>('GET', urls.rest.account, `positions`),
     )
   }
 
@@ -153,14 +153,14 @@ export class AlpacaClient {
       await this.request<RawOrder>(
         'DELETE',
         urls.rest.account,
-        `positions/${params.symbol}`
-      )
+        `positions/${params.symbol}`,
+      ),
     )
   }
 
   async closePositions(): Promise<Order[]> {
     return this.parser.parseOrders(
-      await this.request<RawOrder[]>('DELETE', urls.rest.account, `positions`)
+      await this.request<RawOrder[]>('DELETE', urls.rest.account, `positions`),
     )
   }
 
@@ -168,7 +168,7 @@ export class AlpacaClient {
     return this.request(
       'GET',
       urls.rest.account,
-      `assets/${params.asset_id_or_symbol}`
+      `assets/${params.asset_id_or_symbol}`,
     )
   }
 
@@ -176,7 +176,7 @@ export class AlpacaClient {
     return this.request(
       'GET',
       urls.rest.account,
-      `assets?${qs.stringify(params)}`
+      `assets?${qs.stringify(params)}`,
     )
   }
 
@@ -197,7 +197,7 @@ export class AlpacaClient {
       'PUT',
       urls.rest.account,
       `watchlists/${params.uuid}`,
-      params
+      params,
     )
   }
 
@@ -206,7 +206,7 @@ export class AlpacaClient {
       'POST',
       urls.rest.account,
       `watchlists/${params.uuid}`,
-      params
+      params,
     )
   }
 
@@ -214,7 +214,7 @@ export class AlpacaClient {
     return this.request(
       'DELETE',
       urls.rest.account,
-      `watchlists/${params.uuid}/${params.symbol}`
+      `watchlists/${params.uuid}/${params.symbol}`,
     )
   }
 
@@ -222,7 +222,7 @@ export class AlpacaClient {
     return this.request(
       'DELETE',
       urls.rest.account,
-      `watchlists/${params.uuid}`
+      `watchlists/${params.uuid}`,
     )
   }
 
@@ -230,13 +230,13 @@ export class AlpacaClient {
     return this.request(
       'GET',
       urls.rest.account,
-      `calendar?${qs.stringify(params)}`
+      `calendar?${qs.stringify(params)}`,
     )
   }
 
   async getClock(): Promise<Clock> {
     return this.parser.parseClock(
-      await this.request('GET', urls.rest.account, `clock`)
+      await this.request('GET', urls.rest.account, `clock`),
     )
   }
 
@@ -245,25 +245,25 @@ export class AlpacaClient {
   }
 
   updateAccountConfigurations(
-    params: UpdateAccountConfigurations
+    params: UpdateAccountConfigurations,
   ): Promise<AccountConfigurations> {
     return this.request(
       'PATCH',
       urls.rest.account,
       `account/configurations`,
-      params
+      params,
     )
   }
 
   async getAccountActivities(
-    params: GetAccountActivities
+    params: GetAccountActivities,
   ): Promise<Activity[]> {
     return this.parser.parseActivities(
       await this.request<RawActivity[]>(
         'GET',
         urls.rest.account,
-        `account/activities/${params.activity_type}?${qs.stringify(params)}`
-      )
+        `account/activities/${params.activity_type}?${qs.stringify(params)}`,
+      ),
     )
   }
 
@@ -271,7 +271,7 @@ export class AlpacaClient {
     return this.request(
       'GET',
       urls.rest.account,
-      `account/portfolio/history?${qs.stringify(params)}`
+      `account/portfolio/history?${qs.stringify(params)}`,
     )
   }
 
@@ -285,7 +285,7 @@ export class AlpacaClient {
     return this.request(
       'GET',
       urls.rest.market_data,
-      `bars/${params.timeframe}?${qs.stringify(params)}`
+      `bars/${params.timeframe}?${qs.stringify(params)}`,
     )
   }
 
@@ -293,7 +293,7 @@ export class AlpacaClient {
     return this.request(
       'GET',
       urls.rest.market_data,
-      `last/stocks/${params.symbol}`
+      `last/stocks/${params.symbol}`,
     )
   }
 
@@ -301,7 +301,7 @@ export class AlpacaClient {
     return this.request(
       'GET',
       urls.rest.market_data,
-      `last_quote/stocks/${params.symbol}`
+      `last_quote/stocks/${params.symbol}`,
     )
   }
 
@@ -309,7 +309,7 @@ export class AlpacaClient {
     method: string,
     url: string,
     endpoint: string,
-    data?: { [key: string]: any }
+    data?: { [key: string]: any },
   ): Promise<T> {
     // modify the base url if paper key
     if (
@@ -344,7 +344,7 @@ export class AlpacaClient {
         // if json parse fails we default to an empty object
         .then(async (resp) => (await resp.json().catch(() => false)) || {})
         .then((resp) =>
-          'code' in resp && 'message' in resp ? reject(resp) : resolve(resp)
+          'code' in resp && 'message' in resp ? reject(resp) : resolve(resp),
         )
         .catch(reject)
     })
