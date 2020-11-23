@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "2.9.3",
+  "version": "2.9.4",
   "description": "a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams",
   "author": "master-chief",
   "contributors": [
@@ -21,17 +21,10 @@
     "stocks",
     "stock"
   ],
-  "type": "module",
-  "main": "./dist/cjs/index.cjs",
-  "types": "./dist/mjs/index.d.ts",
-  "exports": {
-    "import": "./dist/mjs/index.mjs",
-    "require": "./dist/cjs/index.cjs"
-  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "npm run clean && npm run build:mjs && npm run build:cjs && ./remap.sh",
-    "build:mjs": "tsc --outDir dist/mjs --moduleResolution node --allowSyntheticDefaultImports -d --module esnext *.ts",
-    "build:cjs": "tsc --outDir dist/cjs --moduleResolution node --esModuleInterop *.ts",
+    "build": "npm run clean && tsc --outDir dist --moduleResolution node --allowSyntheticDefaultImports -d --module commonjs src/*.ts",
     "clean": "rimraf dist types",
     "test": "npm run test:unit",
     "test:unit": "jest",
@@ -48,6 +41,7 @@
     ]
   },
   "dependencies": {
+    "events": "^3.2.0",
     "limiter": "^1.1.5",
     "node-fetch": "^2.6.0",
     "qs": "^6.9.4",

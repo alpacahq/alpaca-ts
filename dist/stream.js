@@ -12,13 +12,10 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 exports.__esModule = true;
 exports.AlpacaStream = void 0;
-var ws_1 = __importDefault(require("ws"));
-var urls_js_1 = __importDefault(require("./urls.cjs"));
+var ws_1 = require("ws");
+var urls_js_1 = require("./urls.js");
 var events_1 = require("events");
 var AlpacaStream = /** @class */ (function (_super) {
     __extends(AlpacaStream, _super);

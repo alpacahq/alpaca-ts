@@ -7,7 +7,7 @@ import { Credentials } from './entities.js'
 export declare interface AlpacaStream {
   on<U extends keyof AlpacaStreamEvents>(
     event: U,
-    listener: AlpacaStreamEvents[U]
+    listener: AlpacaStreamEvents[U],
   ): this
   emit<U extends keyof AlpacaStreamEvents>(
     event: U,
@@ -38,7 +38,7 @@ export class AlpacaStream extends EventEmitter {
     protected params: {
       credentials: Credentials
       stream: 'account' | 'market_data'
-    }
+    },
   ) {
     // construct EventEmitter
     super()
@@ -68,7 +68,7 @@ export class AlpacaStream extends EventEmitter {
                 key_id: params.credentials.key,
                 secret_key: params.credentials.secret,
               },
-            })
+            }),
           )
         }
 
@@ -91,7 +91,7 @@ export class AlpacaStream extends EventEmitter {
             this.connection.close()
             throw new Error(
               'There was an error in authorizing your websocket connection. Object received: ' +
-                JSON.stringify(object, null, 2)
+                JSON.stringify(object, null, 2),
             )
           }
         }
@@ -109,7 +109,7 @@ export class AlpacaStream extends EventEmitter {
               Q: 'quote',
               AM: 'aggregate_minute',
             }[(object.stream as String).split('.')[0]],
-            object.data
+            object.data,
           )
         }
       })
@@ -146,7 +146,7 @@ export class AlpacaStream extends EventEmitter {
         data: {
           streams: channels,
         },
-      })
+      }),
     )
   }
 
@@ -165,7 +165,7 @@ export class AlpacaStream extends EventEmitter {
         data: {
           streams: channels,
         },
-      })
+      }),
     )
   }
 }
