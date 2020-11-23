@@ -385,7 +385,7 @@ stream.on("aggregate_minute", ...)
 ## Examples
 
 Don't know where to start? Check out our community-made examples
-[here](https://github.com/117/alpaca/tree/master/examples).
+[here](https://github.com/117/alpaca/tree/main/examples).
 
 ## Contributing
 
