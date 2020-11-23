@@ -49,9 +49,6 @@ Import with ESM:
 import alpaca from '@master-chief/alpaca'
 ```
 
-Due to the way we build and compile this library, you can switch between
-CommonJS and/or ESM with ease.
-
 ## Client
 
 ### Creating a new client
