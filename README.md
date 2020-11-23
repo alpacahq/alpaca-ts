@@ -35,6 +35,8 @@ From NPM:
 > npm i @master-chief/alpaca
 ```
 
+## Import
+
 Import with CommonJS:
 
 ```javascript
