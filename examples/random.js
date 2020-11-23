@@ -21,5 +21,5 @@ client
         time_in_force: 'day',
         qty: 1,
       })
-      .catch((error) => console.log(error)),
+      .catch((error) => console.error(error)),
   )
