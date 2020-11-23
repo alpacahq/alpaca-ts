@@ -35,6 +35,21 @@ From NPM:
 > npm i @master-chief/alpaca
 ```
 
+Import with CommonJS:
+
+```javascript
+let alpaca = require('@master-chief/alpaca')
+```
+
+Import with ESM:
+
+```typescript
+import alpaca from '@master-chief/alpaca'
+```
+
+Due to the way we build and compile this library, you can switch between
+CommonJS and/or ESM with ease.
+
 ## Client
 
 ### Creating a new client
@@ -43,9 +58,7 @@ If you wish to use env vars, populate these fields with `process.env` on your
 own. Paper account key detection is automatic.
 
 ```typescript
-import { AlpacaClient } from '@master-chief/alpaca'
-
-const client = new AlpacaClient({
+const client = new alpaca.AlpacaClient({
   credentials: {
     key: '***',
     secret: '******',
@@ -343,9 +356,7 @@ If you wish to use env vars, populate these fields with `process.env` on your
 own.
 
 ```typescript
-import { AlpacaStream } from '@master-chief/alpaca'
-
-const stream = new AlpacaStream({
+const stream = new alpaca.AlpacaStream({
   credentials: {
     key: '***',
     secret: '******',

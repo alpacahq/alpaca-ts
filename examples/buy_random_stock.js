@@ -1,24 +1,19 @@
 let { AlpacaClient } = require('@master-chief/alpaca')
 
-// wrap async to make use of await
-;(async () => {
-  // build the alpaca client
-  const client = new AlpacaClient({
-    credentials: {
-      key: '***',
-      secret: '******',
-    },
-    rate_limit: true,
-  })
+const client = new AlpacaClient({
+  credentials: {
+    key: '***',
+    secret: '******',
+  },
+  rate_limit: true,
+})
 
-  // get the active asset list
+async function run() {
   let assets = await client.getAssets({
       status: 'active',
     }),
-    // pick a stock randomly
     random = assets[Math.floor(Math.random() * assets.length)]
 
-  // buy the stock
   client
     .placeOrder({
       symbol: random.symbol,
@@ -28,4 +23,6 @@ let { AlpacaClient } = require('@master-chief/alpaca')
       qty: 1,
     })
     .catch((error) => console.log(error))
-})()
+}
+
+run()
