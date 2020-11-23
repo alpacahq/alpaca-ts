@@ -410,4 +410,4 @@ Don't know where to start? Check out our community-made examples
 
 ## Contributing
 
-Pull requests are encouraged 😍!
+Pull requests are encouraged. 🥳
