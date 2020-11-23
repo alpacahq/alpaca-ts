@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "3.0.1",
+  "version": "3.0.0",
   "description": "a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams",
   "author": "master-chief",
   "contributors": [
@@ -24,22 +24,11 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "npm run clean && npm run build:cjs && npm run build:esm",
-    "build:cjs": "tsc --outDir dist/commonjs --moduleResolution node --allowSyntheticDefaultImports -d --module commonjs src/*.ts",
-    "build:esm": "tsc --outDir dist/esm --moduleResolution node --allowSyntheticDefaultImports -d --target es2020 src/*.ts",
+    "build": "npm run clean && tsc --outDir dist --moduleResolution node --allowSyntheticDefaultImports -d --module commonjs src/*.ts",
     "clean": "rimraf dist types",
     "test": "npm run test:unit",
     "test:unit": "jest",
     "test:watch": "jest --watchAll"
-  },
-  "exports": {
-    "require": "./dist/commonjs/index.js",
-    "import": "./dist/esm/index.js",
-    "default": "./dist/esm/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/117/alpaca"
   },
   "jest": {
     "preset": "ts-jest",
