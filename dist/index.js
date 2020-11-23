@@ -12,3 +12,9 @@ var client_js_1 = require("./client.js");
 __createBinding(exports, client_js_1, "AlpacaClient");
 var stream_js_1 = require("./stream.js");
 __createBinding(exports, stream_js_1, "AlpacaStream");
+var client_js_2 = require("./client.js");
+var stream_js_2 = require("./stream.js");
+exports["default"] = {
+    AlpacaClient: client_js_2.AlpacaClient,
+    AlpacaStream: stream_js_2.AlpacaStream
+};
