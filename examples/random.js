@@ -1,4 +1,4 @@
-// buy a random stock from the alpaca asset list
+// buys a random stock
 
 const alpaca = require('@master-chief/alpaca')
 const client = new alpaca.AlpacaClient({
