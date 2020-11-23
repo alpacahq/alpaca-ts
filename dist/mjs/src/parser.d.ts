@@ -1,4 +1,4 @@
-import { Account, RawAccount, RawOrder, Order, RawPosition, Position, RawTradeActivity, TradeActivity, RawNonTradeActivity, NonTradeActivity, RawActivity, Activity, RawClock, Clock } from './entities.js';
+import { Account, RawAccount, RawOrder, Order, RawPosition, Position, RawTradeActivity, TradeActivity, RawNonTradeActivity, NonTradeActivity, RawActivity, Activity, RawClock, Clock } from './entities.mjs';
 export declare class Parser {
     parseAccount(rawAccount: RawAccount): Account;
     parseClock(rawClock: RawClock): Clock;

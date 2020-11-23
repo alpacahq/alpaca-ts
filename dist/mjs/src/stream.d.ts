@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import { EventEmitter } from 'events';
-import { Credentials } from './entities.js';
+import { Credentials } from './entities.mjs';
 export declare interface AlpacaStream {
     on<U extends keyof AlpacaStreamEvents>(event: U, listener: AlpacaStreamEvents[U]): this;
     emit<U extends keyof AlpacaStreamEvents>(event: U, ...args: Parameters<AlpacaStreamEvents[U]>): boolean;
