@@ -62,8 +62,8 @@ own. Paper account key detection is automatic.
 ```typescript
 const client = new alpaca.AlpacaClient({
   credentials: {
-    key: '***',
-    secret: '******',
+    key: 'xxxxxx',
+    secret: 'xxxxxxxxxxxx',
   },
   rate_limit: true,
 })
@@ -339,8 +339,8 @@ own.
 ```typescript
 const stream = new alpaca.AlpacaStream({
   credentials: {
-    key: '***',
-    secret: '******',
+    key: 'xxxxxx',
+    secret: 'xxxxxxxxxxxx',
   },
   stream: 'market_data',
 })
