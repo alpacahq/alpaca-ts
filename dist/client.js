@@ -39,13 +39,13 @@ exports.__esModule = true;
 exports.AlpacaClient = void 0;
 var qs_1 = require("qs");
 var node_fetch_1 = require("node-fetch");
-var urls_js_1 = require("./urls.js");
 var limiter_1 = require("limiter");
+var urls_js_1 = require("./urls.js");
 var parser_js_1 = require("./parser.js");
 var AlpacaClient = /** @class */ (function () {
     function AlpacaClient(options) {
         this.options = options;
-        this.limiter = new limiter_1.RateLimiter(200, 'minute');
+        this.limiter = new limiter_1["default"].RateLimiter(200, 'minute');
         this.parser = new parser_js_1.Parser();
     }
     AlpacaClient.prototype.isAuthenticated = function () {
