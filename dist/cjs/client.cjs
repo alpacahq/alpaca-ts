@@ -35,13 +35,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 exports.AlpacaClient = void 0;
-var qs_1 = require("qs");
-var node_fetch_1 = require("node-fetch");
-var urls_js_1 = require("./urls.js");
+var qs_1 = __importDefault(require("qs"));
+var node_fetch_1 = __importDefault(require("node-fetch"));
+var urls_js_1 = __importDefault(require("./urls.cjs"));
 var limiter_1 = require("limiter");
-var parser_js_1 = require("./parser.js");
+var parser_js_1 = require("./parser.cjs");
 var AlpacaClient = /** @class */ (function () {
     function AlpacaClient(options) {
         this.options = options;

@@ -8,13 +8,13 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
 }));
 exports.__esModule = true;
 exports.AlpacaStream = exports.AlpacaClient = void 0;
-var client_js_1 = require("./client.js");
-__createBinding(exports, client_js_1, "AlpacaClient");
-var stream_js_1 = require("./stream.js");
-__createBinding(exports, stream_js_1, "AlpacaStream");
-var client_js_2 = require("./client.js");
-var stream_js_2 = require("./stream.js");
+var client_js_1 = require("./client.cjs");
+var stream_js_1 = require("./stream.cjs");
+var client_js_2 = require("./client.cjs");
+__createBinding(exports, client_js_2, "AlpacaClient");
+var stream_js_2 = require("./stream.cjs");
+__createBinding(exports, stream_js_2, "AlpacaStream");
 exports["default"] = {
-    AlpacaClient: client_js_2.AlpacaClient,
-    AlpacaStream: stream_js_2.AlpacaStream
+    AlpacaClient: client_js_1.AlpacaClient,
+    AlpacaStream: stream_js_1.AlpacaStream
 };
