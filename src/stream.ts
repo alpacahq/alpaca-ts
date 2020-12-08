@@ -2,7 +2,14 @@ import WebSocket from 'ws'
 import urls from './urls.js'
 
 import { EventEmitter } from 'events'
-import { Credentials } from './entities.js'
+import {
+  AccountUpdate,
+  AggregateMinute,
+  Credentials,
+  Quote,
+  Trade,
+  TradeUpdate,
+} from './entities.js'
 
 export declare interface AlpacaStream {
   on<U extends keyof AlpacaStreamEvents>(
@@ -21,11 +28,11 @@ export declare interface AlpacaStreamEvents {
   authenticated: (connection: AlpacaStream) => void
   error: (error: Error) => void
   message: (data: Object) => void
-  trade: (data: Object) => void
-  trade_updates: (data: Object) => void
-  account_updates: (data: Object) => void
-  quote: (data: Object) => void
-  aggregate_minute: (data: Object) => void
+  trade: (data: Trade) => void
+  trade_updates: (data: TradeUpdate) => void
+  account_updates: (data: AccountUpdate) => void
+  quote: (data: Quote) => void
+  aggregate_minute: (data: AggregateMinute) => void
 }
 
 export class AlpacaStream extends EventEmitter {
