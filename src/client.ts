@@ -258,11 +258,17 @@ export class AlpacaClient {
   async getAccountActivities(
     params: GetAccountActivities,
   ): Promise<Activity[]> {
+    if (params.activity_types && Array.isArray(params.activity_types)) {
+      params.activity_types = params.activity_types.join(',')
+    }
+
     return this.parser.parseActivities(
       await this.request<RawActivity[]>(
         'GET',
         urls.rest.account,
-        `account/activities/${params.activity_type}?${qs.stringify(params)}`,
+        `account/activities${
+          params.activity_type ? '/'.concat(params.activity_type) : ''
+        }?${qs.stringify(params)}`,
       ),
     )
   }

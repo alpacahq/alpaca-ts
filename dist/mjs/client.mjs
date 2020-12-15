@@ -93,7 +93,10 @@ export class AlpacaClient {
         return this.request('PATCH', urls.rest.account, `account/configurations`, params);
     }
     async getAccountActivities(params) {
-        return this.parser.parseActivities(await this.request('GET', urls.rest.account, `account/activities/${params.activity_type}?${qs.stringify(params)}`));
+        if (params.activity_types && Array.isArray(params.activity_types)) {
+            params.activity_types = params.activity_types.join(',');
+        }
+        return this.parser.parseActivities(await this.request('GET', urls.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}?${qs.stringify(params)}`));
     }
     getPortfolioHistory(params) {
         return this.request('GET', urls.rest.account, `account/portfolio/history?${qs.stringify(params)}`);

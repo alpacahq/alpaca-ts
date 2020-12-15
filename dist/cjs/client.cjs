@@ -270,8 +270,11 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
+                        if (params.activity_types && Array.isArray(params.activity_types)) {
+                            params.activity_types = params.activity_types.join(',');
+                        }
                         _b = (_a = this.parser).parseActivities;
-                        return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "account/activities/" + params.activity_type + "?" + qs_1["default"].stringify(params))];
+                        return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "account/activities" + (params.activity_type ? '/'.concat(params.activity_type) : '') + "?" + qs_1["default"].stringify(params))];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });

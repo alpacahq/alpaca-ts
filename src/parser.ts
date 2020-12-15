@@ -36,7 +36,7 @@ export class Parser {
         buying_power: this.parseNumber(rawAccount.buying_power),
         regt_buying_power: this.parseNumber(rawAccount.regt_buying_power),
         daytrading_buying_power: this.parseNumber(
-          rawAccount.daytrading_buying_power
+          rawAccount.daytrading_buying_power,
         ),
         cash: this.parseNumber(rawAccount.cash),
         created_at: new Date(rawAccount.created_at),
@@ -49,7 +49,7 @@ export class Parser {
         initial_margin: this.parseNumber(rawAccount.initial_margin),
         maintenance_margin: this.parseNumber(rawAccount.maintenance_margin),
         last_maintenance_margin: this.parseNumber(
-          rawAccount.last_maintenance_margin
+          rawAccount.last_maintenance_margin,
         ),
         sma: this.parseNumber(rawAccount.sma),
         status: rawAccount.status as AccountStatus,
@@ -134,10 +134,10 @@ export class Parser {
         unrealized_pl: this.parseNumber(rawPosition.unrealized_pl),
         unrealized_plpc: this.parseNumber(rawPosition.unrealized_plpc),
         unrealized_intraday_pl: this.parseNumber(
-          rawPosition.unrealized_intraday_pl
+          rawPosition.unrealized_intraday_pl,
         ),
         unrealized_intraday_plpc: this.parseNumber(
-          rawPosition.unrealized_intraday_plpc
+          rawPosition.unrealized_intraday_plpc,
         ),
         current_price: this.parseNumber(rawPosition.current_price),
         lastday_price: this.parseNumber(rawPosition.lastday_price),
@@ -176,7 +176,7 @@ export class Parser {
   }
 
   parseNonTradeActivity(
-    rawNonTradeActivity: RawNonTradeActivity
+    rawNonTradeActivity: RawNonTradeActivity,
   ): NonTradeActivity {
     if (!rawNonTradeActivity) {
       return null
@@ -189,7 +189,7 @@ export class Parser {
         net_amount: this.parseNumber(rawNonTradeActivity.net_amount),
         qty: this.parseNumber(rawNonTradeActivity.qty),
         per_share_amount: this.parseNumber(
-          rawNonTradeActivity.per_share_amount
+          rawNonTradeActivity.per_share_amount,
         ),
       }
     } catch (err) {
@@ -206,7 +206,7 @@ export class Parser {
       return rawActivities.map((rawActivity) =>
         rawActivity.activity_type === 'FILL'
           ? this.parseTradeActivity(rawActivity)
-          : this.parseNonTradeActivity(rawActivity)
+          : this.parseNonTradeActivity(rawActivity),
       )
     } catch (err) {
       throw new Error(`Activity parsing failed. Error: ${err.message}`)

@@ -23,7 +23,8 @@ export interface DeleteWatchList {
 }
 
 export interface GetAccountActivities {
-  activity_type: string
+  activity_type?: string
+  activity_types?: string | string[]
   date?: string
   until?: string
   after?: string
