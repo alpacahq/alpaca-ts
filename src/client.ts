@@ -24,7 +24,7 @@ import {
   RawPosition,
   RawActivity,
   Activity,
-  OauthCredentials,
+  OAuthCredentials,
 } from './entities.js'
 
 import {
@@ -60,7 +60,7 @@ export class AlpacaClient {
     protected options: {
       credentials?: Credentials
       rate_limit?: boolean
-      oauth?: OauthCredentials
+      oauth?: OAuthCredentials
     },
   ) {
     if (this.options.credentials && this.options.oauth)

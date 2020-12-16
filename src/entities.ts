@@ -12,7 +12,7 @@ export interface Credentials {
  * Client ID for Oauth requests on behalf of users.
  * Can be passed to the AlpacaClient.
  */
-export interface OauthCredentials {
+export interface OAuthCredentials {
   access_token: String
 }
 
