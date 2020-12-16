@@ -98,7 +98,7 @@ export class AlpacaStream extends EventEmitter {
             this.connection.close()
             throw new Error(
               'There was an error in authorizing your websocket connection. Object received: ' +
-                JSON.stringify(object, null, 2),
+              JSON.stringify(object, null, 2),
             )
           }
         }
