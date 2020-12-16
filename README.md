@@ -54,8 +54,7 @@ import alpaca from '@master-chief/alpaca'
 
 ### Creating a new client
 
-If you wish to use env vars, populate these fields with `process.env` on your own. Paper account key detection is automatic.  
-Using OAuth? No problem, just pass your `access_token` in the credentials object.
+If you wish to use env vars, populate these fields with `process.env` on your own. Paper account key detection is automatic. Using OAuth? No problem, just pass your `access_token` in the credentials object.
 
 ```typescript
 const client = new alpaca.AlpacaClient({
