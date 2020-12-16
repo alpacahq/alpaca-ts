@@ -326,7 +326,7 @@ export class AlpacaClient {
       isOauth = Boolean(this.options.oauth);
 
     if (isOauth) {
-      headers['Authorization'] = `Bearer ${this.options.oauth.client_id}`;
+      headers['Authorization'] = `Bearer ${this.options.oauth.access_token}`;
       url == urls.rest.account;
     } else {
       headers['APCA-API-KEY-ID'] = this.options.credentials.key;

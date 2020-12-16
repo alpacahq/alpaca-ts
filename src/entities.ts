@@ -13,7 +13,7 @@ export interface Credentials {
  * Can be passed to the AlpacaClient.
  */
 export interface OauthCredentials {
-  client_id: String
+  access_token: String
 }
 
 /**

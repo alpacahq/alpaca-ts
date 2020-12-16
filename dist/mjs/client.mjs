@@ -119,7 +119,7 @@ export class AlpacaClient {
     request(method, url, endpoint, data) {
         let headers = {}, isOauth = Boolean(this.options.oauth);
         if (isOauth) {
-            headers['Authorization'] = `Bearer ${this.options.oauth.client_id}`;
+            headers['Authorization'] = `Bearer ${this.options.oauth.access_token}`;
             url == urls.rest.account;
         }
         else {

@@ -302,7 +302,7 @@ var AlpacaClient = /** @class */ (function () {
         var _this = this;
         var headers = {}, isOauth = Boolean(this.options.oauth);
         if (isOauth) {
-            headers['Authorization'] = "Bearer " + this.options.oauth.client_id;
+            headers['Authorization'] = "Bearer " + this.options.oauth.access_token;
             url == urls_js_1["default"].rest.account;
         }
         else {
