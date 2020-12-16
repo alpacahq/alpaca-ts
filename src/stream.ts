@@ -5,7 +5,7 @@ import { EventEmitter } from 'events'
 import {
   AccountUpdate,
   AggregateMinute,
-  Credentials,
+  DefaultCredentials,
   Quote,
   Trade,
   TradeUpdate,
@@ -43,7 +43,7 @@ export class AlpacaStream extends EventEmitter {
 
   constructor(
     protected params: {
-      credentials: Credentials
+      credentials: DefaultCredentials
       stream: 'account' | 'market_data'
     },
   ) {

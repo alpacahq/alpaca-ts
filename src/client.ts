@@ -19,11 +19,12 @@ import {
   Bar,
   LastQuote,
   LastTrade,
-  Credentials,
   RawOrder,
   RawPosition,
   RawActivity,
   Activity,
+  DefaultCredentials,
+  OAuthCredentials,
 } from './entities.js'
 
 import {
@@ -56,11 +57,20 @@ export class AlpacaClient {
   private parser = new Parser()
 
   constructor(
-    protected options: {
-      credentials: Credentials
+    public params: {
+      credentials?: DefaultCredentials | OAuthCredentials
       rate_limit?: boolean
     },
-  ) {}
+  ) {
+    if (
+      'access_token' in params.credentials &&
+      ('key' in params.credentials || 'secret' in params.credentials)
+    ) {
+      throw new Error(
+        "can't create client with both default and oauth credentials",
+      )
+    }
+  }
 
   async isAuthenticated(): Promise<boolean> {
     try {
@@ -317,14 +327,25 @@ export class AlpacaClient {
     endpoint: string,
     data?: { [key: string]: any },
   ): Promise<T> {
-    // modify the base url if paper key
-    if (
-      this.options.credentials.key.startsWith('PK') &&
+    let headers = {}
+
+    if ('access_token' in this.params.credentials) {
+      headers[
+        'Authorization'
+      ] = `Bearer ${this.params.credentials.access_token}`
       url == urls.rest.account
-    ) {
-      url = urls.rest.account.replace('api.', 'paper-api.')
+    } else {
+      headers['APCA-API-KEY-ID'] = this.params.credentials.key
+      headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret
+      if (
+        this.params.credentials.key.startsWith('PK') &&
+        url == urls.rest.account
+      ) {
+        url = urls.rest.account.replace('api.', 'paper-api.')
+      }
     }
 
+    // modify the base url if paper key
     // convert any dates to ISO 8601 for Alpaca
     if (data) {
       for (let [key, value] of Object.entries(data)) {
@@ -335,16 +356,13 @@ export class AlpacaClient {
     }
 
     return new Promise<T>(async (resolve, reject) => {
-      if (this.options.rate_limit) {
+      if (this.params.rate_limit) {
         await new Promise((resolve) => this.limiter.removeTokens(1, resolve))
       }
 
       await fetch(`${url}/${endpoint}`, {
         method: method,
-        headers: {
-          'APCA-API-KEY-ID': this.options.credentials.key,
-          'APCA-API-SECRET-KEY': this.options.credentials.secret,
-        },
+        headers,
         body: JSON.stringify(data),
       })
         // if json parse fails we default to an empty object

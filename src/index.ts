@@ -17,6 +17,8 @@ export {
   Watchlist,
   Calendar,
   Clock,
+  DefaultCredentials,
+  OAuthCredentials,
   AccountConfigurations,
   NonTradeActivity,
   TradeActivity,

@@ -26,6 +26,7 @@ WebSocket streams
 - [x] Built-in number and date parsing.
 - [x] A 1:1 mapping of the official Alpaca [docs](https://docs.alpaca.markets/).
 - [x] Hybrid CommonJS and ESM support.
+- [x] OAuth integration support.
 
 ## Install
 
@@ -53,14 +54,14 @@ import alpaca from '@master-chief/alpaca'
 
 ### Creating a new client
 
-If you wish to use env vars, populate these fields with `process.env` on your
-own. Paper account key detection is automatic.
+If you wish to use env vars, populate these fields with `process.env` on your own. Paper account key detection is automatic. Using OAuth? Simply pass an `access_token` in the credentials object.
 
 ```typescript
 const client = new alpaca.AlpacaClient({
   credentials: {
     key: 'xxxxxx',
     secret: 'xxxxxxxxxxxx',
+    // access_token: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
   },
   rate_limit: true,
 })
