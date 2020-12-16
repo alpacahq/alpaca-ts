@@ -2,11 +2,10 @@
  * Your Alpaca key id and secret.
  * Can be passed to the AlpacaClient and AlpacaStream.
  */
-export interface Credentials {
+export interface DefaultCredentials {
   key: string
   secret: string
 }
-
 
 /**
  * Client ID for Oauth requests on behalf of users.

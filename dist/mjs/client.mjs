@@ -4,12 +4,14 @@ import urls from './urls.mjs';
 import limiter from 'limiter';
 import { Parser } from './parser.mjs';
 export class AlpacaClient {
-    constructor(options) {
-        this.options = options;
+    constructor(params) {
+        this.params = params;
         this.limiter = new limiter.RateLimiter(200, 'minute');
         this.parser = new Parser();
-        if (this.options.credentials && this.options.oauth)
-            throw new Error('Attempted to create AlpacaClient with both standard and oauth credentials');
+        if ('access_token' in params.credentials &&
+            ('key' in params.credentials || 'secret' in params.credentials)) {
+            throw new Error("can't create client with both default and oauth credentials");
+        }
     }
     async isAuthenticated() {
         try {
@@ -117,15 +119,15 @@ export class AlpacaClient {
         return this.request('GET', urls.rest.market_data, `last_quote/stocks/${params.symbol}`);
     }
     request(method, url, endpoint, data) {
-        let headers = {}, isOauth = Boolean(this.options.oauth);
-        if (isOauth) {
-            headers['Authorization'] = `Bearer ${this.options.oauth.access_token}`;
+        let headers = {};
+        if ('access_token' in this.params.credentials) {
+            headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
             url == urls.rest.account;
         }
         else {
-            headers['APCA-API-KEY-ID'] = this.options.credentials.key;
-            headers['APCA-API-SECRET-KEY'] = this.options.credentials.secret;
-            if (this.options.credentials.key.startsWith('PK') &&
+            headers['APCA-API-KEY-ID'] = this.params.credentials.key;
+            headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
+            if (this.params.credentials.key.startsWith('PK') &&
                 url == urls.rest.account) {
                 url = urls.rest.account.replace('api.', 'paper-api.');
             }
@@ -140,7 +142,7 @@ export class AlpacaClient {
             }
         }
         return new Promise(async (resolve, reject) => {
-            if (this.options.rate_limit) {
+            if (this.params.rate_limit) {
                 await new Promise((resolve) => this.limiter.removeTokens(1, resolve));
             }
             await fetch(`${url}/${endpoint}`, {

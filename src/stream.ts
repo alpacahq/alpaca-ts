@@ -5,7 +5,7 @@ import { EventEmitter } from 'events'
 import {
   AccountUpdate,
   AggregateMinute,
-  Credentials,
+  DefaultCredentials,
   Quote,
   Trade,
   TradeUpdate,
@@ -43,7 +43,7 @@ export class AlpacaStream extends EventEmitter {
 
   constructor(
     protected params: {
-      credentials: Credentials
+      credentials: DefaultCredentials
       stream: 'account' | 'market_data'
     },
   ) {
@@ -98,7 +98,7 @@ export class AlpacaStream extends EventEmitter {
             this.connection.close()
             throw new Error(
               'There was an error in authorizing your websocket connection. Object received: ' +
-              JSON.stringify(object, null, 2),
+                JSON.stringify(object, null, 2),
             )
           }
         }

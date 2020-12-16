@@ -19,11 +19,11 @@ import {
   Bar,
   LastQuote,
   LastTrade,
-  Credentials,
   RawOrder,
   RawPosition,
   RawActivity,
   Activity,
+  DefaultCredentials,
   OAuthCredentials,
 } from './entities.js'
 
@@ -57,14 +57,19 @@ export class AlpacaClient {
   private parser = new Parser()
 
   constructor(
-    protected options: {
-      credentials?: Credentials
+    public params: {
+      credentials?: DefaultCredentials | OAuthCredentials
       rate_limit?: boolean
-      oauth?: OAuthCredentials
     },
   ) {
-    if (this.options.credentials && this.options.oauth)
-      throw new Error('Attempted to create AlpacaClient with both standard and oauth credentials')
+    if (
+      'access_token' in params.credentials &&
+      ('key' in params.credentials || 'secret' in params.credentials)
+    ) {
+      throw new Error(
+        "can't create client with both default and oauth credentials",
+      )
+    }
   }
 
   async isAuthenticated(): Promise<boolean> {
@@ -271,7 +276,8 @@ export class AlpacaClient {
       await this.request<RawActivity[]>(
         'GET',
         urls.rest.account,
-        `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''
+        `account/activities${
+          params.activity_type ? '/'.concat(params.activity_type) : ''
         }?${qs.stringify(params)}`,
       ),
     )
@@ -321,18 +327,18 @@ export class AlpacaClient {
     endpoint: string,
     data?: { [key: string]: any },
   ): Promise<T> {
+    let headers = {}
 
-    let headers = {},
-      isOauth = Boolean(this.options.oauth);
-
-    if (isOauth) {
-      headers['Authorization'] = `Bearer ${this.options.oauth.access_token}`;
-      url == urls.rest.account;
+    if ('access_token' in this.params.credentials) {
+      headers[
+        'Authorization'
+      ] = `Bearer ${this.params.credentials.access_token}`
+      url == urls.rest.account
     } else {
-      headers['APCA-API-KEY-ID'] = this.options.credentials.key;
-      headers['APCA-API-SECRET-KEY'] = this.options.credentials.secret;
+      headers['APCA-API-KEY-ID'] = this.params.credentials.key
+      headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret
       if (
-        this.options.credentials.key.startsWith('PK') &&
+        this.params.credentials.key.startsWith('PK') &&
         url == urls.rest.account
       ) {
         url = urls.rest.account.replace('api.', 'paper-api.')
@@ -350,7 +356,7 @@ export class AlpacaClient {
     }
 
     return new Promise<T>(async (resolve, reject) => {
-      if (this.options.rate_limit) {
+      if (this.params.rate_limit) {
         await new Promise((resolve) => this.limiter.removeTokens(1, resolve))
       }
 
