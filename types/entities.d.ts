@@ -7,6 +7,13 @@ export interface Credentials {
     secret: string;
 }
 /**
+ * Client ID for Oauth requests on behalf of users.
+ * Can be passed to the AlpacaClient.
+ */
+export interface OauthCredentials {
+    client_id: String;
+}
+/**
  * The account information with unparsed types, exactly as Alpaca provides it.
  * We encourage you to use the Account interface, which has many of these fields parsed.
  */

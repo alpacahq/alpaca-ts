@@ -50,6 +50,8 @@ var AlpacaClient = /** @class */ (function () {
         this.options = options;
         this.limiter = new limiter_1["default"].RateLimiter(200, 'minute');
         this.parser = new parser_js_1.Parser();
+        if (this.options.credentials && this.options.oauth)
+            throw new Error('Attempted to create AlpacaClient with both standard and oauth credentials');
     }
     AlpacaClient.prototype.isAuthenticated = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -298,11 +300,20 @@ var AlpacaClient = /** @class */ (function () {
     };
     AlpacaClient.prototype.request = function (method, url, endpoint, data) {
         var _this = this;
-        // modify the base url if paper key
-        if (this.options.credentials.key.startsWith('PK') &&
-            url == urls_js_1["default"].rest.account) {
-            url = urls_js_1["default"].rest.account.replace('api.', 'paper-api.');
+        var headers = {}, isOauth = Boolean(this.options.oauth);
+        if (isOauth) {
+            headers['Authorization'] = "Bearer " + this.options.oauth.client_id;
+            url == urls_js_1["default"].rest.account;
         }
+        else {
+            headers['APCA-API-KEY-ID'] = this.options.credentials.key;
+            headers['APCA-API-SECRET-KEY'] = this.options.credentials.secret;
+            if (this.options.credentials.key.startsWith('PK') &&
+                url == urls_js_1["default"].rest.account) {
+                url = urls_js_1["default"].rest.account.replace('api.', 'paper-api.');
+            }
+        }
+        // modify the base url if paper key
         // convert any dates to ISO 8601 for Alpaca
         if (data) {
             for (var _i = 0, _a = Object.entries(data); _i < _a.length; _i++) {
@@ -324,10 +335,7 @@ var AlpacaClient = /** @class */ (function () {
                         _a.label = 2;
                     case 2: return [4 /*yield*/, node_fetch_1["default"](url + "/" + endpoint, {
                             method: method,
-                            headers: {
-                                'APCA-API-KEY-ID': this.options.credentials.key,
-                                'APCA-API-SECRET-KEY': this.options.credentials.secret
-                            },
+                            headers: headers,
                             body: JSON.stringify(data)
                         })
                             // if json parse fails we default to an empty object
