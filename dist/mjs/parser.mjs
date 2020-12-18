@@ -1,7 +1,7 @@
 export class Parser {
     parseAccount(rawAccount) {
         if (!rawAccount) {
-            return null;
+            return undefined;
         }
         try {
             return {
@@ -31,7 +31,7 @@ export class Parser {
     }
     parseClock(rawClock) {
         if (!rawClock) {
-            return null;
+            return undefined;
         }
         try {
             return {
@@ -48,7 +48,7 @@ export class Parser {
     }
     parseOrder(rawOrder) {
         if (!rawOrder) {
-            return null;
+            return undefined;
         }
         try {
             return {
@@ -86,7 +86,7 @@ export class Parser {
     }
     parsePosition(rawPosition) {
         if (!rawPosition) {
-            return null;
+            return undefined;
         }
         try {
             return {
@@ -117,7 +117,7 @@ export class Parser {
     }
     parseTradeActivity(rawTradeActivity) {
         if (!rawTradeActivity) {
-            return null;
+            return undefined;
         }
         try {
             return {
@@ -137,7 +137,7 @@ export class Parser {
     }
     parseNonTradeActivity(rawNonTradeActivity) {
         if (!rawNonTradeActivity) {
-            return null;
+            return undefined;
         }
         try {
             return {
@@ -154,7 +154,7 @@ export class Parser {
     }
     parseActivities(rawActivities) {
         if (!rawActivities) {
-            return null;
+            return undefined;
         }
         try {
             return rawActivities.map((rawActivity) => rawActivity.activity_type === 'FILL'
