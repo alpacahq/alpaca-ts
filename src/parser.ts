@@ -114,7 +114,7 @@ export class Parser {
   }
 
   parseOrders(rawOrders: RawOrder[]): Order[] {
-    return rawOrders ? rawOrders.map((order) => this.parseOrder(order)) : null
+    return rawOrders ? rawOrders.map((order) => this.parseOrder(order)) : undefined
   }
 
   parsePosition(rawPosition: RawPosition): Position {
@@ -151,7 +151,7 @@ export class Parser {
   parsePositions(rawPositions: RawPosition[]): Position[] {
     return rawPositions
       ? rawPositions.map((pos) => this.parsePosition(pos))
-      : null
+      : undefined
   }
 
   parseTradeActivity(rawTradeActivity: RawTradeActivity): TradeActivity {
@@ -214,6 +214,7 @@ export class Parser {
   }
 
   private parseNumber(numStr: string): number {
+    if (typeof numStr === 'undefined') return numStr
     return parseFloat(numStr)
   }
 }

@@ -56,7 +56,7 @@ var Parser = /** @class */ (function () {
     };
     Parser.prototype.parseOrders = function (rawOrders) {
         var _this = this;
-        return rawOrders ? rawOrders.map(function (order) { return _this.parseOrder(order); }) : null;
+        return rawOrders ? rawOrders.map(function (order) { return _this.parseOrder(order); }) : undefined;
     };
     Parser.prototype.parsePosition = function (rawPosition) {
         if (!rawPosition) {
@@ -73,7 +73,7 @@ var Parser = /** @class */ (function () {
         var _this = this;
         return rawPositions
             ? rawPositions.map(function (pos) { return _this.parsePosition(pos); })
-            : null;
+            : undefined;
     };
     Parser.prototype.parseTradeActivity = function (rawTradeActivity) {
         if (!rawTradeActivity) {
@@ -114,6 +114,8 @@ var Parser = /** @class */ (function () {
         }
     };
     Parser.prototype.parseNumber = function (numStr) {
+        if (typeof numStr === 'undefined')
+            return numStr;
         return parseFloat(numStr);
     };
     return Parser;

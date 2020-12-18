@@ -82,7 +82,7 @@ export class Parser {
         }
     }
     parseOrders(rawOrders) {
-        return rawOrders ? rawOrders.map((order) => this.parseOrder(order)) : null;
+        return rawOrders ? rawOrders.map((order) => this.parseOrder(order)) : undefined;
     }
     parsePosition(rawPosition) {
         if (!rawPosition) {
@@ -113,7 +113,7 @@ export class Parser {
     parsePositions(rawPositions) {
         return rawPositions
             ? rawPositions.map((pos) => this.parsePosition(pos))
-            : null;
+            : undefined;
     }
     parseTradeActivity(rawTradeActivity) {
         if (!rawTradeActivity) {
@@ -166,6 +166,8 @@ export class Parser {
         }
     }
     parseNumber(numStr) {
+        if (typeof numStr === 'undefined')
+            return numStr;
         return parseFloat(numStr);
     }
 }
