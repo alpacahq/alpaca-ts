@@ -16,7 +16,7 @@ describe('Parser', () => {
       const parser = new Parser()
       const result = parser.parseAccount(null)
 
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
 
     it('should make a raw function to return the raw input', () => {
@@ -44,7 +44,7 @@ describe('Parser', () => {
       const parser = new Parser()
       const result = parser.parseOrder(null)
 
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
 
     it('should make a raw function to return the raw input', () => {
@@ -87,7 +87,7 @@ describe('Parser', () => {
       } as RawOrder
       const order = parser.parseOrder(rawOrder)
 
-      expect(order.legs).toBeNull()
+      expect(order.legs).toBeUndefined()
     })
   })
 
@@ -108,7 +108,7 @@ describe('Parser', () => {
       const parser = new Parser()
       const result = parser.parseOrders(null)
 
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
   })
 
@@ -117,7 +117,7 @@ describe('Parser', () => {
       const parser = new Parser()
       const result = parser.parsePosition(null)
 
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
 
     it('should make a raw function that returns the raw input', () => {
@@ -146,7 +146,7 @@ describe('Parser', () => {
       const rawPositions = null
       const result = parser.parsePositions(rawPositions)
 
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
 
     it(`should not parse positions if they don't exist`, () => {
@@ -167,7 +167,7 @@ describe('Parser', () => {
       const parser = new Parser()
       const result = parser.parseTradeActivity(null)
 
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
 
     it('should make a raw function that returns the raw input', () => {
@@ -195,7 +195,7 @@ describe('Parser', () => {
       const parser = new Parser()
       const result = parser.parseNonTradeActivity(null)
 
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
 
     it('should make a raw function that returns the raw input', () => {
@@ -223,7 +223,7 @@ describe('Parser', () => {
       const parser = new Parser()
       const result = parser.parseActivities(null)
 
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
 
     it('should parse each activity type', () => {

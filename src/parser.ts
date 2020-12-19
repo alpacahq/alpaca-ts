@@ -26,7 +26,7 @@ import {
 export class Parser {
   parseAccount(rawAccount: RawAccount): Account {
     if (!rawAccount) {
-      return null
+      return undefined
     }
 
     try {
@@ -61,7 +61,7 @@ export class Parser {
 
   parseClock(rawClock: RawClock): Clock {
     if (!rawClock) {
-      return null
+      return undefined
     }
 
     try {
@@ -79,7 +79,7 @@ export class Parser {
 
   parseOrder(rawOrder: RawOrder): Order {
     if (!rawOrder) {
-      return null
+      return undefined
     }
 
     try {
@@ -114,12 +114,12 @@ export class Parser {
   }
 
   parseOrders(rawOrders: RawOrder[]): Order[] {
-    return rawOrders ? rawOrders.map((order) => this.parseOrder(order)) : null
+    return rawOrders ? rawOrders.map((order) => this.parseOrder(order)) : undefined
   }
 
   parsePosition(rawPosition: RawPosition): Position {
     if (!rawPosition) {
-      return null
+      return undefined
     }
 
     try {
@@ -151,12 +151,12 @@ export class Parser {
   parsePositions(rawPositions: RawPosition[]): Position[] {
     return rawPositions
       ? rawPositions.map((pos) => this.parsePosition(pos))
-      : null
+      : undefined
   }
 
   parseTradeActivity(rawTradeActivity: RawTradeActivity): TradeActivity {
     if (!rawTradeActivity) {
-      return null
+      return undefined
     }
 
     try {
@@ -179,7 +179,7 @@ export class Parser {
     rawNonTradeActivity: RawNonTradeActivity,
   ): NonTradeActivity {
     if (!rawNonTradeActivity) {
-      return null
+      return undefined
     }
 
     try {
@@ -199,7 +199,7 @@ export class Parser {
 
   parseActivities(rawActivities: Array<RawActivity>): Array<Activity> {
     if (!rawActivities) {
-      return null
+      return undefined
     }
 
     try {
@@ -214,6 +214,7 @@ export class Parser {
   }
 
   private parseNumber(numStr: string): number {
+    if (typeof numStr === 'undefined') return numStr
     return parseFloat(numStr)
   }
 }

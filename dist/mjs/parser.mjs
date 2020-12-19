@@ -1,7 +1,7 @@
 export class Parser {
     parseAccount(rawAccount) {
         if (!rawAccount) {
-            return null;
+            return undefined;
         }
         try {
             return {
@@ -31,7 +31,7 @@ export class Parser {
     }
     parseClock(rawClock) {
         if (!rawClock) {
-            return null;
+            return undefined;
         }
         try {
             return {
@@ -48,7 +48,7 @@ export class Parser {
     }
     parseOrder(rawOrder) {
         if (!rawOrder) {
-            return null;
+            return undefined;
         }
         try {
             return {
@@ -82,11 +82,11 @@ export class Parser {
         }
     }
     parseOrders(rawOrders) {
-        return rawOrders ? rawOrders.map((order) => this.parseOrder(order)) : null;
+        return rawOrders ? rawOrders.map((order) => this.parseOrder(order)) : undefined;
     }
     parsePosition(rawPosition) {
         if (!rawPosition) {
-            return null;
+            return undefined;
         }
         try {
             return {
@@ -113,11 +113,11 @@ export class Parser {
     parsePositions(rawPositions) {
         return rawPositions
             ? rawPositions.map((pos) => this.parsePosition(pos))
-            : null;
+            : undefined;
     }
     parseTradeActivity(rawTradeActivity) {
         if (!rawTradeActivity) {
-            return null;
+            return undefined;
         }
         try {
             return {
@@ -137,7 +137,7 @@ export class Parser {
     }
     parseNonTradeActivity(rawNonTradeActivity) {
         if (!rawNonTradeActivity) {
-            return null;
+            return undefined;
         }
         try {
             return {
@@ -154,7 +154,7 @@ export class Parser {
     }
     parseActivities(rawActivities) {
         if (!rawActivities) {
-            return null;
+            return undefined;
         }
         try {
             return rawActivities.map((rawActivity) => rawActivity.activity_type === 'FILL'
@@ -166,6 +166,8 @@ export class Parser {
         }
     }
     parseNumber(numStr) {
+        if (typeof numStr === 'undefined')
+            return numStr;
         return parseFloat(numStr);
     }
 }
