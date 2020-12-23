@@ -2,13 +2,12 @@ import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountCon
 import { GetOrder, GetOrders, PlaceOrder, ReplaceOrder, CancelOrder, GetPosition, ClosePosition, GetAsset, GetAssets, GetWatchList, CreateWatchList, UpdateWatchList, AddToWatchList, RemoveFromWatchList, DeleteWatchList, GetCalendar, UpdateAccountConfigurations, GetAccountActivities, GetPortfolioHistory, GetBars, GetLastTrade, GetLastQuote } from './params.js';
 export declare class AlpacaClient {
     params: {
-        credentials?: DefaultCredentials | OAuthCredentials;
+        credentials: DefaultCredentials | OAuthCredentials;
         rate_limit?: boolean;
     };
     private limiter;
-    private parser;
     constructor(params: {
-        credentials?: DefaultCredentials | OAuthCredentials;
+        credentials: DefaultCredentials | OAuthCredentials;
         rate_limit?: boolean;
     });
     isAuthenticated(): Promise<boolean>;

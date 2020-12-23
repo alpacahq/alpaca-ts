@@ -1,0 +1,22 @@
+import { Account, RawAccount, RawOrder, Order, RawPosition, Position, RawTradeActivity, TradeActivity, RawNonTradeActivity, NonTradeActivity, RawActivity, Activity, RawClock, Clock } from './entities.js';
+declare function account(input: RawAccount): Account;
+declare function clock(input: RawClock): Clock;
+declare function order(input: RawOrder): Order;
+declare function orders(input: RawOrder[]): Order[];
+declare function position(rawPosition: RawPosition): Position;
+declare function positions(input: RawPosition[]): Position[];
+declare function tradeActivity(input: RawTradeActivity): TradeActivity | undefined;
+declare function nonTradeActivity(input: RawNonTradeActivity): NonTradeActivity | undefined;
+declare function activities(input: Array<RawActivity>): Array<Activity>;
+declare const _default: {
+    account: typeof account;
+    clock: typeof clock;
+    order: typeof order;
+    orders: typeof orders;
+    position: typeof position;
+    positions: typeof positions;
+    tradeActivity: typeof tradeActivity;
+    nonTradeActivity: typeof nonTradeActivity;
+    activities: typeof activities;
+};
+export default _default;
