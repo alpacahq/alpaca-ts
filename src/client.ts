@@ -2,8 +2,7 @@ import qs from 'qs'
 import fetch from 'node-fetch'
 import urls from './urls.js'
 import limiter from 'limiter'
-
-import { Parser } from './parser.js'
+import parse from './parse.js'
 
 import {
   RawAccount,
@@ -54,11 +53,10 @@ import {
 
 export class AlpacaClient {
   private limiter = new limiter.RateLimiter(200, 'minute')
-  private parser = new Parser()
 
   constructor(
     public params: {
-      credentials?: DefaultCredentials | OAuthCredentials
+      credentials: DefaultCredentials | OAuthCredentials
       rate_limit?: boolean
     },
   ) {
@@ -82,13 +80,13 @@ export class AlpacaClient {
   }
 
   async getAccount(): Promise<Account> {
-    return this.parser.parseAccount(
+    return parse.account(
       await this.request<RawAccount>('GET', urls.rest.account, 'account'),
     )
   }
 
   async getOrder(params: GetOrder): Promise<Order> {
-    return this.parser.parseOrder(
+    return parse.order(
       await this.request<RawOrder>(
         'GET',
         urls.rest.account,
@@ -100,7 +98,7 @@ export class AlpacaClient {
   }
 
   async getOrders(params?: GetOrders): Promise<Order[]> {
-    return this.parser.parseOrders(
+    return parse.orders(
       await this.request<RawOrder[]>(
         'GET',
         urls.rest.account,
@@ -110,13 +108,13 @@ export class AlpacaClient {
   }
 
   async placeOrder(params: PlaceOrder): Promise<Order> {
-    return this.parser.parseOrder(
+    return parse.order(
       await this.request<RawOrder>('POST', urls.rest.account, `orders`, params),
     )
   }
 
   async replaceOrder(params: ReplaceOrder): Promise<Order> {
-    return this.parser.parseOrder(
+    return parse.order(
       await this.request<RawOrder>(
         'PATCH',
         urls.rest.account,
@@ -127,7 +125,7 @@ export class AlpacaClient {
   }
 
   async cancelOrder(params: CancelOrder): Promise<Order> {
-    return this.parser.parseOrder(
+    return parse.order(
       await this.request<RawOrder>(
         'DELETE',
         urls.rest.account,
@@ -137,13 +135,13 @@ export class AlpacaClient {
   }
 
   async cancelOrders(): Promise<Order[]> {
-    return this.parser.parseOrders(
+    return parse.orders(
       await this.request<RawOrder[]>('DELETE', urls.rest.account, `orders`),
     )
   }
 
   async getPosition(params: GetPosition): Promise<Position> {
-    return this.parser.parsePosition(
+    return parse.position(
       await this.request<RawPosition>(
         'GET',
         urls.rest.account,
@@ -153,13 +151,13 @@ export class AlpacaClient {
   }
 
   async getPositions(): Promise<Position[]> {
-    return this.parser.parsePositions(
+    return parse.positions(
       await this.request<RawPosition[]>('GET', urls.rest.account, `positions`),
     )
   }
 
   async closePosition(params: ClosePosition): Promise<Order> {
-    return this.parser.parseOrder(
+    return parse.order(
       await this.request<RawOrder>(
         'DELETE',
         urls.rest.account,
@@ -169,7 +167,7 @@ export class AlpacaClient {
   }
 
   async closePositions(): Promise<Order[]> {
-    return this.parser.parseOrders(
+    return parse.orders(
       await this.request<RawOrder[]>('DELETE', urls.rest.account, `positions`),
     )
   }
@@ -245,9 +243,7 @@ export class AlpacaClient {
   }
 
   async getClock(): Promise<Clock> {
-    return this.parser.parseClock(
-      await this.request('GET', urls.rest.account, `clock`),
-    )
+    return parse.clock(await this.request('GET', urls.rest.account, `clock`))
   }
 
   getAccountConfigurations(): Promise<AccountConfigurations> {
@@ -272,7 +268,7 @@ export class AlpacaClient {
       params.activity_types = params.activity_types.join(',')
     }
 
-    return this.parser.parseActivities(
+    return parse.activities(
       await this.request<RawActivity[]>(
         'GET',
         urls.rest.account,
@@ -296,6 +292,7 @@ export class AlpacaClient {
 
     // join the symbols into a comma-delimited string
     transformed = params
+    // @ts-ignore
     transformed['symbols'] = params.symbols.join(',')
 
     return this.request(
@@ -327,7 +324,7 @@ export class AlpacaClient {
     endpoint: string,
     data?: { [key: string]: any },
   ): Promise<T> {
-    let headers = {}
+    let headers = {} as any
 
     if ('access_token' in this.params.credentials) {
       headers[

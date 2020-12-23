@@ -1,4 +1,4 @@
-import { Parser } from '../src/parser'
+import parse from '../src/parse'
 
 import {
   RawAccount,
@@ -12,82 +12,53 @@ import {
 
 describe('Parser', () => {
   describe('parseAccount', () => {
-    it('should handle missing input', () => {
-      const parser = new Parser()
-      const result = parser.parseAccount(null)
+    it('should throw if missing input', () =>
+      // @ts-expect-error
+      expect(() => parse.account(null)).toThrow())
 
-      expect(result).toBeNull()
-    })
+    it('should create a raw() function', () =>
+      expect(parse.account({} as RawAccount).raw()).toStrictEqual({}))
 
-    it('should make a raw function to return the raw input', () => {
-      const parser = new Parser()
-      const rawAccount = {} as RawAccount
-      const account = parser.parseAccount(rawAccount)
-      const result = account.raw()
-
-      expect(result).toBe(rawAccount)
-    })
-
-    it('should parse buying power to a number', () => {
-      const parser = new Parser()
-      const rawAccount = {
-        buying_power: '123.456',
-      } as RawAccount
-      const account = parser.parseAccount(rawAccount)
-
-      expect(account.buying_power).toBe(123.456)
-    })
+    it('should parse buying power to a number', () =>
+      expect(
+        parse.account({
+          buying_power: '123.456',
+        } as RawAccount).buying_power,
+      ).toBe(123.456))
   })
 
   describe('parseOrder', () => {
-    it('should handle missing input', () => {
-      const parser = new Parser()
-      const result = parser.parseOrder(null)
+    it('should throw if missing input', () =>
+      // @ts-expect-error
+      expect(() => parse.order(null)).toThrow())
 
-      expect(result).toBeNull()
-    })
+    it('should create a raw() function', () =>
+      expect(parse.order({} as RawOrder).raw()).toStrictEqual({}))
 
-    it('should make a raw function to return the raw input', () => {
-      const parser = new Parser()
-      const rawOrder = {} as RawOrder
-      const account = parser.parseOrder(rawOrder)
-      const result = account.raw()
+    it('should parse qty to a number', () =>
+      expect(
+        parse.order({
+          qty: '42',
+        } as RawOrder).qty,
+      ).toBe(42))
 
-      expect(result).toBe(rawOrder)
-    })
-
-    it('should parse qty to a number', () => {
-      const parser = new Parser()
-      const rawOrder = {
-        qty: '42',
-      } as RawOrder
-      const account = parser.parseOrder(rawOrder)
-
-      expect(account.qty).toBe(42)
-    })
-
-    it('should parse legs if they exist', () => {
-      const parser = new Parser()
-      const rawOrder = {
-        legs: [
-          {
-            qty: '7',
-          },
-        ],
-      } as RawOrder
-      const order = parser.parseOrder(rawOrder)
-
-      expect(order.legs[0].qty).toBe(7)
-    })
+    it('should parse legs if they exist', () =>
+      expect(
+        parse.order({
+          legs: [
+            {
+              qty: '7',
+            },
+          ],
+        } as RawOrder).legs[0].qty,
+      ).toBe(7))
 
     it(`should not parse legs if they don't exist`, () => {
-      const parser = new Parser()
-      const rawOrder = {
-        legs: null,
-      } as RawOrder
-      const order = parser.parseOrder(rawOrder)
-
-      expect(order.legs).toBeNull()
+      expect(
+        parse.order({
+          legs: null,
+        } as RawOrder).legs,
+      ).toStrictEqual([])
     })
   })
 
@@ -111,6 +82,8 @@ describe('Parser', () => {
       expect(result).toBeNull()
     })
   })
+
+  /**
 
   describe('parsePosition', () => {
     it('should handle missing input', () => {
@@ -243,5 +216,5 @@ describe('Parser', () => {
       expect((activities[0] as TradeActivity).price).toBe(6.66)
       expect((activities[1] as NonTradeActivity).net_amount).toBe(123.45)
     })
-  })
+  **/
 })

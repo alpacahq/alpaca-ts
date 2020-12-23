@@ -568,7 +568,7 @@ export interface RawOrder {
   filled_avg_price: string
   status: string
   extended_hours: boolean
-  legs: RawOrder[]
+  legs: RawOrder[] | null
   trail_price: string
   trail_percent: string
   hwm: string

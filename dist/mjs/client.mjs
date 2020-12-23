@@ -2,12 +2,11 @@ import qs from 'qs';
 import fetch from 'node-fetch';
 import urls from './urls.mjs';
 import limiter from 'limiter';
-import { Parser } from './parser.mjs';
+import parse from './parse.mjs';
 export class AlpacaClient {
     constructor(params) {
         this.params = params;
         this.limiter = new limiter.RateLimiter(200, 'minute');
-        this.parser = new Parser();
         if ('access_token' in params.credentials &&
             ('key' in params.credentials || 'secret' in params.credentials)) {
             throw new Error("can't create client with both default and oauth credentials");
@@ -23,39 +22,39 @@ export class AlpacaClient {
         }
     }
     async getAccount() {
-        return this.parser.parseAccount(await this.request('GET', urls.rest.account, 'account'));
+        return parse.account(await this.request('GET', urls.rest.account, 'account'));
     }
     async getOrder(params) {
-        return this.parser.parseOrder(await this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}?${qs.stringify({
+        return parse.order(await this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}?${qs.stringify({
             nested: params.nested,
         })}`));
     }
     async getOrders(params) {
-        return this.parser.parseOrders(await this.request('GET', urls.rest.account, `orders?${qs.stringify(params)}`));
+        return parse.orders(await this.request('GET', urls.rest.account, `orders?${qs.stringify(params)}`));
     }
     async placeOrder(params) {
-        return this.parser.parseOrder(await this.request('POST', urls.rest.account, `orders`, params));
+        return parse.order(await this.request('POST', urls.rest.account, `orders`, params));
     }
     async replaceOrder(params) {
-        return this.parser.parseOrder(await this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
+        return parse.order(await this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
     }
     async cancelOrder(params) {
-        return this.parser.parseOrder(await this.request('DELETE', urls.rest.account, `orders/${params.order_id}`));
+        return parse.order(await this.request('DELETE', urls.rest.account, `orders/${params.order_id}`));
     }
     async cancelOrders() {
-        return this.parser.parseOrders(await this.request('DELETE', urls.rest.account, `orders`));
+        return parse.orders(await this.request('DELETE', urls.rest.account, `orders`));
     }
     async getPosition(params) {
-        return this.parser.parsePosition(await this.request('GET', urls.rest.account, `positions/${params.symbol}`));
+        return parse.position(await this.request('GET', urls.rest.account, `positions/${params.symbol}`));
     }
     async getPositions() {
-        return this.parser.parsePositions(await this.request('GET', urls.rest.account, `positions`));
+        return parse.positions(await this.request('GET', urls.rest.account, `positions`));
     }
     async closePosition(params) {
-        return this.parser.parseOrder(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
+        return parse.order(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
     }
     async closePositions() {
-        return this.parser.parseOrders(await this.request('DELETE', urls.rest.account, `positions`));
+        return parse.orders(await this.request('DELETE', urls.rest.account, `positions`));
     }
     getAsset(params) {
         return this.request('GET', urls.rest.account, `assets/${params.asset_id_or_symbol}`);
@@ -88,7 +87,7 @@ export class AlpacaClient {
         return this.request('GET', urls.rest.account, `calendar?${qs.stringify(params)}`);
     }
     async getClock() {
-        return this.parser.parseClock(await this.request('GET', urls.rest.account, `clock`));
+        return parse.clock(await this.request('GET', urls.rest.account, `clock`));
     }
     getAccountConfigurations() {
         return this.request('GET', urls.rest.account, `account/configurations`);
@@ -100,7 +99,7 @@ export class AlpacaClient {
         if (params.activity_types && Array.isArray(params.activity_types)) {
             params.activity_types = params.activity_types.join(',');
         }
-        return this.parser.parseActivities(await this.request('GET', urls.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}?${qs.stringify(params)}`));
+        return parse.activities(await this.request('GET', urls.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}?${qs.stringify(params)}`));
     }
     getPortfolioHistory(params) {
         return this.request('GET', urls.rest.account, `account/portfolio/history?${qs.stringify(params)}`);
@@ -109,6 +108,7 @@ export class AlpacaClient {
         var transformed = {};
         // join the symbols into a comma-delimited string
         transformed = params;
+        // @ts-ignore
         transformed['symbols'] = params.symbols.join(',');
         return this.request('GET', urls.rest.market_data, `bars/${params.timeframe}?${qs.stringify(params)}`);
     }

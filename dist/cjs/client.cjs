@@ -44,12 +44,11 @@ var qs_1 = __importDefault(require("qs"));
 var node_fetch_1 = __importDefault(require("node-fetch"));
 var urls_js_1 = __importDefault(require("./urls.cjs"));
 var limiter_1 = __importDefault(require("limiter"));
-var parser_js_1 = require("./parser.cjs");
+var parse_js_1 = __importDefault(require("./parse.cjs"));
 var AlpacaClient = /** @class */ (function () {
     function AlpacaClient(params) {
         this.params = params;
         this.limiter = new limiter_1["default"].RateLimiter(200, 'minute');
-        this.parser = new parser_js_1.Parser();
         if ('access_token' in params.credentials &&
             ('key' in params.credentials || 'secret' in params.credentials)) {
             throw new Error("can't create client with both default and oauth credentials");
@@ -80,7 +79,7 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = this.parser).parseAccount;
+                        _b = (_a = parse_js_1["default"]).account;
                         return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, 'account')];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -93,7 +92,7 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = this.parser).parseOrder;
+                        _b = (_a = parse_js_1["default"]).order;
                         return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "orders/" + (params.order_id || params.client_order_id) + "?" + qs_1["default"].stringify({
                                 nested: params.nested
                             }))];
@@ -108,7 +107,7 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = this.parser).parseOrders;
+                        _b = (_a = parse_js_1["default"]).orders;
                         return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "orders?" + qs_1["default"].stringify(params))];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -121,7 +120,7 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = this.parser).parseOrder;
+                        _b = (_a = parse_js_1["default"]).order;
                         return [4 /*yield*/, this.request('POST', urls_js_1["default"].rest.account, "orders", params)];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -134,7 +133,7 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = this.parser).parseOrder;
+                        _b = (_a = parse_js_1["default"]).order;
                         return [4 /*yield*/, this.request('PATCH', urls_js_1["default"].rest.account, "orders/" + params.order_id, params)];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -147,7 +146,7 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = this.parser).parseOrder;
+                        _b = (_a = parse_js_1["default"]).order;
                         return [4 /*yield*/, this.request('DELETE', urls_js_1["default"].rest.account, "orders/" + params.order_id)];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -160,7 +159,7 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = this.parser).parseOrders;
+                        _b = (_a = parse_js_1["default"]).orders;
                         return [4 /*yield*/, this.request('DELETE', urls_js_1["default"].rest.account, "orders")];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -173,7 +172,7 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = this.parser).parsePosition;
+                        _b = (_a = parse_js_1["default"]).position;
                         return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "positions/" + params.symbol)];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -186,7 +185,7 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = this.parser).parsePositions;
+                        _b = (_a = parse_js_1["default"]).positions;
                         return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "positions")];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -199,7 +198,7 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = this.parser).parseOrder;
+                        _b = (_a = parse_js_1["default"]).order;
                         return [4 /*yield*/, this.request('DELETE', urls_js_1["default"].rest.account, "positions/" + params.symbol)];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -212,7 +211,7 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = this.parser).parseOrders;
+                        _b = (_a = parse_js_1["default"]).orders;
                         return [4 /*yield*/, this.request('DELETE', urls_js_1["default"].rest.account, "positions")];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -255,7 +254,7 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = this.parser).parseClock;
+                        _b = (_a = parse_js_1["default"]).clock;
                         return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "clock")];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -277,7 +276,7 @@ var AlpacaClient = /** @class */ (function () {
                         if (params.activity_types && Array.isArray(params.activity_types)) {
                             params.activity_types = params.activity_types.join(',');
                         }
-                        _b = (_a = this.parser).parseActivities;
+                        _b = (_a = parse_js_1["default"]).activities;
                         return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "account/activities" + (params.activity_type ? '/'.concat(params.activity_type) : '') + "?" + qs_1["default"].stringify(params))];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -291,6 +290,7 @@ var AlpacaClient = /** @class */ (function () {
         var transformed = {};
         // join the symbols into a comma-delimited string
         transformed = params;
+        // @ts-ignore
         transformed['symbols'] = params.symbols.join(',');
         return this.request('GET', urls_js_1["default"].rest.market_data, "bars/" + params.timeframe + "?" + qs_1["default"].stringify(params));
     };
