@@ -13,7 +13,6 @@ import {
 describe('Parser', () => {
   describe('parseAccount', () => {
     it('should throw if missing input', () =>
-      // @ts-expect-error
       expect(() => parse.account(null)).toThrow())
 
     it('should create a raw() function', () =>
@@ -29,7 +28,6 @@ describe('Parser', () => {
 
   describe('parseOrder', () => {
     it('should throw if missing input', () =>
-      // @ts-expect-error
       expect(() => parse.order(null)).toThrow())
 
     it('should create a raw() function', () =>
