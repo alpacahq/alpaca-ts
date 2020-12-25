@@ -16,7 +16,7 @@ function account(rawAccount) {
         return undefined;
     }
     try {
-        return __assign(__assign({}, rawAccount), { raw: function () { return rawAccount; }, buying_power: this.parseNumber(rawAccount.buying_power), regt_buying_power: this.parseNumber(rawAccount.regt_buying_power), daytrading_buying_power: this.parseNumber(rawAccount.daytrading_buying_power), cash: this.parseNumber(rawAccount.cash), created_at: new Date(rawAccount.created_at), portfolio_value: this.parseNumber(rawAccount.portfolio_value), multiplier: this.parseNumber(rawAccount.multiplier), equity: this.parseNumber(rawAccount.equity), last_equity: this.parseNumber(rawAccount.last_equity), long_market_value: this.parseNumber(rawAccount.long_market_value), short_market_value: this.parseNumber(rawAccount.short_market_value), initial_margin: this.parseNumber(rawAccount.initial_margin), maintenance_margin: this.parseNumber(rawAccount.maintenance_margin), last_maintenance_margin: this.parseNumber(rawAccount.last_maintenance_margin), sma: this.parseNumber(rawAccount.sma), status: rawAccount.status });
+        return __assign(__assign({}, rawAccount), { raw: function () { return rawAccount; }, buying_power: number(rawAccount.buying_power), regt_buying_power: number(rawAccount.regt_buying_power), daytrading_buying_power: number(rawAccount.daytrading_buying_power), cash: number(rawAccount.cash), created_at: new Date(rawAccount.created_at), portfolio_value: number(rawAccount.portfolio_value), multiplier: number(rawAccount.multiplier), equity: number(rawAccount.equity), last_equity: number(rawAccount.last_equity), long_market_value: number(rawAccount.long_market_value), short_market_value: number(rawAccount.short_market_value), initial_margin: number(rawAccount.initial_margin), maintenance_margin: number(rawAccount.maintenance_margin), last_maintenance_margin: number(rawAccount.last_maintenance_margin), sma: number(rawAccount.sma), status: rawAccount.status });
     }
     catch (err) {
         throw new Error("Account parsing failed. " + err.message);
@@ -44,41 +44,35 @@ function order(rawOrder) {
         return undefined;
     }
     try {
-        return __assign(__assign({}, rawOrder), { raw: function () { return rawOrder; }, created_at: new Date(rawOrder.created_at), updated_at: new Date(rawOrder.updated_at), submitted_at: new Date(rawOrder.submitted_at), filled_at: new Date(rawOrder.filled_at), expired_at: new Date(rawOrder.expired_at), canceled_at: new Date(rawOrder.canceled_at), failed_at: new Date(rawOrder.failed_at), replaced_at: new Date(rawOrder.replaced_at), qty: this.parseNumber(rawOrder.qty), filled_qty: this.parseNumber(rawOrder.filled_qty), type: rawOrder.type, side: rawOrder.side, time_in_force: rawOrder.time_in_force, limit_price: this.parseNumber(rawOrder.limit_price), stop_price: this.parseNumber(rawOrder.stop_price), filled_avg_price: this.parseNumber(rawOrder.filled_avg_price), status: rawOrder.status, legs: this.parseOrders(rawOrder.legs), trail_price: this.parseNumber(rawOrder.trail_price), trail_percent: this.parseNumber(rawOrder.trail_percent), hwm: this.parseNumber(rawOrder.hwm) });
+        return __assign(__assign({}, rawOrder), { raw: function () { return rawOrder; }, created_at: new Date(rawOrder.created_at), updated_at: new Date(rawOrder.updated_at), submitted_at: new Date(rawOrder.submitted_at), filled_at: new Date(rawOrder.filled_at), expired_at: new Date(rawOrder.expired_at), canceled_at: new Date(rawOrder.canceled_at), failed_at: new Date(rawOrder.failed_at), replaced_at: new Date(rawOrder.replaced_at), qty: number(rawOrder.qty), filled_qty: number(rawOrder.filled_qty), type: rawOrder.type, side: rawOrder.side, time_in_force: rawOrder.time_in_force, limit_price: number(rawOrder.limit_price), stop_price: number(rawOrder.stop_price), filled_avg_price: number(rawOrder.filled_avg_price), status: rawOrder.status, legs: orders(rawOrder.legs), trail_price: number(rawOrder.trail_price), trail_percent: number(rawOrder.trail_percent), hwm: number(rawOrder.hwm) });
     }
     catch (err) {
         throw new Error("Order parsing failed. " + err.message);
     }
 }
 function orders(rawOrders) {
-    var _this = this;
-    return rawOrders
-        ? rawOrders.map(function (order) { return _this.parseOrder(order); })
-        : undefined;
+    return rawOrders ? rawOrders.map(function (value) { return order(value); }) : undefined;
 }
 function position(rawPosition) {
     if (!rawPosition) {
         return undefined;
     }
     try {
-        return __assign(__assign({}, rawPosition), { raw: function () { return rawPosition; }, avg_entry_price: this.parseNumber(rawPosition.avg_entry_price), qty: this.parseNumber(rawPosition.qty), side: rawPosition.side, market_value: this.parseNumber(rawPosition.market_value), cost_basis: this.parseNumber(rawPosition.cost_basis), unrealized_pl: this.parseNumber(rawPosition.unrealized_pl), unrealized_plpc: this.parseNumber(rawPosition.unrealized_plpc), unrealized_intraday_pl: this.parseNumber(rawPosition.unrealized_intraday_pl), unrealized_intraday_plpc: this.parseNumber(rawPosition.unrealized_intraday_plpc), current_price: this.parseNumber(rawPosition.current_price), lastday_price: this.parseNumber(rawPosition.lastday_price), change_today: this.parseNumber(rawPosition.change_today) });
+        return __assign(__assign({}, rawPosition), { raw: function () { return rawPosition; }, avg_entry_price: number(rawPosition.avg_entry_price), qty: number(rawPosition.qty), side: rawPosition.side, market_value: number(rawPosition.market_value), cost_basis: number(rawPosition.cost_basis), unrealized_pl: number(rawPosition.unrealized_pl), unrealized_plpc: number(rawPosition.unrealized_plpc), unrealized_intraday_pl: number(rawPosition.unrealized_intraday_pl), unrealized_intraday_plpc: number(rawPosition.unrealized_intraday_plpc), current_price: number(rawPosition.current_price), lastday_price: number(rawPosition.lastday_price), change_today: number(rawPosition.change_today) });
     }
     catch (err) {
         throw new Error("Position parsing failed. " + err.message);
     }
 }
 function positions(rawPositions) {
-    var _this = this;
-    return rawPositions
-        ? rawPositions.map(function (pos) { return _this.parsePosition(pos); })
-        : undefined;
+    return rawPositions ? rawPositions.map(function (pos) { return position(pos); }) : undefined;
 }
 function tradeActivity(rawTradeActivity) {
     if (!rawTradeActivity) {
         return undefined;
     }
     try {
-        return __assign(__assign({}, rawTradeActivity), { raw: function () { return rawTradeActivity; }, cum_qty: this.parseNumber(rawTradeActivity.cum_qty), leaves_qty: this.parseNumber(rawTradeActivity.leaves_qty), price: this.parseNumber(rawTradeActivity.price), qty: this.parseNumber(rawTradeActivity.qty), side: rawTradeActivity.side, type: rawTradeActivity.type });
+        return __assign(__assign({}, rawTradeActivity), { raw: function () { return rawTradeActivity; }, cum_qty: number(rawTradeActivity.cum_qty), leaves_qty: number(rawTradeActivity.leaves_qty), price: number(rawTradeActivity.price), qty: number(rawTradeActivity.qty), side: rawTradeActivity.side, type: rawTradeActivity.type });
     }
     catch (err) {
         throw new Error("TradeActivity parsing failed. " + err.message);
@@ -89,27 +83,31 @@ function nonTradeActivity(rawNonTradeActivity) {
         return undefined;
     }
     try {
-        return __assign(__assign({}, rawNonTradeActivity), { raw: function () { return rawNonTradeActivity; }, net_amount: this.parseNumber(rawNonTradeActivity.net_amount), qty: this.parseNumber(rawNonTradeActivity.qty), per_share_amount: this.parseNumber(rawNonTradeActivity.per_share_amount) });
+        return __assign(__assign({}, rawNonTradeActivity), { raw: function () { return rawNonTradeActivity; }, net_amount: number(rawNonTradeActivity.net_amount), qty: number(rawNonTradeActivity.qty), per_share_amount: number(rawNonTradeActivity.per_share_amount) });
     }
     catch (err) {
         throw new Error("NonTradeActivity parsing failed. " + err.message);
     }
 }
 function activities(rawActivities) {
-    var _this = this;
     if (!rawActivities) {
         return undefined;
     }
     try {
         return rawActivities.map(function (rawActivity) {
             return rawActivity.activity_type === 'FILL'
-                ? _this.parseTradeActivity(rawActivity)
-                : _this.parseNonTradeActivity(rawActivity);
+                ? tradeActivity(rawActivity)
+                : nonTradeActivity(rawActivity);
         });
     }
     catch (err) {
         throw new Error("Activity parsing failed. " + err.message);
     }
+}
+function number(numStr) {
+    if (typeof numStr === 'undefined')
+        return numStr;
+    return parseFloat(numStr);
 }
 exports["default"] = {
     account: account,
