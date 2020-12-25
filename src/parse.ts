@@ -150,7 +150,7 @@ function tradeActivity(input: RawTradeActivity): TradeActivity | undefined {
       type: input.type as TradeActivityType,
     }
   } catch (error) {
-    throw new Error(`trade activity parsing failed: Error: ${error.message}`)
+    throw new Error(`trade activity parsing failed: ${error.message}`)
   }
 }
 
