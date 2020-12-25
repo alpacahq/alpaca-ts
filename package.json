@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "3.5.1",
+  "version": "3.6.1",
   "description": "a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams",
   "author": "master-chief",
   "contributors": [
@@ -23,7 +23,7 @@
     "stock"
   ],
   "type": "module",
-  "types": "./types/index.d.ts",
+  "types": "./@types/index.d.ts",
   "main": "./dist/cjs/index.cjs",
   "exports": {
     "import": "./dist/mjs/index.mjs",
@@ -31,18 +31,18 @@
   },
   "scripts": {
     "build": "npm run clean && npm i && npm run build:mjs && npm run build:cjs && ./remap.sh",
-    "build:mjs": "tsc --outDir dist/mjs --moduleResolution node --allowSyntheticDefaultImports -d --declarationDir types --module es2020 --target es2020 src/*.ts",
+    "build:mjs": "tsc --outDir dist/mjs --moduleResolution node --allowSyntheticDefaultImports -d --declarationDir @types --module es2020 --target es2020 src/*.ts",
     "build:cjs": "tsc --outDir dist/cjs --moduleResolution node --esModuleInterop src/*.ts",
-    "clean": "rimraf dist types",
-    "test": "npm run test:unit",
-    "test:unit": "jest",
+    "clean": "rimraf dist @types",
+    "test": "npm run test:default",
+    "test:default": "jest",
     "test:watch": "jest --watchAll"
   },
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
     "roots": [
-      "<rootDir>/tests"
+      "<rootDir>/test"
     ],
     "testMatch": [
       "**/*.test.ts"

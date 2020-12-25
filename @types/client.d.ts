@@ -6,7 +6,6 @@ export declare class AlpacaClient {
         rate_limit?: boolean;
     };
     private limiter;
-    private parser;
     constructor(params: {
         credentials?: DefaultCredentials | OAuthCredentials;
         rate_limit?: boolean;
