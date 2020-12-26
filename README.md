@@ -389,4 +389,4 @@ Don't know where to start? Check out our community-made examples
 
 ## Contributing
 
-Pull requests are encouraged. 🥳
+Feel free to contribute and PR to your 💖's content.
