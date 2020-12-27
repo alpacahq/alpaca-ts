@@ -1,8 +1,8 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "3.6.1",
-  "description": "a TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams",
-  "author": "master-chief",
+  "version": "3.6.2",
+  "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
+  "author": "117",
   "contributors": [
     "lbstr",
     "AqilCont",
@@ -24,15 +24,15 @@
   ],
   "type": "module",
   "types": "./@types/index.d.ts",
-  "main": "./dist/cjs/index.cjs",
+  "main": "./dist/index.cjs",
   "exports": {
-    "import": "./dist/mjs/index.mjs",
-    "require": "./dist/cjs/index.cjs"
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
   },
   "scripts": {
-    "build": "npm run clean && npm i && npm run build:mjs && npm run build:cjs && ./remap.sh",
-    "build:mjs": "tsc --outDir dist/mjs --moduleResolution node --allowSyntheticDefaultImports -d --declarationDir @types --module es2020 --target es2020 src/*.ts",
-    "build:cjs": "tsc --outDir dist/cjs --moduleResolution node --esModuleInterop src/*.ts",
+    "build": "npm run clean && npm i && npm run build:mjs && npm run build:cjs",
+    "build:mjs": "tsc --outDir dist/mjs --moduleResolution node --allowSyntheticDefaultImports -d --declarationDir @types --module es2020 --target es2020 src/*.ts && map dist/mjs js mjs",
+    "build:cjs": "tsc --outDir dist/cjs --moduleResolution node --esModuleInterop src/*.ts && map dist/cjs js cjs",
     "clean": "rimraf dist @types",
     "test": "npm run test:default",
     "test:default": "jest",
@@ -60,6 +60,7 @@
     "@types/node-fetch": "^2.5.7",
     "@types/qs": "^6.9.3",
     "@types/ws": "^7.2.4",
+    "@master-chief/map": "0.0.4",
     "jest": "^26.4.2",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.0",
