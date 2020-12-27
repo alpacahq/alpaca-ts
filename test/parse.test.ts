@@ -129,8 +129,7 @@ describe('Parser', () => {
 
   describe('parsePositions', () => {
     it('should parse positions if they exist', () => {
-      const rawPositions = null
-      const result = parse.positions(rawPositions)
+      const result = parse.positions(null)
 
       expect(result).toBeUndefined()
     })
