@@ -5,8 +5,8 @@
 ![build](https://img.shields.io/github/workflow/status/117/alpaca/test?style=flat-square)
 ![prettier](https://img.shields.io/static/v1?label=style&message=prettier&color=ff51bc&style=flat-square)
 
-a TypeScript Node.js library for the https://alpaca.markets REST API and
-WebSocket streams
+A TypeScript Node.js library for the https://alpaca.markets REST API and
+WebSocket streams.
 
 ## Contents
 
