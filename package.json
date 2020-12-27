@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "author": "117",
   "contributors": [
@@ -24,10 +24,10 @@
   ],
   "type": "module",
   "types": "./@types/index.d.ts",
-  "main": "./dist/index.cjs",
+  "main": "./dist/cjs/index.cjs",
   "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.cjs"
+    "import": "./dist/mjs/index.mjs",
+    "require": "./dist/cjs/index.cjs"
   },
   "scripts": {
     "build": "npm run clean && npm i && npm run build:mjs && npm run build:cjs",
