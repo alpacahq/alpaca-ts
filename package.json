@@ -50,11 +50,11 @@
   },
   "dependencies": {
     "@types/ws": "^7.4.0",
+    "bottleneck": "^2.19.5",
     "events": "^3.2.0",
     "isomorphic-ws": "^4.0.1",
     "ky": "^0.26.0",
     "ky-universal": "^0.9.1",
-    "limiter": "^1.1.5",
     "qs": "^6.9.4",
     "ws": "^7.4.2"
   },

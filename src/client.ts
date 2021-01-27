@@ -1,7 +1,7 @@
 import qs from "qs"
 import ky from "ky-universal"
 import urls from "./urls.js"
-import limiter from "limiter"
+import Bottleneck from "bottleneck"
 
 import parse from "./parse.js"
 
@@ -53,7 +53,14 @@ import {
 } from "./params.js"
 
 export class AlpacaClient {
-  private limiter = new limiter.RateLimiter(200, "minute")
+  private limiter = new Bottleneck({
+    reservoir: 200, // initial value
+    reservoirRefreshAmount: 200,
+    reservoirRefreshInterval: 60 * 1000, // must be divisible by 250
+    // also use maxConcurrent and/or minTime for safety
+    maxConcurrent: 1,
+    minTime: 200,
+  })
 
   constructor(
     public params: {
@@ -352,15 +359,17 @@ export class AlpacaClient {
     }
 
     return new Promise<T>(async (resolve, reject) => {
-      if (this.params.rate_limit) {
-        await new Promise((resolve) => this.limiter.removeTokens(1, resolve))
-      }
+      const makeCall = () =>
+        ky(`${url}/${endpoint}`, {
+          method: method,
+          headers,
+          body: JSON.stringify(data),
+        })
+      const func = this.params.rate_limit
+        ? () => this.limiter.schedule(makeCall)
+        : makeCall
 
-      await ky(`${url}/${endpoint}`, {
-        method: method,
-        headers,
-        body: JSON.stringify(data),
-      })
+      await func()
         // if json parse fails we default to an empty object
         .then(async (resp) => (await resp.json().catch(() => false)) || {})
         .then((resp) =>

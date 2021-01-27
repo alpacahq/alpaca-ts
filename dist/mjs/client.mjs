@@ -1,12 +1,19 @@
 import qs from "qs";
 import ky from "ky-universal";
 import urls from "./urls.mjs";
-import limiter from "limiter";
+import Bottleneck from "bottleneck";
 import parse from "./parse.mjs";
 export class AlpacaClient {
     constructor(params) {
         this.params = params;
-        this.limiter = new limiter.RateLimiter(200, "minute");
+        this.limiter = new Bottleneck({
+            reservoir: 200,
+            reservoirRefreshAmount: 200,
+            reservoirRefreshInterval: 60 * 1000,
+            // also use maxConcurrent and/or minTime for safety
+            maxConcurrent: 1,
+            minTime: 200,
+        });
         if ("access_token" in params.credentials &&
             ("key" in params.credentials || "secret" in params.credentials)) {
             throw new Error("can't create client with both default and oauth credentials");
@@ -141,14 +148,15 @@ export class AlpacaClient {
             }
         }
         return new Promise(async (resolve, reject) => {
-            if (this.params.rate_limit) {
-                await new Promise((resolve) => this.limiter.removeTokens(1, resolve));
-            }
-            await ky(`${url}/${endpoint}`, {
+            const makeCall = () => ky(`${url}/${endpoint}`, {
                 method: method,
                 headers,
                 body: JSON.stringify(data),
-            })
+            });
+            const func = this.params.rate_limit
+                ? () => this.limiter.schedule(makeCall)
+                : makeCall;
+            await func()
                 // if json parse fails we default to an empty object
                 .then(async (resp) => (await resp.json().catch(() => false)) || {})
                 .then((resp) => "code" in resp && "message" in resp ? reject(resp) : resolve(resp))
