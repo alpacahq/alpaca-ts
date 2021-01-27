@@ -31,8 +31,8 @@
   },
   "scripts": {
     "build": "npm run clean && npm i && npm run build:mjs && npm run build:cjs",
-    "build:mjs": "tsc --outDir dist/mjs --moduleResolution node --allowSyntheticDefaultImports -d --declarationDir @types --module es2020 --target es2020 src/*.ts && map dist/mjs js mjs",
-    "build:cjs": "tsc --outDir dist/cjs --moduleResolution node --esModuleInterop src/*.ts && map dist/cjs js cjs",
+    "build:mjs": "tsc --outDir dist/mjs  -d --declarationDir @types && map dist/mjs js mjs",
+    "build:cjs": "tsc --outDir dist/cjs  --esModuleInterop && map dist/cjs js cjs",
     "clean": "rimraf dist @types",
     "test": "npm run test:default",
     "test:default": "jest",
@@ -49,18 +49,20 @@
     ]
   },
   "dependencies": {
+    "@types/ws": "^7.4.0",
     "events": "^3.2.0",
+    "isomorphic-ws": "^4.0.1",
+    "ky": "^0.26.0",
+    "ky-universal": "^0.9.1",
     "limiter": "^1.1.5",
-    "node-fetch": "^2.6.0",
     "qs": "^6.9.4",
-    "ws": "^7.3.0"
+    "ws": "^7.4.2"
   },
   "devDependencies": {
+    "@master-chief/map": "0.0.4",
     "@types/jest": "^26.0.14",
     "@types/node-fetch": "^2.5.7",
     "@types/qs": "^6.9.3",
-    "@types/ws": "^7.2.4",
-    "@master-chief/map": "0.0.4",
     "jest": "^26.4.2",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.0",

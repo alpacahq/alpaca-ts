@@ -6,5 +6,8 @@
     "target": "es2020",
     "noImplicitAny": true,
     "noImplicitThis": true
-  }
+  },
+  "include": [
+    "./src/*.ts",
+  ],
 }
