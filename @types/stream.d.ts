@@ -1,6 +1,6 @@
 /// <reference types="node" />
-import { EventEmitter } from 'events';
-import { AccountUpdate, AggregateMinute, DefaultCredentials, Quote, Trade, TradeUpdate } from './entities.js';
+import { EventEmitter } from "events";
+import { AccountUpdate, AggregateMinute, DefaultCredentials, Quote, Trade, TradeUpdate } from "./entities.js";
 export declare interface AlpacaStream {
     on<U extends keyof AlpacaStreamEvents>(event: U, listener: AlpacaStreamEvents[U]): this;
     emit<U extends keyof AlpacaStreamEvents>(event: U, ...args: Parameters<AlpacaStreamEvents[U]>): boolean;
@@ -20,7 +20,7 @@ export declare interface AlpacaStreamEvents {
 export declare class AlpacaStream extends EventEmitter {
     protected params: {
         credentials: DefaultCredentials;
-        stream: 'account' | 'market_data';
+        stream: "account" | "market_data";
     };
     private host;
     private connection;
@@ -28,7 +28,7 @@ export declare class AlpacaStream extends EventEmitter {
     private authenticated;
     constructor(params: {
         credentials: DefaultCredentials;
-        stream: 'account' | 'market_data';
+        stream: "account" | "market_data";
     });
     send(message: any): this;
     subscribe(channels: string[]): this;
