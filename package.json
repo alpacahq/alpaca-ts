@@ -1,13 +1,14 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "author": "117",
   "contributors": [
     "lbstr",
     "AqilCont",
     "KalebMills",
-    "anonrose"
+    "anonrose",
+    "husayt"
   ],
   "license": "ISC",
   "keywords": [
@@ -31,7 +32,7 @@
   },
   "scripts": {
     "build": "npm run clean && npm i && npm run build:mjs && npm run build:cjs",
-    "build:mjs": "tsc --outDir dist/mjs --moduleResolution node --allowSyntheticDefaultImports -d --declarationDir @types --module es2020 --target es2020 src/*.ts && map dist/mjs js mjs",
+    "build:mjs": "tsc --outDir dist/mjs --moduleResolution node --allowSyntheticDefaultImports -d --declarationDir @types --module esnext --target esnext src/*.ts && map dist/mjs js mjs",
     "build:cjs": "tsc --outDir dist/cjs --moduleResolution node --esModuleInterop src/*.ts && map dist/cjs js cjs",
     "clean": "rimraf dist @types",
     "test": "npm run test:default",
@@ -49,18 +50,20 @@
     ]
   },
   "dependencies": {
+    "@types/ws": "^7.4.0",
+    "bottleneck": "^2.19.5",
     "events": "^3.2.0",
-    "limiter": "^1.1.5",
-    "node-fetch": "^2.6.0",
+    "isomorphic-ws": "^4.0.1",
+    "ky": "^0.26.0",
+    "ky-universal": "^0.9.1",
     "qs": "^6.9.4",
-    "ws": "^7.3.0"
+    "ws": "^7.4.2"
   },
   "devDependencies": {
+    "@master-chief/map": "0.0.4",
     "@types/jest": "^26.0.14",
     "@types/node-fetch": "^2.5.7",
     "@types/qs": "^6.9.3",
-    "@types/ws": "^7.2.4",
-    "@master-chief/map": "0.0.4",
     "jest": "^26.4.2",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.4.0",

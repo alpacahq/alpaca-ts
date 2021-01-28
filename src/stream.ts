@@ -1,4 +1,5 @@
-import WebSocket from 'ws'
+import WebSocket from 'isomorphic-ws'
+
 import urls from './urls.js'
 
 import { EventEmitter } from 'events'
@@ -108,16 +109,14 @@ export class AlpacaStream extends EventEmitter {
 
         // emit based on the stream
         if ('stream' in object) {
-          this.emit(
-            {
-              trade_updates: 'trade_updates',
-              account_updates: 'account_updates',
-              T: 'trade',
-              Q: 'quote',
-              AM: 'aggregate_minute',
-            }[(object.stream as String).split('.')[0]],
-            object.data,
-          )
+          const x: { [index: string]: keyof AlpacaStreamEvents } = {
+            trade_updates: 'trade_updates',
+            account_updates: 'account_updates',
+            T: 'trade',
+            Q: 'quote',
+            AM: 'aggregate_minute',
+          }
+          this.emit(x[(object.stream as String).split('.')[0]], object.data)
         }
       })
       // pass the error

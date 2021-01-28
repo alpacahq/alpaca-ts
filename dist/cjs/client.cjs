@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -40,15 +51,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 exports.AlpacaClient = void 0;
+var bottleneck_1 = __importDefault(require("bottleneck"));
 var qs_1 = __importDefault(require("qs"));
-var node_fetch_1 = __importDefault(require("node-fetch"));
+var ky_universal_1 = __importDefault(require("ky-universal"));
 var urls_js_1 = __importDefault(require("./urls.cjs"));
-var limiter_1 = __importDefault(require("limiter"));
 var parse_js_1 = __importDefault(require("./parse.cjs"));
 var AlpacaClient = /** @class */ (function () {
     function AlpacaClient(params) {
         this.params = params;
-        this.limiter = new limiter_1["default"].RateLimiter(200, 'minute');
+        this.limiter = new bottleneck_1["default"]({
+            reservoir: 200,
+            reservoirRefreshAmount: 200,
+            reservoirRefreshInterval: 60 * 1000,
+            // also use maxConcurrent and/or minTime for safety
+            maxConcurrent: 1,
+            minTime: 200
+        });
         if ('access_token' in params.credentials &&
             ('key' in params.credentials || 'secret' in params.credentials)) {
             throw new Error("can't create client with both default and oauth credentials");
@@ -287,10 +305,7 @@ var AlpacaClient = /** @class */ (function () {
         return this.request('GET', urls_js_1["default"].rest.account, "account/portfolio/history?" + qs_1["default"].stringify(params));
     };
     AlpacaClient.prototype.getBars = function (params) {
-        var transformed = {};
-        // join the symbols into a comma-delimited string
-        transformed = params;
-        transformed['symbols'] = params.symbols.join(',');
+        var transformed = __assign(__assign({}, params), { symbols: params.symbols.join(',') });
         return this.request('GET', urls_js_1["default"].rest.market_data, "bars/" + params.timeframe + "?" + qs_1["default"].stringify(params));
     };
     AlpacaClient.prototype.getLastTrade = function (params) {
@@ -325,31 +340,33 @@ var AlpacaClient = /** @class */ (function () {
             }
         }
         return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+            var makeCall, func;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!this.params.rate_limit) return [3 /*break*/, 2];
-                        return [4 /*yield*/, new Promise(function (resolve) { return _this.limiter.removeTokens(1, resolve); })];
+                        makeCall = function () {
+                            return ky_universal_1["default"](url + "/" + endpoint, {
+                                method: method,
+                                headers: headers,
+                                body: JSON.stringify(data)
+                            });
+                        };
+                        func = this.params.rate_limit
+                            ? function () { return _this.limiter.schedule(makeCall); }
+                            : makeCall;
+                        return [4 /*yield*/, func()
+                                // if json parse fails we default to an empty object
+                                .then(function (resp) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, resp.json()["catch"](function () { return false; })];
+                                    case 1: return [2 /*return*/, (_a.sent()) || {}];
+                                }
+                            }); }); })
+                                .then(function (resp) {
+                                return 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp);
+                            })["catch"](reject)];
                     case 1:
-                        _a.sent();
-                        _a.label = 2;
-                    case 2: return [4 /*yield*/, node_fetch_1["default"](url + "/" + endpoint, {
-                            method: method,
-                            headers: headers,
-                            body: JSON.stringify(data)
-                        })
-                            // if json parse fails we default to an empty object
-                            .then(function (resp) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4 /*yield*/, resp.json()["catch"](function () { return false; })];
-                                case 1: return [2 /*return*/, (_a.sent()) || {}];
-                            }
-                        }); }); })
-                            .then(function (resp) {
-                            return 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp);
-                        })["catch"](reject)];
-                    case 3:
                         _a.sent();
                         return [2 /*return*/];
                 }

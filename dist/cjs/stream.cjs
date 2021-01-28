@@ -17,7 +17,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 exports.AlpacaStream = void 0;
-var ws_1 = __importDefault(require("ws"));
+var isomorphic_ws_1 = __importDefault(require("isomorphic-ws"));
 var urls_js_1 = __importDefault(require("./urls.cjs"));
 var events_1 = require("events");
 var AlpacaStream = /** @class */ (function (_super) {
@@ -42,7 +42,7 @@ var AlpacaStream = /** @class */ (function (_super) {
             default:
                 _this.host = 'unknown';
         }
-        _this.connection = new ws_1["default"](_this.host)
+        _this.connection = new isomorphic_ws_1["default"](_this.host)
             .once('open', function () {
             // if we are not authenticated yet send a request now
             if (!_this.authenticated) {
@@ -79,13 +79,14 @@ var AlpacaStream = /** @class */ (function (_super) {
             _this.emit('message', object);
             // emit based on the stream
             if ('stream' in object) {
-                _this.emit({
+                var x = {
                     trade_updates: 'trade_updates',
                     account_updates: 'account_updates',
                     T: 'trade',
                     Q: 'quote',
                     AM: 'aggregate_minute'
-                }[object.stream.split('.')[0]], object.data);
+                };
+                _this.emit(x[object.stream.split('.')[0]], object.data);
             }
         })
             // pass the error
