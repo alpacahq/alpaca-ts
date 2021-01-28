@@ -311,11 +311,11 @@ class AlpacaClient {
         return this.request('GET', urls.rest.account, `account/portfolio/history?${qs.stringify(params)}`);
     }
     getBars(params) {
-        ({
+        const transformed = {
             ...params,
             symbols: params.symbols.join(','),
-        });
-        return this.request('GET', urls.rest.market_data, `bars/${params.timeframe}?${qs.stringify(params)}`);
+        };
+        return this.request('GET', urls.rest.market_data, `bars/${params.timeframe}?${qs.stringify(transformed)}`);
     }
     getLastTrade(params) {
         return this.request('GET', urls.rest.market_data, `last/stocks/${params.symbol}`);

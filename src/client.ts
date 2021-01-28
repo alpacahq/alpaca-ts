@@ -304,7 +304,7 @@ export class AlpacaClient {
     return this.request(
       'GET',
       urls.rest.market_data,
-      `bars/${params.timeframe}?${qs.stringify(params)}`,
+      `bars/${params.timeframe}?${qs.stringify(transformed)}`,
     )
   }
 

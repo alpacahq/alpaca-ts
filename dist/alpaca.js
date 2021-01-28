@@ -467,8 +467,8 @@
             return this.request('GET', urls.rest.account, "account/portfolio/history?" + qs__default['default'].stringify(params));
         };
         AlpacaClient.prototype.getBars = function (params) {
-            __assign(__assign({}, params), { symbols: params.symbols.join(',') });
-            return this.request('GET', urls.rest.market_data, "bars/" + params.timeframe + "?" + qs__default['default'].stringify(params));
+            var transformed = __assign(__assign({}, params), { symbols: params.symbols.join(',') });
+            return this.request('GET', urls.rest.market_data, "bars/" + params.timeframe + "?" + qs__default['default'].stringify(transformed));
         };
         AlpacaClient.prototype.getLastTrade = function (params) {
             return this.request('GET', urls.rest.market_data, "last/stocks/" + params.symbol);

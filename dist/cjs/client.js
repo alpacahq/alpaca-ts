@@ -306,7 +306,7 @@ var AlpacaClient = /** @class */ (function () {
     };
     AlpacaClient.prototype.getBars = function (params) {
         var transformed = __assign(__assign({}, params), { symbols: params.symbols.join(',') });
-        return this.request('GET', urls_1.default.rest.market_data, "bars/" + params.timeframe + "?" + qs_1.default.stringify(params));
+        return this.request('GET', urls_1.default.rest.market_data, "bars/" + params.timeframe + "?" + qs_1.default.stringify(transformed));
     };
     AlpacaClient.prototype.getLastTrade = function (params) {
         return this.request('GET', urls_1.default.rest.market_data, "last/stocks/" + params.symbol);

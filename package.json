@@ -29,16 +29,16 @@
   "typings": "types/index.d.ts",
   "type": "module",
   "types": "./@types/index.d.ts",
-  "main": "./dist/cjs/index.cjs",
+  "main": "./dist/cjs/index.js",
   "exports": {
     "import": "./dist/mjs/index.mjs",
-    "require": "./dist/cjs/index.cjs"
+    "require": "./dist/cjs/index.js"
   },
   "scripts": {
     "build": "npm run clean && npm i && npm run build:mjs && npm run build:cjs && npm run build:universal",
     "build:mjs": "tsc --outDir dist/mjs  --allowSyntheticDefaultImports -d --declarationDir @types --module esnext --target esnext && map dist/mjs js mjs",
-    "build:cjs-old": "tsc --outDir dist/cjs  --esModuleInterop && map dist/cjs js cjs",
-    "build:cjs": "tsc -p tsconfig.json --outDir dist/cjs -m CommonJS -t ES5 && map dist/cjs js cjs",
+    "build:cjs-old": "tsc --outDir dist/cjs  --esModuleInterop",
+    "build:cjs": "tsc -p tsconfig.json --outDir dist/cjs -m CommonJS -t ES5",
     "build:universal": "rollup -c config/rollup/dist/umd.js && rollup -c config/rollup/dist/es.js",
     "clean": "rimraf dist @types",
     "test": "npm run test:default",
