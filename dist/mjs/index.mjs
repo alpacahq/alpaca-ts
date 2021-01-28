@@ -1,7 +1,7 @@
-import { AlpacaClient } from './client.mjs';
-import { AlpacaStream } from './stream.mjs';
-export { AlpacaClient } from './client.mjs';
-export { AlpacaStream } from './stream.mjs';
+import { AlpacaClient } from './client';
+import { AlpacaStream } from './stream';
+export { AlpacaClient };
+export { AlpacaStream };
 export default {
     AlpacaClient: AlpacaClient,
     AlpacaStream: AlpacaStream,

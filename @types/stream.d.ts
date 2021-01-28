@@ -1,10 +1,5 @@
-/// <reference types="node" />
-import { EventEmitter } from 'events';
-import { AccountUpdate, AggregateMinute, DefaultCredentials, Quote, Trade, TradeUpdate } from './entities.js';
-export declare interface AlpacaStream {
-    on<U extends keyof AlpacaStreamEvents>(event: U, listener: AlpacaStreamEvents[U]): this;
-    emit<U extends keyof AlpacaStreamEvents>(event: U, ...args: Parameters<AlpacaStreamEvents[U]>): boolean;
-}
+import EventEmitter from 'eventemitter3';
+import { AccountUpdate, AggregateMinute, DefaultCredentials, Quote, Trade, TradeUpdate } from './entities';
 export declare interface AlpacaStreamEvents {
     open: (connection: AlpacaStream) => void;
     close: (connection: AlpacaStream) => void;

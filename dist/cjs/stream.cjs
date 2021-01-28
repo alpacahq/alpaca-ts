@@ -15,11 +15,11 @@ var __extends = (this && this.__extends) || (function () {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlpacaStream = void 0;
 var isomorphic_ws_1 = __importDefault(require("isomorphic-ws"));
-var urls_js_1 = __importDefault(require("./urls.cjs"));
-var events_1 = require("events");
+var urls_1 = __importDefault(require("./urls"));
+var eventemitter3_1 = __importDefault(require("eventemitter3"));
 var AlpacaStream = /** @class */ (function (_super) {
     __extends(AlpacaStream, _super);
     function AlpacaStream(params) {
@@ -33,16 +33,16 @@ var AlpacaStream = /** @class */ (function (_super) {
         switch (params.stream) {
             case 'account':
                 _this.host = params.credentials.key.startsWith('PK')
-                    ? urls_js_1["default"].websocket.account_paper
-                    : urls_js_1["default"].websocket.account;
+                    ? urls_1.default.websocket.account_paper
+                    : urls_1.default.websocket.account;
                 break;
             case 'market_data':
-                _this.host = urls_js_1["default"].websocket.market_data;
+                _this.host = urls_1.default.websocket.market_data;
                 break;
             default:
                 _this.host = 'unknown';
         }
-        _this.connection = new isomorphic_ws_1["default"](_this.host)
+        _this.connection = new isomorphic_ws_1.default(_this.host)
             .once('open', function () {
             // if we are not authenticated yet send a request now
             if (!_this.authenticated) {
@@ -50,8 +50,8 @@ var AlpacaStream = /** @class */ (function (_super) {
                     action: 'authenticate',
                     data: {
                         key_id: params.credentials.key,
-                        secret_key: params.credentials.secret
-                    }
+                        secret_key: params.credentials.secret,
+                    },
                 }));
             }
             // pass the open
@@ -84,7 +84,7 @@ var AlpacaStream = /** @class */ (function (_super) {
                     account_updates: 'account_updates',
                     T: 'trade',
                     Q: 'quote',
-                    AM: 'aggregate_minute'
+                    AM: 'aggregate_minute',
                 };
                 _this.emit(x[object.stream.split('.')[0]], object.data);
             }
@@ -115,8 +115,8 @@ var AlpacaStream = /** @class */ (function (_super) {
         return this.send(JSON.stringify({
             action: 'listen',
             data: {
-                streams: channels
-            }
+                streams: channels,
+            },
         }));
     };
     AlpacaStream.prototype.unsubscribe = function (channels) {
@@ -130,10 +130,10 @@ var AlpacaStream = /** @class */ (function (_super) {
         return this.send(JSON.stringify({
             action: 'unlisten',
             data: {
-                streams: channels
-            }
+                streams: channels,
+            },
         }));
     };
     return AlpacaStream;
-}(events_1.EventEmitter));
+}(eventemitter3_1.default));
 exports.AlpacaStream = AlpacaStream;

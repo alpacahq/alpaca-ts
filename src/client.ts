@@ -2,8 +2,8 @@ import Bottleneck from 'bottleneck'
 
 import qs from 'qs'
 import ky from 'ky-universal'
-import urls from './urls.js'
-import parse from './parse.js'
+import urls from './urls'
+import parse from './parse'
 
 import {
   RawAccount,

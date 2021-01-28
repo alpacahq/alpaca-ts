@@ -1,8 +1,8 @@
 import WebSocket from 'isomorphic-ws'
 
-import urls from './urls.js'
+import urls from './urls'
 
-import { EventEmitter } from 'events'
+import EventEmitter from 'eventemitter3'
 import {
   AccountUpdate,
   AggregateMinute,
@@ -10,18 +10,18 @@ import {
   Quote,
   Trade,
   TradeUpdate,
-} from './entities.js'
+} from './entities'
 
-export declare interface AlpacaStream {
-  on<U extends keyof AlpacaStreamEvents>(
-    event: U,
-    listener: AlpacaStreamEvents[U],
-  ): this
-  emit<U extends keyof AlpacaStreamEvents>(
-    event: U,
-    ...args: Parameters<AlpacaStreamEvents[U]>
-  ): boolean
-}
+// export declare interface AlpacaStream {
+//   on<U extends keyof AlpacaStreamEvents>(
+//     event: U,
+//     listener: AlpacaStreamEvents[U],
+//   ): this
+//   emit<U extends keyof AlpacaStreamEvents>(
+//     event: U,
+//     ...args: Parameters<AlpacaStreamEvents[U]>
+//   ): boolean
+// }
 
 export declare interface AlpacaStreamEvents {
   open: (connection: AlpacaStream) => void

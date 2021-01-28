@@ -10,7 +10,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 function account(rawAccount) {
     if (!rawAccount) {
         return undefined;
@@ -32,7 +32,7 @@ function clock(rawClock) {
             timestamp: new Date(rawClock.timestamp),
             is_open: rawClock.is_open,
             next_open: new Date(rawClock.next_open),
-            next_close: new Date(rawClock.next_close)
+            next_close: new Date(rawClock.next_close),
         };
     }
     catch (err) {
@@ -109,7 +109,7 @@ function number(numStr) {
         return numStr;
     return parseFloat(numStr);
 }
-exports["default"] = {
+exports.default = {
     account: account,
     activities: activities,
     clock: clock,
@@ -118,5 +118,5 @@ exports["default"] = {
     orders: orders,
     position: position,
     positions: positions,
-    tradeActivity: tradeActivity
+    tradeActivity: tradeActivity,
 };

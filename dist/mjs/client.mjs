@@ -1,8 +1,8 @@
 import Bottleneck from 'bottleneck';
 import qs from 'qs';
 import ky from 'ky-universal';
-import urls from './urls.mjs';
-import parse from './parse.mjs';
+import urls from './urls';
+import parse from './parse';
 export class AlpacaClient {
     constructor(params) {
         this.params = params;

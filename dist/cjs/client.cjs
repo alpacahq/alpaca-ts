@@ -49,23 +49,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlpacaClient = void 0;
 var bottleneck_1 = __importDefault(require("bottleneck"));
 var qs_1 = __importDefault(require("qs"));
 var ky_universal_1 = __importDefault(require("ky-universal"));
-var urls_js_1 = __importDefault(require("./urls.cjs"));
-var parse_js_1 = __importDefault(require("./parse.cjs"));
+var urls_1 = __importDefault(require("./urls"));
+var parse_1 = __importDefault(require("./parse"));
 var AlpacaClient = /** @class */ (function () {
     function AlpacaClient(params) {
         this.params = params;
-        this.limiter = new bottleneck_1["default"]({
+        this.limiter = new bottleneck_1.default({
             reservoir: 200,
             reservoirRefreshAmount: 200,
             reservoirRefreshInterval: 60 * 1000,
             // also use maxConcurrent and/or minTime for safety
             maxConcurrent: 1,
-            minTime: 200
+            minTime: 200,
         });
         if ('access_token' in params.credentials &&
             ('key' in params.credentials || 'secret' in params.credentials)) {
@@ -97,8 +97,8 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = parse_js_1["default"]).account;
-                        return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, 'account')];
+                        _b = (_a = parse_1.default).account;
+                        return [4 /*yield*/, this.request('GET', urls_1.default.rest.account, 'account')];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
@@ -110,9 +110,9 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = parse_js_1["default"]).order;
-                        return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "orders/" + (params.order_id || params.client_order_id) + "?" + qs_1["default"].stringify({
-                                nested: params.nested
+                        _b = (_a = parse_1.default).order;
+                        return [4 /*yield*/, this.request('GET', urls_1.default.rest.account, "orders/" + (params.order_id || params.client_order_id) + "?" + qs_1.default.stringify({
+                                nested: params.nested,
                             }))];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
@@ -125,8 +125,8 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = parse_js_1["default"]).orders;
-                        return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "orders?" + qs_1["default"].stringify(params))];
+                        _b = (_a = parse_1.default).orders;
+                        return [4 /*yield*/, this.request('GET', urls_1.default.rest.account, "orders?" + qs_1.default.stringify(params))];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
@@ -138,8 +138,8 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = parse_js_1["default"]).order;
-                        return [4 /*yield*/, this.request('POST', urls_js_1["default"].rest.account, "orders", params)];
+                        _b = (_a = parse_1.default).order;
+                        return [4 /*yield*/, this.request('POST', urls_1.default.rest.account, "orders", params)];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
@@ -151,8 +151,8 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = parse_js_1["default"]).order;
-                        return [4 /*yield*/, this.request('PATCH', urls_js_1["default"].rest.account, "orders/" + params.order_id, params)];
+                        _b = (_a = parse_1.default).order;
+                        return [4 /*yield*/, this.request('PATCH', urls_1.default.rest.account, "orders/" + params.order_id, params)];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
@@ -164,8 +164,8 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = parse_js_1["default"]).order;
-                        return [4 /*yield*/, this.request('DELETE', urls_js_1["default"].rest.account, "orders/" + params.order_id)];
+                        _b = (_a = parse_1.default).order;
+                        return [4 /*yield*/, this.request('DELETE', urls_1.default.rest.account, "orders/" + params.order_id)];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
@@ -177,8 +177,8 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = parse_js_1["default"]).orders;
-                        return [4 /*yield*/, this.request('DELETE', urls_js_1["default"].rest.account, "orders")];
+                        _b = (_a = parse_1.default).orders;
+                        return [4 /*yield*/, this.request('DELETE', urls_1.default.rest.account, "orders")];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
@@ -190,8 +190,8 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = parse_js_1["default"]).position;
-                        return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "positions/" + params.symbol)];
+                        _b = (_a = parse_1.default).position;
+                        return [4 /*yield*/, this.request('GET', urls_1.default.rest.account, "positions/" + params.symbol)];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
@@ -203,8 +203,8 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = parse_js_1["default"]).positions;
-                        return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "positions")];
+                        _b = (_a = parse_1.default).positions;
+                        return [4 /*yield*/, this.request('GET', urls_1.default.rest.account, "positions")];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
@@ -216,8 +216,8 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = parse_js_1["default"]).order;
-                        return [4 /*yield*/, this.request('DELETE', urls_js_1["default"].rest.account, "positions/" + params.symbol)];
+                        _b = (_a = parse_1.default).order;
+                        return [4 /*yield*/, this.request('DELETE', urls_1.default.rest.account, "positions/" + params.symbol)];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
@@ -229,42 +229,42 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = parse_js_1["default"]).orders;
-                        return [4 /*yield*/, this.request('DELETE', urls_js_1["default"].rest.account, "positions")];
+                        _b = (_a = parse_1.default).orders;
+                        return [4 /*yield*/, this.request('DELETE', urls_1.default.rest.account, "positions")];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
         });
     };
     AlpacaClient.prototype.getAsset = function (params) {
-        return this.request('GET', urls_js_1["default"].rest.account, "assets/" + params.asset_id_or_symbol);
+        return this.request('GET', urls_1.default.rest.account, "assets/" + params.asset_id_or_symbol);
     };
     AlpacaClient.prototype.getAssets = function (params) {
-        return this.request('GET', urls_js_1["default"].rest.account, "assets?" + qs_1["default"].stringify(params));
+        return this.request('GET', urls_1.default.rest.account, "assets?" + qs_1.default.stringify(params));
     };
     AlpacaClient.prototype.getWatchlist = function (params) {
-        return this.request('GET', urls_js_1["default"].rest.account, "watchlists/" + params.uuid);
+        return this.request('GET', urls_1.default.rest.account, "watchlists/" + params.uuid);
     };
     AlpacaClient.prototype.getWatchlists = function () {
-        return this.request('GET', urls_js_1["default"].rest.account, "watchlists");
+        return this.request('GET', urls_1.default.rest.account, "watchlists");
     };
     AlpacaClient.prototype.createWatchlist = function (params) {
-        return this.request('POST', urls_js_1["default"].rest.account, "watchlists", params);
+        return this.request('POST', urls_1.default.rest.account, "watchlists", params);
     };
     AlpacaClient.prototype.updateWatchlist = function (params) {
-        return this.request('PUT', urls_js_1["default"].rest.account, "watchlists/" + params.uuid, params);
+        return this.request('PUT', urls_1.default.rest.account, "watchlists/" + params.uuid, params);
     };
     AlpacaClient.prototype.addToWatchlist = function (params) {
-        return this.request('POST', urls_js_1["default"].rest.account, "watchlists/" + params.uuid, params);
+        return this.request('POST', urls_1.default.rest.account, "watchlists/" + params.uuid, params);
     };
     AlpacaClient.prototype.removeFromWatchlist = function (params) {
-        return this.request('DELETE', urls_js_1["default"].rest.account, "watchlists/" + params.uuid + "/" + params.symbol);
+        return this.request('DELETE', urls_1.default.rest.account, "watchlists/" + params.uuid + "/" + params.symbol);
     };
     AlpacaClient.prototype.deleteWatchlist = function (params) {
-        return this.request('DELETE', urls_js_1["default"].rest.account, "watchlists/" + params.uuid);
+        return this.request('DELETE', urls_1.default.rest.account, "watchlists/" + params.uuid);
     };
     AlpacaClient.prototype.getCalendar = function (params) {
-        return this.request('GET', urls_js_1["default"].rest.account, "calendar?" + qs_1["default"].stringify(params));
+        return this.request('GET', urls_1.default.rest.account, "calendar?" + qs_1.default.stringify(params));
     };
     AlpacaClient.prototype.getClock = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -272,18 +272,18 @@ var AlpacaClient = /** @class */ (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _b = (_a = parse_js_1["default"]).clock;
-                        return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "clock")];
+                        _b = (_a = parse_1.default).clock;
+                        return [4 /*yield*/, this.request('GET', urls_1.default.rest.account, "clock")];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
         });
     };
     AlpacaClient.prototype.getAccountConfigurations = function () {
-        return this.request('GET', urls_js_1["default"].rest.account, "account/configurations");
+        return this.request('GET', urls_1.default.rest.account, "account/configurations");
     };
     AlpacaClient.prototype.updateAccountConfigurations = function (params) {
-        return this.request('PATCH', urls_js_1["default"].rest.account, "account/configurations", params);
+        return this.request('PATCH', urls_1.default.rest.account, "account/configurations", params);
     };
     AlpacaClient.prototype.getAccountActivities = function (params) {
         return __awaiter(this, void 0, void 0, function () {
@@ -294,39 +294,39 @@ var AlpacaClient = /** @class */ (function () {
                         if (params.activity_types && Array.isArray(params.activity_types)) {
                             params.activity_types = params.activity_types.join(',');
                         }
-                        _b = (_a = parse_js_1["default"]).activities;
-                        return [4 /*yield*/, this.request('GET', urls_js_1["default"].rest.account, "account/activities" + (params.activity_type ? '/'.concat(params.activity_type) : '') + "?" + qs_1["default"].stringify(params))];
+                        _b = (_a = parse_1.default).activities;
+                        return [4 /*yield*/, this.request('GET', urls_1.default.rest.account, "account/activities" + (params.activity_type ? '/'.concat(params.activity_type) : '') + "?" + qs_1.default.stringify(params))];
                     case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
                 }
             });
         });
     };
     AlpacaClient.prototype.getPortfolioHistory = function (params) {
-        return this.request('GET', urls_js_1["default"].rest.account, "account/portfolio/history?" + qs_1["default"].stringify(params));
+        return this.request('GET', urls_1.default.rest.account, "account/portfolio/history?" + qs_1.default.stringify(params));
     };
     AlpacaClient.prototype.getBars = function (params) {
         var transformed = __assign(__assign({}, params), { symbols: params.symbols.join(',') });
-        return this.request('GET', urls_js_1["default"].rest.market_data, "bars/" + params.timeframe + "?" + qs_1["default"].stringify(params));
+        return this.request('GET', urls_1.default.rest.market_data, "bars/" + params.timeframe + "?" + qs_1.default.stringify(params));
     };
     AlpacaClient.prototype.getLastTrade = function (params) {
-        return this.request('GET', urls_js_1["default"].rest.market_data, "last/stocks/" + params.symbol);
+        return this.request('GET', urls_1.default.rest.market_data, "last/stocks/" + params.symbol);
     };
     AlpacaClient.prototype.getLastQuote = function (params) {
-        return this.request('GET', urls_js_1["default"].rest.market_data, "last_quote/stocks/" + params.symbol);
+        return this.request('GET', urls_1.default.rest.market_data, "last_quote/stocks/" + params.symbol);
     };
     AlpacaClient.prototype.request = function (method, url, endpoint, data) {
         var _this = this;
         var headers = {};
         if ('access_token' in this.params.credentials) {
             headers['Authorization'] = "Bearer " + this.params.credentials.access_token;
-            url == urls_js_1["default"].rest.account;
+            url == urls_1.default.rest.account;
         }
         else {
             headers['APCA-API-KEY-ID'] = this.params.credentials.key;
             headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
             if (this.params.credentials.key.startsWith('PK') &&
-                url == urls_js_1["default"].rest.account) {
-                url = urls_js_1["default"].rest.account.replace('api.', 'paper-api.');
+                url == urls_1.default.rest.account) {
+                url = urls_1.default.rest.account.replace('api.', 'paper-api.');
             }
         }
         // modify the base url if paper key
@@ -346,10 +346,10 @@ var AlpacaClient = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         makeCall = function () {
-                            return ky_universal_1["default"](url + "/" + endpoint, {
+                            return ky_universal_1.default(url + "/" + endpoint, {
                                 method: method,
                                 headers: headers,
-                                body: JSON.stringify(data)
+                                body: JSON.stringify(data),
                             });
                         };
                         func = this.params.rate_limit
@@ -359,13 +359,14 @@ var AlpacaClient = /** @class */ (function () {
                                 // if json parse fails we default to an empty object
                                 .then(function (resp) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
                                 switch (_a.label) {
-                                    case 0: return [4 /*yield*/, resp.json()["catch"](function () { return false; })];
+                                    case 0: return [4 /*yield*/, resp.json().catch(function () { return false; })];
                                     case 1: return [2 /*return*/, (_a.sent()) || {}];
                                 }
                             }); }); })
                                 .then(function (resp) {
                                 return 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp);
-                            })["catch"](reject)];
+                            })
+                                .catch(reject)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
