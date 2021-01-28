@@ -7,7 +7,5 @@
     "noImplicitAny": true,
     "noImplicitThis": true
   },
-  "include": [
-    "./src/*.ts",
-  ],
+  "include": ["./src/*.ts"]
 }

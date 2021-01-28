@@ -1,7 +1,8 @@
-import WebSocket from "isomorphic-ws"
-import urls from "./urls.js"
+import WebSocket from 'isomorphic-ws'
 
-import { EventEmitter } from "events"
+import urls from './urls.js'
+
+import { EventEmitter } from 'events'
 import {
   AccountUpdate,
   AggregateMinute,
@@ -9,12 +10,12 @@ import {
   Quote,
   Trade,
   TradeUpdate,
-} from "./entities.js"
+} from './entities.js'
 
 export declare interface AlpacaStream {
   on<U extends keyof AlpacaStreamEvents>(
     event: U,
-    listener: AlpacaStreamEvents[U]
+    listener: AlpacaStreamEvents[U],
   ): this
   emit<U extends keyof AlpacaStreamEvents>(
     event: U,
@@ -44,82 +45,82 @@ export class AlpacaStream extends EventEmitter {
   constructor(
     protected params: {
       credentials: DefaultCredentials
-      stream: "account" | "market_data"
-    }
+      stream: 'account' | 'market_data'
+    },
   ) {
     // construct EventEmitter
     super()
 
     // assign the host we will connect to
     switch (params.stream) {
-      case "account":
-        this.host = params.credentials.key.startsWith("PK")
+      case 'account':
+        this.host = params.credentials.key.startsWith('PK')
           ? urls.websocket.account_paper
           : urls.websocket.account
         break
-      case "market_data":
+      case 'market_data':
         this.host = urls.websocket.market_data
         break
       default:
-        this.host = "unknown"
+        this.host = 'unknown'
     }
 
     this.connection = new WebSocket(this.host)
-      .once("open", () => {
+      .once('open', () => {
         // if we are not authenticated yet send a request now
         if (!this.authenticated) {
           this.connection.send(
             JSON.stringify({
-              action: "authenticate",
+              action: 'authenticate',
               data: {
                 key_id: params.credentials.key,
                 secret_key: params.credentials.secret,
               },
-            })
+            }),
           )
         }
 
         // pass the open
-        this.emit("open", this)
+        this.emit('open', this)
       })
       // pass the close
-      .once("close", () => this.emit("close", this))
-      .on("message", (message) => {
+      .once('close', () => this.emit('close', this))
+      .on('message', (message) => {
         // parse the incoming message
         const object = JSON.parse(message.toString())
 
         // if the message is an authorization response
-        if ("stream" in object && object.stream == "authorization") {
-          if (object.data.status == "authorized") {
+        if ('stream' in object && object.stream == 'authorization') {
+          if (object.data.status == 'authorized') {
             this.authenticated = true
-            this.emit("authenticated", this)
-            console.log("Connected to the websocket.")
+            this.emit('authenticated', this)
+            console.log('Connected to the websocket.')
           } else {
             this.connection.close()
             throw new Error(
-              "There was an error in authorizing your websocket connection. Object received: " +
-                JSON.stringify(object, null, 2)
+              'There was an error in authorizing your websocket connection. Object received: ' +
+                JSON.stringify(object, null, 2),
             )
           }
         }
 
         // pass the message
-        this.emit("message", object)
+        this.emit('message', object)
 
         // emit based on the stream
-        if ("stream" in object) {
+        if ('stream' in object) {
           const x: { [index: string]: keyof AlpacaStreamEvents } = {
-            trade_updates: "trade_updates",
-            account_updates: "account_updates",
-            T: "trade",
-            Q: "quote",
-            AM: "aggregate_minute",
+            trade_updates: 'trade_updates',
+            account_updates: 'account_updates',
+            T: 'trade',
+            Q: 'quote',
+            AM: 'aggregate_minute',
           }
-          this.emit(x[(object.stream as String).split(".")[0]], object.data)
+          this.emit(x[(object.stream as String).split('.')[0]], object.data)
         }
       })
       // pass the error
-      .on("error", (err: Error) => this.emit("error", err))
+      .on('error', (err: Error) => this.emit('error', err))
   }
 
   send(message: any): this {
@@ -129,7 +130,7 @@ export class AlpacaStream extends EventEmitter {
     }
 
     // if the message is in object form, stringify it for the user
-    if (typeof message == "object") {
+    if (typeof message == 'object') {
       message = JSON.stringify(message)
     }
 
@@ -147,11 +148,11 @@ export class AlpacaStream extends EventEmitter {
     // try to subscribe to them
     return this.send(
       JSON.stringify({
-        action: "listen",
+        action: 'listen',
         data: {
           streams: channels,
         },
-      })
+      }),
     )
   }
 
@@ -166,11 +167,11 @@ export class AlpacaStream extends EventEmitter {
     // try to unsubscribe from them
     return this.send(
       JSON.stringify({
-        action: "unlisten",
+        action: 'unlisten',
         data: {
           streams: channels,
         },
-      })
+      }),
     )
   }
 }
