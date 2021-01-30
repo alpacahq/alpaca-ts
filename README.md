@@ -80,13 +80,15 @@ import quranMeta from "alpaca.esm.min.js"
 ```
 
 The library is available from various CDNs
-* [JSDelivr](https://cdn.jsdelivr.net/npm/alpaca/dist/) 
-* [UnPKG](https://unpkg.com/browse/alpaca/dist/)
+* [JSDelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca/) 
+* [UnPKG](https://unpkg.com/browse/@master-chief/alpaca/)
 
 
- See provided [microtader.html)(./examples/microtader.html) and [classic.html)(./examples/classic.html) examples on how to user
+ See provided [microtader demo app](./examples/microtader.html) and [simple classic](./examples/classic.html) examples on how to user
 
 ### Distributions and Downloads
+
+Here you can find the following
 
 |  |  |
 |---|---|
@@ -99,20 +101,6 @@ The library is available from various CDNs
 |  |  |
 | [ESM Browser](https://github.com/117/alpaca/blob/main/dist/alpaca.esm.js) /[ESM Browser minified](https://github.com/117/alpaca/blob/main/dist/alpaca.esm.min.js) | ES5+ESM (for modern import type="module") |
 |  |  |
-
-Here you can find the following
-|                                                                                                                                                                                                                                                                                                              |                                           |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
-| [Source code](https://github.com/117/alpaca/tree/main/src) in typescript                                                                                                                                                                                                                                     | TS                                        |
-| [Javascript code](https://github.com/117/alpaca/tree/main/dist/mjs) autotranspiled from TS as ES Next                                                                                                                                                                                                        | ES                                        |
-| [ESM Bundle](https://github.com/117/alpaca/blob/main/dist/alpaca.js)                                                                                                                                                                                                                                         | ES bundled in one file                    |
-|                                                                                                                                                                                                                                                                                                              |                                           |
-|  **[distributions bundled with dependencies](https://github.com/117/alpaca/tree/main/dist) of library as**                                                                                                                                                                                                   |                                           |
-| [UMD](https://github.com/117/alpaca/blob/main/dist/alpaca.browser.js)/ [UMD minified](https://github.com/117/alpaca/blob/main/dist//alpaca.browser.min.js) builds can be used directly in the browser via a `<script>` (see  [here](https://www.syntaxsuccess.com/viewarticle/iife-vs-umd) about UMD format) | ES+UMD (for classic import user)          |
-|                                                                                                                                                                                                                                                                                                              |                                           |
-| [ESM Browser](https://github.com/117/alpaca/blob/main/dist/alpaca.esm.js) /[ESM Browser minified](https://github.com/117/alpaca/blob/main/dist/alpaca.esm.min.js)                                                                                                                                            | ES5+ESM (for modern import type="module") |
-|                                                                                                                                                                                                                                                                                                              |                                           |
-
 
 
 

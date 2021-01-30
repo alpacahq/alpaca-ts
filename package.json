@@ -24,11 +24,12 @@
     "stock"
   ],
   "type": "module",
-  "main": "index.js",
-  "types": "@types/index.d.ts",
-  "typings": "types/index.d.ts",
-  "unpkg": "dist/alpaca.js",
-  "jsdelivr": "dist/alpaca.js",
+  "types": "./@types/index.d.ts",
+  "typings": "./types/index.d.ts",
+  "unpkg": "./dist/alpaca.js",
+  "jsdelivr": "./dist/alpaca.js",
+  "browser": "./dist/alpaca.browser.min.js",
+  "main": "./index.js",
   "exports": {
     "node": "./dist/mjs/index.js",
     "default": "./dist/alpaca.browser.min.js"
@@ -36,6 +37,11 @@
   "engines": {
     "node": ">=14"
   },
+  "files": [
+    "src/",
+    "dist/",
+    "@types/"
+  ],
   "scripts": {
     "build": "npm run clean && npm i && npm run build:mjs && npm run build:esm && npm run build:bundles",
     "build:mjs": "tsc --outDir dist/mjs  --allowSyntheticDefaultImports -d --declarationDir @types --module esnext --target esnext",
