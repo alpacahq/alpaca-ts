@@ -29,11 +29,10 @@ WebSocket streams.
 - [x] OAuth integration support.
 - [x] Minified and nonminified bundles.
 - [x] Various bundles provided:
-  -  alpaca.js - ESM bundle  (for node)
-  -  alpaca.bundle.js - ESM bundle with dependencies (for node)
-  -  alpaca.modern.js - ESM Modern bundle (for browser)
-  -  alpaca.browser.js - UMD bundle (for browser)
-  
+  - alpaca.js - ESM bundle (for node)
+  - alpaca.bundle.js - ESM bundle with dependencies (for node)
+  - alpaca.modern.js - ESM Modern bundle (for browser)
+  - alpaca.browser.js - UMD bundle (for browser)
 
 ## Install
 
@@ -50,6 +49,44 @@ Import with ESM:
 ```typescript
 import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
 ```
+
+## Distributions
+
+Here you can find the following
+
+| Type                  | Description                  | Link                                        |
+| --------------------- | ---------------------------- | ------------------------------------------- |
+| Source                | Typescript                   | [Go](./tree/main/src)                       |
+| Javascript            | ES                           | [Go](./tree/main/dist/mjs)                  |
+| ESM Bundle            | ES bundled                   | [Go](./blob/main/dist/alpaca.js)            |
+| Standalone ESM Bundle | ES bundled with dependencies | [Go](./blob/main/dist/alpaca.bundle.js)     |
+| Browser UMD           | ES6 + UMD (classic)          | [Go](./blob/main/dist/alpaca.browser.js)    |
+| ESM Browser           | ES6 + ESM (modern)           | [Go](./blob/main/dist/alpaca.modern.js)     |
+| ESM Browser Minified  | ES6 + ESM (modern)           | [Go](./blob/main/dist/alpaca.modern.min.js) |
+
+### Use directly from browser
+
+In a browser.
+
+```html
+<script src="alpaca.browser.min.js"></script>
+```
+
+Modern browsers also allow:
+
+```html
+<script type="module">
+  import alpaca from 'alpaca.esm.min.js'
+</script>
+```
+
+The library is available from various CDNs:
+
+- [JSDelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca/)
+- [UnPKG](https://unpkg.com/browse/@master-chief/alpaca/)
+
+See provided [microtrader demo app](./examples/microtrader.html) and
+[simple classic](./examples/classic.html) examples on how to use.
 
 ## Client
 
@@ -69,49 +106,6 @@ const client = new AlpacaClient({
   rate_limit: true,
 })
 ```
-
-### Use directly from browser
-
-
-In a browser:
-
-```html
-<script src="alpaca.browser.min.js"></script>
-```
-
-Also modern browsers allow:
-
-```html
-<script type="module">
-import alpaca from "alpaca.esm.min.js"
-</script>
-```
-
-The library is available from various CDNs
-
-* [JSDelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca/) 
-* [UnPKG](https://unpkg.com/browse/@master-chief/alpaca/)
-
-See provided [microtrader demo app](./examples/microtrader.html) and [simple classic](./examples/classic.html) examples on how to use.
-
-### Distributions and Downloads
-
-Here you can find the following
-
-|  |  |
-|---|---|
-| [Source code](https://github.com/117/alpaca/tree/main/src) in typescript | TS |
-| [Javascript code](https://github.com/117/alpaca/tree/main/dist/mjs) autotranspiled from TS as ES Next | ES |
-| [ESM Bundle](https://github.com/117/alpaca/blob/main/dist/alpaca.js) | ES bundled in one file |
-| [Standalone ESM Bundle with dependencies](https://github.com/117/alpaca/blob/main/dist/alpaca.bundle.js) | ES bundled in one file with all the dependencies |
-|  |  |
-|  **[distributions bundled with dependencies](https://github.com/117/alpaca/tree/main/dist) of library as** |  |
-| [Browser UMD](https://github.com/117/alpaca/blob/main/dist/alpaca.browser.js)/ [UMD minified](https://github.com/117/alpaca/blob/main/dist//alpaca.browser.min.js) builds can be used directly in the browser via a `<script>` (see  [here](https://www.syntaxsuccess.com/viewarticle/iife-vs-umd) about UMD format) | ES6+UMD (for classic import type) |
-|  |  |
-| [ESM Browser Modern](https://github.com/117/alpaca/blob/main/dist/alpaca.modern.js) /[minified](https://github.com/117/alpaca/blob/main/dist/alpaca.modern.min.js) | ES6+ESM (for modern import type="module") |
-|  |  |
-
-
 
 ### Built-in parsing
 
