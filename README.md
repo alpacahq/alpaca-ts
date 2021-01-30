@@ -62,13 +62,13 @@ Import with ESM:
 import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
 ```
 
-Via browser:
+Import via browser as a script:
 
 ```html
 <script src="alpaca.browser.min.js"></script>
 ```
 
-OR
+Import via browser as a module:
 
 ```html
 <script type="module">
