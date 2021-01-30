@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "3.7.0",
+  "version": "4.0.0",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "author": "117",
   "contributors": [
@@ -23,23 +23,24 @@
     "stocks",
     "stock"
   ],
-  "jsdelivr": "dist/alpaca.js",
-  "unpkg": "dist/alpaca.js",
-  "module": "dist/mjs/index.mjs",
-  "typings": "types/index.d.ts",
   "type": "module",
-  "types": "./@types/index.d.ts",
-  "main": "./dist/cjs/index.js",
+  "main": "index.js",
+  "types": "@types/index.d.ts",
+  "typings": "types/index.d.ts",
+  "unpkg": "dist/alpaca.js",
+  "jsdelivr": "dist/alpaca.js",
   "exports": {
-    "import": "./dist/mjs/index.mjs",
-    "require": "./dist/cjs/index.js"
+    "node": "./dist/mjs/index.js",
+    "default": "./dist/alpaca.browser.min.js"
+  },
+  "engines": {
+    "node": ">=14"
   },
   "scripts": {
-    "build": "npm run clean && npm i && npm run build:mjs && npm run build:cjs && npm run build:universal",
-    "build:mjs": "tsc --outDir dist/mjs  --allowSyntheticDefaultImports -d --declarationDir @types --module esnext --target esnext && map dist/mjs js mjs",
-    "build:cjs-old": "tsc --outDir dist/cjs  --esModuleInterop",
-    "build:cjs": "tsc -p tsconfig.json --outDir dist/cjs -m CommonJS -t ES5",
-    "build:universal": "rollup -c config/rollup/dist/umd.js && rollup -c config/rollup/dist/es.js",
+    "build": "npm run clean && npm i && npm run build:mjs && npm run build:esm && npm run build:bundles",
+    "build:mjs": "tsc --outDir dist/mjs  --allowSyntheticDefaultImports -d --declarationDir @types --module esnext --target esnext",
+    "build:esm": "rollup -c config/rollup/dist/es.js",
+    "build:bundles": "rollup -c config/rollup/dist/bundles.js",
     "clean": "rimraf dist @types",
     "test": "npm run test:default",
     "test:default": "jest",
@@ -56,30 +57,30 @@
     ]
   },
   "dependencies": {
+    "@rollup/plugin-node-resolve": "^11.1.1",
     "@types/ws": "^7.4.0",
+    "abort-controller": "^3.0.0",
     "bottleneck": "^2.19.5",
     "eventemitter3": "^4.0.7",
     "events": "^3.2.0",
     "isomorphic-ws": "^4.0.1",
-    "ky": "^0.26.0",
-    "ky-universal": "^0.9.1",
+    "node-fetch": "^2.6.1",
     "qs": "^6.9.6",
     "tslib": "^2.1.0",
     "ws": "^7.4.2"
   },
   "devDependencies": {
-    "@master-chief/map": "0.0.4",
-    "@rollup/plugin-commonjs": "^17.0.0",
-    "@rollup/plugin-node-resolve": "^11.0.1",
+    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-typescript": "8.1.0",
     "@types/jest": "^26.0.20",
     "@types/node-fetch": "^2.5.8",
     "@types/qs": "^6.9.5",
     "jest": "^26.6.3",
     "rimraf": "^3.0.2",
-    "rollup": "^2.32.1",
+    "rollup": "^2.38.1",
     "rollup-plugin-terser": "^7.0.2",
-    "ts-jest": "^26.4.4",
+    "ts-jest": "^26.5.0",
     "tslib": "^2.0.3",
     "typescript": "^4.1.3"
   }

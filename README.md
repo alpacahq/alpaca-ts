@@ -25,8 +25,9 @@ WebSocket streams.
 - [x] Built-in rate limiting.
 - [x] Built-in number and date parsing.
 - [x] A 1:1 mapping of the official Alpaca [docs](https://docs.alpaca.markets/).
-- [x] Hybrid CommonJS and ESM support.
+- [x] Modern ESM support.
 - [x] OAuth integration support.
+- [x] ESM and browser bundles.
 
 ## Install
 
@@ -38,16 +39,10 @@ From NPM:
 
 ## Import
 
-Import with CommonJS:
-
-```javascript
-let alpaca = require('@master-chief/alpaca')
-```
-
 Import with ESM:
 
 ```typescript
-import alpaca from '@master-chief/alpaca'
+import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
 ```
 
 ## Client
@@ -59,7 +54,7 @@ own. Paper account key detection is automatic. Using OAuth? Simply pass an
 `access_token` in the credentials object.
 
 ```typescript
-const client = new alpaca.AlpacaClient({
+const client = new AlpacaClient({
   credentials: {
     key: 'xxxxxx',
     secret: 'xxxxxxxxxxxx',
@@ -68,6 +63,58 @@ const client = new alpaca.AlpacaClient({
   rate_limit: true,
 })
 ```
+
+## Use directly from browser
+
+
+In a browser:
+
+```html
+<script src="alpaca.browser.min.js"></script>
+```
+Also modern browsers allow 
+```html
+<script type="module">
+import quranMeta from "alpaca.esm.min.js"
+</script>
+```
+
+The library is available from various CDNs
+* [JSDelivr](https://cdn.jsdelivr.net/npm/alpaca/dist/) 
+* [UnPKG](https://unpkg.com/browse/alpaca/dist/)
+
+
+ See provided [microtader.html)(./examples/microtader.html) and [classic.html)(./examples/classic.html) examples on how to user
+
+### Distributions and Downloads
+
+|  |  |
+|---|---|
+| [Source code](https://github.com/117/alpaca/tree/main/src) in typescript | TS |
+| [Javascript code](https://github.com/117/alpaca/tree/main/dist/mjs) autotranspiled from TS as ES Next | ES |
+| [ESM Bundle](https://github.com/117/alpaca/blob/main/dist/alpaca.js) | ES bundled in one file |
+|  |  |
+|  **[distributions bundled with dependencies](https://github.com/117/alpaca/tree/main/dist) of library as** |  |
+| [UMD](https://github.com/117/alpaca/blob/main/dist/alpaca.browser.js)/ [UMD minified](https://github.com/117/alpaca/blob/main/dist//alpaca.browser.min.js) builds can be used directly in the browser via a `<script>` (see  [here](https://www.syntaxsuccess.com/viewarticle/iife-vs-umd) about UMD format) | ES+UMD (for classic import user) |
+|  |  |
+| [ESM Browser](https://github.com/117/alpaca/blob/main/dist/alpaca.esm.js) /[ESM Browser minified](https://github.com/117/alpaca/blob/main/dist/alpaca.esm.min.js) | ES5+ESM (for modern import type="module") |
+|  |  |
+
+Here you can find the following
+|                                                                                                                                                                                                                                                                                                              |                                           |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| [Source code](https://github.com/117/alpaca/tree/main/src) in typescript                                                                                                                                                                                                                                     | TS                                        |
+| [Javascript code](https://github.com/117/alpaca/tree/main/dist/mjs) autotranspiled from TS as ES Next                                                                                                                                                                                                        | ES                                        |
+| [ESM Bundle](https://github.com/117/alpaca/blob/main/dist/alpaca.js)                                                                                                                                                                                                                                         | ES bundled in one file                    |
+|                                                                                                                                                                                                                                                                                                              |                                           |
+|  **[distributions bundled with dependencies](https://github.com/117/alpaca/tree/main/dist) of library as**                                                                                                                                                                                                   |                                           |
+| [UMD](https://github.com/117/alpaca/blob/main/dist/alpaca.browser.js)/ [UMD minified](https://github.com/117/alpaca/blob/main/dist//alpaca.browser.min.js) builds can be used directly in the browser via a `<script>` (see  [here](https://www.syntaxsuccess.com/viewarticle/iife-vs-umd) about UMD format) | ES+UMD (for classic import user)          |
+|                                                                                                                                                                                                                                                                                                              |                                           |
+| [ESM Browser](https://github.com/117/alpaca/blob/main/dist/alpaca.esm.js) /[ESM Browser minified](https://github.com/117/alpaca/blob/main/dist/alpaca.esm.min.js)                                                                                                                                            | ES5+ESM (for modern import type="module") |
+|                                                                                                                                                                                                                                                                                                              |                                           |
+
+
+
 
 ### Built-in parsing
 

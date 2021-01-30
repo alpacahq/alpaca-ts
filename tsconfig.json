@@ -8,11 +8,13 @@
     "esModuleInterop": true,
     "removeComments": false,
     "noImplicitAny": true,
+    "allowJs": true,
+    "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": false,
     "typeRoots": ["./node_modules/@types/"]
   },
-  "include": ["src/*.ts"],
+  "include": ["src/*.ts", "src/ky-browser.js", "src/ky-node.js"],
   "exclude": ["node_modules", "dist", "test", "config", "example"],
   "compileOnSave": false
 }

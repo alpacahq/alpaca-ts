@@ -1,0 +1,94 @@
+<html>
+<my-component></my-component>
+
+</html>
+
+<script type="module">
+  import { AlpacaClient } from "../dist/alpaca.esm.min.js"
+  var client = new AlpacaClient({
+    credentials: {
+      key: 'xxxxxx',
+      secret: 'xxxxxxxxxxxx',
+    },
+  })
+
+  import {
+    defineComponent,
+    reactive,
+    html,
+    onMounted,
+    onUpdated,
+    onUnmounted
+  } from 'https://unpkg.com/@vue/lit'
+
+  defineComponent('my-component', () => {
+    const state = reactive({
+      symbol: '',
+      selected: {},
+      btnText: '',
+      status: '',
+      show: false,
+      assets: []
+    })
+
+    const order = () => {
+
+      client.placeOrder({
+        symbol: state.selected.symbol,
+        side: 'buy',
+        type: 'market',
+        time_in_force: 'day',
+        qty: 1,
+      })
+        .then((s) => {
+          console.log(s)
+          alert(`Order placed succesfully
+          Order-id ${s.client_order_id}`)
+        })
+        .catch((error) => {
+          console.error(error)
+          alert("Error", error.message)
+        })
+    }
+
+
+    const onInput = e => {
+      state.symbol = e.target.value
+      let item = state.assets.find(s => s.symbol === state.symbol)
+      state.show = !!item
+      if (state.show) {
+        state.selected = item
+        state.btnText = `${item.symbol} - ${item.name}`
+      }
+    }
+
+    onMounted(() => {
+      client
+        .getAssets({
+          status: 'active',
+        })
+        .then((assets) => {
+          // console.log(assets)
+          state.assets = assets
+          console.log(`There are ${assets.length} assets available`)
+        }
+        ).catch((error) => {
+          console.error(error)
+          alert(`Error logging into alpaca
+          Error: ${error.message}`)
+        })
+    })
+
+    return () => html`
+      <h1>Micro Trader</h1>
+      <p>
+        <label for="symbol">Enter symbol to trade</label>  <input name="symbol" value=${state.symbol} @input=${onInput}>
+      </p>
+        ${state.show ? html`<button @click=${order}>Place order for:  ${state.btnText}</button>` : ``}
+
+        <h5>Available to trade: ${state.assets.length}</h5>
+      ${state.assets.length > 0 ? html`<h2>Assets List</h2><table>${state.assets.map(a => html`<tr><td>${a.symbol}</td><td>${a.name}</td> <tr/>`)}</table>` : `Loading`}
+    `
+  })
+
+</script>

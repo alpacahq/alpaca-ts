@@ -1,0 +1,29 @@
+<html>
+<script src="../dist/alpaca.browser.js" type="text/javascript"></script>
+Once library is included global variable `alpaca` is exposed:
+<script type="text/javascript">
+
+  var client = new alpaca.AlpacaClient({
+    credentials: {
+      // key: 'xxxxxx',
+      // secret: 'xxxxxxxxxxxx',
+    },
+  })
+
+  client
+    .getAssets({
+      status: 'active',
+    })
+    .then((assets) => {
+      console.log(assets)
+      alert(`There are ${assets.length} assets available`)
+    }
+    ).catch((error) => {
+      console.error(error)
+      alert(`Error logging into alpaca
+          Error: ${error.message}`)
+    })
+
+</script>
+
+</html>
