@@ -42,14 +42,6 @@ From NPM:
 > npm i @master-chief/alpaca
 ```
 
-## Import
-
-Import with ESM:
-
-```typescript
-import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
-```
-
 ## Distributions
 
 Here you can find the following:
@@ -61,6 +53,14 @@ Here you can find the following:
 - [ES6 + UMD (classic)](./blob/main/dist/alpaca.browser.js)
 - [ES6 + ESM (modern) ](./blob/main/dist/alpaca.modern.js)
 - [ES6 + ESM (modern) minified](./blob/main/dist/alpaca.modern.min.js)
+
+## Import
+
+Import with ESM:
+
+```typescript
+import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
+```
 
 ### Use directly from browser
 
