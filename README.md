@@ -83,7 +83,7 @@ Also modern browsers allow:
 
 ```html
 <script type="module">
-import quranMeta from "alpaca.esm.min.js"
+import alpaca from "alpaca.esm.min.js"
 </script>
 ```
 
