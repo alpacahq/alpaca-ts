@@ -62,13 +62,13 @@ Import with ESM:
 import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
 ```
 
-Import via browser as a script:
+Import via browser as script:
 
 ```html
 <script src="alpaca.browser.min.js"></script>
 ```
 
-Import via browser as a module:
+Import via browser as module:
 
 ```html
 <script type="module">
@@ -76,7 +76,7 @@ Import via browser as a module:
 </script>
 ```
 
-You can also get the library from these CDN's:
+You can also get the library from a CDN:
 
 - [JSDelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca/)
 - [UNPKG](https://unpkg.com/browse/@master-chief/alpaca/)
