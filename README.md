@@ -29,10 +29,10 @@ WebSocket streams.
 - [x] OAuth integration support.
 - [x] Minified and nonminified bundles.
 - [x] Various bundles provided:
-  - alpaca.js - ESM bundle (for node)
-  - alpaca.bundle.js - ESM bundle with dependencies (for node)
-  - alpaca.modern.js - ESM Modern bundle (for browser)
-  - alpaca.browser.js - UMD bundle (for browser)
+  - `alpaca.js` - ESM bundle (for node)
+  - `alpaca.bundle.js` - ESM bundle with dependencies (for node)
+  - `alpaca.modern.js` - ESM Modern bundle (for browser)
+  - `alpaca.browser.js` - UMD bundle (for browser)
 
 ## Install
 
@@ -52,17 +52,15 @@ import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
 
 ## Distributions
 
-Here you can find the following
+Here you can find the following:
 
-| Type                  | Description                  | Link                                        |
-| --------------------- | ---------------------------- | ------------------------------------------- |
-| Source                | Typescript                   | [Go](./tree/main/src)                       |
-| Javascript            | ES                           | [Go](./tree/main/dist/mjs)                  |
-| ESM Bundle            | ES bundled                   | [Go](./blob/main/dist/alpaca.js)            |
-| Standalone ESM Bundle | ES bundled with dependencies | [Go](./blob/main/dist/alpaca.bundle.js)     |
-| Browser UMD           | ES6 + UMD (classic)          | [Go](./blob/main/dist/alpaca.browser.js)    |
-| ESM Browser           | ES6 + ESM (modern)           | [Go](./blob/main/dist/alpaca.modern.js)     |
-| ESM Browser Minified  | ES6 + ESM (modern)           | [Go](./blob/main/dist/alpaca.modern.min.js) |
+- [Typescript](./tree/main/src)
+- [ES](./tree/main/dist/mjs)
+- [ES bundled ](./blob/main/dist/alpaca.js)
+- [ES bundled with dependencies](./blob/main/dist/alpaca.bundle.js)
+- [ES6 + UMD (classic)](./blob/main/dist/alpaca.browser.js)
+- [ES6 + ESM (modern) ](./blob/main/dist/alpaca.modern.js)
+- [ES6 + ESM (modern) minified](./blob/main/dist/alpaca.modern.min.js)
 
 ### Use directly from browser
 
