@@ -76,10 +76,7 @@ Import via browser as a module:
 </script>
 ```
 
-The library is available from various CDNs:
-
-- [JSDelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca/)
-- [UnPKG](https://unpkg.com/browse/@master-chief/alpaca/)
+The library is available from [jsdelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca/) and [unpkg](https://unpkg.com/browse/@master-chief/alpaca/) CDN.
 
 ## Client
 
