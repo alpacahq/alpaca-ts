@@ -1,5 +1,5 @@
 /*! 
- * ALPACA library 4.0.0
+ * ALPACA library 4.0.2
  *
  * Released under the ISC license
  */
