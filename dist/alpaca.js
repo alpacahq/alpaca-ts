@@ -6,9 +6,34 @@
 
 import Bottleneck from 'bottleneck';
 import qs from 'qs';
-import ky from 'ky-universal';
+import fetch from 'isomorphic-unfetch';
 import WebSocket from 'isomorphic-ws';
 import EventEmitter from 'eventemitter3';
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
 
 var urls = {
     rest: {
@@ -27,26 +52,7 @@ function account(rawAccount) {
         return undefined;
     }
     try {
-        return {
-            ...rawAccount,
-            raw: () => rawAccount,
-            buying_power: number(rawAccount.buying_power),
-            regt_buying_power: number(rawAccount.regt_buying_power),
-            daytrading_buying_power: number(rawAccount.daytrading_buying_power),
-            cash: number(rawAccount.cash),
-            created_at: new Date(rawAccount.created_at),
-            portfolio_value: number(rawAccount.portfolio_value),
-            multiplier: number(rawAccount.multiplier),
-            equity: number(rawAccount.equity),
-            last_equity: number(rawAccount.last_equity),
-            long_market_value: number(rawAccount.long_market_value),
-            short_market_value: number(rawAccount.short_market_value),
-            initial_margin: number(rawAccount.initial_margin),
-            maintenance_margin: number(rawAccount.maintenance_margin),
-            last_maintenance_margin: number(rawAccount.last_maintenance_margin),
-            sma: number(rawAccount.sma),
-            status: rawAccount.status,
-        };
+        return Object.assign(Object.assign({}, rawAccount), { raw: () => rawAccount, buying_power: number(rawAccount.buying_power), regt_buying_power: number(rawAccount.regt_buying_power), daytrading_buying_power: number(rawAccount.daytrading_buying_power), cash: number(rawAccount.cash), created_at: new Date(rawAccount.created_at), portfolio_value: number(rawAccount.portfolio_value), multiplier: number(rawAccount.multiplier), equity: number(rawAccount.equity), last_equity: number(rawAccount.last_equity), long_market_value: number(rawAccount.long_market_value), short_market_value: number(rawAccount.short_market_value), initial_margin: number(rawAccount.initial_margin), maintenance_margin: number(rawAccount.maintenance_margin), last_maintenance_margin: number(rawAccount.last_maintenance_margin), sma: number(rawAccount.sma), status: rawAccount.status });
     }
     catch (err) {
         throw new Error(`Account parsing failed. ${err.message}`);
@@ -74,31 +80,7 @@ function order(rawOrder) {
         return undefined;
     }
     try {
-        return {
-            ...rawOrder,
-            raw: () => rawOrder,
-            created_at: new Date(rawOrder.created_at),
-            updated_at: new Date(rawOrder.updated_at),
-            submitted_at: new Date(rawOrder.submitted_at),
-            filled_at: new Date(rawOrder.filled_at),
-            expired_at: new Date(rawOrder.expired_at),
-            canceled_at: new Date(rawOrder.canceled_at),
-            failed_at: new Date(rawOrder.failed_at),
-            replaced_at: new Date(rawOrder.replaced_at),
-            qty: number(rawOrder.qty),
-            filled_qty: number(rawOrder.filled_qty),
-            type: rawOrder.type,
-            side: rawOrder.side,
-            time_in_force: rawOrder.time_in_force,
-            limit_price: number(rawOrder.limit_price),
-            stop_price: number(rawOrder.stop_price),
-            filled_avg_price: number(rawOrder.filled_avg_price),
-            status: rawOrder.status,
-            legs: orders(rawOrder.legs),
-            trail_price: number(rawOrder.trail_price),
-            trail_percent: number(rawOrder.trail_percent),
-            hwm: number(rawOrder.hwm),
-        };
+        return Object.assign(Object.assign({}, rawOrder), { raw: () => rawOrder, created_at: new Date(rawOrder.created_at), updated_at: new Date(rawOrder.updated_at), submitted_at: new Date(rawOrder.submitted_at), filled_at: new Date(rawOrder.filled_at), expired_at: new Date(rawOrder.expired_at), canceled_at: new Date(rawOrder.canceled_at), failed_at: new Date(rawOrder.failed_at), replaced_at: new Date(rawOrder.replaced_at), qty: number(rawOrder.qty), filled_qty: number(rawOrder.filled_qty), type: rawOrder.type, side: rawOrder.side, time_in_force: rawOrder.time_in_force, limit_price: number(rawOrder.limit_price), stop_price: number(rawOrder.stop_price), filled_avg_price: number(rawOrder.filled_avg_price), status: rawOrder.status, legs: orders(rawOrder.legs), trail_price: number(rawOrder.trail_price), trail_percent: number(rawOrder.trail_percent), hwm: number(rawOrder.hwm) });
     }
     catch (err) {
         throw new Error(`Order parsing failed. ${err.message}`);
@@ -112,22 +94,7 @@ function position(rawPosition) {
         return undefined;
     }
     try {
-        return {
-            ...rawPosition,
-            raw: () => rawPosition,
-            avg_entry_price: number(rawPosition.avg_entry_price),
-            qty: number(rawPosition.qty),
-            side: rawPosition.side,
-            market_value: number(rawPosition.market_value),
-            cost_basis: number(rawPosition.cost_basis),
-            unrealized_pl: number(rawPosition.unrealized_pl),
-            unrealized_plpc: number(rawPosition.unrealized_plpc),
-            unrealized_intraday_pl: number(rawPosition.unrealized_intraday_pl),
-            unrealized_intraday_plpc: number(rawPosition.unrealized_intraday_plpc),
-            current_price: number(rawPosition.current_price),
-            lastday_price: number(rawPosition.lastday_price),
-            change_today: number(rawPosition.change_today),
-        };
+        return Object.assign(Object.assign({}, rawPosition), { raw: () => rawPosition, avg_entry_price: number(rawPosition.avg_entry_price), qty: number(rawPosition.qty), side: rawPosition.side, market_value: number(rawPosition.market_value), cost_basis: number(rawPosition.cost_basis), unrealized_pl: number(rawPosition.unrealized_pl), unrealized_plpc: number(rawPosition.unrealized_plpc), unrealized_intraday_pl: number(rawPosition.unrealized_intraday_pl), unrealized_intraday_plpc: number(rawPosition.unrealized_intraday_plpc), current_price: number(rawPosition.current_price), lastday_price: number(rawPosition.lastday_price), change_today: number(rawPosition.change_today) });
     }
     catch (err) {
         throw new Error(`Position parsing failed. ${err.message}`);
@@ -141,16 +108,7 @@ function tradeActivity(rawTradeActivity) {
         return undefined;
     }
     try {
-        return {
-            ...rawTradeActivity,
-            raw: () => rawTradeActivity,
-            cum_qty: number(rawTradeActivity.cum_qty),
-            leaves_qty: number(rawTradeActivity.leaves_qty),
-            price: number(rawTradeActivity.price),
-            qty: number(rawTradeActivity.qty),
-            side: rawTradeActivity.side,
-            type: rawTradeActivity.type,
-        };
+        return Object.assign(Object.assign({}, rawTradeActivity), { raw: () => rawTradeActivity, cum_qty: number(rawTradeActivity.cum_qty), leaves_qty: number(rawTradeActivity.leaves_qty), price: number(rawTradeActivity.price), qty: number(rawTradeActivity.qty), side: rawTradeActivity.side, type: rawTradeActivity.type });
     }
     catch (err) {
         throw new Error(`TradeActivity parsing failed. ${err.message}`);
@@ -161,13 +119,7 @@ function nonTradeActivity(rawNonTradeActivity) {
         return undefined;
     }
     try {
-        return {
-            ...rawNonTradeActivity,
-            raw: () => rawNonTradeActivity,
-            net_amount: number(rawNonTradeActivity.net_amount),
-            qty: number(rawNonTradeActivity.qty),
-            per_share_amount: number(rawNonTradeActivity.per_share_amount),
-        };
+        return Object.assign(Object.assign({}, rawNonTradeActivity), { raw: () => rawNonTradeActivity, net_amount: number(rawNonTradeActivity.net_amount), qty: number(rawNonTradeActivity.qty), per_share_amount: number(rawNonTradeActivity.per_share_amount) });
     }
     catch (err) {
         throw new Error(`NonTradeActivity parsing failed. ${err.message}`);
@@ -218,49 +170,73 @@ class AlpacaClient {
             throw new Error("can't create client with both default and oauth credentials");
         }
     }
-    async isAuthenticated() {
-        try {
-            await this.getAccount();
-            return true;
-        }
-        catch {
-            return false;
-        }
+    isAuthenticated() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.getAccount();
+                return true;
+            }
+            catch (_a) {
+                return false;
+            }
+        });
     }
-    async getAccount() {
-        return parse.account(await this.request('GET', urls.rest.account, 'account'));
+    getAccount() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.account(yield this.request('GET', urls.rest.account, 'account'));
+        });
     }
-    async getOrder(params) {
-        return parse.order(await this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}?${qs.stringify({
-            nested: params.nested,
-        })}`));
+    getOrder(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.order(yield this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}?${qs.stringify({
+                nested: params.nested,
+            })}`));
+        });
     }
-    async getOrders(params) {
-        return parse.orders(await this.request('GET', urls.rest.account, `orders?${qs.stringify(params)}`));
+    getOrders(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.orders(yield this.request('GET', urls.rest.account, `orders?${qs.stringify(params)}`));
+        });
     }
-    async placeOrder(params) {
-        return parse.order(await this.request('POST', urls.rest.account, `orders`, params));
+    placeOrder(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.order(yield this.request('POST', urls.rest.account, `orders`, params));
+        });
     }
-    async replaceOrder(params) {
-        return parse.order(await this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
+    replaceOrder(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.order(yield this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
+        });
     }
-    async cancelOrder(params) {
-        return parse.order(await this.request('DELETE', urls.rest.account, `orders/${params.order_id}`));
+    cancelOrder(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.order(yield this.request('DELETE', urls.rest.account, `orders/${params.order_id}`));
+        });
     }
-    async cancelOrders() {
-        return parse.orders(await this.request('DELETE', urls.rest.account, `orders`));
+    cancelOrders() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.orders(yield this.request('DELETE', urls.rest.account, `orders`));
+        });
     }
-    async getPosition(params) {
-        return parse.position(await this.request('GET', urls.rest.account, `positions/${params.symbol}`));
+    getPosition(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.position(yield this.request('GET', urls.rest.account, `positions/${params.symbol}`));
+        });
     }
-    async getPositions() {
-        return parse.positions(await this.request('GET', urls.rest.account, `positions`));
+    getPositions() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.positions(yield this.request('GET', urls.rest.account, `positions`));
+        });
     }
-    async closePosition(params) {
-        return parse.order(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
+    closePosition(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.order(yield this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
+        });
     }
-    async closePositions() {
-        return parse.orders(await this.request('DELETE', urls.rest.account, `positions`));
+    closePositions() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.orders(yield this.request('DELETE', urls.rest.account, `positions`));
+        });
     }
     getAsset(params) {
         return this.request('GET', urls.rest.account, `assets/${params.asset_id_or_symbol}`);
@@ -292,8 +268,10 @@ class AlpacaClient {
     getCalendar(params) {
         return this.request('GET', urls.rest.account, `calendar?${qs.stringify(params)}`);
     }
-    async getClock() {
-        return parse.clock(await this.request('GET', urls.rest.account, `clock`));
+    getClock() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.clock(yield this.request('GET', urls.rest.account, `clock`));
+        });
     }
     getAccountConfigurations() {
         return this.request('GET', urls.rest.account, `account/configurations`);
@@ -301,20 +279,19 @@ class AlpacaClient {
     updateAccountConfigurations(params) {
         return this.request('PATCH', urls.rest.account, `account/configurations`, params);
     }
-    async getAccountActivities(params) {
-        if (params.activity_types && Array.isArray(params.activity_types)) {
-            params.activity_types = params.activity_types.join(',');
-        }
-        return parse.activities(await this.request('GET', urls.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}?${qs.stringify(params)}`));
+    getAccountActivities(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (params.activity_types && Array.isArray(params.activity_types)) {
+                params.activity_types = params.activity_types.join(',');
+            }
+            return parse.activities(yield this.request('GET', urls.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}?${qs.stringify(params)}`));
+        });
     }
     getPortfolioHistory(params) {
         return this.request('GET', urls.rest.account, `account/portfolio/history?${qs.stringify(params)}`);
     }
     getBars(params) {
-        const transformed = {
-            ...params,
-            symbols: params.symbols.join(','),
-        };
+        const transformed = Object.assign(Object.assign({}, params), { symbols: params.symbols.join(',') });
         return this.request('GET', urls.rest.market_data, `bars/${params.timeframe}?${qs.stringify(transformed)}`);
     }
     getLastTrade(params) {
@@ -343,8 +320,8 @@ class AlpacaClient {
                 }
             }
         }
-        return new Promise(async (resolve, reject) => {
-            const makeCall = () => ky(`${url}/${endpoint}`, {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            const makeCall = () => fetch(`${url}/${endpoint}`, {
                 method: method,
                 headers,
                 body: JSON.stringify(data),
@@ -352,11 +329,11 @@ class AlpacaClient {
             const func = this.params.rate_limit
                 ? () => this.limiter.schedule(makeCall)
                 : makeCall;
-            await func()
-                .then(async (resp) => (await resp.json().catch(() => false)) || {})
+            yield func()
+                .then((resp) => __awaiter(this, void 0, void 0, function* () { return (yield resp.json().catch(() => false)) || {}; }))
                 .then((resp) => 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp))
                 .catch(reject);
-        });
+        }));
     }
 }
 

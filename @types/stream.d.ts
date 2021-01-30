@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import { AccountUpdate, AggregateMinute, DefaultCredentials, Quote, Trade, TradeUpdate } from './entities';
+import { AccountUpdate, AggregateMinute, DefaultCredentials, Quote, Trade, TradeUpdate } from './entities.js';
 export declare interface AlpacaStreamEvents {
     open: (connection: AlpacaStream) => void;
     close: (connection: AlpacaStream) => void;

@@ -17,18 +17,20 @@ export default {
       module: 'ES2015', //"None", "CommonJS", "AMD", "System", "UMD", "ES6", "ES2015" or "ESNext"
       target: 'ES2015', //"ES3"  "ES5" "ES6"/"ES2015" "ES2016" "ES2017" "ES2018" "ES2019" "ES2020" "ESNext"
     }),
+    json(),
+    commonjs(),
+    nodeResolve({ browser: false }),
   ],
   output: [
     {
-      file: `${outDir}/alpaca.js`,
+      file: `${outDir}/alpaca.bundle.js`,
       format: 'es',
       name: 'alpaca',
       sourcemap: true,
       banner: banner,
-      // plugins: [nodeResolve({ browser: true })],
     },
     {
-      file: `${outDir}/alpaca.min.js`,
+      file: `${outDir}/alpaca.bundle.min.js`,
       format: 'es',
       name: 'alpaca',
       sourcemap: false,

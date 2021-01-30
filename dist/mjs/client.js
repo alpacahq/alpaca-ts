@@ -1,9 +1,8 @@
 import Bottleneck from 'bottleneck';
 import qs from 'qs';
-import ky from 'ky-universal';
-// import fetch from 'node-fetch';
-import urls from './urls';
-import parse from './parse';
+import fetch from 'isomorphic-unfetch';
+import urls from './urls.js';
+import parse from './parse.js';
 export class AlpacaClient {
     constructor(params) {
         this.params = params;
@@ -149,7 +148,7 @@ export class AlpacaClient {
             }
         }
         return new Promise(async (resolve, reject) => {
-            const makeCall = () => ky(`${url}/${endpoint}`, {
+            const makeCall = () => fetch(`${url}/${endpoint}`, {
                 method: method,
                 headers,
                 body: JSON.stringify(data),

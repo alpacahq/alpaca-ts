@@ -1,4 +1,4 @@
-import { Account, RawAccount, RawOrder, Order, RawPosition, Position, RawTradeActivity, TradeActivity, RawNonTradeActivity, NonTradeActivity, RawActivity, Activity, RawClock, Clock } from './entities';
+import { Account, RawAccount, RawOrder, Order, RawPosition, Position, RawTradeActivity, TradeActivity, RawNonTradeActivity, NonTradeActivity, RawActivity, Activity, RawClock, Clock } from './entities.js';
 declare function account(rawAccount: RawAccount): Account;
 declare function clock(rawClock: RawClock): Clock;
 declare function order(rawOrder: RawOrder): Order;

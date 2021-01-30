@@ -25,9 +25,15 @@ WebSocket streams.
 - [x] Built-in rate limiting.
 - [x] Built-in number and date parsing.
 - [x] A 1:1 mapping of the official Alpaca [docs](https://docs.alpaca.markets/).
-- [x] Modern ESM support.
+- [x] Autotranspiled modern ESM alternative.
 - [x] OAuth integration support.
-- [x] ESM and browser bundles.
+- [x] Minified and nonminified bundles.
+- [x] Various bundles provided:
+  -  alpaca.js - ESM bundle  (for node)
+  -  alpaca.bundle.js - ESM bundle with dependencies (for node)
+  -  alpaca.modern.js - ESM Modern bundle (for browser)
+  -  alpaca.browser.js - UMD bundle (for browser)
+  
 
 ## Install
 
@@ -95,11 +101,12 @@ Here you can find the following
 | [Source code](https://github.com/117/alpaca/tree/main/src) in typescript | TS |
 | [Javascript code](https://github.com/117/alpaca/tree/main/dist/mjs) autotranspiled from TS as ES Next | ES |
 | [ESM Bundle](https://github.com/117/alpaca/blob/main/dist/alpaca.js) | ES bundled in one file |
+| [Standalone ESM Bundle with dependencies](https://github.com/117/alpaca/blob/main/dist/alpaca.bundle.js) | ES bundled in one file with all the dependencies |
 |  |  |
 |  **[distributions bundled with dependencies](https://github.com/117/alpaca/tree/main/dist) of library as** |  |
-| [UMD](https://github.com/117/alpaca/blob/main/dist/alpaca.browser.js)/ [UMD minified](https://github.com/117/alpaca/blob/main/dist//alpaca.browser.min.js) builds can be used directly in the browser via a `<script>` (see  [here](https://www.syntaxsuccess.com/viewarticle/iife-vs-umd) about UMD format) | ES+UMD (for classic import user) |
+| [Browser UMD](https://github.com/117/alpaca/blob/main/dist/alpaca.browser.js)/ [UMD minified](https://github.com/117/alpaca/blob/main/dist//alpaca.browser.min.js) builds can be used directly in the browser via a `<script>` (see  [here](https://www.syntaxsuccess.com/viewarticle/iife-vs-umd) about UMD format) | ES6+UMD (for classic import type) |
 |  |  |
-| [ESM Browser](https://github.com/117/alpaca/blob/main/dist/alpaca.esm.js) /[ESM Browser minified](https://github.com/117/alpaca/blob/main/dist/alpaca.esm.min.js) | ES5+ESM (for modern import type="module") |
+| [ESM Browser Modern](https://github.com/117/alpaca/blob/main/dist/alpaca.modern.js) /[minified](https://github.com/117/alpaca/blob/main/dist/alpaca.modern.min.js) | ES6+ESM (for modern import type="module") |
 |  |  |
 
 

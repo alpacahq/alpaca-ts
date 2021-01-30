@@ -1,13 +1,20 @@
 // buys a random stock
 
-// import { AlpacaClient } from '../dist/alpaca.esm.mjs'
-import { AlpacaClient } from '../dist/mjs/index'
+// To run:
+// node sample.js
+
+// You can use any of the following
+
+// import { AlpacaClient } from '../dist/mjs/index.js'
+// import { AlpacaClient } from '../dist/alpaca.js'
+// import { AlpacaClient } from '../dist/alpaca.min.js'
+// import { AlpacaClient } from '../dist/alpaca.bundle.js'
+import { AlpacaClient } from '../dist/alpaca.bundle.min.js'
+
 const client = new AlpacaClient({
   credentials: {
-    key: 'PK2MPYPSYO0CEXQW0S1D',
-    secret: 'k1oEGdu75wbEpccgevjdfEHrzZ6tg2hgvnqTLXnk',
-    // key: 'xxxxxx',
-    // secret: 'xxxxxxxxxxxx',
+    key: 'xxxxxx',
+    secret: 'xxxxxxxxxxxx',
   },
 })
 

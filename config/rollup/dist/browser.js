@@ -1,8 +1,8 @@
 import typescript from '@rollup/plugin-typescript'
-import { terser } from 'rollup-plugin-terser'
-import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
+import { terser } from 'rollup-plugin-terser'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import banner from '../../banner'
 
 import { DIST_UNIVERSAL as outDir, SRC } from '../../const'
@@ -53,7 +53,7 @@ export default {
     //   banner: banner,
     // },
     {
-      file: `${outDir}/alpaca.esm.js`,
+      file: `${outDir}/alpaca.modern.js`,
       // dir: outDir,
       format: 'es',
       name: 'alpaca',
@@ -61,7 +61,7 @@ export default {
       banner: banner,
     },
     {
-      file: `${outDir}/alpaca.esm.min.js`,
+      file: `${outDir}/alpaca.modern.min.js`,
       // dir: outDir,
       format: 'es',
       name: 'alpaca',

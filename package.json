@@ -45,10 +45,11 @@
     "@types/"
   ],
   "scripts": {
-    "build": "npm run clean && npm i && npm run build:mjs && npm run build:esm && npm run build:bundles",
+    "build": "npm run clean && npm i && npm run build:mjs && npm run build:esm  && npm run build:browser && npm run build:es-bundle",
     "build:mjs": "tsc --outDir dist/mjs  --allowSyntheticDefaultImports -d --declarationDir @types --module esnext --target esnext",
     "build:esm": "rollup -c config/rollup/dist/es.js",
-    "build:bundles": "rollup -c config/rollup/dist/bundles.js",
+    "build:es-bundle": "rollup -c config/rollup/dist/es-bundle.js",
+    "build:browser": "rollup -c config/rollup/dist/browser.js",
     "clean": "rimraf dist @types",
     "test": "npm run test:default",
     "test:default": "jest",
@@ -69,13 +70,13 @@
     "@types/ws": "^7.4.0",
     "abort-controller": "^3.0.0",
     "bottleneck": "^2.19.5",
+    "bufferutil": "^4.0.3",
     "eventemitter3": "^4.0.7",
-    "events": "^3.2.0",
+    "isomorphic-unfetch": "^3.1.0",
     "isomorphic-ws": "^4.0.1",
-    "ky": "^0.26.0",
-    "ky-universal": "^0.9.1",
     "qs": "^6.9.6",
     "tslib": "^2.1.0",
+    "utf-8-validate": "^5.0.4",
     "ws": "^7.4.2"
   },
   "devDependencies": {

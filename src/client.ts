@@ -1,10 +1,10 @@
 import Bottleneck from 'bottleneck'
 
 import qs from 'qs'
-import ky from 'ky-universal'
+import fetch from 'isomorphic-unfetch'
 
-import urls from './urls'
-import parse from './parse'
+import urls from './urls.js'
+import parse from './parse.js'
 
 import {
   RawAccount,
@@ -26,7 +26,7 @@ import {
   Activity,
   DefaultCredentials,
   OAuthCredentials,
-} from './entities'
+} from './entities.js'
 
 import {
   GetOrder,
@@ -51,7 +51,7 @@ import {
   GetBars,
   GetLastTrade,
   GetLastQuote,
-} from './params'
+} from './params.js'
 
 export class AlpacaClient {
   private limiter = new Bottleneck({
@@ -361,7 +361,7 @@ export class AlpacaClient {
 
     return new Promise<T>(async (resolve, reject) => {
       const makeCall = () =>
-        ky(`${url}/${endpoint}`, {
+        fetch(`${url}/${endpoint}`, {
           method: method,
           headers,
           body: JSON.stringify(data),

@@ -21,7 +21,7 @@ import {
   Activity,
   RawClock,
   Clock,
-} from './entities'
+} from './entities.js'
 
 function account(rawAccount: RawAccount): Account {
   if (!rawAccount) {
