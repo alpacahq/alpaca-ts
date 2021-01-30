@@ -70,7 +70,7 @@ const client = new AlpacaClient({
 })
 ```
 
-## Use directly from browser
+### Use directly from browser
 
 
 In a browser:
@@ -78,7 +78,9 @@ In a browser:
 ```html
 <script src="alpaca.browser.min.js"></script>
 ```
-Also modern browsers allow 
+
+Also modern browsers allow:
+
 ```html
 <script type="module">
 import quranMeta from "alpaca.esm.min.js"
@@ -86,11 +88,11 @@ import quranMeta from "alpaca.esm.min.js"
 ```
 
 The library is available from various CDNs
+
 * [JSDelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca/) 
 * [UnPKG](https://unpkg.com/browse/@master-chief/alpaca/)
 
-
- See provided [microtader demo app](./examples/microtader.html) and [simple classic](./examples/classic.html) examples on how to user
+See provided [microtrader demo app](./examples/microtrader.html) and [simple classic](./examples/classic.html) examples on how to use.
 
 ### Distributions and Downloads
 
