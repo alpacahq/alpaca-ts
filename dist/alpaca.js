@@ -6,7 +6,7 @@
 
 import Bottleneck from 'bottleneck';
 import qs from 'qs';
-import fetch from 'node-fetch';
+import ky from 'ky-universal';
 import WebSocket from 'isomorphic-ws';
 import EventEmitter from 'eventemitter3';
 
@@ -344,7 +344,7 @@ class AlpacaClient {
             }
         }
         return new Promise(async (resolve, reject) => {
-            const makeCall = () => fetch(`${url}/${endpoint}`, {
+            const makeCall = () => ky(`${url}/${endpoint}`, {
                 method: method,
                 headers,
                 body: JSON.stringify(data),

@@ -29,9 +29,11 @@
   "unpkg": "./dist/alpaca.js",
   "jsdelivr": "./dist/alpaca.js",
   "browser": "./dist/alpaca.browser.min.js",
-  "main": "./index.js",
+  "main": "./dist/mjs/index.js",
+  "module": "./dist/mjs/index.js",
   "exports": {
     "node": "./dist/mjs/index.js",
+    "import": "./dist/mjs/index.js",
     "default": "./dist/alpaca.browser.min.js"
   },
   "engines": {
@@ -70,7 +72,8 @@
     "eventemitter3": "^4.0.7",
     "events": "^3.2.0",
     "isomorphic-ws": "^4.0.1",
-    "node-fetch": "^2.6.1",
+    "ky": "^0.26.0",
+    "ky-universal": "^0.9.1",
     "qs": "^6.9.6",
     "tslib": "^2.1.0",
     "ws": "^7.4.2"
