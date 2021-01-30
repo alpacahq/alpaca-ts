@@ -46,13 +46,13 @@ From NPM:
 
 Here you can find the following:
 
-- [Typescript](./tree/main/src)
-- [ES](./tree/main/dist/mjs)
-- [ES bundled ](./blob/main/dist/alpaca.js)
-- [ES bundled with dependencies](./blob/main/dist/alpaca.bundle.js)
-- [ES6 + UMD (classic)](./blob/main/dist/alpaca.browser.js)
-- [ES6 + ESM (modern) ](./blob/main/dist/alpaca.modern.js)
-- [ES6 + ESM (modern) minified](./blob/main/dist/alpaca.modern.min.js)
+- [Typescript](./src)
+- [ES](./dist/mjs)
+- [ES bundled ](./dist/alpaca.js)
+- [ES bundled with dependencies](./dist/alpaca.bundle.js)
+- [ES6 + UMD (classic)](./dist/alpaca.browser.js)
+- [ES6 + ESM (modern) ](./dist/alpaca.modern.js)
+- [ES6 + ESM (modern) minified](./dist/alpaca.modern.min.js)
 
 ## Import
 
