@@ -1,7 +1,8 @@
 import Bottleneck from 'bottleneck'
 
 import qs from 'qs'
-import ky from 'ky-universal'
+import fetch from 'isomorphic-unfetch'
+
 import urls from './urls.js'
 import parse from './parse.js'
 
@@ -304,7 +305,7 @@ export class AlpacaClient {
     return this.request(
       'GET',
       urls.rest.market_data,
-      `bars/${params.timeframe}?${qs.stringify(params)}`,
+      `bars/${params.timeframe}?${qs.stringify(transformed)}`,
     )
   }
 
@@ -360,7 +361,7 @@ export class AlpacaClient {
 
     return new Promise<T>(async (resolve, reject) => {
       const makeCall = () =>
-        ky(`${url}/${endpoint}`, {
+        fetch(`${url}/${endpoint}`, {
           method: method,
           headers,
           body: JSON.stringify(data),

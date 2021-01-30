@@ -1,8 +1,8 @@
 import Bottleneck from 'bottleneck';
 import qs from 'qs';
-import ky from 'ky-universal';
-import urls from './urls.mjs';
-import parse from './parse.mjs';
+import fetch from 'isomorphic-unfetch';
+import urls from './urls.js';
+import parse from './parse.js';
 export class AlpacaClient {
     constructor(params) {
         this.params = params;
@@ -116,7 +116,7 @@ export class AlpacaClient {
             ...params,
             symbols: params.symbols.join(','),
         };
-        return this.request('GET', urls.rest.market_data, `bars/${params.timeframe}?${qs.stringify(params)}`);
+        return this.request('GET', urls.rest.market_data, `bars/${params.timeframe}?${qs.stringify(transformed)}`);
     }
     getLastTrade(params) {
         return this.request('GET', urls.rest.market_data, `last/stocks/${params.symbol}`);
@@ -148,7 +148,7 @@ export class AlpacaClient {
             }
         }
         return new Promise(async (resolve, reject) => {
-            const makeCall = () => ky(`${url}/${endpoint}`, {
+            const makeCall = () => fetch(`${url}/${endpoint}`, {
                 method: method,
                 headers,
                 body: JSON.stringify(data),

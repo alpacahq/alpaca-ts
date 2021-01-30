@@ -1,11 +1,20 @@
 {
   "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "module": "es2020",
-    "target": "es2020",
+    "rootDir": "./src",
+    "noImplicitThis": true,
+    "esModuleInterop": true,
+    "removeComments": false,
     "noImplicitAny": true,
-    "noImplicitThis": true
+    "allowJs": true,
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": false,
+    "typeRoots": ["./node_modules/@types/"]
   },
-  "include": ["./src/*.ts"]
+  "include": ["src/*.ts", "src/ky-browser.js", "src/ky-node.js"],
+  "exclude": ["node_modules", "dist", "test", "config", "example"],
+  "compileOnSave": false
 }

@@ -25,8 +25,15 @@ WebSocket streams.
 - [x] Built-in rate limiting.
 - [x] Built-in number and date parsing.
 - [x] A 1:1 mapping of the official Alpaca [docs](https://docs.alpaca.markets/).
-- [x] Hybrid CommonJS and ESM support.
+- [x] Autotranspiled modern ESM alternative.
 - [x] OAuth integration support.
+- [x] Minified and nonminified bundles.
+- [x] Various bundles provided:
+  -  alpaca.js - ESM bundle  (for node)
+  -  alpaca.bundle.js - ESM bundle with dependencies (for node)
+  -  alpaca.modern.js - ESM Modern bundle (for browser)
+  -  alpaca.browser.js - UMD bundle (for browser)
+  
 
 ## Install
 
@@ -38,16 +45,10 @@ From NPM:
 
 ## Import
 
-Import with CommonJS:
-
-```javascript
-let alpaca = require('@master-chief/alpaca')
-```
-
 Import with ESM:
 
 ```typescript
-import alpaca from '@master-chief/alpaca'
+import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
 ```
 
 ## Client
@@ -59,7 +60,7 @@ own. Paper account key detection is automatic. Using OAuth? Simply pass an
 `access_token` in the credentials object.
 
 ```typescript
-const client = new alpaca.AlpacaClient({
+const client = new AlpacaClient({
   credentials: {
     key: 'xxxxxx',
     secret: 'xxxxxxxxxxxx',
@@ -68,6 +69,47 @@ const client = new alpaca.AlpacaClient({
   rate_limit: true,
 })
 ```
+
+## Use directly from browser
+
+
+In a browser:
+
+```html
+<script src="alpaca.browser.min.js"></script>
+```
+Also modern browsers allow 
+```html
+<script type="module">
+import quranMeta from "alpaca.esm.min.js"
+</script>
+```
+
+The library is available from various CDNs
+* [JSDelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca/) 
+* [UnPKG](https://unpkg.com/browse/@master-chief/alpaca/)
+
+
+ See provided [microtader demo app](./examples/microtader.html) and [simple classic](./examples/classic.html) examples on how to user
+
+### Distributions and Downloads
+
+Here you can find the following
+
+|  |  |
+|---|---|
+| [Source code](https://github.com/117/alpaca/tree/main/src) in typescript | TS |
+| [Javascript code](https://github.com/117/alpaca/tree/main/dist/mjs) autotranspiled from TS as ES Next | ES |
+| [ESM Bundle](https://github.com/117/alpaca/blob/main/dist/alpaca.js) | ES bundled in one file |
+| [Standalone ESM Bundle with dependencies](https://github.com/117/alpaca/blob/main/dist/alpaca.bundle.js) | ES bundled in one file with all the dependencies |
+|  |  |
+|  **[distributions bundled with dependencies](https://github.com/117/alpaca/tree/main/dist) of library as** |  |
+| [Browser UMD](https://github.com/117/alpaca/blob/main/dist/alpaca.browser.js)/ [UMD minified](https://github.com/117/alpaca/blob/main/dist//alpaca.browser.min.js) builds can be used directly in the browser via a `<script>` (see  [here](https://www.syntaxsuccess.com/viewarticle/iife-vs-umd) about UMD format) | ES6+UMD (for classic import type) |
+|  |  |
+| [ESM Browser Modern](https://github.com/117/alpaca/blob/main/dist/alpaca.modern.js) /[minified](https://github.com/117/alpaca/blob/main/dist/alpaca.modern.min.js) | ES6+ESM (for modern import type="module") |
+|  |  |
+
+
 
 ### Built-in parsing
 
