@@ -81,9 +81,6 @@ The library is available from various CDNs:
 - [JSDelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca/)
 - [UnPKG](https://unpkg.com/browse/@master-chief/alpaca/)
 
-See provided [microtrader demo app](./examples/microtrader.html) and
-[simple classic](./examples/classic.html) examples on how to use.
-
 ## Client
 
 ### Creating a new client
@@ -419,7 +416,7 @@ stream.on("aggregate_minute", ...)
 ## Examples
 
 Don't know where to start? Check out our community-made examples
-[here](https://github.com/117/alpaca/tree/main/examples).
+[here](./example).
 
 ## Contributing
 
