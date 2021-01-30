@@ -62,15 +62,13 @@ Import with ESM:
 import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
 ```
 
-### Use directly from browser
-
-In a browser.
+Via browser:
 
 ```html
 <script src="alpaca.browser.min.js"></script>
 ```
 
-Modern browsers also allow:
+OR
 
 ```html
 <script type="module">
