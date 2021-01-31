@@ -28,6 +28,7 @@ WebSocket streams.
 - [x] Autotranspiled modern ESM alternative.
 - [x] OAuth integration support.
 - [x] Minified and nonminified bundles.
+- [x] Deno support.
 - [x] Various bundles provided:
   - `alpaca.js` - ESM bundle (for node)
   - `alpaca.bundle.js` - ESM bundle with dependencies (for node)
@@ -42,9 +43,7 @@ From NPM:
 > npm i @master-chief/alpaca
 ```
 
-## Distributions
-
-Here you can find the following:
+From GitHub:
 
 - [Typescript](./src)
 - [ES](./dist/mjs)
@@ -54,6 +53,12 @@ Here you can find the following:
 - [ES6 + ESM (modern) ](./dist/alpaca.modern.js)
 - [ES6 + ESM (modern) minified](./dist/alpaca.modern.min.js)
 
+From these popular CDNs:
+
+- [UNPKG](https://unpkg.com/browse/@master-chief/alpaca/)
+- [JSDelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca/)
+- [SkyPack](https://cdn.skypack.dev/@master-chief/alpaca)
+
 ## Import
 
 Import with ESM:
@@ -62,24 +67,27 @@ Import with ESM:
 import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
 ```
 
-Import via browser as script:
+Import with ESM from a CDN:
+
+> Works with Deno, all typings are provided.
+
+```typescript
+import { AlpacaClient } from 'https://cdn.skypack.dev/@master-chief/alpaca?dts'
+```
+
+Import as script:
 
 ```html
 <script src="alpaca.browser.min.js"></script>
 ```
 
-Import via browser as module:
+Import as module:
 
 ```html
 <script type="module">
   import alpaca from 'alpaca.esm.min.js'
 </script>
 ```
-
-You can also get the library from a CDN:
-
-- [JSDelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca/)
-- [UNPKG](https://unpkg.com/browse/@master-chief/alpaca/)
 
 ## Client
 
