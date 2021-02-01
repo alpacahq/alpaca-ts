@@ -25,7 +25,7 @@ WebSocket streams.
 - [x] Built-in rate limiting.
 - [x] Built-in number and date parsing.
 - [x] A 1:1 mapping of the official Alpaca [docs](https://docs.alpaca.markets/).
-- [x] Autotranspiled modern ESM alternative.
+- [x] Auto-transpiled modern ESM alternative.
 - [x] OAuth integration support.
 - [x] Minified and nonminified bundles.
 - [x] Deno support.
