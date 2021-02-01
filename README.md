@@ -67,9 +67,7 @@ Import with ESM:
 import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
 ```
 
-Import with ESM from a CDN:
-
-> Works with Deno, all typings are provided.
+Import with ESM from CDN (works with Deno):
 
 ```typescript
 import { AlpacaClient } from 'https://cdn.skypack.dev/@master-chief/alpaca?dts'
@@ -78,14 +76,14 @@ import { AlpacaClient } from 'https://cdn.skypack.dev/@master-chief/alpaca?dts'
 Import as script:
 
 ```html
-<script src="alpaca.browser.min.js"></script>
+<script src="https://unpkg.com/@master-chief/alpaca@4.0.3/dist/alpaca.browser.min.js"></script>
 ```
 
 Import as module:
 
 ```html
 <script type="module">
-  import alpaca from 'alpaca.esm.min.js'
+  import alpaca from 'alpaca.modern.min.js'
 </script>
 ```
 
