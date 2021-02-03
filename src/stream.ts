@@ -27,7 +27,7 @@ export declare interface AlpacaStreamEvents {
   open: (connection: AlpacaStream) => void
   close: (connection: AlpacaStream) => void
   authenticated: (connection: AlpacaStream) => void
-  error: (error: Error) => void
+  error: (error: WebSocket.ErrorEvent) => void
   message: (data: Object) => void
   trade: (data: Trade) => void
   trade_updates: (data: TradeUpdate) => void
@@ -66,61 +66,63 @@ export class AlpacaStream extends EventEmitter {
     }
 
     this.connection = new WebSocket(this.host)
-      .once('open', () => {
-        // if we are not authenticated yet send a request now
-        if (!this.authenticated) {
-          this.connection.send(
-            JSON.stringify({
-              action: 'authenticate',
-              data: {
-                key_id: params.credentials.key,
-                secret_key: params.credentials.secret,
-              },
-            }),
+    this.connection.onopen = () => {
+      // if we are not authenticated yet send a request now
+      if (!this.authenticated) {
+        this.connection.send(
+          JSON.stringify({
+            action: 'authenticate',
+            data: {
+              key_id: params.credentials.key,
+              secret_key: params.credentials.secret,
+            },
+          }),
+        )
+      }
+
+      // pass the open
+      this.emit('open', this)
+    }
+    // pass the close
+    this.connection.onclose = () => this.emit('close', this)
+    this.connection.onmessage = (message: any) => {
+      // parse the incoming message
+      const object = JSON.parse(message.data)
+
+      // if the message is an authorization response
+      if ('stream' in object && object.stream == 'authorization') {
+        if (object.data.status == 'authorized') {
+          this.authenticated = true
+          this.emit('authenticated', this)
+          console.log('Connected to the websocket.')
+        } else {
+          this.connection.close()
+          throw new Error(
+            'There was an error in authorizing your websocket connection. Object received: ' +
+              JSON.stringify(object, null, 2),
           )
         }
+      }
 
-        // pass the open
-        this.emit('open', this)
-      })
-      // pass the close
-      .once('close', () => this.emit('close', this))
-      .on('message', (message) => {
-        // parse the incoming message
-        const object = JSON.parse(message.toString())
+      // pass the message
+      this.emit('message', object)
 
-        // if the message is an authorization response
-        if ('stream' in object && object.stream == 'authorization') {
-          if (object.data.status == 'authorized') {
-            this.authenticated = true
-            this.emit('authenticated', this)
-            console.log('Connected to the websocket.')
-          } else {
-            this.connection.close()
-            throw new Error(
-              'There was an error in authorizing your websocket connection. Object received: ' +
-                JSON.stringify(object, null, 2),
-            )
-          }
+      // emit based on the stream
+      if ('stream' in object) {
+        const x: { [index: string]: keyof AlpacaStreamEvents } = {
+          trade_updates: 'trade_updates',
+          account_updates: 'account_updates',
+          T: 'trade',
+          Q: 'quote',
+          AM: 'aggregate_minute',
         }
-
-        // pass the message
-        this.emit('message', object)
-
-        // emit based on the stream
-        if ('stream' in object) {
-          const x: { [index: string]: keyof AlpacaStreamEvents } = {
-            trade_updates: 'trade_updates',
-            account_updates: 'account_updates',
-            T: 'trade',
-            Q: 'quote',
-            AM: 'aggregate_minute',
-          }
-          this.emit(x[(object.stream as String).split('.')[0]], object.data)
-        }
-      })
-      // pass the error
-      .on('error', (err: Error) => this.emit('error', err))
+        this.emit(x[(object.stream as String).split('.')[0]], object.data)
+      }
+    }
+    // pass the error
+    this.connection.onerror = (err: WebSocket.ErrorEvent) => {
+      this.emit('error', err)
+    }
   }
 
   send(message: any): this {
