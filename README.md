@@ -28,7 +28,6 @@ WebSocket streams.
 - [x] Auto-transpiled modern ESM alternative.
 - [x] OAuth integration support.
 - [x] Minified and nonminified bundles.
-- [x] Deno support.
 - [x] Various bundles provided:
   - `alpaca.js` - ESM bundle (for node)
   - `alpaca.bundle.js` - ESM bundle with dependencies (for node)
@@ -374,7 +373,7 @@ If you wish to use env vars, populate these fields with `process.env` on your
 own.
 
 ```typescript
-import { AlpacaStream } from "@master-chief/alpaca" 
+import { AlpacaStream } from '@master-chief/alpaca'
 
 const stream = new AlpacaStream({
   credentials: {
@@ -418,11 +417,11 @@ stream.unsubscribe(["AM.SPY"]));
 #### on
 
 ```typescript
-stream.on("message", (message) => console.log(message))
-stream.on("quote", (quote) => console.log(quote))
-stream.on("aggregate_minute", (aggregate) => console.log(aggregate))
-stream.on("trade_updates", (update) => console.log(update))
-stream.on("error", (error) => console.warn(error))
+stream.on('message', (message) => console.log(message))
+stream.on('quote', (quote) => console.log(quote))
+stream.on('aggregate_minute', (aggregate) => console.log(aggregate))
+stream.on('trade_updates', (update) => console.log(update))
+stream.on('error', (error) => console.warn(error))
 ```
 
 ## Examples
