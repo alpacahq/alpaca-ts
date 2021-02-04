@@ -21,8 +21,8 @@ export class AlpacaStream extends EventEmitter {
             default:
                 this.host = 'unknown';
         }
-        this.connection = new WebSocket(this.host)
-            .once('open', () => {
+        this.connection = new WebSocket(this.host);
+        this.connection.onopen = () => {
             // if we are not authenticated yet send a request now
             if (!this.authenticated) {
                 this.connection.send(JSON.stringify({
@@ -35,12 +35,12 @@ export class AlpacaStream extends EventEmitter {
             }
             // pass the open
             this.emit('open', this);
-        })
-            // pass the close
-            .once('close', () => this.emit('close', this))
-            .on('message', (message) => {
+        };
+        // pass the close
+        this.connection.onclose = () => this.emit('close', this);
+        this.connection.onmessage = (message) => {
             // parse the incoming message
-            const object = JSON.parse(message.toString());
+            const object = JSON.parse(message.data);
             // if the message is an authorization response
             if ('stream' in object && object.stream == 'authorization') {
                 if (object.data.status == 'authorized') {
@@ -67,9 +67,11 @@ export class AlpacaStream extends EventEmitter {
                 };
                 this.emit(x[object.stream.split('.')[0]], object.data);
             }
-        })
-            // pass the error
-            .on('error', (err) => this.emit('error', err));
+        };
+        // pass the error
+        this.connection.onerror = (err) => {
+            this.emit('error', err);
+        };
     }
     send(message) {
         // don't bother if we aren't authenticated yet

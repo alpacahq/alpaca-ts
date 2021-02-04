@@ -1,5 +1,5 @@
 /*! 
- * ALPACA library 4.0.2
+ * ALPACA library 4.0.4
  *
  * Released under the ISC license
  */
@@ -6380,12 +6380,11 @@ class PerMessageDeflate {
         this._inflate[kTotalLength]
       );
 
+      this._inflate[kTotalLength] = 0;
+      this._inflate[kBuffers] = [];
+
       if (fin && this.params[`${endpoint}_no_context_takeover`]) {
-        this._inflate.close();
-        this._inflate = null;
-      } else {
-        this._inflate[kTotalLength] = 0;
-        this._inflate[kBuffers] = [];
+        this._inflate.reset();
       }
 
       callback(null, data);
@@ -6452,12 +6451,11 @@ class PerMessageDeflate {
       //
       this._deflate[kCallback] = null;
 
+      this._deflate[kTotalLength] = 0;
+      this._deflate[kBuffers] = [];
+
       if (fin && this.params[`${endpoint}_no_context_takeover`]) {
-        this._deflate.close();
-        this._deflate = null;
-      } else {
-        this._deflate[kTotalLength] = 0;
-        this._deflate[kBuffers] = [];
+        this._deflate.reset();
       }
 
       callback(null, data);
@@ -9249,7 +9247,7 @@ class WebSocketServer extends EventEmitter {
       const info = {
         origin:
           req.headers[`${version === 8 ? 'sec-websocket-origin' : 'origin'}`],
-        secure: !!(req.connection.authorized || req.connection.encrypted),
+        secure: !!(req.socket.authorized || req.socket.encrypted),
         req
       };
 
@@ -9794,8 +9792,8 @@ class AlpacaStream extends eventemitter3 {
             default:
                 this.host = 'unknown';
         }
-        this.connection = new node(this.host)
-            .once('open', () => {
+        this.connection = new node(this.host);
+        this.connection.onopen = () => {
             if (!this.authenticated) {
                 this.connection.send(JSON.stringify({
                     action: 'authenticate',
@@ -9806,10 +9804,10 @@ class AlpacaStream extends eventemitter3 {
                 }));
             }
             this.emit('open', this);
-        })
-            .once('close', () => this.emit('close', this))
-            .on('message', (message) => {
-            const object = JSON.parse(message.toString());
+        };
+        this.connection.onclose = () => this.emit('close', this);
+        this.connection.onmessage = (message) => {
+            const object = JSON.parse(message.data);
             if ('stream' in object && object.stream == 'authorization') {
                 if (object.data.status == 'authorized') {
                     this.authenticated = true;
@@ -9833,8 +9831,10 @@ class AlpacaStream extends eventemitter3 {
                 };
                 this.emit(x[object.stream.split('.')[0]], object.data);
             }
-        })
-            .on('error', (err) => this.emit('error', err));
+        };
+        this.connection.onerror = (err) => {
+            this.emit('error', err);
+        };
     }
     send(message) {
         if (!this.authenticated) {

@@ -1,10 +1,12 @@
+/// <reference types="ws" />
+import WebSocket from 'isomorphic-ws';
 import EventEmitter from 'eventemitter3';
 import { AccountUpdate, AggregateMinute, DefaultCredentials, Quote, Trade, TradeUpdate } from './entities.js';
 export declare interface AlpacaStreamEvents {
     open: (connection: AlpacaStream) => void;
     close: (connection: AlpacaStream) => void;
     authenticated: (connection: AlpacaStream) => void;
-    error: (error: Error) => void;
+    error: (error: WebSocket.ErrorEvent) => void;
     message: (data: Object) => void;
     trade: (data: Trade) => void;
     trade_updates: (data: TradeUpdate) => void;
