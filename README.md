@@ -27,7 +27,7 @@ WebSocket streams.
 - [x] A 1:1 mapping of the official Alpaca [docs](https://docs.alpaca.markets/).
 - [x] Auto-transpiled modern ESM alternative.
 - [x] OAuth integration support.
-- [x] Minified and nonminified bundles.
+- [x] Minified and non-minified bundles.
 - [x] Various bundles provided:
   - `alpaca.js` - ESM bundle (for node)
   - `alpaca.bundle.js` - ESM bundle with dependencies (for node)
