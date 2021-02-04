@@ -406,10 +406,7 @@ The following methods are available on the stream.
 #### subscribe
 
 ```typescript
-stream.once("authenticated", () => {
-  let response = stream.subscribe(["AM.SPY"])
-  console.log("authenticated", response)
-})
+stream.once('authenticated', () => stream.subscribe(['AM.SPY']))
 ```
 
 #### unsubscribe
