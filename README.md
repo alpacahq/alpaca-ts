@@ -374,7 +374,8 @@ If you wish to use env vars, populate these fields with `process.env` on your
 own.
 
 ```typescript
-import { AlpacaStream } from "alpaca" 
+import { AlpacaStream } from "@master-chief/alpaca" 
+
 const stream = new AlpacaStream({
   credentials: {
     key: 'xxxxxx',
@@ -382,27 +383,6 @@ const stream = new AlpacaStream({
   },
   stream: 'market_data',
 })
-```
-
-Sample subscription use:
-```typescript
-
-stream.once("open", () => {
-  console.log("opened")
-})
-stream.once("close", () => {
-  console.log("closed")
-})
-stream.once("authenticated", () => {
-  let res = stream.subscribe(["AM.SPY"])
-  console.log("authenticated", res)
-})
-
-stream.on("message", (x) => console.log("message", x))
-stream.on("quote", (x) => console.log("quote", x))
-stream.on("aggregate_minute", (x) => console.log("aggregate_minute", x))
-stream.on("trade", (x) => console.log("trade", x))
-stream.on("error", (x) => console.warn("trade", x))
 ```
 
 ### Events
@@ -426,7 +406,10 @@ The following methods are available on the stream.
 #### subscribe
 
 ```typescript
-stream.subscribe(['AM.SPY'])
+stream.once("authenticated", () => {
+  let response = stream.subscribe(["AM.SPY"])
+  console.log("authenticated", response)
+})
 ```
 
 #### unsubscribe
@@ -438,7 +421,11 @@ stream.unsubscribe(["AM.SPY"]));
 #### on
 
 ```typescript
-stream.on("aggregate_minute", ...)
+stream.on("message", (message) => console.log(message))
+stream.on("quote", (quote) => console.log(quote))
+stream.on("aggregate_minute", (aggregate) => console.log(aggregate))
+stream.on("trade", (trade) => console.log(trade))
+stream.on("error", (error) => console.warn(error))
 ```
 
 ## Examples
