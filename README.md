@@ -421,7 +421,7 @@ stream.unsubscribe(["AM.SPY"]));
 stream.on("message", (message) => console.log(message))
 stream.on("quote", (quote) => console.log(quote))
 stream.on("aggregate_minute", (aggregate) => console.log(aggregate))
-stream.on("trade", (trade) => console.log(trade))
+stream.on("trade_updates", (update) => console.log(update))
 stream.on("error", (error) => console.warn(error))
 ```
 
