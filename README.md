@@ -374,13 +374,35 @@ If you wish to use env vars, populate these fields with `process.env` on your
 own.
 
 ```typescript
-const stream = new alpaca.AlpacaStream({
+import { AlpacaStream } from "alpaca" 
+const stream = new AlpacaStream({
   credentials: {
     key: 'xxxxxx',
     secret: 'xxxxxxxxxxxx',
   },
   stream: 'market_data',
 })
+```
+
+Sample subscription use:
+```typescript
+
+stream.once("open", () => {
+  console.log("opened")
+})
+stream.once("close", () => {
+  console.log("closed")
+})
+stream.once("authenticated", () => {
+  let res = stream.subscribe(["AM.SPY"])
+  console.log("authenticated", res)
+})
+
+stream.on("message", (x) => console.log("message", x))
+stream.on("quote", (x) => console.log("quote", x))
+stream.on("aggregate_minute", (x) => console.log("aggregate_minute", x))
+stream.on("trade", (x) => console.log("trade", x))
+stream.on("error", (x) => console.warn("trade", x))
 ```
 
 ### Events
