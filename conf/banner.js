@@ -2,6 +2,6 @@ import pack from '../package.json'
 
 export default `/*! 
  * alpaca@${pack.version}
- * released under ISC license
+ * released under the permissive ISC license
  */
 `
