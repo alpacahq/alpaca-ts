@@ -12,17 +12,6 @@ import {
   TradeUpdate,
 } from './entities.js'
 
-// export declare interface AlpacaStream {
-//   on<U extends keyof AlpacaStreamEvents>(
-//     event: U,
-//     listener: AlpacaStreamEvents[U],
-//   ): this
-//   emit<U extends keyof AlpacaStreamEvents>(
-//     event: U,
-//     ...args: Parameters<AlpacaStreamEvents[U]>
-//   ): boolean
-// }
-
 export declare interface AlpacaStreamEvents {
   open: (connection: AlpacaStream) => void
   close: (connection: AlpacaStream) => void
@@ -123,6 +112,14 @@ export class AlpacaStream extends EventEmitter {
     this.connection.onerror = (err: WebSocket.ErrorEvent) => {
       this.emit('error', err)
     }
+  }
+
+  // override so users get types
+  on<U extends keyof AlpacaStreamEvents>(
+    event: U | string | symbol,
+    listener: AlpacaStreamEvents[U],
+  ) {
+    return super.on(event, listener)
   }
 
   send(message: any): this {

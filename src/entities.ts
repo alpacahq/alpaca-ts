@@ -5,6 +5,7 @@
 export interface DefaultCredentials {
   key: string
   secret: string
+  paper?: boolean
 }
 
 /**
@@ -13,6 +14,7 @@ export interface DefaultCredentials {
  */
 export interface OAuthCredentials {
   access_token: String
+  paper?: boolean
 }
 
 /**
