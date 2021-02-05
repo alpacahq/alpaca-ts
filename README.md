@@ -69,7 +69,7 @@ import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
 Import with ESM from CDN (works with Deno):
 
 ```typescript
-import { AlpacaClient } from 'https://cdn.skypack.dev/@master-chief/alpaca?dts'
+import { AlpacaClient } from 'https://cdn.skypack.dev/@master-chief/alpaca'
 ```
 
 Import as script:
