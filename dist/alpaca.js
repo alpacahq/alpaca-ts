@@ -1,7 +1,6 @@
 /*! 
- * ALPACA library 4.0.6
- *
- * Released under the ISC license
+ * alpaca@4.0.7
+ * released under ISC license
  */
 
 import Bottleneck from 'bottleneck';
