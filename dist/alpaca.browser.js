@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.0.7
+ * alpaca@4.1.0
  * released under ISC license
  */
 
@@ -3827,6 +3827,10 @@
               maxConcurrent: 1,
               minTime: 200,
           });
+          if (!('paper' in params.credentials) &&
+              !('key' in params.credentials && params.credentials.key.startsWith('A'))) {
+              params.credentials['paper'] = true;
+          }
           if ('access_token' in params.credentials &&
               ('key' in params.credentials || 'secret' in params.credentials)) {
               throw new Error("can't create client with both default and oauth credentials");
@@ -3945,8 +3949,7 @@
           else {
               headers['APCA-API-KEY-ID'] = this.params.credentials.key;
               headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
-              if (this.params.credentials.key.startsWith('PK') &&
-                  url == urls.rest.account) {
+              if (this.params.credentials.paper && url == urls.rest.account) {
                   url = urls.rest.account.replace('api.', 'paper-api.');
               }
           }
@@ -4391,6 +4394,9 @@
           this.connection.onerror = (err) => {
               this.emit('error', err);
           };
+      }
+      on(event, listener) {
+          return super.on(event, listener);
       }
       send(message) {
           if (!this.authenticated) {

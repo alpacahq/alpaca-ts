@@ -73,6 +73,10 @@ export class AlpacaStream extends EventEmitter {
             this.emit('error', err);
         };
     }
+    // override so users get types
+    on(event, listener) {
+        return super.on(event, listener);
+    }
     send(message) {
         // don't bother if we aren't authenticated yet
         if (!this.authenticated) {
