@@ -27,6 +27,7 @@ export declare class AlpacaStream extends EventEmitter {
         credentials: DefaultCredentials;
         stream: 'account' | 'market_data';
     });
+    on<U extends keyof AlpacaStreamEvents>(event: U | string | symbol, listener: AlpacaStreamEvents[U]): this;
     send(message: any): this;
     subscribe(channels: string[]): this;
     unsubscribe(channels: string[]): this;

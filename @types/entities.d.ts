@@ -5,6 +5,7 @@
 export interface DefaultCredentials {
     key: string;
     secret: string;
+    paper?: boolean;
 }
 /**
  * Client ID for Oauth requests on behalf of users.
@@ -12,6 +13,7 @@ export interface DefaultCredentials {
  */
 export interface OAuthCredentials {
     access_token: String;
+    paper?: boolean;
 }
 /**
  * The account information with unparsed types, exactly as Alpaca provides it.
