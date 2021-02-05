@@ -1,14 +1,6 @@
 export { AlpacaClient } from './client.js'
 export { AlpacaStream } from './stream.js'
 
-// export { AlpacaClient }
-// export { AlpacaStream }
-
-// export default {
-//   AlpacaClient: AlpacaClient,
-//   AlpacaStream: AlpacaStream,
-// }
-
 export {
   Account,
   Order,

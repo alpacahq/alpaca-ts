@@ -1,10 +1,10 @@
-import typescript from '@rollup/plugin-typescript'
-import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
+import banner from '../../banner'
+import commonjs from '@rollup/plugin-commonjs'
+import typescript from '@rollup/plugin-typescript'
+
 import { terser } from 'rollup-plugin-terser'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import banner from '../../banner'
-
 import { DIST_UNIVERSAL as outDir, SRC } from '../../const'
 
 // THIS SCRIPT BUILDS VARIOUS BUNDLES WITH ALL THE DEPENDENCIES

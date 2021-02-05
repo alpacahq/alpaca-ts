@@ -1,7 +1,7 @@
-import typescript from '@rollup/plugin-typescript'
-import { terser } from 'rollup-plugin-terser'
 import banner from '../../banner'
+import typescript from '@rollup/plugin-typescript'
 
+import { terser } from 'rollup-plugin-terser'
 import { DIST_UNIVERSAL as outDir, SRC } from '../../const'
 
 export default {
