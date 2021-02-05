@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "author": "117",
   "contributors": [
@@ -49,11 +49,11 @@
     "url": "https://github.com/117/alpaca"
   },
   "scripts": {
-    "build": "npm run clean && npm i && npm run build:mjs && npm run build:esm  && npm run build:browser && npm run build:es-bundle",
+    "build": "npm run clean && npm i && npm run build:mjs && npm run build:esm  && npm run build:browser && npm run build:es_bundle",
     "build:mjs": "tsc --outDir dist/mjs  --allowSyntheticDefaultImports -d --declarationDir @types --module esnext --target esnext",
-    "build:esm": "rollup -c config/rollup/dist/es.js",
-    "build:es-bundle": "rollup -c config/rollup/dist/es-bundle.js",
-    "build:browser": "rollup -c config/rollup/dist/browser.js",
+    "build:esm": "rollup -c conf/rollup/dist/es.js",
+    "build:es_bundle": "rollup -c conf/rollup/dist/es_bundle.js",
+    "build:browser": "rollup -c conf/rollup/dist/browser.js",
     "clean": "rimraf dist @types",
     "test": "npm run test:default",
     "test:default": "jest",
