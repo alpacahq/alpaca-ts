@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "author": "117",
   "contributors": [
@@ -24,8 +24,8 @@
     "stock"
   ],
   "type": "module",
-  "types": "./types/index.d.ts",
-  "typings": "./types/index.d.ts",
+  "types": "./@types/index.d.ts",
+  "typings": "./@types/index.d.ts",
   "unpkg": "./dist/alpaca.js",
   "jsdelivr": "./dist/alpaca.js",
   "browser": "./dist/alpaca.browser.min.js",
@@ -42,7 +42,7 @@
   "files": [
     "src/",
     "dist/",
-    "types/"
+    "@types/"
   ],
   "repository": {
     "type": "git",
@@ -50,11 +50,11 @@
   },
   "scripts": {
     "build": "npm run clean && npm i && npm run build:mjs && npm run build:esm  && npm run build:browser && npm run build:esm_bundle",
-    "build:mjs": "tsc --outDir dist/mjs  --allowSyntheticDefaultImports -d --declarationDir types --module esnext --target esnext",
+    "build:mjs": "tsc --outDir dist/mjs  --allowSyntheticDefaultImports -d --declarationDir @types --module esnext --target esnext",
     "build:esm": "rollup -c conf/rollup/dist/esm.js",
     "build:esm_bundle": "rollup -c conf/rollup/dist/esm_bundle.js",
     "build:browser": "rollup -c conf/rollup/dist/browser.js",
-    "clean": "rimraf dist types",
+    "clean": "rimraf dist @types",
     "test": "npm run test:default",
     "test:default": "jest",
     "test:watch": "jest --watchAll"
