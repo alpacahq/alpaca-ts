@@ -53,7 +53,7 @@ export default {
     //   banner: banner,
     // },
     {
-      file: `${outDir}/alpaca.modern.js`,
+      file: `${outDir}/alpaca.browser.modern.js`,
       // dir: outDir,
       format: 'es',
       name: 'alpaca',
@@ -61,7 +61,7 @@ export default {
       banner: banner,
     },
     {
-      file: `${outDir}/alpaca.modern.min.js`,
+      file: `${outDir}/alpaca.browser.modern.min.js`,
       // dir: outDir,
       format: 'es',
       name: 'alpaca',
