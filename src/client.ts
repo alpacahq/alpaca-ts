@@ -70,6 +70,15 @@ export class AlpacaClient {
     },
   ) {
     if (
+      // if not specified
+      !('paper' in params.credentials) &&
+      // and live key isn't already provided
+      !('key' in params.credentials && params.credentials.key.startsWith('A'))
+    ) {
+      params.credentials['paper'] = true
+    }
+
+    if (
       'access_token' in params.credentials &&
       ('key' in params.credentials || 'secret' in params.credentials)
     ) {
@@ -341,10 +350,7 @@ export class AlpacaClient {
     } else {
       headers['APCA-API-KEY-ID'] = this.params.credentials.key
       headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret
-      if (
-        this.params.credentials.key.startsWith('PK') &&
-        url == urls.rest.account
-      ) {
+      if (this.params.credentials.paper && url == urls.rest.account) {
         url = urls.rest.account.replace('api.', 'paper-api.')
       }
     }
