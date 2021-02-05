@@ -28,11 +28,12 @@ WebSocket streams.
 - [x] Auto-transpiled modern ESM alternative.
 - [x] OAuth integration support.
 - [x] Minified and non-minified bundles.
+- [x] Deno support.
 - [x] Various bundles provided:
   - `alpaca.js` - ESM bundle (for node)
   - `alpaca.bundle.js` - ESM bundle with dependencies (for node)
-  - `alpaca.modern.js` - ESM Modern bundle (for browser)
   - `alpaca.browser.js` - UMD bundle (for browser)
+  - `alpaca.browser.modern.js` - ESM modern bundle (for browser)
 
 ## Install
 
@@ -49,8 +50,7 @@ From GitHub:
 - [ES bundled ](./dist/alpaca.js)
 - [ES bundled with dependencies](./dist/alpaca.bundle.js)
 - [ES6 + UMD (classic)](./dist/alpaca.browser.js)
-- [ES6 + ESM (modern) ](./dist/alpaca.modern.js)
-- [ES6 + ESM (modern) minified](./dist/alpaca.modern.min.js)
+- [ES6 + ESM (modern) ](./dist/alpaca.browser.modern.js)
 
 From these popular CDNs:
 
@@ -69,20 +69,20 @@ import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
 Import with ESM from CDN (works with Deno):
 
 ```typescript
-import { AlpacaClient } from 'https://cdn.skypack.dev/@master-chief/alpaca'
+import { AlpacaClient } from 'https://cdn.skypack.dev/@master-chief/alpaca?dts'
 ```
 
 Import as script:
 
 ```html
-<script src="https://unpkg.com/@master-chief/alpaca@4.0.3/dist/alpaca.browser.min.js"></script>
+<script src="https://unpkg.com/@master-chief/alpaca@4.1.0/dist/alpaca.browser.min.js"></script>
 ```
 
 Import as module:
 
 ```html
 <script type="module">
-  import alpaca from 'alpaca.modern.min.js'
+  import alpaca from 'alpaca.browser.modern.min.js'
 </script>
 ```
 
@@ -99,7 +99,8 @@ const client = new AlpacaClient({
   credentials: {
     key: 'xxxxxx',
     secret: 'xxxxxxxxxxxx',
-    // access_token: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+    // access_token: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    paper: true,
   },
   rate_limit: true,
 })
