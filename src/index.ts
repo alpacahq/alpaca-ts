@@ -1,5 +1,5 @@
-export { AlpacaClient } from './client'
-export { AlpacaStream } from './stream'
+export { AlpacaClient } from './client.js'
+export { AlpacaStream } from './stream.js'
 
 // export { AlpacaClient }
 // export { AlpacaStream }
