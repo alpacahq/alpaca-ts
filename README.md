@@ -28,7 +28,6 @@ WebSocket streams.
 - [x] Auto-transpiled modern ESM alternative.
 - [x] OAuth integration support.
 - [x] Minified and non-minified bundles.
-- [x] Deno support.
 - [x] Various bundles provided:
   - `alpaca.js` - ESM bundle (for node)
   - `alpaca.bundle.js` - ESM bundle with dependencies (for node)
@@ -66,16 +65,10 @@ Import with ESM:
 import { AlpacaClient, AlpacaStream } from '@master-chief/alpaca'
 ```
 
-Import with ESM from CDN (works with Deno):
-
-```typescript
-import { AlpacaClient } from 'https://cdn.skypack.dev/@master-chief/alpaca?dts'
-```
-
 Import as script:
 
 ```html
-<script src="https://unpkg.com/@master-chief/alpaca@4.1.0/dist/alpaca.browser.min.js"></script>
+<script src="https://unpkg.com/@master-chief/alpaca/dist/alpaca.browser.min.js"></script>
 ```
 
 Import as module:
