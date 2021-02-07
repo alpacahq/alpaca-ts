@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.2.3
+ * alpaca@4.3.0
  * released under the permissive ISC license
  */
 
@@ -4426,5 +4426,11 @@ class AlpacaStream extends eventemitter3 {
     }
 }
 
+var index = {
+    AlpacaClient: AlpacaClient,
+    AlpacaStream: AlpacaStream,
+};
+
+export default index;
 export { AlpacaClient, AlpacaStream };
 //# sourceMappingURL=alpaca.browser.modern.js.map
