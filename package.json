@@ -32,7 +32,6 @@
   "main": "./dist/mjs/index.js",
   "module": "./dist/mjs/index.js",
   "exports": {
-    "node": "./dist/mjs/index.js",
     "import": "./dist/mjs/index.js",
     "require": "./dist/cjs/index.cjs",
     "default": "./dist/alpaca.browser.min.js"
