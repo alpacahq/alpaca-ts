@@ -1,7 +1,7 @@
 import Bottleneck from 'bottleneck'
 
 import qs from 'qs'
-import fetch from 'isomorphic-unfetch'
+import isofetch from 'isomorphic-unfetch'
 
 import urls from './urls.js'
 import parse from './parse.js'
@@ -53,6 +53,7 @@ import {
   GetLastQuote,
 } from './params.js'
 
+const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch
 export class AlpacaClient {
   private limiter = new Bottleneck({
     reservoir: 200, // initial value
@@ -367,7 +368,7 @@ export class AlpacaClient {
 
     return new Promise<T>(async (resolve, reject) => {
       const makeCall = () =>
-        fetch(`${url}/${endpoint}`, {
+        unifetch(`${url}/${endpoint}`, {
           method: method,
           headers,
           body: JSON.stringify(data),

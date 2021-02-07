@@ -3811,6 +3811,7 @@ var parse$1 = {
     tradeActivity,
 };
 
+const unifetch = typeof fetch !== 'undefined' ? fetch : browser;
 class AlpacaClient {
     constructor(params) {
         this.params = params;
@@ -3955,7 +3956,7 @@ class AlpacaClient {
             }
         }
         return new Promise(async (resolve, reject) => {
-            const makeCall = () => browser(`${url}/${endpoint}`, {
+            const makeCall = () => unifetch(`${url}/${endpoint}`, {
                 method: method,
                 headers,
                 body: JSON.stringify(data),

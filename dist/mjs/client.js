@@ -1,8 +1,9 @@
 import Bottleneck from 'bottleneck';
 import qs from 'qs';
-import fetch from 'isomorphic-unfetch';
+import isofetch from 'isomorphic-unfetch';
 import urls from './urls.js';
 import parse from './parse.js';
+const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch;
 export class AlpacaClient {
     constructor(params) {
         this.params = params;
@@ -154,7 +155,7 @@ export class AlpacaClient {
             }
         }
         return new Promise(async (resolve, reject) => {
-            const makeCall = () => fetch(`${url}/${endpoint}`, {
+            const makeCall = () => unifetch(`${url}/${endpoint}`, {
                 method: method,
                 headers,
                 body: JSON.stringify(data),

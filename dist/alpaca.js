@@ -5,7 +5,7 @@
 
 import Bottleneck from 'bottleneck';
 import qs from 'qs';
-import fetch from 'isomorphic-unfetch';
+import isofetch from 'isomorphic-unfetch';
 import WebSocket from 'isomorphic-ws';
 import EventEmitter from 'eventemitter3';
 
@@ -154,6 +154,7 @@ var parse = {
     tradeActivity,
 };
 
+const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch;
 class AlpacaClient {
     constructor(params) {
         this.params = params;
@@ -323,7 +324,7 @@ class AlpacaClient {
             }
         }
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            const makeCall = () => fetch(`${url}/${endpoint}`, {
+            const makeCall = () => unifetch(`${url}/${endpoint}`, {
                 method: method,
                 headers,
                 body: JSON.stringify(data),
