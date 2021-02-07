@@ -42,10 +42,20 @@ From NPM:
 > npm i @master-chief/alpaca
 ```
 
+From GitHub:
+
+- [CommonJS](./dist/cjs)
+- [Typescript](./src)
+- [ES](./dist/mjs)
+- [ES bundled ](./dist/alpaca.js)
+- [ES bundled with dependencies](./dist/alpaca.bundle.js)
+- [ES6 + UMD (classic)](./dist/alpaca.browser.js)
+- [ES6 + ESM (modern) ](./dist/alpaca.browser.modern.js)
+
 From these popular CDNs:
 
 - [UNPKG](https://unpkg.com/browse/@master-chief/alpaca/)
-- [JSDelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca)
+- [JSDelivr](https://cdn.jsdelivr.net/npm/@master-chief/alpaca/)
 - [SkyPack](https://cdn.skypack.dev/@master-chief/alpaca)
 
 ## Import
