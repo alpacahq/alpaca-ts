@@ -73,7 +73,6 @@ export class AlpacaStream extends EventEmitter {
             this.emit('error', err);
         };
     }
-    // @ts-expect-error override so users get types and suggestions
     on(event, listener) {
         return super.on(event, listener);
     }
