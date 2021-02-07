@@ -466,6 +466,11 @@
     "@types/yargs" "^15.0.0"
     "chalk" "^4.0.0"
 
+"@master-chief/map@^0.0.6":
+  "integrity" "sha512-QOLJmzRGkSbwFRgJ2y1Z8Jx1pIcrluWtHaxnpc14KJ6PbumJv/lM1g5Se+HtVbZSqZkQQ4l5Z2wG4uXuk520oQ=="
+  "resolved" "https://registry.npmjs.org/@master-chief/map/-/map-0.0.6.tgz"
+  "version" "0.0.6"
+
 "@rollup/plugin-commonjs@^17.1.0":
   "integrity" "sha512-PoMdXCw0ZyvjpCMT5aV4nkL0QywxP29sODQsSGeDpr/oI49Qq9tRtAsb/LbYbDzFlOydVEqHmmZWFtXJEAX9ew=="
   "resolved" "https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-17.1.0.tgz"

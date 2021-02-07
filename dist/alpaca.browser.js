@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.2.3
+ * alpaca@4.3.0
  * released under the permissive ISC license
  */
 
@@ -4432,8 +4432,14 @@
       }
   }
 
+  var index = {
+      AlpacaClient: AlpacaClient,
+      AlpacaStream: AlpacaStream,
+  };
+
   exports.AlpacaClient = AlpacaClient;
   exports.AlpacaStream = AlpacaStream;
+  exports.default = index;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
