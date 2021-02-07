@@ -114,9 +114,8 @@ export class AlpacaStream extends EventEmitter {
     }
   }
 
-  // @ts-expect-error override so users get types and suggestions
   on<U extends keyof AlpacaStreamEvents>(
-    event: U,
+    event: U | string | symbol | any,
     listener: AlpacaStreamEvents[U],
   ) {
     return super.on(event, listener)
