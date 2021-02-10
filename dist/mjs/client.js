@@ -53,8 +53,8 @@ export class AlpacaClient {
     async replaceOrder(params) {
         return parse.order(await this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
     }
-    async cancelOrder(params) {
-        return parse.order(await this.request('DELETE', urls.rest.account, `orders/${params.order_id}`));
+    cancelOrder(params) {
+        return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, false);
     }
     async cancelOrders() {
         return parse.orders(await this.request('DELETE', urls.rest.account, `orders`));
@@ -65,8 +65,8 @@ export class AlpacaClient {
     async getPositions() {
         return parse.positions(await this.request('GET', urls.rest.account, `positions`));
     }
-    closePosition(params) {
-        return this.request('DELETE', urls.rest.account, `positions/${params.symbol}`, undefined, false);
+    async closePosition(params) {
+        return parse.position(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
     }
     async closePositions() {
         return parse.orders(await this.request('DELETE', urls.rest.account, `positions`));

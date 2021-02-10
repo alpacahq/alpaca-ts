@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.3.0
+ * alpaca@4.3.1
  * released under the permissive ISC license
  */
 
@@ -213,9 +213,7 @@ class AlpacaClient {
         });
     }
     cancelOrder(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return parse.order(yield this.request('DELETE', urls.rest.account, `orders/${params.order_id}`));
-        });
+        return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, false);
     }
     cancelOrders() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -233,7 +231,9 @@ class AlpacaClient {
         });
     }
     closePosition(params) {
-        return this.request('DELETE', urls.rest.account, `positions/${params.symbol}`, undefined, false);
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse.position(yield this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
+        });
     }
     closePositions() {
         return __awaiter(this, void 0, void 0, function* () {

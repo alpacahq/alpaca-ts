@@ -81,9 +81,7 @@ class AlpacaClient {
         });
     }
     cancelOrder(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return parse_js_1.default.order(yield this.request('DELETE', urls_js_1.default.rest.account, `orders/${params.order_id}`));
-        });
+        return this.request('DELETE', urls_js_1.default.rest.account, `orders/${params.order_id}`, undefined, false);
     }
     cancelOrders() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -101,7 +99,9 @@ class AlpacaClient {
         });
     }
     closePosition(params) {
-        return this.request('DELETE', urls_js_1.default.rest.account, `positions/${params.symbol}`, undefined, false);
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse_js_1.default.position(yield this.request('DELETE', urls_js_1.default.rest.account, `positions/${params.symbol}`));
+        });
     }
     closePositions() {
         return __awaiter(this, void 0, void 0, function* () {

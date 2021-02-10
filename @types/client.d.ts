@@ -16,11 +16,11 @@ export declare class AlpacaClient {
     getOrders(params?: GetOrders): Promise<Order[]>;
     placeOrder(params: PlaceOrder): Promise<Order>;
     replaceOrder(params: ReplaceOrder): Promise<Order>;
-    cancelOrder(params: CancelOrder): Promise<Order>;
+    cancelOrder(params: CancelOrder): Promise<Boolean>;
     cancelOrders(): Promise<Order[]>;
     getPosition(params: GetPosition): Promise<Position>;
     getPositions(): Promise<Position[]>;
-    closePosition(params: ClosePosition): Promise<Boolean>;
+    closePosition(params: ClosePosition): Promise<Position>;
     closePositions(): Promise<Order[]>;
     getAsset(params: GetAsset): Promise<Asset>;
     getAssets(params?: GetAssets): Promise<Asset[]>;

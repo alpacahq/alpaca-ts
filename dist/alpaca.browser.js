@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.3.0
+ * alpaca@4.3.1
  * released under the permissive ISC license
  */
 
@@ -3863,8 +3863,8 @@
       async replaceOrder(params) {
           return parse$1.order(await this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
       }
-      async cancelOrder(params) {
-          return parse$1.order(await this.request('DELETE', urls.rest.account, `orders/${params.order_id}`));
+      cancelOrder(params) {
+          return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, false);
       }
       async cancelOrders() {
           return parse$1.orders(await this.request('DELETE', urls.rest.account, `orders`));
@@ -3875,8 +3875,8 @@
       async getPositions() {
           return parse$1.positions(await this.request('GET', urls.rest.account, `positions`));
       }
-      closePosition(params) {
-          return this.request('DELETE', urls.rest.account, `positions/${params.symbol}`, undefined, false);
+      async closePosition(params) {
+          return parse$1.position(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
       }
       async closePositions() {
           return parse$1.orders(await this.request('DELETE', urls.rest.account, `positions`));
