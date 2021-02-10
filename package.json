@@ -51,7 +51,7 @@
   "scripts": {
     "build": "npm run clean && npm i && npm run build:mjs && npm run build:cjs && npm run build:esm  && npm run build:browser && npm run build:esm_bundle",
     "build:mjs": "tsc --outDir dist/mjs --allowSyntheticDefaultImports -d --declarationDir @types --module esnext --target esnext",
-    "build:cjs": "tsc --outDir dist/cjs --moduleResolution node  -m CommonJS -t ES5 -d false && map dist/cjs js cjs",
+    "build:cjs": "tsc --outDir dist/cjs --moduleResolution node  --module CommonJS --target ES5 -d false && map dist/cjs js cjs",
     "build:esm": "rollup -c conf/rollup/dist/esm.js",
     "build:esm_bundle": "rollup -c conf/rollup/dist/esm_bundle.js",
     "build:browser": "rollup -c conf/rollup/dist/browser.js",
