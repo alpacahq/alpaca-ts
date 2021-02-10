@@ -1,25 +1,14 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 function account(rawAccount) {
     if (!rawAccount) {
         return undefined;
     }
     try {
-        return __assign(__assign({}, rawAccount), { raw: function () { return rawAccount; }, buying_power: number(rawAccount.buying_power), regt_buying_power: number(rawAccount.regt_buying_power), daytrading_buying_power: number(rawAccount.daytrading_buying_power), cash: number(rawAccount.cash), created_at: new Date(rawAccount.created_at), portfolio_value: number(rawAccount.portfolio_value), multiplier: number(rawAccount.multiplier), equity: number(rawAccount.equity), last_equity: number(rawAccount.last_equity), long_market_value: number(rawAccount.long_market_value), short_market_value: number(rawAccount.short_market_value), initial_margin: number(rawAccount.initial_margin), maintenance_margin: number(rawAccount.maintenance_margin), last_maintenance_margin: number(rawAccount.last_maintenance_margin), sma: number(rawAccount.sma), status: rawAccount.status });
+        return Object.assign(Object.assign({}, rawAccount), { raw: () => rawAccount, buying_power: number(rawAccount.buying_power), regt_buying_power: number(rawAccount.regt_buying_power), daytrading_buying_power: number(rawAccount.daytrading_buying_power), cash: number(rawAccount.cash), created_at: new Date(rawAccount.created_at), portfolio_value: number(rawAccount.portfolio_value), multiplier: number(rawAccount.multiplier), equity: number(rawAccount.equity), last_equity: number(rawAccount.last_equity), long_market_value: number(rawAccount.long_market_value), short_market_value: number(rawAccount.short_market_value), initial_margin: number(rawAccount.initial_margin), maintenance_margin: number(rawAccount.maintenance_margin), last_maintenance_margin: number(rawAccount.last_maintenance_margin), sma: number(rawAccount.sma), status: rawAccount.status });
     }
     catch (err) {
-        throw new Error("Account parsing failed. " + err.message);
+        throw new Error(`Account parsing failed. ${err.message}`);
     }
 }
 function clock(rawClock) {
@@ -28,7 +17,7 @@ function clock(rawClock) {
     }
     try {
         return {
-            raw: function () { return rawClock; },
+            raw: () => rawClock,
             timestamp: new Date(rawClock.timestamp),
             is_open: rawClock.is_open,
             next_open: new Date(rawClock.next_open),
@@ -36,7 +25,7 @@ function clock(rawClock) {
         };
     }
     catch (err) {
-        throw new Error("Order parsing failed. " + err.message);
+        throw new Error(`Order parsing failed. ${err.message}`);
     }
 }
 function order(rawOrder) {
@@ -44,38 +33,38 @@ function order(rawOrder) {
         return undefined;
     }
     try {
-        return __assign(__assign({}, rawOrder), { raw: function () { return rawOrder; }, created_at: new Date(rawOrder.created_at), updated_at: new Date(rawOrder.updated_at), submitted_at: new Date(rawOrder.submitted_at), filled_at: new Date(rawOrder.filled_at), expired_at: new Date(rawOrder.expired_at), canceled_at: new Date(rawOrder.canceled_at), failed_at: new Date(rawOrder.failed_at), replaced_at: new Date(rawOrder.replaced_at), qty: number(rawOrder.qty), filled_qty: number(rawOrder.filled_qty), type: rawOrder.type, side: rawOrder.side, time_in_force: rawOrder.time_in_force, limit_price: number(rawOrder.limit_price), stop_price: number(rawOrder.stop_price), filled_avg_price: number(rawOrder.filled_avg_price), status: rawOrder.status, legs: orders(rawOrder.legs), trail_price: number(rawOrder.trail_price), trail_percent: number(rawOrder.trail_percent), hwm: number(rawOrder.hwm) });
+        return Object.assign(Object.assign({}, rawOrder), { raw: () => rawOrder, created_at: new Date(rawOrder.created_at), updated_at: new Date(rawOrder.updated_at), submitted_at: new Date(rawOrder.submitted_at), filled_at: new Date(rawOrder.filled_at), expired_at: new Date(rawOrder.expired_at), canceled_at: new Date(rawOrder.canceled_at), failed_at: new Date(rawOrder.failed_at), replaced_at: new Date(rawOrder.replaced_at), qty: number(rawOrder.qty), filled_qty: number(rawOrder.filled_qty), type: rawOrder.type, side: rawOrder.side, time_in_force: rawOrder.time_in_force, limit_price: number(rawOrder.limit_price), stop_price: number(rawOrder.stop_price), filled_avg_price: number(rawOrder.filled_avg_price), status: rawOrder.status, legs: orders(rawOrder.legs), trail_price: number(rawOrder.trail_price), trail_percent: number(rawOrder.trail_percent), hwm: number(rawOrder.hwm) });
     }
     catch (err) {
-        throw new Error("Order parsing failed. " + err.message);
+        throw new Error(`Order parsing failed. ${err.message}`);
     }
 }
 function orders(rawOrders) {
-    return rawOrders ? rawOrders.map(function (value) { return order(value); }) : undefined;
+    return rawOrders ? rawOrders.map((value) => order(value)) : undefined;
 }
 function position(rawPosition) {
     if (!rawPosition) {
         return undefined;
     }
     try {
-        return __assign(__assign({}, rawPosition), { raw: function () { return rawPosition; }, avg_entry_price: number(rawPosition.avg_entry_price), qty: number(rawPosition.qty), side: rawPosition.side, market_value: number(rawPosition.market_value), cost_basis: number(rawPosition.cost_basis), unrealized_pl: number(rawPosition.unrealized_pl), unrealized_plpc: number(rawPosition.unrealized_plpc), unrealized_intraday_pl: number(rawPosition.unrealized_intraday_pl), unrealized_intraday_plpc: number(rawPosition.unrealized_intraday_plpc), current_price: number(rawPosition.current_price), lastday_price: number(rawPosition.lastday_price), change_today: number(rawPosition.change_today) });
+        return Object.assign(Object.assign({}, rawPosition), { raw: () => rawPosition, avg_entry_price: number(rawPosition.avg_entry_price), qty: number(rawPosition.qty), side: rawPosition.side, market_value: number(rawPosition.market_value), cost_basis: number(rawPosition.cost_basis), unrealized_pl: number(rawPosition.unrealized_pl), unrealized_plpc: number(rawPosition.unrealized_plpc), unrealized_intraday_pl: number(rawPosition.unrealized_intraday_pl), unrealized_intraday_plpc: number(rawPosition.unrealized_intraday_plpc), current_price: number(rawPosition.current_price), lastday_price: number(rawPosition.lastday_price), change_today: number(rawPosition.change_today) });
     }
     catch (err) {
-        throw new Error("Position parsing failed. " + err.message);
+        throw new Error(`Position parsing failed. ${err.message}`);
     }
 }
 function positions(rawPositions) {
-    return rawPositions ? rawPositions.map(function (pos) { return position(pos); }) : undefined;
+    return rawPositions ? rawPositions.map((pos) => position(pos)) : undefined;
 }
 function tradeActivity(rawTradeActivity) {
     if (!rawTradeActivity) {
         return undefined;
     }
     try {
-        return __assign(__assign({}, rawTradeActivity), { raw: function () { return rawTradeActivity; }, cum_qty: number(rawTradeActivity.cum_qty), leaves_qty: number(rawTradeActivity.leaves_qty), price: number(rawTradeActivity.price), qty: number(rawTradeActivity.qty), side: rawTradeActivity.side, type: rawTradeActivity.type });
+        return Object.assign(Object.assign({}, rawTradeActivity), { raw: () => rawTradeActivity, cum_qty: number(rawTradeActivity.cum_qty), leaves_qty: number(rawTradeActivity.leaves_qty), price: number(rawTradeActivity.price), qty: number(rawTradeActivity.qty), side: rawTradeActivity.side, type: rawTradeActivity.type });
     }
     catch (err) {
-        throw new Error("TradeActivity parsing failed. " + err.message);
+        throw new Error(`TradeActivity parsing failed. ${err.message}`);
     }
 }
 function nonTradeActivity(rawNonTradeActivity) {
@@ -83,10 +72,10 @@ function nonTradeActivity(rawNonTradeActivity) {
         return undefined;
     }
     try {
-        return __assign(__assign({}, rawNonTradeActivity), { raw: function () { return rawNonTradeActivity; }, net_amount: number(rawNonTradeActivity.net_amount), qty: number(rawNonTradeActivity.qty), per_share_amount: number(rawNonTradeActivity.per_share_amount) });
+        return Object.assign(Object.assign({}, rawNonTradeActivity), { raw: () => rawNonTradeActivity, net_amount: number(rawNonTradeActivity.net_amount), qty: number(rawNonTradeActivity.qty), per_share_amount: number(rawNonTradeActivity.per_share_amount) });
     }
     catch (err) {
-        throw new Error("NonTradeActivity parsing failed. " + err.message);
+        throw new Error(`NonTradeActivity parsing failed. ${err.message}`);
     }
 }
 function activities(rawActivities) {
@@ -94,14 +83,12 @@ function activities(rawActivities) {
         return undefined;
     }
     try {
-        return rawActivities.map(function (rawActivity) {
-            return rawActivity.activity_type === 'FILL'
-                ? tradeActivity(rawActivity)
-                : nonTradeActivity(rawActivity);
-        });
+        return rawActivities.map((rawActivity) => rawActivity.activity_type === 'FILL'
+            ? tradeActivity(rawActivity)
+            : nonTradeActivity(rawActivity));
     }
     catch (err) {
-        throw new Error("Activity parsing failed. " + err.message);
+        throw new Error(`Activity parsing failed. ${err.message}`);
     }
 }
 function number(numStr) {
@@ -110,13 +97,13 @@ function number(numStr) {
     return parseFloat(numStr);
 }
 exports.default = {
-    account: account,
-    activities: activities,
-    clock: clock,
-    nonTradeActivity: nonTradeActivity,
-    order: order,
-    orders: orders,
-    position: position,
-    positions: positions,
-    tradeActivity: tradeActivity,
+    account,
+    activities,
+    clock,
+    nonTradeActivity,
+    order,
+    orders,
+    position,
+    positions,
+    tradeActivity,
 };
