@@ -143,13 +143,13 @@ export class AlpacaClient {
     )
   }
 
-  async cancelOrder(params: CancelOrder): Promise<Order> {
-    return parse.order(
-      await this.request<RawOrder>(
-        'DELETE',
-        urls.rest.account,
-        `orders/${params.order_id}`,
-      ),
+  cancelOrder(params: CancelOrder): Promise<Boolean> {
+    return this.request<Boolean>(
+      'DELETE',
+      urls.rest.account,
+      `orders/${params.order_id}`,
+      undefined,
+      false,
     )
   }
 
@@ -175,13 +175,13 @@ export class AlpacaClient {
     )
   }
 
-  closePosition(params: ClosePosition): Promise<Boolean> {
-    return this.request<Boolean>(
-      'DELETE',
-      urls.rest.account,
-      `positions/${params.symbol}`,
-      undefined,
-      false,
+  async closePosition(params: ClosePosition): Promise<Position> {
+    return parse.position(
+      await this.request<RawPosition>(
+        'DELETE',
+        urls.rest.account,
+        `positions/${params.symbol}`,
+      ),
     )
   }
 
