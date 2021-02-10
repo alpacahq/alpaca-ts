@@ -1,31 +1,54 @@
-import WebSocket from 'isomorphic-ws';
-import urls from './urls.cjs';
-import EventEmitter from 'eventemitter3';
-export class AlpacaStream extends EventEmitter {
-    constructor(params) {
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AlpacaStream = void 0;
+var isomorphic_ws_1 = __importDefault(require("isomorphic-ws"));
+var urls_js_1 = __importDefault(require("./urls.cjs"));
+var eventemitter3_1 = __importDefault(require("eventemitter3"));
+var AlpacaStream = /** @class */ (function (_super) {
+    __extends(AlpacaStream, _super);
+    function AlpacaStream(params) {
+        var _this = 
         // construct EventEmitter
-        super();
-        this.params = params;
-        this.subscriptions = [];
-        this.authenticated = false;
+        _super.call(this) || this;
+        _this.params = params;
+        _this.subscriptions = [];
+        _this.authenticated = false;
         // assign the host we will connect to
         switch (params.stream) {
             case 'account':
-                this.host = params.credentials.key.startsWith('PK')
-                    ? urls.websocket.account_paper
-                    : urls.websocket.account;
+                _this.host = params.credentials.key.startsWith('PK')
+                    ? urls_js_1.default.websocket.account_paper
+                    : urls_js_1.default.websocket.account;
                 break;
             case 'market_data':
-                this.host = urls.websocket.market_data;
+                _this.host = urls_js_1.default.websocket.market_data;
                 break;
             default:
-                this.host = 'unknown';
+                _this.host = 'unknown';
         }
-        this.connection = new WebSocket(this.host);
-        this.connection.onopen = () => {
+        _this.connection = new isomorphic_ws_1.default(_this.host);
+        _this.connection.onopen = function () {
             // if we are not authenticated yet send a request now
-            if (!this.authenticated) {
-                this.connection.send(JSON.stringify({
+            if (!_this.authenticated) {
+                _this.connection.send(JSON.stringify({
                     action: 'authenticate',
                     data: {
                         key_id: params.credentials.key,
@@ -34,49 +57,50 @@ export class AlpacaStream extends EventEmitter {
                 }));
             }
             // pass the open
-            this.emit('open', this);
+            _this.emit('open', _this);
         };
         // pass the close
-        this.connection.onclose = () => this.emit('close', this);
-        this.connection.onmessage = (message) => {
+        _this.connection.onclose = function () { return _this.emit('close', _this); };
+        _this.connection.onmessage = function (message) {
             // parse the incoming message
-            const object = JSON.parse(message.data);
+            var object = JSON.parse(message.data);
             // if the message is an authorization response
             if ('stream' in object && object.stream == 'authorization') {
                 if (object.data.status == 'authorized') {
-                    this.authenticated = true;
-                    this.emit('authenticated', this);
+                    _this.authenticated = true;
+                    _this.emit('authenticated', _this);
                     console.log('Connected to the websocket.');
                 }
                 else {
-                    this.connection.close();
+                    _this.connection.close();
                     throw new Error('There was an error in authorizing your websocket connection. Object received: ' +
                         JSON.stringify(object, null, 2));
                 }
             }
             // pass the message
-            this.emit('message', object);
+            _this.emit('message', object);
             // emit based on the stream
             if ('stream' in object) {
-                const x = {
+                var x = {
                     trade_updates: 'trade_updates',
                     account_updates: 'account_updates',
                     T: 'trade',
                     Q: 'quote',
                     AM: 'aggregate_minute',
                 };
-                this.emit(x[object.stream.split('.')[0]], object.data);
+                _this.emit(x[object.stream.split('.')[0]], object.data);
             }
         };
         // pass the error
-        this.connection.onerror = (err) => {
-            this.emit('error', err);
+        _this.connection.onerror = function (err) {
+            _this.emit('error', err);
         };
+        return _this;
     }
-    on(event, listener) {
-        return super.on(event, listener);
-    }
-    send(message) {
+    AlpacaStream.prototype.on = function (event, listener) {
+        return _super.prototype.on.call(this, event, listener);
+    };
+    AlpacaStream.prototype.send = function (message) {
         // don't bother if we aren't authenticated yet
         if (!this.authenticated) {
             throw new Error("You can't send a message until you are authenticated!");
@@ -89,10 +113,11 @@ export class AlpacaStream extends EventEmitter {
         this.connection.send(message);
         // chainable return
         return this;
-    }
-    subscribe(channels) {
+    };
+    AlpacaStream.prototype.subscribe = function (channels) {
+        var _a;
         // add these channels internally
-        this.subscriptions.push(...channels);
+        (_a = this.subscriptions).push.apply(_a, channels);
         // try to subscribe to them
         return this.send(JSON.stringify({
             action: 'listen',
@@ -100,10 +125,10 @@ export class AlpacaStream extends EventEmitter {
                 streams: channels,
             },
         }));
-    }
-    unsubscribe(channels) {
+    };
+    AlpacaStream.prototype.unsubscribe = function (channels) {
         // remove these channels internally
-        for (let i = 0, ln = this.subscriptions.length; i < ln; i++) {
+        for (var i = 0, ln = this.subscriptions.length; i < ln; i++) {
             if (channels.includes(this.subscriptions[i])) {
                 this.subscriptions.splice(i, 1);
             }
@@ -115,5 +140,7 @@ export class AlpacaStream extends EventEmitter {
                 streams: channels,
             },
         }));
-    }
-}
+    };
+    return AlpacaStream;
+}(eventemitter3_1.default));
+exports.AlpacaStream = AlpacaStream;
