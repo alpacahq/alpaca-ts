@@ -5505,9 +5505,7 @@ class AlpacaClient {
         });
     }
     closePosition(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return parse$1.order(yield this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
-        });
+        return this.request('DELETE', urls.rest.account, `positions/${params.symbol}`, undefined, false);
     }
     closePositions() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -5576,26 +5574,26 @@ class AlpacaClient {
     getLastQuote(params) {
         return this.request('GET', urls.rest.market_data, `last_quote/stocks/${params.symbol}`);
     }
-    request(method, url, endpoint, data) {
-        let headers = {};
-        if ('access_token' in this.params.credentials) {
-            headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
-        }
-        else {
-            headers['APCA-API-KEY-ID'] = this.params.credentials.key;
-            headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
-            if (this.params.credentials.paper && url == urls.rest.account) {
-                url = urls.rest.account.replace('api.', 'paper-api.');
+    request(method, url, endpoint, data, isJson = true) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let headers = {};
+            if ('access_token' in this.params.credentials) {
+                headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
             }
-        }
-        if (data) {
-            for (let [key, value] of Object.entries(data)) {
-                if (value instanceof Date) {
-                    data[key] = value.toISOString();
+            else {
+                headers['APCA-API-KEY-ID'] = this.params.credentials.key;
+                headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
+                if (this.params.credentials.paper && url == urls.rest.account) {
+                    url = urls.rest.account.replace('api.', 'paper-api.');
                 }
             }
-        }
-        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            if (data) {
+                for (let [key, value] of Object.entries(data)) {
+                    if (value instanceof Date) {
+                        data[key] = value.toISOString();
+                    }
+                }
+            }
             const makeCall = () => unifetch(`${url}/${endpoint}`, {
                 method: method,
                 headers,
@@ -5604,11 +5602,25 @@ class AlpacaClient {
             const func = this.params.rate_limit
                 ? () => this.limiter.schedule(makeCall)
                 : makeCall;
-            yield func()
-                .then((resp) => __awaiter(this, void 0, void 0, function* () { return (yield resp.json().catch(() => false)) || {}; }))
-                .then((resp) => 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp))
-                .catch(reject);
-        }));
+            try {
+                const resp = yield func();
+                if (!isJson)
+                    return resp.ok;
+                let result = {};
+                try {
+                    result = yield resp.json();
+                }
+                catch (e) {
+                    console.warn('problem turning res to json', resp, e);
+                }
+                if ('code' in resp && 'message' in resp)
+                    throw Error('another problem');
+                return result;
+            }
+            catch (e) {
+                console.warn('problem turning res to json', e);
+            }
+        });
     }
 }
 

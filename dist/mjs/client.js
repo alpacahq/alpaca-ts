@@ -65,8 +65,8 @@ export class AlpacaClient {
     async getPositions() {
         return parse.positions(await this.request('GET', urls.rest.account, `positions`));
     }
-    async closePosition(params) {
-        return parse.order(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
+    closePosition(params) {
+        return this.request('DELETE', urls.rest.account, `positions/${params.symbol}`, undefined, false);
     }
     async closePositions() {
         return parse.orders(await this.request('DELETE', urls.rest.account, `positions`));
@@ -132,7 +132,7 @@ export class AlpacaClient {
     getLastQuote(params) {
         return this.request('GET', urls.rest.market_data, `last_quote/stocks/${params.symbol}`);
     }
-    request(method, url, endpoint, data) {
+    async request(method, url, endpoint, data, isJson = true) {
         let headers = {};
         if ('access_token' in this.params.credentials) {
             headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
@@ -154,20 +154,31 @@ export class AlpacaClient {
                 }
             }
         }
-        return new Promise(async (resolve, reject) => {
-            const makeCall = () => unifetch(`${url}/${endpoint}`, {
-                method: method,
-                headers,
-                body: JSON.stringify(data),
-            });
-            const func = this.params.rate_limit
-                ? () => this.limiter.schedule(makeCall)
-                : makeCall;
-            await func()
-                // if json parse fails we default to an empty object
-                .then(async (resp) => (await resp.json().catch(() => false)) || {})
-                .then((resp) => 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp))
-                .catch(reject);
+        const makeCall = () => unifetch(`${url}/${endpoint}`, {
+            method: method,
+            headers,
+            body: JSON.stringify(data),
         });
+        const func = this.params.rate_limit
+            ? () => this.limiter.schedule(makeCall)
+            : makeCall;
+        try {
+            const resp = await func();
+            if (!isJson)
+                return resp.ok;
+            let result = {};
+            try {
+                result = await resp.json();
+            }
+            catch (e) {
+                console.warn('problem turning res to json', resp, e);
+            }
+            if ('code' in resp && 'message' in resp)
+                throw Error('another problem');
+            return result;
+        }
+        catch (e) {
+            console.warn('problem turning res to json', e);
+        }
     }
 }

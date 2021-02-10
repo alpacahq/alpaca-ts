@@ -3875,8 +3875,8 @@
       async getPositions() {
           return parse$1.positions(await this.request('GET', urls.rest.account, `positions`));
       }
-      async closePosition(params) {
-          return parse$1.order(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
+      closePosition(params) {
+          return this.request('DELETE', urls.rest.account, `positions/${params.symbol}`, undefined, false);
       }
       async closePositions() {
           return parse$1.orders(await this.request('DELETE', urls.rest.account, `positions`));
@@ -3942,7 +3942,7 @@
       getLastQuote(params) {
           return this.request('GET', urls.rest.market_data, `last_quote/stocks/${params.symbol}`);
       }
-      request(method, url, endpoint, data) {
+      async request(method, url, endpoint, data, isJson = true) {
           let headers = {};
           if ('access_token' in this.params.credentials) {
               headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
@@ -3961,20 +3961,32 @@
                   }
               }
           }
-          return new Promise(async (resolve, reject) => {
-              const makeCall = () => unifetch(`${url}/${endpoint}`, {
-                  method: method,
-                  headers,
-                  body: JSON.stringify(data),
-              });
-              const func = this.params.rate_limit
-                  ? () => this.limiter.schedule(makeCall)
-                  : makeCall;
-              await func()
-                  .then(async (resp) => (await resp.json().catch(() => false)) || {})
-                  .then((resp) => 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp))
-                  .catch(reject);
+          const makeCall = () => unifetch(`${url}/${endpoint}`, {
+              method: method,
+              headers,
+              body: JSON.stringify(data),
           });
+          const func = this.params.rate_limit
+              ? () => this.limiter.schedule(makeCall)
+              : makeCall;
+          try {
+              const resp = await func();
+              if (!isJson)
+                  return resp.ok;
+              let result = {};
+              try {
+                  result = await resp.json();
+              }
+              catch (e) {
+                  console.warn('problem turning res to json', resp, e);
+              }
+              if ('code' in resp && 'message' in resp)
+                  throw Error('another problem');
+              return result;
+          }
+          catch (e) {
+              console.warn('problem turning res to json', e);
+          }
       }
   }
 
