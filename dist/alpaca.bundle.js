@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.2.3
+ * alpaca@4.3.0
  * released under the permissive ISC license
  */
 
@@ -5611,14 +5611,14 @@ class AlpacaClient {
                     result = yield resp.json();
                 }
                 catch (e) {
-                    console.warn('problem turning res to json', resp, e);
+                    console.warn('Problem turning res to json', resp, e);
                 }
                 if ('code' in resp && 'message' in resp)
                     throw Error('another problem');
                 return result;
             }
             catch (e) {
-                console.warn('problem turning res to json', e);
+                console.warn('Error with fetch', e);
             }
         });
     }
@@ -9888,5 +9888,11 @@ class AlpacaStream extends eventemitter3 {
     }
 }
 
+var index = {
+    AlpacaClient: AlpacaClient,
+    AlpacaStream: AlpacaStream,
+};
+
+export default index;
 export { AlpacaClient, AlpacaStream };
 //# sourceMappingURL=alpaca.bundle.js.map

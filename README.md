@@ -44,6 +44,7 @@ From NPM:
 
 From GitHub:
 
+- [CommonJS](./dist/cjs)
 - [Typescript](./src)
 - [ES](./dist/mjs)
 - [ES bundled ](./dist/alpaca.js)
@@ -58,6 +59,12 @@ From these popular CDNs:
 - [SkyPack](https://cdn.skypack.dev/@master-chief/alpaca)
 
 ## Import
+
+Import with CommonJS:
+
+```typescript
+let { AlpacaClient, AlpacaStream } = require('@master-chief/alpaca')
+```
 
 Import with ESM:
 
