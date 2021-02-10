@@ -100,7 +100,7 @@ class AlpacaClient {
     }
     closePosition(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse_js_1.default.position(yield this.request('DELETE', urls_js_1.default.rest.account, `positions/${params.symbol}`));
+            return parse_js_1.default.order(yield this.request('DELETE', urls_js_1.default.rest.account, `positions/${params.symbol}`));
         });
     }
     closePositions() {

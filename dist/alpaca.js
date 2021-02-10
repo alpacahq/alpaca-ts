@@ -232,7 +232,7 @@ class AlpacaClient {
     }
     closePosition(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.position(yield this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
+            return parse.order(yield this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
         });
     }
     closePositions() {

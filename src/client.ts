@@ -175,9 +175,9 @@ export class AlpacaClient {
     )
   }
 
-  async closePosition(params: ClosePosition): Promise<Position> {
-    return parse.position(
-      await this.request<RawPosition>(
+  async closePosition(params: ClosePosition): Promise<Order> {
+    return parse.order(
+      await this.request<RawOrder>(
         'DELETE',
         urls.rest.account,
         `positions/${params.symbol}`,

@@ -3876,7 +3876,7 @@
           return parse$1.positions(await this.request('GET', urls.rest.account, `positions`));
       }
       async closePosition(params) {
-          return parse$1.position(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
+          return parse$1.order(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
       }
       async closePositions() {
           return parse$1.orders(await this.request('DELETE', urls.rest.account, `positions`));

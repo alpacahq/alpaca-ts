@@ -66,7 +66,7 @@ export class AlpacaClient {
         return parse.positions(await this.request('GET', urls.rest.account, `positions`));
     }
     async closePosition(params) {
-        return parse.position(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
+        return parse.order(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
     }
     async closePositions() {
         return parse.orders(await this.request('DELETE', urls.rest.account, `positions`));
