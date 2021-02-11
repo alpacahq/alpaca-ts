@@ -1,7 +1,7 @@
 import Bottleneck from 'bottleneck'
 
 import qs from 'qs'
-import isofetch from 'isomorphic-unfetch'
+import fetch from 'isomorphic-unfetch'
 
 import urls from './urls.js'
 import parse from './parse.js'
@@ -53,7 +53,6 @@ import {
   GetLastQuote,
 } from './params.js'
 
-const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch
 export class AlpacaClient {
   private limiter = new Bottleneck({
     reservoir: 200, // initial value
@@ -143,13 +142,13 @@ export class AlpacaClient {
     )
   }
 
-  cancelOrder(params: CancelOrder): Promise<Boolean> {
-    return this.request<Boolean>(
-      'DELETE',
-      urls.rest.account,
-      `orders/${params.order_id}`,
-      undefined,
-      false,
+  async cancelOrder(params: CancelOrder): Promise<Order> {
+    return parse.order(
+      await this.request<RawOrder>(
+        'DELETE',
+        urls.rest.account,
+        `orders/${params.order_id}`,
+      ),
     )
   }
 
@@ -335,12 +334,11 @@ export class AlpacaClient {
     )
   }
 
-  private async request<T = any>(
+  private request<T = any>(
     method: string,
     url: string,
     endpoint: string,
     data?: { [key: string]: any },
-    isJson: boolean = true,
   ): Promise<T> {
     let headers: any = {}
 
@@ -367,30 +365,24 @@ export class AlpacaClient {
       }
     }
 
-    const makeCall = () =>
-      unifetch(`${url}/${endpoint}`, {
-        method: method,
-        headers,
-        body: JSON.stringify(data),
-      })
-    const func = this.params.rate_limit
-      ? () => this.limiter.schedule(makeCall)
-      : makeCall
+    return new Promise<T>(async (resolve, reject) => {
+      const makeCall = () =>
+        fetch(`${url}/${endpoint}`, {
+          method: method,
+          headers,
+          body: JSON.stringify(data),
+        })
+      const func = this.params.rate_limit
+        ? () => this.limiter.schedule(makeCall)
+        : makeCall
 
-    try {
-      const resp = await func()
-      if (!isJson) return resp.ok as any
-      let result = {}
-      try {
-        result = await resp.json()
-      } catch (e) {
-        console.warn('Problem turning res to json', resp, e)
-      }
-
-      if ('code' in resp && 'message' in resp) throw Error('another problem')
-      return result as any
-    } catch (e) {
-      console.warn('Error with fetch', e)
-    }
+      await func()
+        // if json parse fails we default to an empty object
+        .then(async (resp) => (await resp.json().catch(() => false)) || {})
+        .then((resp) =>
+          'code' in resp && 'message' in resp ? reject(resp) : resolve(resp),
+        )
+        .catch(reject)
+    })
   }
 }
