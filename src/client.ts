@@ -377,20 +377,20 @@ export class AlpacaClient {
       ? () => this.limiter.schedule(makeCall)
       : makeCall
 
+    let resp
+    let result = {}
     try {
-      const resp = await func()
-      if (!isJson) return resp.ok as any
-      let result = {}
-      try {
-        result = await resp.json()
-      } catch (e) {
-        console.warn('Problem turning res to json', resp, e)
-      }
+      resp = await func()
 
-      if ('code' in resp && 'message' in resp) throw Error('another problem')
-      return result as any
+      if (!isJson) return resp.ok as any
+
+      result = await resp.json()
     } catch (e) {
-      console.warn('Error with fetch', e)
+      console.error(e)
+      throw result
     }
+
+    if ('code' in result && 'message' in result) throw result
+    return result as any
   }
 }
