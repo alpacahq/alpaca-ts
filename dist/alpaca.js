@@ -1,11 +1,11 @@
 /*! 
- * alpaca@4.3.0
+ * alpaca@4.4.0
  * released under the permissive ISC license
  */
 
 import Bottleneck from 'bottleneck';
 import qs from 'qs';
-import fetch from 'isomorphic-unfetch';
+import isofetch from 'isomorphic-unfetch';
 import WebSocket from 'isomorphic-ws';
 import EventEmitter from 'eventemitter3';
 
@@ -154,6 +154,7 @@ var parse = {
     tradeActivity,
 };
 
+const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch;
 class AlpacaClient {
     constructor(params) {
         this.params = params;
@@ -212,9 +213,7 @@ class AlpacaClient {
         });
     }
     cancelOrder(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return parse.order(yield this.request('DELETE', urls.rest.account, `orders/${params.order_id}`));
-        });
+        return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, false);
     }
     cancelOrders() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -303,27 +302,27 @@ class AlpacaClient {
     getLastQuote(params) {
         return this.request('GET', urls.rest.market_data, `last_quote/stocks/${params.symbol}`);
     }
-    request(method, url, endpoint, data) {
-        let headers = {};
-        if ('access_token' in this.params.credentials) {
-            headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
-        }
-        else {
-            headers['APCA-API-KEY-ID'] = this.params.credentials.key;
-            headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
-            if (this.params.credentials.paper && url == urls.rest.account) {
-                url = urls.rest.account.replace('api.', 'paper-api.');
+    request(method, url, endpoint, data, isJson = true) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let headers = {};
+            if ('access_token' in this.params.credentials) {
+                headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
             }
-        }
-        if (data) {
-            for (let [key, value] of Object.entries(data)) {
-                if (value instanceof Date) {
-                    data[key] = value.toISOString();
+            else {
+                headers['APCA-API-KEY-ID'] = this.params.credentials.key;
+                headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
+                if (this.params.credentials.paper && url == urls.rest.account) {
+                    url = urls.rest.account.replace('api.', 'paper-api.');
                 }
             }
-        }
-        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            const makeCall = () => fetch(`${url}/${endpoint}`, {
+            if (data) {
+                for (let [key, value] of Object.entries(data)) {
+                    if (value instanceof Date) {
+                        data[key] = value.toISOString();
+                    }
+                }
+            }
+            const makeCall = () => unifetch(`${url}/${endpoint}`, {
                 method: method,
                 headers,
                 body: JSON.stringify(data),
@@ -331,11 +330,22 @@ class AlpacaClient {
             const func = this.params.rate_limit
                 ? () => this.limiter.schedule(makeCall)
                 : makeCall;
-            yield func()
-                .then((resp) => __awaiter(this, void 0, void 0, function* () { return (yield resp.json().catch(() => false)) || {}; }))
-                .then((resp) => 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp))
-                .catch(reject);
-        }));
+            let resp;
+            let result = {};
+            try {
+                resp = yield func();
+                if (!isJson)
+                    return resp.ok;
+                result = yield resp.json();
+            }
+            catch (e) {
+                console.error(e);
+                throw result;
+            }
+            if ('code' in result && 'message' in result)
+                throw result;
+            return result;
+        });
     }
 }
 

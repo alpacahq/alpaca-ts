@@ -16,7 +16,7 @@ export declare class AlpacaClient {
     getOrders(params?: GetOrders): Promise<Order[]>;
     placeOrder(params: PlaceOrder): Promise<Order>;
     replaceOrder(params: ReplaceOrder): Promise<Order>;
-    cancelOrder(params: CancelOrder): Promise<Order>;
+    cancelOrder(params: CancelOrder): Promise<Boolean>;
     cancelOrders(): Promise<Order[]>;
     getPosition(params: GetPosition): Promise<Position>;
     getPositions(): Promise<Position[]>;

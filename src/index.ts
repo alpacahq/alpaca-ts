@@ -22,6 +22,7 @@ export {
   AccountConfigurations,
   NonTradeActivity,
   TradeActivity,
+  Activity,
   PortfolioHistory,
   Bar,
   LastQuote,
