@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.3.0
+ * alpaca@4.4.0
  * released under the permissive ISC license
  */
 
@@ -5040,17 +5040,17 @@ const resolve_url = Url.resolve;
  * @param   Object   opts  Fetch options
  * @return  Promise
  */
-function fetch(url, opts) {
+function fetch$1(url, opts) {
 
 	// allow custom promise
-	if (!fetch.Promise) {
+	if (!fetch$1.Promise) {
 		throw new Error('native promise missing, set fetch.Promise to your favorite alternative');
 	}
 
-	Body.Promise = fetch.Promise;
+	Body.Promise = fetch$1.Promise;
 
 	// wrap http.request into fetch
-	return new fetch.Promise(function (resolve, reject) {
+	return new fetch$1.Promise(function (resolve, reject) {
 		// build request object
 		const request = new Request(url, opts);
 		const options = getNodeRequestOptions(request);
@@ -5114,7 +5114,7 @@ function fetch(url, opts) {
 			const headers = createHeadersLenient(res.headers);
 
 			// HTTP fetch step 5
-			if (fetch.isRedirect(res.statusCode)) {
+			if (fetch$1.isRedirect(res.statusCode)) {
 				// HTTP fetch step 5.2
 				const location = headers.get('Location');
 
@@ -5182,7 +5182,7 @@ function fetch(url, opts) {
 						}
 
 						// HTTP-redirect fetch step 15
-						resolve(fetch(new Request(locationURL, requestOpts)));
+						resolve(fetch$1(new Request(locationURL, requestOpts)));
 						finalize();
 						return;
 				}
@@ -5279,16 +5279,16 @@ function fetch(url, opts) {
  * @param   Number   code  Status code
  * @return  Boolean
  */
-fetch.isRedirect = function (code) {
+fetch$1.isRedirect = function (code) {
 	return code === 301 || code === 302 || code === 303 || code === 307 || code === 308;
 };
 
 // expose Promise
-fetch.Promise = global.Promise;
+fetch$1.Promise = global.Promise;
 
 var lib$2 = /*#__PURE__*/Object.freeze({
     __proto__: null,
-    'default': fetch,
+    'default': fetch$1,
     Headers: Headers,
     Request: Request,
     Response: Response,
@@ -5426,6 +5426,7 @@ var parse$1 = {
     tradeActivity,
 };
 
+const unifetch = typeof fetch !== 'undefined' ? fetch : isomorphicUnfetch;
 class AlpacaClient {
     constructor(params) {
         this.params = params;
@@ -5484,9 +5485,7 @@ class AlpacaClient {
         });
     }
     cancelOrder(params) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return parse$1.order(yield this.request('DELETE', urls.rest.account, `orders/${params.order_id}`));
-        });
+        return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, false);
     }
     cancelOrders() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -5575,27 +5574,27 @@ class AlpacaClient {
     getLastQuote(params) {
         return this.request('GET', urls.rest.market_data, `last_quote/stocks/${params.symbol}`);
     }
-    request(method, url, endpoint, data) {
-        let headers = {};
-        if ('access_token' in this.params.credentials) {
-            headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
-        }
-        else {
-            headers['APCA-API-KEY-ID'] = this.params.credentials.key;
-            headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
-            if (this.params.credentials.paper && url == urls.rest.account) {
-                url = urls.rest.account.replace('api.', 'paper-api.');
+    request(method, url, endpoint, data, isJson = true) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let headers = {};
+            if ('access_token' in this.params.credentials) {
+                headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
             }
-        }
-        if (data) {
-            for (let [key, value] of Object.entries(data)) {
-                if (value instanceof Date) {
-                    data[key] = value.toISOString();
+            else {
+                headers['APCA-API-KEY-ID'] = this.params.credentials.key;
+                headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
+                if (this.params.credentials.paper && url == urls.rest.account) {
+                    url = urls.rest.account.replace('api.', 'paper-api.');
                 }
             }
-        }
-        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            const makeCall = () => isomorphicUnfetch(`${url}/${endpoint}`, {
+            if (data) {
+                for (let [key, value] of Object.entries(data)) {
+                    if (value instanceof Date) {
+                        data[key] = value.toISOString();
+                    }
+                }
+            }
+            const makeCall = () => unifetch(`${url}/${endpoint}`, {
                 method: method,
                 headers,
                 body: JSON.stringify(data),
@@ -5603,11 +5602,22 @@ class AlpacaClient {
             const func = this.params.rate_limit
                 ? () => this.limiter.schedule(makeCall)
                 : makeCall;
-            yield func()
-                .then((resp) => __awaiter(this, void 0, void 0, function* () { return (yield resp.json().catch(() => false)) || {}; }))
-                .then((resp) => 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp))
-                .catch(reject);
-        }));
+            let resp;
+            let result = {};
+            try {
+                resp = yield func();
+                if (!isJson)
+                    return resp.ok;
+                result = yield resp.json();
+            }
+            catch (e) {
+                console.error(e);
+                throw result;
+            }
+            if ('code' in result && 'message' in result)
+                throw result;
+            return result;
+        });
     }
 }
 

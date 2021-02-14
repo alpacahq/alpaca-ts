@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.3.0
+ * alpaca@4.4.0
  * released under the permissive ISC license
  */
 
@@ -3817,6 +3817,7 @@
       tradeActivity,
   };
 
+  const unifetch = typeof fetch !== 'undefined' ? fetch : browser;
   class AlpacaClient {
       constructor(params) {
           this.params = params;
@@ -3862,8 +3863,8 @@
       async replaceOrder(params) {
           return parse$1.order(await this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
       }
-      async cancelOrder(params) {
-          return parse$1.order(await this.request('DELETE', urls.rest.account, `orders/${params.order_id}`));
+      cancelOrder(params) {
+          return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, false);
       }
       async cancelOrders() {
           return parse$1.orders(await this.request('DELETE', urls.rest.account, `orders`));
@@ -3941,7 +3942,7 @@
       getLastQuote(params) {
           return this.request('GET', urls.rest.market_data, `last_quote/stocks/${params.symbol}`);
       }
-      request(method, url, endpoint, data) {
+      async request(method, url, endpoint, data, isJson = true) {
           let headers = {};
           if ('access_token' in this.params.credentials) {
               headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
@@ -3960,20 +3961,29 @@
                   }
               }
           }
-          return new Promise(async (resolve, reject) => {
-              const makeCall = () => browser(`${url}/${endpoint}`, {
-                  method: method,
-                  headers,
-                  body: JSON.stringify(data),
-              });
-              const func = this.params.rate_limit
-                  ? () => this.limiter.schedule(makeCall)
-                  : makeCall;
-              await func()
-                  .then(async (resp) => (await resp.json().catch(() => false)) || {})
-                  .then((resp) => 'code' in resp && 'message' in resp ? reject(resp) : resolve(resp))
-                  .catch(reject);
+          const makeCall = () => unifetch(`${url}/${endpoint}`, {
+              method: method,
+              headers,
+              body: JSON.stringify(data),
           });
+          const func = this.params.rate_limit
+              ? () => this.limiter.schedule(makeCall)
+              : makeCall;
+          let resp;
+          let result = {};
+          try {
+              resp = await func();
+              if (!isJson)
+                  return resp.ok;
+              result = await resp.json();
+          }
+          catch (e) {
+              console.error(e);
+              throw result;
+          }
+          if ('code' in result && 'message' in result)
+              throw result;
+          return result;
       }
   }
 
