@@ -237,19 +237,23 @@ export class AlpacaClient {
     )
   }
 
-  removeFromWatchlist(params: RemoveFromWatchList): Promise<void> {
-    return this.request(
+  removeFromWatchlist(params: RemoveFromWatchList): Promise<Boolean> {
+    return this.request<Boolean>(
       'DELETE',
       urls.rest.account,
       `watchlists/${params.uuid}/${params.symbol}`,
+      undefined,
+      false,
     )
   }
 
-  deleteWatchlist(params: DeleteWatchList): Promise<void> {
-    return this.request(
+  deleteWatchlist(params: DeleteWatchList): Promise<Boolean> {
+    return this.request<Boolean>(
       'DELETE',
       urls.rest.account,
       `watchlists/${params.uuid}`,
+      undefined,
+      false,
     )
   }
 

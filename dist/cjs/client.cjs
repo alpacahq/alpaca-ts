@@ -130,10 +130,10 @@ class AlpacaClient {
         return this.request('POST', urls_js_1.default.rest.account, `watchlists/${params.uuid}`, params);
     }
     removeFromWatchlist(params) {
-        return this.request('DELETE', urls_js_1.default.rest.account, `watchlists/${params.uuid}/${params.symbol}`);
+        return this.request('DELETE', urls_js_1.default.rest.account, `watchlists/${params.uuid}/${params.symbol}`, undefined, false);
     }
     deleteWatchlist(params) {
-        return this.request('DELETE', urls_js_1.default.rest.account, `watchlists/${params.uuid}`);
+        return this.request('DELETE', urls_js_1.default.rest.account, `watchlists/${params.uuid}`, undefined, false);
     }
     getCalendar(params) {
         return this.request('GET', urls_js_1.default.rest.account, `calendar?${qs_1.default.stringify(params)}`);

@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.4.0
+ * alpaca@4.4.1
  * released under the permissive ISC license
  */
 
@@ -3903,10 +3903,10 @@
           return this.request('POST', urls.rest.account, `watchlists/${params.uuid}`, params);
       }
       removeFromWatchlist(params) {
-          return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}/${params.symbol}`);
+          return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}/${params.symbol}`, undefined, false);
       }
       deleteWatchlist(params) {
-          return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}`);
+          return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}`, undefined, false);
       }
       getCalendar(params) {
           return this.request('GET', urls.rest.account, `calendar?${lib$1.stringify(params)}`);

@@ -29,8 +29,8 @@ export declare class AlpacaClient {
     createWatchlist(params: CreateWatchList): Promise<Watchlist[]>;
     updateWatchlist(params: UpdateWatchList): Promise<Watchlist>;
     addToWatchlist(params: AddToWatchList): Promise<Watchlist>;
-    removeFromWatchlist(params: RemoveFromWatchList): Promise<void>;
-    deleteWatchlist(params: DeleteWatchList): Promise<void>;
+    removeFromWatchlist(params: RemoveFromWatchList): Promise<Boolean>;
+    deleteWatchlist(params: DeleteWatchList): Promise<Boolean>;
     getCalendar(params?: GetCalendar): Promise<Calendar[]>;
     getClock(): Promise<Clock>;
     getAccountConfigurations(): Promise<AccountConfigurations>;
