@@ -1,4 +1,4 @@
-import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, PortfolioHistory, Bar, LastQuote, LastTrade, Activity, DefaultCredentials, OAuthCredentials } from './entities.js';
+import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, PortfolioHistory, Bar, LastQuote, LastTrade, Activity, DefaultCredentials, OAuthCredentials, OrderCancelation } from './entities.js';
 import { GetOrder, GetOrders, PlaceOrder, ReplaceOrder, CancelOrder, GetPosition, ClosePosition, GetAsset, GetAssets, GetWatchList, CreateWatchList, UpdateWatchList, AddToWatchList, RemoveFromWatchList, DeleteWatchList, GetCalendar, UpdateAccountConfigurations, GetAccountActivities, GetPortfolioHistory, GetBars, GetLastTrade, GetLastQuote } from './params.js';
 export declare class AlpacaClient {
     params: {
@@ -17,7 +17,7 @@ export declare class AlpacaClient {
     placeOrder(params: PlaceOrder): Promise<Order>;
     replaceOrder(params: ReplaceOrder): Promise<Order>;
     cancelOrder(params: CancelOrder): Promise<Boolean>;
-    cancelOrders(): Promise<Order[]>;
+    cancelOrders(): Promise<OrderCancelation[]>;
     getPosition(params: GetPosition): Promise<Position>;
     getPositions(): Promise<Position[]>;
     closePosition(params: ClosePosition): Promise<Order>;

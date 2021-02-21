@@ -85,7 +85,7 @@ class AlpacaClient {
     }
     cancelOrders() {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse_js_1.default.orders(yield this.request('DELETE', urls_js_1.default.rest.account, `orders`));
+            return parse_js_1.default.canceled_orders(yield this.request('DELETE', urls_js_1.default.rest.account, `orders`));
         });
     }
     getPosition(params) {

@@ -457,6 +457,22 @@ export interface LastTrade {
     };
 }
 /**
+ * The parsed result of an order cancelation request.
+ */
+export interface OrderCancelation {
+    id: string;
+    status: number;
+    order: Order;
+}
+/**
+ * The id, http status code and order as part of the cancel all orders request.
+ */
+export interface RawOrderCancelation {
+    id: string;
+    status: number;
+    body: RawOrder;
+}
+/**
  * The order entity with unparsed fields, exactly as Alpaca provides it.
  * We encourage you to use the Order interface, which has many of these fields parsed.
  */

@@ -21,6 +21,8 @@ import {
   Activity,
   RawClock,
   Clock,
+  RawOrderCancelation,
+  OrderCancelation,
 } from './entities.js'
 
 function account(rawAccount: RawAccount): Account {
@@ -110,6 +112,53 @@ function order(rawOrder: RawOrder): Order {
 
 function orders(rawOrders: RawOrder[]): Order[] {
   return rawOrders ? rawOrders.map((value) => order(value)) : undefined
+}
+
+function canceled_order(input: RawOrderCancelation): OrderCancelation {
+  if (!input) {
+    return undefined
+  }
+
+  try {
+    return {
+      ...input,
+      order: {
+        ...input.body,
+        raw: () => input.body,
+        created_at: new Date(input.body.created_at),
+        updated_at: new Date(input.body.updated_at),
+        submitted_at: new Date(input.body.submitted_at),
+        filled_at: new Date(input.body.filled_at),
+        expired_at: new Date(input.body.expired_at),
+        canceled_at: new Date(input.body.canceled_at),
+        failed_at: new Date(input.body.failed_at),
+        replaced_at: new Date(input.body.replaced_at),
+        qty: number(input.body.qty),
+        filled_qty: number(input.body.filled_qty),
+        type: input.body.type as OrderType,
+        side: input.body.side as OrderSide,
+        time_in_force: input.body.time_in_force as OrderTimeInForce,
+        limit_price: number(input.body.limit_price),
+        stop_price: number(input.body.stop_price),
+        filled_avg_price: number(input.body.filled_avg_price),
+        status: input.body.status as OrderStatus,
+        legs: orders(input.body.legs),
+        trail_price: number(input.body.trail_price),
+        trail_percent: number(input.body.trail_percent),
+        hwm: number(input.body.hwm),
+      },
+    }
+  } catch (err) {
+    throw new Error(`Order parsing failed. ${err.message}`)
+  }
+}
+
+function canceled_orders(
+  rawOrderCancelations: RawOrderCancelation[],
+): OrderCancelation[] {
+  return rawOrderCancelations
+    ? rawOrderCancelations.map((value) => canceled_order(value))
+    : undefined
 }
 
 function position(rawPosition: RawPosition): Position {
@@ -212,6 +261,7 @@ export default {
   nonTradeActivity,
   order,
   orders,
+  canceled_orders,
   position,
   positions,
   tradeActivity,

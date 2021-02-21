@@ -26,6 +26,8 @@ import {
   Activity,
   DefaultCredentials,
   OAuthCredentials,
+  OrderCancelation,
+  RawOrderCancelation,
 } from './entities.js'
 
 import {
@@ -153,9 +155,13 @@ export class AlpacaClient {
     )
   }
 
-  async cancelOrders(): Promise<Order[]> {
-    return parse.orders(
-      await this.request<RawOrder[]>('DELETE', urls.rest.account, `orders`),
+  async cancelOrders(): Promise<OrderCancelation[]> {
+    return parse.canceled_orders(
+      await this.request<RawOrderCancelation[]>(
+        'DELETE',
+        urls.rest.account,
+        `orders`,
+      ),
     )
   }
 

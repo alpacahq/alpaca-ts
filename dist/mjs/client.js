@@ -57,7 +57,7 @@ export class AlpacaClient {
         return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, false);
     }
     async cancelOrders() {
-        return parse.orders(await this.request('DELETE', urls.rest.account, `orders`));
+        return parse.canceled_orders(await this.request('DELETE', urls.rest.account, `orders`));
     }
     async getPosition(params) {
         return parse.position(await this.request('GET', urls.rest.account, `positions/${params.symbol}`));

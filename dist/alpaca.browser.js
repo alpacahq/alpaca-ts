@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.4.1
+ * alpaca@4.4.2
  * released under the permissive ISC license
  */
 
@@ -3721,6 +3721,49 @@
   function orders(rawOrders) {
       return rawOrders ? rawOrders.map((value) => order(value)) : undefined;
   }
+  function canceled_order(input) {
+      if (!input) {
+          return undefined;
+      }
+      try {
+          return {
+              ...input,
+              order: {
+                  ...input.body,
+                  raw: () => input.body,
+                  created_at: new Date(input.body.created_at),
+                  updated_at: new Date(input.body.updated_at),
+                  submitted_at: new Date(input.body.submitted_at),
+                  filled_at: new Date(input.body.filled_at),
+                  expired_at: new Date(input.body.expired_at),
+                  canceled_at: new Date(input.body.canceled_at),
+                  failed_at: new Date(input.body.failed_at),
+                  replaced_at: new Date(input.body.replaced_at),
+                  qty: number(input.body.qty),
+                  filled_qty: number(input.body.filled_qty),
+                  type: input.body.type,
+                  side: input.body.side,
+                  time_in_force: input.body.time_in_force,
+                  limit_price: number(input.body.limit_price),
+                  stop_price: number(input.body.stop_price),
+                  filled_avg_price: number(input.body.filled_avg_price),
+                  status: input.body.status,
+                  legs: orders(input.body.legs),
+                  trail_price: number(input.body.trail_price),
+                  trail_percent: number(input.body.trail_percent),
+                  hwm: number(input.body.hwm),
+              },
+          };
+      }
+      catch (err) {
+          throw new Error(`Order parsing failed. ${err.message}`);
+      }
+  }
+  function canceled_orders(rawOrderCancelations) {
+      return rawOrderCancelations
+          ? rawOrderCancelations.map((value) => canceled_order(value))
+          : undefined;
+  }
   function position(rawPosition) {
       if (!rawPosition) {
           return undefined;
@@ -3812,6 +3855,7 @@
       nonTradeActivity,
       order,
       orders,
+      canceled_orders,
       position,
       positions,
       tradeActivity,
@@ -3867,7 +3911,7 @@
           return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, false);
       }
       async cancelOrders() {
-          return parse$1.orders(await this.request('DELETE', urls.rest.account, `orders`));
+          return parse$1.canceled_orders(await this.request('DELETE', urls.rest.account, `orders`));
       }
       async getPosition(params) {
           return parse$1.position(await this.request('GET', urls.rest.account, `positions/${params.symbol}`));
