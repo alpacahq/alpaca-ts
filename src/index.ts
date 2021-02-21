@@ -12,6 +12,7 @@ export default {
 export {
   Account,
   Order,
+  OrderCancelation,
   Position,
   Asset,
   Watchlist,
