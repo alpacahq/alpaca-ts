@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.4.2
+ * alpaca@4.4.4
  * released under the permissive ISC license
  */
 
@@ -5364,8 +5364,10 @@ function canceled_order(input) {
     if (!input) {
         return undefined;
     }
+    let order = input.body;
+    delete input.body;
     try {
-        return Object.assign(Object.assign({}, input), { order: Object.assign(Object.assign({}, input.body), { raw: () => input.body, created_at: new Date(input.body.created_at), updated_at: new Date(input.body.updated_at), submitted_at: new Date(input.body.submitted_at), filled_at: new Date(input.body.filled_at), expired_at: new Date(input.body.expired_at), canceled_at: new Date(input.body.canceled_at), failed_at: new Date(input.body.failed_at), replaced_at: new Date(input.body.replaced_at), qty: number(input.body.qty), filled_qty: number(input.body.filled_qty), type: input.body.type, side: input.body.side, time_in_force: input.body.time_in_force, limit_price: number(input.body.limit_price), stop_price: number(input.body.stop_price), filled_avg_price: number(input.body.filled_avg_price), status: input.body.status, legs: orders(input.body.legs), trail_price: number(input.body.trail_price), trail_percent: number(input.body.trail_percent), hwm: number(input.body.hwm) }) });
+        return Object.assign(Object.assign({}, input), { order: Object.assign(Object.assign({}, order), { raw: () => order, created_at: new Date(order.created_at), updated_at: new Date(order.updated_at), submitted_at: new Date(order.submitted_at), filled_at: new Date(order.filled_at), expired_at: new Date(order.expired_at), canceled_at: new Date(order.canceled_at), failed_at: new Date(order.failed_at), replaced_at: new Date(order.replaced_at), qty: number(order.qty), filled_qty: number(order.filled_qty), type: order.type, side: order.side, time_in_force: order.time_in_force, limit_price: number(order.limit_price), stop_price: number(order.stop_price), filled_avg_price: number(order.filled_avg_price), status: order.status, legs: orders(order.legs), trail_price: number(order.trail_price), trail_percent: number(order.trail_percent), hwm: number(order.hwm) }) });
     }
     catch (err) {
         throw new Error(`Order parsing failed. ${err.message}`);
