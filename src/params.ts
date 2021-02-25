@@ -78,6 +78,7 @@ export interface GetOrders {
   until?: Date
   direction?: 'asc' | 'desc'
   nested?: boolean
+  symbols?: string[]
 }
 
 export interface GetPortfolioHistory {
