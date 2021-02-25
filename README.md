@@ -1,3 +1,6 @@
+> **New!**  
+> The Alpaca Market Data API v2 is almost here. Shortly after it's release we will publish support for it.
+
 # alpaca
 
 ![version](https://img.shields.io/github/package-json/v/117/alpaca?color=196DFF&style=flat-square)
