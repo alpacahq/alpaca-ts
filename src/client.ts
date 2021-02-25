@@ -17,9 +17,6 @@ import {
   Clock,
   AccountConfigurations,
   PortfolioHistory,
-  Bar,
-  LastQuote,
-  LastTrade,
   RawOrder,
   RawPosition,
   RawActivity,
@@ -28,6 +25,9 @@ import {
   OAuthCredentials,
   OrderCancelation,
   RawOrderCancelation,
+  PageOfTrades,
+  PageOfQuotes,
+  PageOfBars,
 } from './entities.js'
 
 import {
@@ -51,8 +51,8 @@ import {
   GetAccountActivities,
   GetPortfolioHistory,
   GetBars,
-  GetLastTrade,
-  GetLastQuote,
+  GetTrades,
+  GetQuotes,
 } from './params.js'
 
 const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch
@@ -316,32 +316,27 @@ export class AlpacaClient {
     )
   }
 
-  getBars(params: GetBars): Promise<{ [symbol: string]: Bar[] }> {
-    const transformed: Omit<GetBars, 'symbols'> & { symbols: string } = {
-      ...params,
-      symbols: params.symbols.join(','),
-    }
-
+  getTrades(params: GetTrades): Promise<PageOfTrades[]> {
     return this.request(
       'GET',
       urls.rest.market_data,
-      `bars/${params.timeframe}?${qs.stringify(transformed)}`,
+      `stocks/${params.symbol}/trades`,
     )
   }
 
-  getLastTrade(params: GetLastTrade): Promise<LastTrade> {
+  getQuotes(params: GetQuotes): Promise<PageOfQuotes[]> {
     return this.request(
       'GET',
       urls.rest.market_data,
-      `last/stocks/${params.symbol}`,
+      `stocks/${params.symbol}/quotes`,
     )
   }
 
-  getLastQuote(params: GetLastQuote): Promise<LastQuote> {
+  getBars(params: GetBars): Promise<PageOfBars[]> {
     return this.request(
       'GET',
       urls.rest.market_data,
-      `last_quote/stocks/${params.symbol}`,
+      `stocks/${params.symbol}/bars`,
     )
   }
 

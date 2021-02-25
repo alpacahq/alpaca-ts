@@ -160,15 +160,14 @@ class AlpacaClient {
     getPortfolioHistory(params) {
         return this.request('GET', urls_js_1.default.rest.account, `account/portfolio/history?${qs_1.default.stringify(params)}`);
     }
+    getTrades(params) {
+        return this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/trades`);
+    }
+    getQuotes(params) {
+        return this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/quotes`);
+    }
     getBars(params) {
-        const transformed = Object.assign(Object.assign({}, params), { symbols: params.symbols.join(',') });
-        return this.request('GET', urls_js_1.default.rest.market_data, `bars/${params.timeframe}?${qs_1.default.stringify(transformed)}`);
-    }
-    getLastTrade(params) {
-        return this.request('GET', urls_js_1.default.rest.market_data, `last/stocks/${params.symbol}`);
-    }
-    getLastQuote(params) {
-        return this.request('GET', urls_js_1.default.rest.market_data, `last_quote/stocks/${params.symbol}`);
+        return this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/bars`);
     }
     request(method, url, endpoint, data, isJson = true) {
         return __awaiter(this, void 0, void 0, function* () {

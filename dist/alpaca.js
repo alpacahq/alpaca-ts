@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.4.5
+ * alpaca@5.0.0
  * released under the permissive ISC license
  */
 
@@ -37,7 +37,7 @@ function __awaiter(thisArg, _arguments, P, generator) {
 var urls = {
     rest: {
         account: 'https://api.alpaca.markets/v2',
-        market_data: 'https://data.alpaca.markets/v1',
+        market_data: 'https://data.alpaca.markets/v2',
     },
     websocket: {
         account: 'wss://api.alpaca.markets/stream',
@@ -311,15 +311,14 @@ class AlpacaClient {
     getPortfolioHistory(params) {
         return this.request('GET', urls.rest.account, `account/portfolio/history?${qs.stringify(params)}`);
     }
+    getTrades(params) {
+        return this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/trades`);
+    }
+    getQuotes(params) {
+        return this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/quotes`);
+    }
     getBars(params) {
-        const transformed = Object.assign(Object.assign({}, params), { symbols: params.symbols.join(',') });
-        return this.request('GET', urls.rest.market_data, `bars/${params.timeframe}?${qs.stringify(transformed)}`);
-    }
-    getLastTrade(params) {
-        return this.request('GET', urls.rest.market_data, `last/stocks/${params.symbol}`);
-    }
-    getLastQuote(params) {
-        return this.request('GET', urls.rest.market_data, `last_quote/stocks/${params.symbol}`);
+        return this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/bars`);
     }
     request(method, url, endpoint, data, isJson = true) {
         return __awaiter(this, void 0, void 0, function* () {

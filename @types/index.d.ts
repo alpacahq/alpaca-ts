@@ -7,5 +7,5 @@ declare const _default: {
     AlpacaStream: typeof AlpacaStream;
 };
 export default _default;
-export { Account, Order, OrderCancelation, Position, Asset, Watchlist, Calendar, Clock, DefaultCredentials, OAuthCredentials, AccountConfigurations, NonTradeActivity, TradeActivity, Activity, PortfolioHistory, Bar, LastQuote, LastTrade, } from './entities';
-export { GetOrder, GetOrders, PlaceOrder, ReplaceOrder, CancelOrder, GetPosition, ClosePosition, GetAsset, GetAssets, GetWatchList, CreateWatchList, UpdateWatchList, AddToWatchList, RemoveFromWatchList, DeleteWatchList, GetCalendar, UpdateAccountConfigurations, GetAccountActivities, GetPortfolioHistory, GetBars, GetLastTrade, GetLastQuote, } from './params';
+export { Account, Order, OrderCancelation, Position, Asset, Watchlist, Calendar, Clock, DefaultCredentials, OAuthCredentials, AccountConfigurations, NonTradeActivity, TradeActivity, Activity, PortfolioHistory, Bar, Quote, Trade, PageOfBars, PageOfQuotes, PageOfTrades, } from './entities';
+export { GetOrder, GetOrders, PlaceOrder, ReplaceOrder, CancelOrder, GetPosition, ClosePosition, GetAsset, GetAssets, GetWatchList, CreateWatchList, UpdateWatchList, AddToWatchList, RemoveFromWatchList, DeleteWatchList, GetCalendar, UpdateAccountConfigurations, GetAccountActivities, GetPortfolioHistory, GetBars, GetTrades, GetQuotes, } from './params';
