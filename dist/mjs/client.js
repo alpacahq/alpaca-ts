@@ -119,14 +119,14 @@ export class AlpacaClient {
     getPortfolioHistory(params) {
         return this.request('GET', urls.rest.account, `account/portfolio/history?${qs.stringify(params)}`);
     }
-    getTrades(params) {
-        return this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/trades`);
+    async getTrades(params) {
+        return parse.pageOfTrades(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/trades`));
     }
-    getQuotes(params) {
-        return this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/quotes`);
+    async getQuotes(params) {
+        return parse.pageOfQuotes(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/quotes`));
     }
-    getBars(params) {
-        return this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/bars`);
+    async getBars(params) {
+        return parse.pageOfBars(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/bars`));
     }
     async request(method, url, endpoint, data, isJson = true) {
         let headers = {};

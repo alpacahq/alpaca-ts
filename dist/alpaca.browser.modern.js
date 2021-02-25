@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.0.0
+ * alpaca@5.0.1
  * released under the permissive ISC license
  */
 
@@ -3626,7 +3626,7 @@ var urls = {
     websocket: {
         account: 'wss://api.alpaca.markets/stream',
         account_paper: 'wss://paper-api.alpaca.markets/stream',
-        market_data: 'wss://data.alpaca.markets/stream',
+        market_data: (source) => `wss://stream.data.alpaca.markets/v2/${source}`,
     },
 };
 
@@ -3839,6 +3839,66 @@ function activities(rawActivities) {
         throw new Error(`Activity parsing failed. ${err.message}`);
     }
 }
+function pageOfTrades(page) {
+    if (!page) {
+        return undefined;
+    }
+    try {
+        return {
+            raw: () => page,
+            trades: page.trades.map((trade) => ({
+                raw: () => trade,
+                ...trade,
+                t: new Date(trade.t),
+            })),
+            symbol: page.symbol,
+            next_page_token: page.next_page_token,
+        };
+    }
+    catch (err) {
+        throw new Error(`PageOfTrades parsing failed "${err.message}"`);
+    }
+}
+function pageOfQuotes(page) {
+    if (!page) {
+        return undefined;
+    }
+    try {
+        return {
+            raw: () => page,
+            quotes: page.quotes.map((quote) => ({
+                raw: () => quote,
+                ...quote,
+                t: new Date(quote.t),
+            })),
+            symbol: page.symbol,
+            next_page_token: page.next_page_token,
+        };
+    }
+    catch (err) {
+        throw new Error(`PageOfTrades parsing failed "${err.message}"`);
+    }
+}
+function pageOfBars(page) {
+    if (!page) {
+        return undefined;
+    }
+    try {
+        return {
+            raw: () => page,
+            bars: page.bars.map((bar) => ({
+                raw: () => bar,
+                ...bar,
+                t: new Date(bar.t),
+            })),
+            symbol: page.symbol,
+            next_page_token: page.next_page_token,
+        };
+    }
+    catch (err) {
+        throw new Error(`PageOfTrades parsing failed "${err.message}"`);
+    }
+}
 function number(numStr) {
     if (typeof numStr === 'undefined')
         return numStr;
@@ -3855,6 +3915,9 @@ var parse$1 = {
     position,
     positions,
     tradeActivity,
+    pageOfTrades,
+    pageOfQuotes,
+    pageOfBars,
 };
 
 const unifetch = typeof fetch !== 'undefined' ? fetch : browser;
@@ -3969,14 +4032,14 @@ class AlpacaClient {
     getPortfolioHistory(params) {
         return this.request('GET', urls.rest.account, `account/portfolio/history?${lib$1.stringify(params)}`);
     }
-    getTrades(params) {
-        return this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/trades`);
+    async getTrades(params) {
+        return parse$1.pageOfTrades(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/trades`));
     }
-    getQuotes(params) {
-        return this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/quotes`);
+    async getQuotes(params) {
+        return parse$1.pageOfQuotes(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/quotes`));
     }
-    getBars(params) {
-        return this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/bars`);
+    async getBars(params) {
+        return parse$1.pageOfBars(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/bars`));
     }
     async request(method, url, endpoint, data, isJson = true) {
         let headers = {};
@@ -4392,7 +4455,6 @@ class AlpacaStream extends eventemitter3 {
                     : urls.websocket.account;
                 break;
             case 'market_data':
-                this.host = urls.websocket.market_data;
                 break;
             default:
                 this.host = 'unknown';

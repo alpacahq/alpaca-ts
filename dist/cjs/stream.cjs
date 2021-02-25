@@ -22,7 +22,8 @@ class AlpacaStream extends eventemitter3_1.default {
                     : urls_js_1.default.websocket.account;
                 break;
             case 'market_data':
-                this.host = urls_js_1.default.websocket.market_data;
+                // todo
+                // this.host = urls.websocket.market_data
                 break;
             default:
                 this.host = 'unknown';

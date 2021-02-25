@@ -161,13 +161,19 @@ class AlpacaClient {
         return this.request('GET', urls_js_1.default.rest.account, `account/portfolio/history?${qs_1.default.stringify(params)}`);
     }
     getTrades(params) {
-        return this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/trades`);
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse_js_1.default.pageOfTrades(yield this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/trades`));
+        });
     }
     getQuotes(params) {
-        return this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/quotes`);
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse_js_1.default.pageOfQuotes(yield this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/quotes`));
+        });
     }
     getBars(params) {
-        return this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/bars`);
+        return __awaiter(this, void 0, void 0, function* () {
+            return parse_js_1.default.pageOfBars(yield this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/bars`));
+        });
     }
     request(method, url, endpoint, data, isJson = true) {
         return __awaiter(this, void 0, void 0, function* () {

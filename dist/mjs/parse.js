@@ -208,6 +208,66 @@ function activities(rawActivities) {
         throw new Error(`Activity parsing failed. ${err.message}`);
     }
 }
+function pageOfTrades(page) {
+    if (!page) {
+        return undefined;
+    }
+    try {
+        return {
+            raw: () => page,
+            trades: page.trades.map((trade) => ({
+                raw: () => trade,
+                ...trade,
+                t: new Date(trade.t),
+            })),
+            symbol: page.symbol,
+            next_page_token: page.next_page_token,
+        };
+    }
+    catch (err) {
+        throw new Error(`PageOfTrades parsing failed "${err.message}"`);
+    }
+}
+function pageOfQuotes(page) {
+    if (!page) {
+        return undefined;
+    }
+    try {
+        return {
+            raw: () => page,
+            quotes: page.quotes.map((quote) => ({
+                raw: () => quote,
+                ...quote,
+                t: new Date(quote.t),
+            })),
+            symbol: page.symbol,
+            next_page_token: page.next_page_token,
+        };
+    }
+    catch (err) {
+        throw new Error(`PageOfTrades parsing failed "${err.message}"`);
+    }
+}
+function pageOfBars(page) {
+    if (!page) {
+        return undefined;
+    }
+    try {
+        return {
+            raw: () => page,
+            bars: page.bars.map((bar) => ({
+                raw: () => bar,
+                ...bar,
+                t: new Date(bar.t),
+            })),
+            symbol: page.symbol,
+            next_page_token: page.next_page_token,
+        };
+    }
+    catch (err) {
+        throw new Error(`PageOfTrades parsing failed "${err.message}"`);
+    }
+}
 function number(numStr) {
     if (typeof numStr === 'undefined')
         return numStr;
@@ -224,4 +284,7 @@ export default {
     position,
     positions,
     tradeActivity,
+    pageOfTrades,
+    pageOfQuotes,
+    pageOfBars,
 };

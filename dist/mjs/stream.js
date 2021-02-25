@@ -16,7 +16,8 @@ export class AlpacaStream extends EventEmitter {
                     : urls.websocket.account;
                 break;
             case 'market_data':
-                this.host = urls.websocket.market_data;
+                // todo
+                // this.host = urls.websocket.market_data
                 break;
             default:
                 this.host = 'unknown';

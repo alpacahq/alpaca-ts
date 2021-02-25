@@ -37,8 +37,8 @@ export declare class AlpacaClient {
     updateAccountConfigurations(params: UpdateAccountConfigurations): Promise<AccountConfigurations>;
     getAccountActivities(params: GetAccountActivities): Promise<Activity[]>;
     getPortfolioHistory(params?: GetPortfolioHistory): Promise<PortfolioHistory>;
-    getTrades(params: GetTrades): Promise<PageOfTrades[]>;
-    getQuotes(params: GetQuotes): Promise<PageOfQuotes[]>;
-    getBars(params: GetBars): Promise<PageOfBars[]>;
+    getTrades(params: GetTrades): Promise<PageOfTrades>;
+    getQuotes(params: GetQuotes): Promise<PageOfQuotes>;
+    getBars(params: GetBars): Promise<PageOfBars>;
     private request;
 }

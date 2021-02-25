@@ -23,6 +23,12 @@ import {
   Clock,
   RawOrderCancelation,
   OrderCancelation,
+  PageOfTrades,
+  RawPageOfTrades,
+  PageOfQuotes,
+  RawPageOfQuotes,
+  RawPageOfBars,
+  PageOfBars,
 } from './entities.js'
 
 function account(rawAccount: RawAccount): Account {
@@ -254,6 +260,69 @@ function activities(rawActivities: Array<RawActivity>): Array<Activity> {
   }
 }
 
+function pageOfTrades(page: RawPageOfTrades): PageOfTrades {
+  if (!page) {
+    return undefined
+  }
+
+  try {
+    return {
+      raw: () => page,
+      trades: page.trades.map((trade) => ({
+        raw: () => trade,
+        ...trade,
+        t: new Date(trade.t),
+      })),
+      symbol: page.symbol,
+      next_page_token: page.next_page_token,
+    }
+  } catch (err) {
+    throw new Error(`PageOfTrades parsing failed "${err.message}"`)
+  }
+}
+
+function pageOfQuotes(page: RawPageOfQuotes): PageOfQuotes {
+  if (!page) {
+    return undefined
+  }
+
+  try {
+    return {
+      raw: () => page,
+      quotes: page.quotes.map((quote) => ({
+        raw: () => quote,
+        ...quote,
+        t: new Date(quote.t),
+      })),
+      symbol: page.symbol,
+      next_page_token: page.next_page_token,
+    }
+  } catch (err) {
+    throw new Error(`PageOfTrades parsing failed "${err.message}"`)
+  }
+}
+
+function pageOfBars(page: RawPageOfBars): PageOfBars {
+  if (!page) {
+    return undefined
+  }
+
+  try {
+    return {
+      raw: () => page,
+      bars: page.bars.map((bar) => ({
+        raw: () => bar,
+        ...bar,
+        t: new Date(bar.t),
+      })),
+      symbol: page.symbol,
+      next_page_token: page.next_page_token,
+    }
+  } catch (err) {
+    throw new Error(`PageOfTrades parsing failed "${err.message}"`)
+  }
+}
+
 function number(numStr: string): number {
   if (typeof numStr === 'undefined') return numStr
   return parseFloat(numStr)
@@ -270,4 +339,7 @@ export default {
   position,
   positions,
   tradeActivity,
+  pageOfTrades,
+  pageOfQuotes,
+  pageOfBars,
 }

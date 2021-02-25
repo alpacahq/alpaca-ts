@@ -31,6 +31,7 @@ export {
   PageOfBars,
   PageOfQuotes,
   PageOfTrades,
+  MarketDataSource,
 } from './entities'
 
 export {

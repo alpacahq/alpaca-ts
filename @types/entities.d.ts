@@ -350,7 +350,7 @@ export interface Clock {
     next_close: Date;
 }
 /** A trade which occurred. */
-export interface Trade {
+export interface RawTrade {
     /** Timestamp in RFC-3339 format with nanosecond precision. */
     t: string;
     /** Exchange where the trade happened. */
@@ -367,7 +367,37 @@ export interface Trade {
     z: string;
 }
 /** A page of one or many trades. */
+export interface RawPageOfTrades {
+    /** Array of trades. */
+    trades: RawTrade[];
+    /** Symbol that was queried. */
+    symbol: string;
+    /** Token that can be used to query the next page. */
+    next_page_token: string;
+}
+/** A trade which occurred. */
+export interface Trade {
+    /** Get the raw data as it came from Alpaca. */
+    raw(): RawTrade;
+    /** Timestamp in RFC-3339 format with nanosecond precision. */
+    t: Date;
+    /** Exchange where the trade happened. */
+    x: string;
+    /** Trade price. */
+    p: number;
+    /** Trade size. */
+    s: number;
+    /** Trade conditions. */
+    c: string[];
+    /** Trade ID. */
+    i: number;
+    /** Tape. */
+    z: string;
+}
+/** A page of one or many trades. */
 export interface PageOfTrades {
+    /** Get the raw data as it came from Alpaca. */
+    raw(): RawPageOfTrades;
     /** Array of trades. */
     trades: Trade[];
     /** Symbol that was queried. */
@@ -376,7 +406,7 @@ export interface PageOfTrades {
     next_page_token: string;
 }
 /** A quote for a symbol. */
-export interface Quote {
+export interface RawQuote {
     /** Timestamp in RFC-3339 format with nanosecond precision. */
     t: string;
     /** Ask exchange. */
@@ -395,7 +425,39 @@ export interface Quote {
     c: string[];
 }
 /** A page of one or many quotes. */
+export interface RawPageOfQuotes {
+    /** Array of quotes. */
+    quotes: RawQuote[];
+    /** Symbol that was queried. */
+    symbol: string;
+    /** Token that can be used to query the next page. */
+    next_page_token: string;
+}
+/** A quote for a symbol. */
+export interface Quote {
+    /** Get the raw data as it came from Alpaca. */
+    raw(): RawQuote;
+    /** Timestamp in Date format. */
+    t: Date;
+    /** Ask exchange. */
+    ax: string;
+    /** Ask price. */
+    ap: number;
+    /** Ask size. */
+    as: number;
+    /** Bid exchange. */
+    bx: string;
+    /** Bid price. */
+    bp: number;
+    /** Bid size. */
+    bs: number;
+    /** Quote conditions. */
+    c: string[];
+}
+/** A page of one or many quotes. */
 export interface PageOfQuotes {
+    /** Get the raw data as it came from Alpaca. */
+    raw(): RawPageOfQuotes;
     /** Array of quotes. */
     quotes: Quote[];
     /** Symbol that was queried. */
@@ -404,7 +466,7 @@ export interface PageOfQuotes {
     next_page_token: string;
 }
 /** A bar for a symbol. */
-export interface Bar {
+export interface RawBar {
     /** Timestamp in RFC-3339 format with nanosecond precision. */
     t: string;
     /** Open price. */
@@ -419,13 +481,41 @@ export interface Bar {
     v: number;
 }
 /** A page of one or many bars. */
+export interface RawPageOfBars {
+    /** Array of bars. */
+    bars: RawBar[];
+    /** Symbol that was queried. */
+    symbol: string;
+    /** Token that can be used to query the next page. */
+    next_page_token: string;
+}
+/** A bar for a symbol. */
+export interface Bar {
+    /** Get the raw data as it came from Alpaca. */
+    raw(): RawBar;
+    /** Timestamp in Date format. */
+    t: Date;
+    /** Open price. */
+    o: number;
+    /** High price. */
+    h: number;
+    /** Low price. */
+    l: number;
+    /** Close price. */
+    c: number;
+    /** Volume. */
+    v: number;
+}
+/** A page of one or many bars. */
 export interface PageOfBars {
+    /** Get the raw data as it came from Alpaca. */
+    raw(): RawPageOfBars;
     /** Array of bars. */
     bars: Bar[];
     /** Symbol that was queried. */
     symbol: string;
     /** Token that can be used to query the next page. */
-    next_page_token: StaticRange;
+    next_page_token: string;
 }
 /**
  * The parsed result of an order cancelation request.
@@ -478,6 +568,7 @@ export interface RawOrder {
     trail_percent: string;
     hwm: string;
 }
+export declare type MarketDataSource = 'iex' | 'sip';
 export declare type OrderType = 'market' | 'limit' | 'stop' | 'stop_limit' | 'trailing_stop';
 export declare type OrderSide = 'buy' | 'sell';
 export declare type OrderTimeInForce = 

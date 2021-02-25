@@ -316,27 +316,33 @@ export class AlpacaClient {
     )
   }
 
-  getTrades(params: GetTrades): Promise<PageOfTrades[]> {
-    return this.request(
-      'GET',
-      urls.rest.market_data,
-      `stocks/${params.symbol}/trades`,
+  async getTrades(params: GetTrades): Promise<PageOfTrades> {
+    return parse.pageOfTrades(
+      await this.request(
+        'GET',
+        urls.rest.market_data,
+        `stocks/${params.symbol}/trades`,
+      ),
     )
   }
 
-  getQuotes(params: GetQuotes): Promise<PageOfQuotes[]> {
-    return this.request(
-      'GET',
-      urls.rest.market_data,
-      `stocks/${params.symbol}/quotes`,
+  async getQuotes(params: GetQuotes): Promise<PageOfQuotes> {
+    return parse.pageOfQuotes(
+      await this.request(
+        'GET',
+        urls.rest.market_data,
+        `stocks/${params.symbol}/quotes`,
+      ),
     )
   }
 
-  getBars(params: GetBars): Promise<PageOfBars[]> {
-    return this.request(
-      'GET',
-      urls.rest.market_data,
-      `stocks/${params.symbol}/bars`,
+  async getBars(params: GetBars): Promise<PageOfBars> {
+    return parse.pageOfBars(
+      await this.request(
+        'GET',
+        urls.rest.market_data,
+        `stocks/${params.symbol}/bars`,
+      ),
     )
   }
 
