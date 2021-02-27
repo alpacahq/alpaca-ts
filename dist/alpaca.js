@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.0.2
+ * alpaca@5.0.4
  * released under the permissive ISC license
  */
 
@@ -257,125 +257,227 @@ class AlpacaClient {
     }
     getAccount() {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.account(yield this.request('GET', urls.rest.account, 'account'));
+            return parse.account(yield this.request({
+                method: 'GET',
+                url: `${urls.rest.account}/account`,
+            }));
         });
     }
     getOrder(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.order(yield this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}`, undefined, { nested: params.nested }));
+            return parse.order(yield this.request({
+                method: 'GET',
+                url: `${urls.rest.account}/orders/${params.order_id || params.client_order_id}`,
+                data: { nested: params.nested },
+            }));
         });
     }
     getOrders(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.orders(yield this.request('GET', urls.rest.account, `orders`, undefined, params));
+            return parse.orders(yield this.request({
+                method: 'GET',
+                url: `${urls.rest.account}/orders`,
+                data: params,
+            }));
         });
     }
     placeOrder(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.order(yield this.request('POST', urls.rest.account, `orders`, params));
+            return parse.order(yield this.request({
+                method: 'POST',
+                url: `${urls.rest.account}/orders`,
+                data: params,
+            }));
         });
     }
     replaceOrder(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.order(yield this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
+            return parse.order(yield this.request({
+                method: 'PATCH',
+                url: `${urls.rest.account}/orders/${params.order_id}`,
+                data: params,
+            }));
         });
     }
     cancelOrder(params) {
-        return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, undefined, false);
+        return this.request({
+            method: 'DELETE',
+            url: `${urls.rest.account}/orders/${params.order_id}`,
+        });
     }
     cancelOrders() {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.canceled_orders(yield this.request('DELETE', urls.rest.account, `orders`));
+            return parse.canceled_orders(yield this.request({
+                method: 'DELETE',
+                url: `${urls.rest.account}/orders`,
+            }));
         });
     }
     getPosition(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.position(yield this.request('GET', urls.rest.account, `positions/${params.symbol}`));
+            return parse.position(yield this.request({
+                method: 'GET',
+                url: `${urls.rest.account}/positions/${params.symbol}`,
+            }));
         });
     }
     getPositions() {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.positions(yield this.request('GET', urls.rest.account, `positions`));
+            return parse.positions(yield this.request({
+                method: 'GET',
+                url: `${urls.rest.account}/positions`,
+            }));
         });
     }
     closePosition(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.order(yield this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
+            return parse.order(yield this.request({
+                method: 'DELETE',
+                url: `${urls.rest.account}/positions/${params.symbol}`,
+            }));
         });
     }
     closePositions() {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.orders(yield this.request('DELETE', urls.rest.account, `positions`));
+            return parse.orders(yield this.request({
+                method: 'DELETE',
+                url: `${urls.rest.account}/positions`,
+            }));
         });
     }
     getAsset(params) {
-        return this.request('GET', urls.rest.account, `assets/${params.asset_id_or_symbol}`);
+        return this.request({
+            method: 'GET',
+            url: `${urls.rest.account}/assets/${params.asset_id_or_symbol}`,
+        });
     }
     getAssets(params) {
-        return this.request('GET', urls.rest.account, `assets?${qs.stringify(params)}`);
+        return this.request({
+            method: 'GET',
+            url: `${urls.rest.account}/assets`,
+            data: params,
+        });
     }
     getWatchlist(params) {
-        return this.request('GET', urls.rest.account, `watchlists/${params.uuid}`);
+        return this.request({
+            method: 'GET',
+            url: `${urls.rest.account}/watchlists/${params.uuid}`,
+        });
     }
     getWatchlists() {
-        return this.request('GET', urls.rest.account, `watchlists`);
+        return this.request({
+            method: 'GET',
+            url: `${urls.rest.account}/watchlists`,
+        });
     }
     createWatchlist(params) {
-        return this.request('POST', urls.rest.account, `watchlists`, params);
+        return this.request({
+            method: 'POST',
+            url: `${urls.rest.account}/watchlists`,
+            data: params,
+        });
     }
     updateWatchlist(params) {
-        return this.request('PUT', urls.rest.account, `watchlists/${params.uuid}`, params);
+        return this.request({
+            method: 'PUT',
+            url: `${urls.rest.account}/watchlists/${params.uuid}`,
+            data: params,
+        });
     }
     addToWatchlist(params) {
-        return this.request('POST', urls.rest.account, `watchlists/${params.uuid}`, params);
+        return this.request({
+            method: 'POST',
+            url: `${urls.rest.account}/watchlists/${params.uuid}`,
+            data: params,
+        });
     }
     removeFromWatchlist(params) {
-        return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}/${params.symbol}`, undefined, undefined, false);
+        return this.request({
+            method: 'DELETE',
+            url: `${urls.rest.account}/watchlists/${params.uuid}/${params.symbol}`,
+        });
     }
     deleteWatchlist(params) {
-        return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}`, undefined, undefined, false);
+        return this.request({
+            method: 'DELETE',
+            url: `${urls.rest.account}/watchlists/${params.uuid}`,
+        });
     }
     getCalendar(params) {
-        return this.request('GET', urls.rest.account, `calendar`, undefined, params);
+        return this.request({
+            method: 'GET',
+            url: `${urls.rest.account}/calendar`,
+            data: params,
+        });
     }
     getClock() {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.clock(yield this.request('GET', urls.rest.account, `clock`));
+            return parse.clock(yield this.request({
+                method: 'GET',
+                url: `${urls.rest.account}/clock`,
+            }));
         });
     }
     getAccountConfigurations() {
-        return this.request('GET', urls.rest.account, `account/configurations`);
+        return this.request({
+            method: 'GET',
+            url: `${urls.rest.account}/account/configurations`,
+        });
     }
     updateAccountConfigurations(params) {
-        return this.request('PATCH', urls.rest.account, `account/configurations`, params);
+        return this.request({
+            method: 'PATCH',
+            url: `${urls.rest.account}/account/configurations`,
+            data: params,
+        });
     }
     getAccountActivities(params) {
         return __awaiter(this, void 0, void 0, function* () {
             if (params.activity_types && Array.isArray(params.activity_types)) {
                 params.activity_types = params.activity_types.join(',');
             }
-            return parse.activities(yield this.request('GET', urls.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}`, undefined, params));
+            return parse.activities(yield this.request({
+                method: 'GET',
+                url: `${urls.rest.account}/account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}`,
+                data: Object.assign(Object.assign({}, params), { activity_type: undefined }),
+            }));
         });
     }
     getPortfolioHistory(params) {
-        return this.request('GET', urls.rest.account, `account/portfolio/history`, undefined, params);
+        return this.request({
+            method: 'GET',
+            url: `${urls.rest.account}/account/portfolio/history`,
+            data: params,
+        });
     }
     getTrades(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.pageOfTrades(yield this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/trades`, undefined, params));
+            return parse.pageOfTrades(yield this.request({
+                method: 'GET',
+                url: `${urls.rest.market_data}/stocks/${params.symbol}/trades`,
+                data: Object.assign(Object.assign({}, params), { symbol: undefined }),
+            }));
         });
     }
     getQuotes(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.pageOfQuotes(yield this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/quotes`, undefined, params));
+            return parse.pageOfQuotes(yield this.request({
+                method: 'GET',
+                url: `${urls.rest.market_data}/stocks/${params.symbol}/quotes`,
+                data: Object.assign(Object.assign({}, params), { symbol: undefined }),
+            }));
         });
     }
     getBars(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse.pageOfBars(yield this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/bars`, undefined, params));
+            return parse.pageOfBars(yield this.request({
+                method: 'GET',
+                url: `${urls.rest.market_data}/stocks/${params.symbol}/bars`,
+                data: Object.assign(Object.assign({}, params), { symbol: undefined }),
+            }));
         });
     }
-    request(method, url, endpoint, body, query, isJson = true) {
+    request(params) {
         return __awaiter(this, void 0, void 0, function* () {
             let headers = {};
             if ('access_token' in this.params.credentials) {
@@ -384,39 +486,43 @@ class AlpacaClient {
             else {
                 headers['APCA-API-KEY-ID'] = this.params.credentials.key;
                 headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
-                if (this.params.credentials.paper && url == urls.rest.account) {
-                    url = urls.rest.account.replace('api.', 'paper-api.');
+                if (this.params.credentials.paper) {
+                    params.url = params.url.replace('api.', 'paper-api.');
                 }
             }
-            if (query) {
-                for (let [key, value] of Object.entries(query)) {
-                    if (value instanceof Date) {
-                        query[key] = value.toISOString();
-                    }
+            for (let [key, value] of Object.entries(params.data)) {
+                if (value instanceof Date) {
+                    params.data[key] = value.toISOString();
                 }
             }
-            const makeCall = () => unifetch(`${url}/${endpoint}${query ? '?'.concat(qs.stringify(query)) : ''}`, {
-                method: method,
+            let query = '';
+            if (params.data) {
+                if (params.method != 'POST' && params.method != 'PATCH') {
+                    query = '?'.concat(qs.stringify(params.data));
+                }
+            }
+            const makeCall = () => unifetch(params.url.concat(query), {
+                method: params.method,
                 headers,
-                body: JSON.stringify(body),
-            });
-            const func = this.params.rate_limit
+                body: JSON.stringify(params.data),
+            }), func = this.params.rate_limit
                 ? () => this.limiter.schedule(makeCall)
                 : makeCall;
-            let resp;
-            let result = {};
+            let resp, result = {};
             try {
                 resp = yield func();
-                if (!isJson)
+                if (!(params.isJson != undefined ? false : params.isJson)) {
                     return resp.ok;
+                }
                 result = yield resp.json();
             }
             catch (e) {
                 console.error(e);
                 throw result;
             }
-            if ('code' in result || 'message' in result)
+            if ('code' in result || 'message' in result) {
                 throw result;
+            }
             return result;
         });
     }

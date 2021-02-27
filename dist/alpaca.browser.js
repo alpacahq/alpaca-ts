@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.0.2
+ * alpaca@5.0.4
  * released under the permissive ISC license
  */
 
@@ -3956,96 +3956,198 @@
           }
       }
       async getAccount() {
-          return parse$1.account(await this.request('GET', urls.rest.account, 'account'));
+          return parse$1.account(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/account`,
+          }));
       }
       async getOrder(params) {
-          return parse$1.order(await this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}`, undefined, { nested: params.nested }));
+          return parse$1.order(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/orders/${params.order_id || params.client_order_id}`,
+              data: { nested: params.nested },
+          }));
       }
       async getOrders(params) {
-          return parse$1.orders(await this.request('GET', urls.rest.account, `orders`, undefined, params));
+          return parse$1.orders(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/orders`,
+              data: params,
+          }));
       }
       async placeOrder(params) {
-          return parse$1.order(await this.request('POST', urls.rest.account, `orders`, params));
+          return parse$1.order(await this.request({
+              method: 'POST',
+              url: `${urls.rest.account}/orders`,
+              data: params,
+          }));
       }
       async replaceOrder(params) {
-          return parse$1.order(await this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
+          return parse$1.order(await this.request({
+              method: 'PATCH',
+              url: `${urls.rest.account}/orders/${params.order_id}`,
+              data: params,
+          }));
       }
       cancelOrder(params) {
-          return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, undefined, false);
+          return this.request({
+              method: 'DELETE',
+              url: `${urls.rest.account}/orders/${params.order_id}`,
+          });
       }
       async cancelOrders() {
-          return parse$1.canceled_orders(await this.request('DELETE', urls.rest.account, `orders`));
+          return parse$1.canceled_orders(await this.request({
+              method: 'DELETE',
+              url: `${urls.rest.account}/orders`,
+          }));
       }
       async getPosition(params) {
-          return parse$1.position(await this.request('GET', urls.rest.account, `positions/${params.symbol}`));
+          return parse$1.position(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/positions/${params.symbol}`,
+          }));
       }
       async getPositions() {
-          return parse$1.positions(await this.request('GET', urls.rest.account, `positions`));
+          return parse$1.positions(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/positions`,
+          }));
       }
       async closePosition(params) {
-          return parse$1.order(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
+          return parse$1.order(await this.request({
+              method: 'DELETE',
+              url: `${urls.rest.account}/positions/${params.symbol}`,
+          }));
       }
       async closePositions() {
-          return parse$1.orders(await this.request('DELETE', urls.rest.account, `positions`));
+          return parse$1.orders(await this.request({
+              method: 'DELETE',
+              url: `${urls.rest.account}/positions`,
+          }));
       }
       getAsset(params) {
-          return this.request('GET', urls.rest.account, `assets/${params.asset_id_or_symbol}`);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/assets/${params.asset_id_or_symbol}`,
+          });
       }
       getAssets(params) {
-          return this.request('GET', urls.rest.account, `assets?${lib$1.stringify(params)}`);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/assets`,
+              data: params,
+          });
       }
       getWatchlist(params) {
-          return this.request('GET', urls.rest.account, `watchlists/${params.uuid}`);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/watchlists/${params.uuid}`,
+          });
       }
       getWatchlists() {
-          return this.request('GET', urls.rest.account, `watchlists`);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/watchlists`,
+          });
       }
       createWatchlist(params) {
-          return this.request('POST', urls.rest.account, `watchlists`, params);
+          return this.request({
+              method: 'POST',
+              url: `${urls.rest.account}/watchlists`,
+              data: params,
+          });
       }
       updateWatchlist(params) {
-          return this.request('PUT', urls.rest.account, `watchlists/${params.uuid}`, params);
+          return this.request({
+              method: 'PUT',
+              url: `${urls.rest.account}/watchlists/${params.uuid}`,
+              data: params,
+          });
       }
       addToWatchlist(params) {
-          return this.request('POST', urls.rest.account, `watchlists/${params.uuid}`, params);
+          return this.request({
+              method: 'POST',
+              url: `${urls.rest.account}/watchlists/${params.uuid}`,
+              data: params,
+          });
       }
       removeFromWatchlist(params) {
-          return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}/${params.symbol}`, undefined, undefined, false);
+          return this.request({
+              method: 'DELETE',
+              url: `${urls.rest.account}/watchlists/${params.uuid}/${params.symbol}`,
+          });
       }
       deleteWatchlist(params) {
-          return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}`, undefined, undefined, false);
+          return this.request({
+              method: 'DELETE',
+              url: `${urls.rest.account}/watchlists/${params.uuid}`,
+          });
       }
       getCalendar(params) {
-          return this.request('GET', urls.rest.account, `calendar`, undefined, params);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/calendar`,
+              data: params,
+          });
       }
       async getClock() {
-          return parse$1.clock(await this.request('GET', urls.rest.account, `clock`));
+          return parse$1.clock(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/clock`,
+          }));
       }
       getAccountConfigurations() {
-          return this.request('GET', urls.rest.account, `account/configurations`);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/account/configurations`,
+          });
       }
       updateAccountConfigurations(params) {
-          return this.request('PATCH', urls.rest.account, `account/configurations`, params);
+          return this.request({
+              method: 'PATCH',
+              url: `${urls.rest.account}/account/configurations`,
+              data: params,
+          });
       }
       async getAccountActivities(params) {
           if (params.activity_types && Array.isArray(params.activity_types)) {
               params.activity_types = params.activity_types.join(',');
           }
-          return parse$1.activities(await this.request('GET', urls.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}`, undefined, params));
+          return parse$1.activities(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}`,
+              data: { ...params, activity_type: undefined },
+          }));
       }
       getPortfolioHistory(params) {
-          return this.request('GET', urls.rest.account, `account/portfolio/history`, undefined, params);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/account/portfolio/history`,
+              data: params,
+          });
       }
       async getTrades(params) {
-          return parse$1.pageOfTrades(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/trades`, undefined, params));
+          return parse$1.pageOfTrades(await this.request({
+              method: 'GET',
+              url: `${urls.rest.market_data}/stocks/${params.symbol}/trades`,
+              data: { ...params, symbol: undefined },
+          }));
       }
       async getQuotes(params) {
-          return parse$1.pageOfQuotes(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/quotes`, undefined, params));
+          return parse$1.pageOfQuotes(await this.request({
+              method: 'GET',
+              url: `${urls.rest.market_data}/stocks/${params.symbol}/quotes`,
+              data: { ...params, symbol: undefined },
+          }));
       }
       async getBars(params) {
-          return parse$1.pageOfBars(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/bars`, undefined, params));
+          return parse$1.pageOfBars(await this.request({
+              method: 'GET',
+              url: `${urls.rest.market_data}/stocks/${params.symbol}/bars`,
+              data: { ...params, symbol: undefined },
+          }));
       }
-      async request(method, url, endpoint, body, query, isJson = true) {
+      async request(params) {
           let headers = {};
           if ('access_token' in this.params.credentials) {
               headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
@@ -4053,39 +4155,43 @@
           else {
               headers['APCA-API-KEY-ID'] = this.params.credentials.key;
               headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
-              if (this.params.credentials.paper && url == urls.rest.account) {
-                  url = urls.rest.account.replace('api.', 'paper-api.');
+              if (this.params.credentials.paper) {
+                  params.url = params.url.replace('api.', 'paper-api.');
               }
           }
-          if (query) {
-              for (let [key, value] of Object.entries(query)) {
-                  if (value instanceof Date) {
-                      query[key] = value.toISOString();
-                  }
+          for (let [key, value] of Object.entries(params.data)) {
+              if (value instanceof Date) {
+                  params.data[key] = value.toISOString();
               }
           }
-          const makeCall = () => unifetch(`${url}/${endpoint}${query ? '?'.concat(lib$1.stringify(query)) : ''}`, {
-              method: method,
+          let query = '';
+          if (params.data) {
+              if (params.method != 'POST' && params.method != 'PATCH') {
+                  query = '?'.concat(lib$1.stringify(params.data));
+              }
+          }
+          const makeCall = () => unifetch(params.url.concat(query), {
+              method: params.method,
               headers,
-              body: JSON.stringify(body),
-          });
-          const func = this.params.rate_limit
+              body: JSON.stringify(params.data),
+          }), func = this.params.rate_limit
               ? () => this.limiter.schedule(makeCall)
               : makeCall;
-          let resp;
-          let result = {};
+          let resp, result = {};
           try {
               resp = await func();
-              if (!isJson)
+              if (!(params.isJson != undefined ? false : params.isJson)) {
                   return resp.ok;
+              }
               result = await resp.json();
           }
           catch (e) {
               console.error(e);
               throw result;
           }
-          if ('code' in result || 'message' in result)
+          if ('code' in result || 'message' in result) {
               throw result;
+          }
           return result;
       }
   }

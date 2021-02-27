@@ -102,193 +102,206 @@ export class AlpacaClient {
 
   async getAccount(): Promise<Account> {
     return parse.account(
-      await this.request<RawAccount>('GET', urls.rest.account, 'account'),
+      await this.request<RawAccount>({
+        method: 'GET',
+        url: `${urls.rest.account}/account`,
+      }),
     )
   }
 
   async getOrder(params: GetOrder): Promise<Order> {
     return parse.order(
-      await this.request<RawOrder>(
-        'GET',
-        urls.rest.account,
-        `orders/${params.order_id || params.client_order_id}`,
-        undefined,
-        { nested: params.nested },
-      ),
+      await this.request<RawOrder>({
+        method: 'GET',
+        url: `${urls.rest.account}/orders/${
+          params.order_id || params.client_order_id
+        }`,
+        data: { nested: params.nested },
+      }),
     )
   }
 
   async getOrders(params?: GetOrders): Promise<Order[]> {
     return parse.orders(
-      await this.request<RawOrder[]>(
-        'GET',
-        urls.rest.account,
-        `orders`,
-        undefined,
-        params,
-      ),
+      await this.request<RawOrder[]>({
+        method: 'GET',
+        url: `${urls.rest.account}/orders`,
+        data: params,
+      }),
     )
   }
 
   async placeOrder(params: PlaceOrder): Promise<Order> {
     return parse.order(
-      await this.request<RawOrder>('POST', urls.rest.account, `orders`, params),
+      await this.request<RawOrder>({
+        method: 'POST',
+        url: `${urls.rest.account}/orders`,
+        data: params,
+      }),
     )
   }
 
   async replaceOrder(params: ReplaceOrder): Promise<Order> {
     return parse.order(
-      await this.request<RawOrder>(
-        'PATCH',
-        urls.rest.account,
-        `orders/${params.order_id}`,
-        params,
-      ),
+      await this.request<RawOrder>({
+        method: 'PATCH',
+        url: `${urls.rest.account}/orders/${params.order_id}`,
+        data: params,
+      }),
     )
   }
 
   cancelOrder(params: CancelOrder): Promise<Boolean> {
-    return this.request<Boolean>(
-      'DELETE',
-      urls.rest.account,
-      `orders/${params.order_id}`,
-      undefined,
-      undefined,
-      false,
-    )
+    return this.request<Boolean>({
+      method: 'DELETE',
+      url: `${urls.rest.account}/orders/${params.order_id}`,
+    })
   }
 
   async cancelOrders(): Promise<OrderCancelation[]> {
     return parse.canceled_orders(
-      await this.request<RawOrderCancelation[]>(
-        'DELETE',
-        urls.rest.account,
-        `orders`,
-      ),
+      await this.request<RawOrderCancelation[]>({
+        method: 'DELETE',
+        url: `${urls.rest.account}/orders`,
+      }),
     )
   }
 
   async getPosition(params: GetPosition): Promise<Position> {
     return parse.position(
-      await this.request<RawPosition>(
-        'GET',
-        urls.rest.account,
-        `positions/${params.symbol}`,
-      ),
+      await this.request<RawPosition>({
+        method: 'GET',
+        url: `${urls.rest.account}/positions/${params.symbol}`,
+      }),
     )
   }
 
   async getPositions(): Promise<Position[]> {
     return parse.positions(
-      await this.request<RawPosition[]>('GET', urls.rest.account, `positions`),
+      await this.request<RawPosition[]>({
+        method: 'GET',
+        url: `${urls.rest.account}/positions`,
+      }),
     )
   }
 
   async closePosition(params: ClosePosition): Promise<Order> {
     return parse.order(
-      await this.request<RawOrder>(
-        'DELETE',
-        urls.rest.account,
-        `positions/${params.symbol}`,
-      ),
+      await this.request<RawOrder>({
+        method: 'DELETE',
+        url: `${urls.rest.account}/positions/${params.symbol}`,
+      }),
     )
   }
 
   async closePositions(): Promise<Order[]> {
     return parse.orders(
-      await this.request<RawOrder[]>('DELETE', urls.rest.account, `positions`),
+      await this.request<RawOrder[]>({
+        method: 'DELETE',
+        url: `${urls.rest.account}/positions`,
+      }),
     )
   }
 
   getAsset(params: GetAsset): Promise<Asset> {
-    return this.request(
-      'GET',
-      urls.rest.account,
-      `assets/${params.asset_id_or_symbol}`,
-    )
+    return this.request({
+      method: 'GET',
+      url: `${urls.rest.account}/assets/${params.asset_id_or_symbol}`,
+    })
   }
 
   getAssets(params?: GetAssets): Promise<Asset[]> {
-    return this.request(
-      'GET',
-      urls.rest.account,
-      `assets?${qs.stringify(params)}`,
-    )
+    return this.request({
+      method: 'GET',
+      url: `${urls.rest.account}/assets`,
+      data: params,
+    })
   }
 
   getWatchlist(params: GetWatchList): Promise<Watchlist> {
-    return this.request('GET', urls.rest.account, `watchlists/${params.uuid}`)
+    return this.request({
+      method: 'GET',
+      url: `${urls.rest.account}/watchlists/${params.uuid}`,
+    })
   }
 
   getWatchlists(): Promise<Watchlist[]> {
-    return this.request('GET', urls.rest.account, `watchlists`)
+    return this.request({
+      method: 'GET',
+      url: `${urls.rest.account}/watchlists`,
+    })
   }
 
   createWatchlist(params: CreateWatchList): Promise<Watchlist[]> {
-    return this.request('POST', urls.rest.account, `watchlists`, params)
+    return this.request({
+      method: 'POST',
+      url: `${urls.rest.account}/watchlists`,
+      data: params,
+    })
   }
 
   updateWatchlist(params: UpdateWatchList): Promise<Watchlist> {
-    return this.request(
-      'PUT',
-      urls.rest.account,
-      `watchlists/${params.uuid}`,
-      params,
-    )
+    return this.request({
+      method: 'PUT',
+      url: `${urls.rest.account}/watchlists/${params.uuid}`,
+      data: params,
+    })
   }
 
   addToWatchlist(params: AddToWatchList): Promise<Watchlist> {
-    return this.request(
-      'POST',
-      urls.rest.account,
-      `watchlists/${params.uuid}`,
-      params,
-    )
+    return this.request({
+      method: 'POST',
+      url: `${urls.rest.account}/watchlists/${params.uuid}`,
+      data: params,
+    })
   }
 
   removeFromWatchlist(params: RemoveFromWatchList): Promise<Boolean> {
-    return this.request<Boolean>(
-      'DELETE',
-      urls.rest.account,
-      `watchlists/${params.uuid}/${params.symbol}`,
-      undefined,
-      undefined,
-      false,
-    )
+    return this.request<Boolean>({
+      method: 'DELETE',
+      url: `${urls.rest.account}/watchlists/${params.uuid}/${params.symbol}`,
+    })
   }
 
   deleteWatchlist(params: DeleteWatchList): Promise<Boolean> {
-    return this.request<Boolean>(
-      'DELETE',
-      urls.rest.account,
-      `watchlists/${params.uuid}`,
-      undefined,
-      undefined,
-      false,
-    )
+    return this.request<Boolean>({
+      method: 'DELETE',
+      url: `${urls.rest.account}/watchlists/${params.uuid}`,
+    })
   }
 
   getCalendar(params?: GetCalendar): Promise<Calendar[]> {
-    return this.request('GET', urls.rest.account, `calendar`, undefined, params)
+    return this.request({
+      method: 'GET',
+      url: `${urls.rest.account}/calendar`,
+      data: params,
+    })
   }
 
   async getClock(): Promise<Clock> {
-    return parse.clock(await this.request('GET', urls.rest.account, `clock`))
+    return parse.clock(
+      await this.request({
+        method: 'GET',
+        url: `${urls.rest.account}/clock`,
+      }),
+    )
   }
 
   getAccountConfigurations(): Promise<AccountConfigurations> {
-    return this.request('GET', urls.rest.account, `account/configurations`)
+    return this.request({
+      method: 'GET',
+      url: `${urls.rest.account}/account/configurations`,
+    })
   }
 
   updateAccountConfigurations(
     params: UpdateAccountConfigurations,
   ): Promise<AccountConfigurations> {
-    return this.request(
-      'PATCH',
-      urls.rest.account,
-      `account/configurations`,
-      params,
-    )
+    return this.request({
+      method: 'PATCH',
+      url: `${urls.rest.account}/account/configurations`,
+      data: params,
+    })
   }
 
   async getAccountActivities(
@@ -299,115 +312,109 @@ export class AlpacaClient {
     }
 
     return parse.activities(
-      await this.request<RawActivity[]>(
-        'GET',
-        urls.rest.account,
-        `account/activities${
+      await this.request<RawActivity[]>({
+        method: 'GET',
+        url: `${urls.rest.account}/account/activities${
           params.activity_type ? '/'.concat(params.activity_type) : ''
         }`,
-        undefined,
-        params,
-      ),
+        data: { ...params, activity_type: undefined },
+      }),
     )
   }
 
   getPortfolioHistory(params?: GetPortfolioHistory): Promise<PortfolioHistory> {
-    return this.request(
-      'GET',
-      urls.rest.account,
-      `account/portfolio/history`,
-      undefined,
-      params,
-    )
+    return this.request({
+      method: 'GET',
+      url: `${urls.rest.account}/account/portfolio/history`,
+      data: params,
+    })
   }
 
   async getTrades(params: GetTrades): Promise<PageOfTrades> {
     return parse.pageOfTrades(
-      await this.request(
-        'GET',
-        urls.rest.market_data,
-        `stocks/${params.symbol}/trades`,
-        undefined,
-        params,
-      ),
+      await this.request({
+        method: 'GET',
+        url: `${urls.rest.market_data}/stocks/${params.symbol}/trades`,
+        data: { ...params, symbol: undefined },
+      }),
     )
   }
 
   async getQuotes(params: GetQuotes): Promise<PageOfQuotes> {
     return parse.pageOfQuotes(
-      await this.request(
-        'GET',
-        urls.rest.market_data,
-        `stocks/${params.symbol}/quotes`,
-        undefined,
-        params,
-      ),
+      await this.request({
+        method: 'GET',
+        url: `${urls.rest.market_data}/stocks/${params.symbol}/quotes`,
+        data: { ...params, symbol: undefined },
+      }),
     )
   }
 
   async getBars(params: GetBars): Promise<PageOfBars> {
     return parse.pageOfBars(
-      await this.request(
-        'GET',
-        urls.rest.market_data,
-        `stocks/${params.symbol}/bars`,
-        undefined,
-        params,
-      ),
+      await this.request({
+        method: 'GET',
+        url: `${urls.rest.market_data}/stocks/${params.symbol}/bars`,
+        data: { ...params, symbol: undefined },
+      }),
     )
   }
 
-  private async request<T = any>(
-    method: string,
-    url: string,
-    endpoint: string,
-    body?: { [key: string]: any },
-    query?: { [key: string]: any },
-    isJson: boolean = true,
-  ): Promise<T> {
+  private async request<T = any>(params: {
+    method: 'GET' | 'DELETE' | 'PUT' | 'PATCH' | 'POST'
+    url: string
+    data?: { [key: string]: any }
+    isJson?: boolean
+  }): Promise<T> {
     let headers: any = {}
 
     if ('access_token' in this.params.credentials) {
       headers[
         'Authorization'
       ] = `Bearer ${this.params.credentials.access_token}`
-      url == urls.rest.account
     } else {
       headers['APCA-API-KEY-ID'] = this.params.credentials.key
       headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret
-      if (this.params.credentials.paper && url == urls.rest.account) {
-        url = urls.rest.account.replace('api.', 'paper-api.')
+
+      if (this.params.credentials.paper) {
+        params.url = params.url.replace('api.', 'paper-api.')
       }
     }
 
-    if (query) {
-      // translate dates to ISO strings
-      for (let [key, value] of Object.entries(query)) {
-        if (value instanceof Date) {
-          query[key] = (value as Date).toISOString()
-        }
+    // translate dates to ISO strings
+    for (let [key, value] of Object.entries(params.data)) {
+      if (value instanceof Date) {
+        params.data[key] = (value as Date).toISOString()
+      }
+    }
+
+    let query = ''
+
+    if (params.data) {
+      if (params.method != 'POST' && params.method != 'PATCH') {
+        query = '?'.concat(qs.stringify(params.data))
       }
     }
 
     const makeCall = () =>
-      unifetch(
-        `${url}/${endpoint}${query ? '?'.concat(qs.stringify(query)) : ''}`,
-        {
-          method: method,
+        unifetch(params.url.concat(query), {
+          method: params.method,
           headers,
-          body: JSON.stringify(body),
-        },
-      )
-    const func = this.params.rate_limit
-      ? () => this.limiter.schedule(makeCall)
-      : makeCall
+          body: JSON.stringify(params.data),
+        }),
+      func = this.params.rate_limit
+        ? () => this.limiter.schedule(makeCall)
+        : makeCall
 
-    let resp
-    let result = {}
+    let resp,
+      result = {}
+
     try {
       resp = await func()
 
-      if (!isJson) return resp.ok as any
+      if (!(params.isJson != undefined ? false : params.isJson)) {
+        return resp.ok as any
+      }
 
       result = await resp.json()
     } catch (e) {
@@ -415,7 +422,9 @@ export class AlpacaClient {
       throw result
     }
 
-    if ('code' in result || 'message' in result) throw result
+    if ('code' in result || 'message' in result) {
+      throw result
+    }
 
     return result as any
   }
