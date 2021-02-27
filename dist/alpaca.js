@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.0.7
+ * alpaca@5.0.8
  * released under the permissive ISC license
  */
 
@@ -490,13 +490,13 @@ class AlpacaClient {
                     params.url = params.url.replace('api.', 'paper-api.');
                 }
             }
-            for (let [key, value] of Object.entries(params.data)) {
-                if (value instanceof Date) {
-                    params.data[key] = value.toISOString();
-                }
-            }
             let query = '';
             if (params.data) {
+                for (let [key, value] of Object.entries(params.data)) {
+                    if (value instanceof Date) {
+                        params.data[key] = value.toISOString();
+                    }
+                }
                 if (params.method != 'POST' && params.method != 'PATCH') {
                     query = '?'.concat(qs.stringify(params.data));
                     params.data = undefined;

@@ -381,16 +381,17 @@ export class AlpacaClient {
       }
     }
 
-    // translate dates to ISO strings
-    for (let [key, value] of Object.entries(params.data)) {
-      if (value instanceof Date) {
-        params.data[key] = (value as Date).toISOString()
-      }
-    }
-
     let query = ''
 
     if (params.data) {
+      // translate dates to ISO strings
+      for (let [key, value] of Object.entries(params.data)) {
+        if (value instanceof Date) {
+          params.data[key] = (value as Date).toISOString()
+        }
+      }
+
+      // build query
       if (params.method != 'POST' && params.method != 'PATCH') {
         query = '?'.concat(qs.stringify(params.data))
         params.data = undefined

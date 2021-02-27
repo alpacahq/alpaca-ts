@@ -240,14 +240,15 @@ export class AlpacaClient {
                 params.url = params.url.replace('api.', 'paper-api.');
             }
         }
-        // translate dates to ISO strings
-        for (let [key, value] of Object.entries(params.data)) {
-            if (value instanceof Date) {
-                params.data[key] = value.toISOString();
-            }
-        }
         let query = '';
         if (params.data) {
+            // translate dates to ISO strings
+            for (let [key, value] of Object.entries(params.data)) {
+                if (value instanceof Date) {
+                    params.data[key] = value.toISOString();
+                }
+            }
+            // build query
             if (params.method != 'POST' && params.method != 'PATCH') {
                 query = '?'.concat(qs.stringify(params.data));
                 params.data = undefined;
