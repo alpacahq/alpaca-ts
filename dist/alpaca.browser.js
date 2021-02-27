@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.0.1
+ * alpaca@5.0.2
  * released under the permissive ISC license
  */
 
@@ -3959,12 +3959,10 @@
           return parse$1.account(await this.request('GET', urls.rest.account, 'account'));
       }
       async getOrder(params) {
-          return parse$1.order(await this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}?${lib$1.stringify({
-            nested: params.nested,
-        })}`));
+          return parse$1.order(await this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}`, undefined, { nested: params.nested }));
       }
       async getOrders(params) {
-          return parse$1.orders(await this.request('GET', urls.rest.account, `orders?${lib$1.stringify(params)}`));
+          return parse$1.orders(await this.request('GET', urls.rest.account, `orders`, undefined, params));
       }
       async placeOrder(params) {
           return parse$1.order(await this.request('POST', urls.rest.account, `orders`, params));
@@ -3973,7 +3971,7 @@
           return parse$1.order(await this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
       }
       cancelOrder(params) {
-          return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, false);
+          return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, undefined, false);
       }
       async cancelOrders() {
           return parse$1.canceled_orders(await this.request('DELETE', urls.rest.account, `orders`));
@@ -4012,13 +4010,13 @@
           return this.request('POST', urls.rest.account, `watchlists/${params.uuid}`, params);
       }
       removeFromWatchlist(params) {
-          return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}/${params.symbol}`, undefined, false);
+          return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}/${params.symbol}`, undefined, undefined, false);
       }
       deleteWatchlist(params) {
-          return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}`, undefined, false);
+          return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}`, undefined, undefined, false);
       }
       getCalendar(params) {
-          return this.request('GET', urls.rest.account, `calendar?${lib$1.stringify(params)}`);
+          return this.request('GET', urls.rest.account, `calendar`, undefined, params);
       }
       async getClock() {
           return parse$1.clock(await this.request('GET', urls.rest.account, `clock`));
@@ -4033,21 +4031,21 @@
           if (params.activity_types && Array.isArray(params.activity_types)) {
               params.activity_types = params.activity_types.join(',');
           }
-          return parse$1.activities(await this.request('GET', urls.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}?${lib$1.stringify(params)}`));
+          return parse$1.activities(await this.request('GET', urls.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}`, undefined, params));
       }
       getPortfolioHistory(params) {
-          return this.request('GET', urls.rest.account, `account/portfolio/history?${lib$1.stringify(params)}`);
+          return this.request('GET', urls.rest.account, `account/portfolio/history`, undefined, params);
       }
       async getTrades(params) {
-          return parse$1.pageOfTrades(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/trades`));
+          return parse$1.pageOfTrades(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/trades`, undefined, params));
       }
       async getQuotes(params) {
-          return parse$1.pageOfQuotes(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/quotes`));
+          return parse$1.pageOfQuotes(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/quotes`, undefined, params));
       }
       async getBars(params) {
-          return parse$1.pageOfBars(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/bars`));
+          return parse$1.pageOfBars(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/bars`, undefined, params));
       }
-      async request(method, url, endpoint, data, isJson = true) {
+      async request(method, url, endpoint, body, query, isJson = true) {
           let headers = {};
           if ('access_token' in this.params.credentials) {
               headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
@@ -4059,17 +4057,17 @@
                   url = urls.rest.account.replace('api.', 'paper-api.');
               }
           }
-          if (data) {
-              for (let [key, value] of Object.entries(data)) {
+          if (query) {
+              for (let [key, value] of Object.entries(query)) {
                   if (value instanceof Date) {
-                      data[key] = value.toISOString();
+                      query[key] = value.toISOString();
                   }
               }
           }
-          const makeCall = () => unifetch(`${url}/${endpoint}`, {
+          const makeCall = () => unifetch(`${url}/${endpoint}${query ? '?'.concat(lib$1.stringify(query)) : ''}`, {
               method: method,
               headers,
-              body: JSON.stringify(data),
+              body: JSON.stringify(body),
           });
           const func = this.params.rate_limit
               ? () => this.limiter.schedule(makeCall)
@@ -4086,7 +4084,7 @@
               console.error(e);
               throw result;
           }
-          if ('code' in result && 'message' in result)
+          if ('code' in result || 'message' in result)
               throw result;
           return result;
       }

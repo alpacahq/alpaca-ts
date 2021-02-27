@@ -111,9 +111,9 @@ export class AlpacaClient {
       await this.request<RawOrder>(
         'GET',
         urls.rest.account,
-        `orders/${params.order_id || params.client_order_id}?${qs.stringify({
-          nested: params.nested,
-        })}`,
+        `orders/${params.order_id || params.client_order_id}`,
+        undefined,
+        { nested: params.nested },
       ),
     )
   }
@@ -123,7 +123,9 @@ export class AlpacaClient {
       await this.request<RawOrder[]>(
         'GET',
         urls.rest.account,
-        `orders?${qs.stringify(params)}`,
+        `orders`,
+        undefined,
+        params,
       ),
     )
   }
@@ -150,6 +152,7 @@ export class AlpacaClient {
       'DELETE',
       urls.rest.account,
       `orders/${params.order_id}`,
+      undefined,
       undefined,
       false,
     )
@@ -249,6 +252,7 @@ export class AlpacaClient {
       urls.rest.account,
       `watchlists/${params.uuid}/${params.symbol}`,
       undefined,
+      undefined,
       false,
     )
   }
@@ -259,16 +263,13 @@ export class AlpacaClient {
       urls.rest.account,
       `watchlists/${params.uuid}`,
       undefined,
+      undefined,
       false,
     )
   }
 
   getCalendar(params?: GetCalendar): Promise<Calendar[]> {
-    return this.request(
-      'GET',
-      urls.rest.account,
-      `calendar?${qs.stringify(params)}`,
-    )
+    return this.request('GET', urls.rest.account, `calendar`, undefined, params)
   }
 
   async getClock(): Promise<Clock> {
@@ -303,7 +304,9 @@ export class AlpacaClient {
         urls.rest.account,
         `account/activities${
           params.activity_type ? '/'.concat(params.activity_type) : ''
-        }?${qs.stringify(params)}`,
+        }`,
+        undefined,
+        params,
       ),
     )
   }
@@ -312,7 +315,9 @@ export class AlpacaClient {
     return this.request(
       'GET',
       urls.rest.account,
-      `account/portfolio/history?${qs.stringify(params)}`,
+      `account/portfolio/history`,
+      undefined,
+      params,
     )
   }
 
@@ -322,6 +327,8 @@ export class AlpacaClient {
         'GET',
         urls.rest.market_data,
         `stocks/${params.symbol}/trades`,
+        undefined,
+        params,
       ),
     )
   }
@@ -332,6 +339,8 @@ export class AlpacaClient {
         'GET',
         urls.rest.market_data,
         `stocks/${params.symbol}/quotes`,
+        undefined,
+        params,
       ),
     )
   }
@@ -342,6 +351,8 @@ export class AlpacaClient {
         'GET',
         urls.rest.market_data,
         `stocks/${params.symbol}/bars`,
+        undefined,
+        params,
       ),
     )
   }
@@ -350,7 +361,8 @@ export class AlpacaClient {
     method: string,
     url: string,
     endpoint: string,
-    data?: { [key: string]: any },
+    body?: { [key: string]: any },
+    query?: { [key: string]: any },
     isJson: boolean = true,
   ): Promise<T> {
     let headers: any = {}
@@ -368,22 +380,24 @@ export class AlpacaClient {
       }
     }
 
-    // modify the base url if paper key
-    // convert any dates to ISO 8601 for Alpaca
-    if (data) {
-      for (let [key, value] of Object.entries(data)) {
+    if (query) {
+      // translate dates to ISO strings
+      for (let [key, value] of Object.entries(query)) {
         if (value instanceof Date) {
-          data[key] = (value as Date).toISOString()
+          query[key] = (value as Date).toISOString()
         }
       }
     }
 
     const makeCall = () =>
-      unifetch(`${url}/${endpoint}`, {
-        method: method,
-        headers,
-        body: JSON.stringify(data),
-      })
+      unifetch(
+        `${url}/${endpoint}${query ? '?'.concat(qs.stringify(query)) : ''}`,
+        {
+          method: method,
+          headers,
+          body: JSON.stringify(body),
+        },
+      )
     const func = this.params.rate_limit
       ? () => this.limiter.schedule(makeCall)
       : makeCall
@@ -401,7 +415,8 @@ export class AlpacaClient {
       throw result
     }
 
-    if ('code' in result && 'message' in result) throw result
+    if ('code' in result || 'message' in result) throw result
+
     return result as any
   }
 }

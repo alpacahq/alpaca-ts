@@ -40,12 +40,10 @@ export class AlpacaClient {
         return parse.account(await this.request('GET', urls.rest.account, 'account'));
     }
     async getOrder(params) {
-        return parse.order(await this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}?${qs.stringify({
-            nested: params.nested,
-        })}`));
+        return parse.order(await this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}`, undefined, { nested: params.nested }));
     }
     async getOrders(params) {
-        return parse.orders(await this.request('GET', urls.rest.account, `orders?${qs.stringify(params)}`));
+        return parse.orders(await this.request('GET', urls.rest.account, `orders`, undefined, params));
     }
     async placeOrder(params) {
         return parse.order(await this.request('POST', urls.rest.account, `orders`, params));
@@ -54,7 +52,7 @@ export class AlpacaClient {
         return parse.order(await this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
     }
     cancelOrder(params) {
-        return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, false);
+        return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, undefined, false);
     }
     async cancelOrders() {
         return parse.canceled_orders(await this.request('DELETE', urls.rest.account, `orders`));
@@ -93,13 +91,13 @@ export class AlpacaClient {
         return this.request('POST', urls.rest.account, `watchlists/${params.uuid}`, params);
     }
     removeFromWatchlist(params) {
-        return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}/${params.symbol}`, undefined, false);
+        return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}/${params.symbol}`, undefined, undefined, false);
     }
     deleteWatchlist(params) {
-        return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}`, undefined, false);
+        return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}`, undefined, undefined, false);
     }
     getCalendar(params) {
-        return this.request('GET', urls.rest.account, `calendar?${qs.stringify(params)}`);
+        return this.request('GET', urls.rest.account, `calendar`, undefined, params);
     }
     async getClock() {
         return parse.clock(await this.request('GET', urls.rest.account, `clock`));
@@ -114,21 +112,21 @@ export class AlpacaClient {
         if (params.activity_types && Array.isArray(params.activity_types)) {
             params.activity_types = params.activity_types.join(',');
         }
-        return parse.activities(await this.request('GET', urls.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}?${qs.stringify(params)}`));
+        return parse.activities(await this.request('GET', urls.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}`, undefined, params));
     }
     getPortfolioHistory(params) {
-        return this.request('GET', urls.rest.account, `account/portfolio/history?${qs.stringify(params)}`);
+        return this.request('GET', urls.rest.account, `account/portfolio/history`, undefined, params);
     }
     async getTrades(params) {
-        return parse.pageOfTrades(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/trades`));
+        return parse.pageOfTrades(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/trades`, undefined, params));
     }
     async getQuotes(params) {
-        return parse.pageOfQuotes(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/quotes`));
+        return parse.pageOfQuotes(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/quotes`, undefined, params));
     }
     async getBars(params) {
-        return parse.pageOfBars(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/bars`));
+        return parse.pageOfBars(await this.request('GET', urls.rest.market_data, `stocks/${params.symbol}/bars`, undefined, params));
     }
-    async request(method, url, endpoint, data, isJson = true) {
+    async request(method, url, endpoint, body, query, isJson = true) {
         let headers = {};
         if ('access_token' in this.params.credentials) {
             headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
@@ -141,19 +139,18 @@ export class AlpacaClient {
                 url = urls.rest.account.replace('api.', 'paper-api.');
             }
         }
-        // modify the base url if paper key
-        // convert any dates to ISO 8601 for Alpaca
-        if (data) {
-            for (let [key, value] of Object.entries(data)) {
+        if (query) {
+            // translate dates to ISO strings
+            for (let [key, value] of Object.entries(query)) {
                 if (value instanceof Date) {
-                    data[key] = value.toISOString();
+                    query[key] = value.toISOString();
                 }
             }
         }
-        const makeCall = () => unifetch(`${url}/${endpoint}`, {
+        const makeCall = () => unifetch(`${url}/${endpoint}${query ? '?'.concat(qs.stringify(query)) : ''}`, {
             method: method,
             headers,
-            body: JSON.stringify(data),
+            body: JSON.stringify(body),
         });
         const func = this.params.rate_limit
             ? () => this.limiter.schedule(makeCall)
@@ -170,7 +167,7 @@ export class AlpacaClient {
             console.error(e);
             throw result;
         }
-        if ('code' in result && 'message' in result)
+        if ('code' in result || 'message' in result)
             throw result;
         return result;
     }

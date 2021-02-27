@@ -60,14 +60,12 @@ class AlpacaClient {
     }
     getOrder(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse_js_1.default.order(yield this.request('GET', urls_js_1.default.rest.account, `orders/${params.order_id || params.client_order_id}?${qs_1.default.stringify({
-                nested: params.nested,
-            })}`));
+            return parse_js_1.default.order(yield this.request('GET', urls_js_1.default.rest.account, `orders/${params.order_id || params.client_order_id}`, undefined, { nested: params.nested }));
         });
     }
     getOrders(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse_js_1.default.orders(yield this.request('GET', urls_js_1.default.rest.account, `orders?${qs_1.default.stringify(params)}`));
+            return parse_js_1.default.orders(yield this.request('GET', urls_js_1.default.rest.account, `orders`, undefined, params));
         });
     }
     placeOrder(params) {
@@ -81,7 +79,7 @@ class AlpacaClient {
         });
     }
     cancelOrder(params) {
-        return this.request('DELETE', urls_js_1.default.rest.account, `orders/${params.order_id}`, undefined, false);
+        return this.request('DELETE', urls_js_1.default.rest.account, `orders/${params.order_id}`, undefined, undefined, false);
     }
     cancelOrders() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -130,13 +128,13 @@ class AlpacaClient {
         return this.request('POST', urls_js_1.default.rest.account, `watchlists/${params.uuid}`, params);
     }
     removeFromWatchlist(params) {
-        return this.request('DELETE', urls_js_1.default.rest.account, `watchlists/${params.uuid}/${params.symbol}`, undefined, false);
+        return this.request('DELETE', urls_js_1.default.rest.account, `watchlists/${params.uuid}/${params.symbol}`, undefined, undefined, false);
     }
     deleteWatchlist(params) {
-        return this.request('DELETE', urls_js_1.default.rest.account, `watchlists/${params.uuid}`, undefined, false);
+        return this.request('DELETE', urls_js_1.default.rest.account, `watchlists/${params.uuid}`, undefined, undefined, false);
     }
     getCalendar(params) {
-        return this.request('GET', urls_js_1.default.rest.account, `calendar?${qs_1.default.stringify(params)}`);
+        return this.request('GET', urls_js_1.default.rest.account, `calendar`, undefined, params);
     }
     getClock() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -154,28 +152,28 @@ class AlpacaClient {
             if (params.activity_types && Array.isArray(params.activity_types)) {
                 params.activity_types = params.activity_types.join(',');
             }
-            return parse_js_1.default.activities(yield this.request('GET', urls_js_1.default.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}?${qs_1.default.stringify(params)}`));
+            return parse_js_1.default.activities(yield this.request('GET', urls_js_1.default.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}`, undefined, params));
         });
     }
     getPortfolioHistory(params) {
-        return this.request('GET', urls_js_1.default.rest.account, `account/portfolio/history?${qs_1.default.stringify(params)}`);
+        return this.request('GET', urls_js_1.default.rest.account, `account/portfolio/history`, undefined, params);
     }
     getTrades(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse_js_1.default.pageOfTrades(yield this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/trades`));
+            return parse_js_1.default.pageOfTrades(yield this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/trades`, undefined, params));
         });
     }
     getQuotes(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse_js_1.default.pageOfQuotes(yield this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/quotes`));
+            return parse_js_1.default.pageOfQuotes(yield this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/quotes`, undefined, params));
         });
     }
     getBars(params) {
         return __awaiter(this, void 0, void 0, function* () {
-            return parse_js_1.default.pageOfBars(yield this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/bars`));
+            return parse_js_1.default.pageOfBars(yield this.request('GET', urls_js_1.default.rest.market_data, `stocks/${params.symbol}/bars`, undefined, params));
         });
     }
-    request(method, url, endpoint, data, isJson = true) {
+    request(method, url, endpoint, body, query, isJson = true) {
         return __awaiter(this, void 0, void 0, function* () {
             let headers = {};
             if ('access_token' in this.params.credentials) {
@@ -189,19 +187,18 @@ class AlpacaClient {
                     url = urls_js_1.default.rest.account.replace('api.', 'paper-api.');
                 }
             }
-            // modify the base url if paper key
-            // convert any dates to ISO 8601 for Alpaca
-            if (data) {
-                for (let [key, value] of Object.entries(data)) {
+            if (query) {
+                // translate dates to ISO strings
+                for (let [key, value] of Object.entries(query)) {
                     if (value instanceof Date) {
-                        data[key] = value.toISOString();
+                        query[key] = value.toISOString();
                     }
                 }
             }
-            const makeCall = () => unifetch(`${url}/${endpoint}`, {
+            const makeCall = () => unifetch(`${url}/${endpoint}${query ? '?'.concat(qs_1.default.stringify(query)) : ''}`, {
                 method: method,
                 headers,
-                body: JSON.stringify(data),
+                body: JSON.stringify(body),
             });
             const func = this.params.rate_limit
                 ? () => this.limiter.schedule(makeCall)
@@ -218,7 +215,7 @@ class AlpacaClient {
                 console.error(e);
                 throw result;
             }
-            if ('code' in result && 'message' in result)
+            if ('code' in result || 'message' in result)
                 throw result;
             return result;
         });
