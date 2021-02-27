@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.0.5
+ * alpaca@5.0.6
  * released under the permissive ISC license
  */
 
@@ -4175,7 +4175,7 @@ class AlpacaClient {
         let resp, result = {};
         try {
             resp = await func();
-            if (!(params.isJson != undefined ? false : params.isJson)) {
+            if (!(params.isJson == undefined ? false : params.isJson)) {
                 return resp.ok;
             }
             result = await resp.json();

@@ -311,7 +311,7 @@ class AlpacaClient {
             let resp, result = {};
             try {
                 resp = yield func();
-                if (!(params.isJson != undefined ? false : params.isJson)) {
+                if (!(params.isJson == undefined ? false : params.isJson)) {
                     return resp.ok;
                 }
                 result = yield resp.json();

@@ -413,7 +413,7 @@ export class AlpacaClient {
     try {
       resp = await func()
 
-      if (!(params.isJson != undefined ? false : params.isJson)) {
+      if (!(params.isJson == undefined ? false : params.isJson)) {
         return resp.ok as any
       }
 
