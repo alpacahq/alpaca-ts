@@ -126,7 +126,10 @@ export class AlpacaClient {
       await this.request<RawOrder[]>({
         method: 'GET',
         url: `${urls.rest.account}/orders`,
-        data: params,
+        data: {
+          ...params,
+          symbols: params.symbols ? params.symbols.join(',') : undefined,
+        },
       }),
     )
   }

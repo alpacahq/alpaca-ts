@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.0.8
+ * alpaca@5.0.9
  * released under the permissive ISC license
  */
 
@@ -3972,7 +3972,10 @@
           return parse$1.orders(await this.request({
               method: 'GET',
               url: `${urls.rest.account}/orders`,
-              data: params,
+              data: {
+                  ...params,
+                  symbols: params.symbols ? params.symbols.join(',') : undefined,
+              },
           }));
       }
       async placeOrder(params) {

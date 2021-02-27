@@ -75,7 +75,7 @@ class AlpacaClient {
             return parse_js_1.default.orders(yield this.request({
                 method: 'GET',
                 url: `${urls_js_1.default.rest.account}/orders`,
-                data: params,
+                data: Object.assign(Object.assign({}, params), { symbols: params.symbols ? params.symbols.join(',') : undefined }),
             }));
         });
     }

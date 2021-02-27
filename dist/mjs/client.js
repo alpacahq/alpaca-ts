@@ -53,7 +53,10 @@ export class AlpacaClient {
         return parse.orders(await this.request({
             method: 'GET',
             url: `${urls.rest.account}/orders`,
-            data: params,
+            data: {
+                ...params,
+                symbols: params.symbols ? params.symbols.join(',') : undefined,
+            },
         }));
     }
     async placeOrder(params) {

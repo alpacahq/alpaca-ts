@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.0.8
+ * alpaca@5.0.9
  * released under the permissive ISC license
  */
 
@@ -5549,7 +5549,7 @@ class AlpacaClient {
             return parse$1.orders(yield this.request({
                 method: 'GET',
                 url: `${urls.rest.account}/orders`,
-                data: params,
+                data: Object.assign(Object.assign({}, params), { symbols: params.symbols ? params.symbols.join(',') : undefined }),
             }));
         });
     }
