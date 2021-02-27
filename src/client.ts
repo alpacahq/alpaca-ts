@@ -364,7 +364,7 @@ export class AlpacaClient {
     method: 'GET' | 'DELETE' | 'PUT' | 'PATCH' | 'POST'
     url: string
     data?: { [key: string]: any }
-    isJson?: boolean
+    isJSON?: boolean
   }): Promise<T> {
     let headers: any = {}
 
@@ -413,7 +413,7 @@ export class AlpacaClient {
     try {
       resp = await func()
 
-      if (!(params.isJson == undefined ? false : params.isJson)) {
+      if (!(params.isJSON == undefined ? true : params.isJSON)) {
         return resp.ok as any
       }
 

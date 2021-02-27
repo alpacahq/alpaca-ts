@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.0.6
+ * alpaca@5.0.7
  * released under the permissive ISC license
  */
 
@@ -512,7 +512,7 @@ class AlpacaClient {
             let resp, result = {};
             try {
                 resp = yield func();
-                if (!(params.isJson == undefined ? false : params.isJson)) {
+                if (!(params.isJSON == undefined ? true : params.isJSON)) {
                     return resp.ok;
                 }
                 result = yield resp.json();
