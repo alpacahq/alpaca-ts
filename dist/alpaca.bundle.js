@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.0.4
+ * alpaca@5.0.5
  * released under the permissive ISC license
  */
 
@@ -5771,6 +5771,7 @@ class AlpacaClient {
             if (params.data) {
                 if (params.method != 'POST' && params.method != 'PATCH') {
                     query = '?'.concat(lib$1.stringify(params.data));
+                    params.data = undefined;
                 }
             }
             const makeCall = () => unifetch(params.url.concat(query), {

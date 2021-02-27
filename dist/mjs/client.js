@@ -250,6 +250,7 @@ export class AlpacaClient {
         if (params.data) {
             if (params.method != 'POST' && params.method != 'PATCH') {
                 query = '?'.concat(qs.stringify(params.data));
+                params.data = undefined;
             }
         }
         const makeCall = () => unifetch(params.url.concat(query), {
