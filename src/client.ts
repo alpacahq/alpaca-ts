@@ -158,6 +158,7 @@ export class AlpacaClient {
     return this.request<Boolean>({
       method: 'DELETE',
       url: `${urls.rest.account}/orders/${params.order_id}`,
+      isJSON: false,
     })
   }
 

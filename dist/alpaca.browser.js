@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.1.2-beta
+ * alpaca@5.1.3-beta
  * released under the permissive ISC license
  */
 
@@ -3995,6 +3995,7 @@
           return this.request({
               method: 'DELETE',
               url: `${urls.rest.account}/orders/${params.order_id}`,
+              isJSON: false,
           });
       }
       async cancelOrders() {

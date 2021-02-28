@@ -101,6 +101,7 @@ class AlpacaClient {
         return this.request({
             method: 'DELETE',
             url: `${urls_js_1.default.rest.account}/orders/${params.order_id}`,
+            isJSON: false,
         });
     }
     cancelOrders() {
