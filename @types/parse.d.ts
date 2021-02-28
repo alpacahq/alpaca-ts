@@ -1,4 +1,4 @@
-import { Account, RawAccount, RawOrder, Order, RawPosition, Position, RawTradeActivity, TradeActivity, RawNonTradeActivity, NonTradeActivity, RawActivity, Activity, RawClock, Clock, RawOrderCancelation, OrderCancelation } from './entities.js';
+import { Account, RawAccount, RawOrder, Order, RawPosition, Position, RawTradeActivity, TradeActivity, RawNonTradeActivity, NonTradeActivity, RawActivity, Activity, RawClock, Clock, RawOrderCancelation, OrderCancelation, PageOfTrades, RawPageOfTrades, PageOfQuotes, RawPageOfQuotes, RawPageOfBars, PageOfBars } from './entities.js';
 declare function account(rawAccount: RawAccount): Account;
 declare function clock(rawClock: RawClock): Clock;
 declare function order(rawOrder: RawOrder): Order;
@@ -9,6 +9,9 @@ declare function positions(rawPositions: RawPosition[]): Position[];
 declare function tradeActivity(rawTradeActivity: RawTradeActivity): TradeActivity;
 declare function nonTradeActivity(rawNonTradeActivity: RawNonTradeActivity): NonTradeActivity;
 declare function activities(rawActivities: Array<RawActivity>): Array<Activity>;
+declare function pageOfTrades(page: RawPageOfTrades): PageOfTrades;
+declare function pageOfQuotes(page: RawPageOfQuotes): PageOfQuotes;
+declare function pageOfBars(page: RawPageOfBars): PageOfBars;
 declare const _default: {
     account: typeof account;
     activities: typeof activities;
@@ -20,5 +23,8 @@ declare const _default: {
     position: typeof position;
     positions: typeof positions;
     tradeActivity: typeof tradeActivity;
+    pageOfTrades: typeof pageOfTrades;
+    pageOfQuotes: typeof pageOfQuotes;
+    pageOfBars: typeof pageOfBars;
 };
 export default _default;

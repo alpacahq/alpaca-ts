@@ -42,27 +42,34 @@ export interface GetAssets {
   asset_class?: string // i don't know where to find all asset classes
 }
 
-export interface GetBars {
-  timeframe: string
-  symbols: string[]
-  limit?: number
-  start?: Date
-  end?: Date
-  after?: Date
-  until?: Date
-}
-
 export interface GetCalendar {
   start?: Date
   end?: Date
 }
 
-export interface GetLastQuote {
+export interface GetTrades {
   symbol: string
+  start: Date
+  end: Date
+  limit?: number
+  page_token?: string
 }
 
-export interface GetLastTrade {
+export interface GetQuotes {
   symbol: string
+  start: Date
+  end: Date
+  limit?: number
+  page_token?: string
+}
+
+export interface GetBars {
+  symbol: string
+  start: Date
+  end: Date
+  limit?: number
+  page_token?: string
+  timeframe: '1Sec' | '1Min' | '1Hour' | '1Day'
 }
 
 export interface GetOrder {

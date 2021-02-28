@@ -1,5 +1,5 @@
 /*! 
- * alpaca@4.4.5
+ * alpaca@5.1.1-beta
  * released under the permissive ISC license
  */
 
@@ -3627,12 +3627,11 @@
   var urls = {
       rest: {
           account: 'https://api.alpaca.markets/v2',
-          market_data: 'https://data.alpaca.markets/v1',
+          market_data: 'https://data.alpaca.markets/v2',
       },
       websocket: {
           account: 'wss://api.alpaca.markets/stream',
-          account_paper: 'wss://paper-api.alpaca.markets/stream',
-          market_data: 'wss://data.alpaca.markets/stream',
+          market_data: (source = 'iex') => `wss://stream.data.alpaca.markets/v2/${source}`,
       },
   };
 
@@ -3845,6 +3844,66 @@
           throw new Error(`Activity parsing failed. ${err.message}`);
       }
   }
+  function pageOfTrades(page) {
+      if (!page) {
+          return undefined;
+      }
+      try {
+          return {
+              raw: () => page,
+              trades: page.trades.map((trade) => ({
+                  raw: () => trade,
+                  ...trade,
+                  t: new Date(trade.t),
+              })),
+              symbol: page.symbol,
+              next_page_token: page.next_page_token,
+          };
+      }
+      catch (err) {
+          throw new Error(`PageOfTrades parsing failed "${err.message}"`);
+      }
+  }
+  function pageOfQuotes(page) {
+      if (!page) {
+          return undefined;
+      }
+      try {
+          return {
+              raw: () => page,
+              quotes: page.quotes.map((quote) => ({
+                  raw: () => quote,
+                  ...quote,
+                  t: new Date(quote.t),
+              })),
+              symbol: page.symbol,
+              next_page_token: page.next_page_token,
+          };
+      }
+      catch (err) {
+          throw new Error(`PageOfTrades parsing failed "${err.message}"`);
+      }
+  }
+  function pageOfBars(page) {
+      if (!page) {
+          return undefined;
+      }
+      try {
+          return {
+              raw: () => page,
+              bars: page.bars.map((bar) => ({
+                  raw: () => bar,
+                  ...bar,
+                  t: new Date(bar.t),
+              })),
+              symbol: page.symbol,
+              next_page_token: page.next_page_token,
+          };
+      }
+      catch (err) {
+          throw new Error(`PageOfTrades parsing failed "${err.message}"`);
+      }
+  }
   function number(numStr) {
       if (typeof numStr === 'undefined')
           return numStr;
@@ -3861,6 +3920,9 @@
       position,
       positions,
       tradeActivity,
+      pageOfTrades,
+      pageOfQuotes,
+      pageOfBars,
   };
 
   const unifetch = typeof fetch !== 'undefined' ? fetch : browser;
@@ -3893,102 +3955,201 @@
           }
       }
       async getAccount() {
-          return parse$1.account(await this.request('GET', urls.rest.account, 'account'));
+          return parse$1.account(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/account`,
+          }));
       }
       async getOrder(params) {
-          return parse$1.order(await this.request('GET', urls.rest.account, `orders/${params.order_id || params.client_order_id}?${lib$1.stringify({
-            nested: params.nested,
-        })}`));
+          return parse$1.order(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/orders/${params.order_id || params.client_order_id}`,
+              data: { nested: params.nested },
+          }));
       }
       async getOrders(params) {
-          return parse$1.orders(await this.request('GET', urls.rest.account, `orders?${lib$1.stringify(params)}`));
+          return parse$1.orders(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/orders`,
+              data: {
+                  ...params,
+                  symbols: params.symbols ? params.symbols.join(',') : undefined,
+              },
+          }));
       }
       async placeOrder(params) {
-          return parse$1.order(await this.request('POST', urls.rest.account, `orders`, params));
+          return parse$1.order(await this.request({
+              method: 'POST',
+              url: `${urls.rest.account}/orders`,
+              data: params,
+          }));
       }
       async replaceOrder(params) {
-          return parse$1.order(await this.request('PATCH', urls.rest.account, `orders/${params.order_id}`, params));
+          return parse$1.order(await this.request({
+              method: 'PATCH',
+              url: `${urls.rest.account}/orders/${params.order_id}`,
+              data: params,
+          }));
       }
       cancelOrder(params) {
-          return this.request('DELETE', urls.rest.account, `orders/${params.order_id}`, undefined, false);
+          return this.request({
+              method: 'DELETE',
+              url: `${urls.rest.account}/orders/${params.order_id}`,
+          });
       }
       async cancelOrders() {
-          return parse$1.canceled_orders(await this.request('DELETE', urls.rest.account, `orders`));
+          return parse$1.canceled_orders(await this.request({
+              method: 'DELETE',
+              url: `${urls.rest.account}/orders`,
+          }));
       }
       async getPosition(params) {
-          return parse$1.position(await this.request('GET', urls.rest.account, `positions/${params.symbol}`));
+          return parse$1.position(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/positions/${params.symbol}`,
+          }));
       }
       async getPositions() {
-          return parse$1.positions(await this.request('GET', urls.rest.account, `positions`));
+          return parse$1.positions(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/positions`,
+          }));
       }
       async closePosition(params) {
-          return parse$1.order(await this.request('DELETE', urls.rest.account, `positions/${params.symbol}`));
+          return parse$1.order(await this.request({
+              method: 'DELETE',
+              url: `${urls.rest.account}/positions/${params.symbol}`,
+          }));
       }
       async closePositions() {
-          return parse$1.orders(await this.request('DELETE', urls.rest.account, `positions`));
+          return parse$1.orders(await this.request({
+              method: 'DELETE',
+              url: `${urls.rest.account}/positions`,
+          }));
       }
       getAsset(params) {
-          return this.request('GET', urls.rest.account, `assets/${params.asset_id_or_symbol}`);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/assets/${params.asset_id_or_symbol}`,
+          });
       }
       getAssets(params) {
-          return this.request('GET', urls.rest.account, `assets?${lib$1.stringify(params)}`);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/assets`,
+              data: params,
+          });
       }
       getWatchlist(params) {
-          return this.request('GET', urls.rest.account, `watchlists/${params.uuid}`);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/watchlists/${params.uuid}`,
+          });
       }
       getWatchlists() {
-          return this.request('GET', urls.rest.account, `watchlists`);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/watchlists`,
+          });
       }
       createWatchlist(params) {
-          return this.request('POST', urls.rest.account, `watchlists`, params);
+          return this.request({
+              method: 'POST',
+              url: `${urls.rest.account}/watchlists`,
+              data: params,
+          });
       }
       updateWatchlist(params) {
-          return this.request('PUT', urls.rest.account, `watchlists/${params.uuid}`, params);
+          return this.request({
+              method: 'PUT',
+              url: `${urls.rest.account}/watchlists/${params.uuid}`,
+              data: params,
+          });
       }
       addToWatchlist(params) {
-          return this.request('POST', urls.rest.account, `watchlists/${params.uuid}`, params);
+          return this.request({
+              method: 'POST',
+              url: `${urls.rest.account}/watchlists/${params.uuid}`,
+              data: params,
+          });
       }
       removeFromWatchlist(params) {
-          return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}/${params.symbol}`, undefined, false);
+          return this.request({
+              method: 'DELETE',
+              url: `${urls.rest.account}/watchlists/${params.uuid}/${params.symbol}`,
+          });
       }
       deleteWatchlist(params) {
-          return this.request('DELETE', urls.rest.account, `watchlists/${params.uuid}`, undefined, false);
+          return this.request({
+              method: 'DELETE',
+              url: `${urls.rest.account}/watchlists/${params.uuid}`,
+          });
       }
       getCalendar(params) {
-          return this.request('GET', urls.rest.account, `calendar?${lib$1.stringify(params)}`);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/calendar`,
+              data: params,
+          });
       }
       async getClock() {
-          return parse$1.clock(await this.request('GET', urls.rest.account, `clock`));
+          return parse$1.clock(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/clock`,
+          }));
       }
       getAccountConfigurations() {
-          return this.request('GET', urls.rest.account, `account/configurations`);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/account/configurations`,
+          });
       }
       updateAccountConfigurations(params) {
-          return this.request('PATCH', urls.rest.account, `account/configurations`, params);
+          return this.request({
+              method: 'PATCH',
+              url: `${urls.rest.account}/account/configurations`,
+              data: params,
+          });
       }
       async getAccountActivities(params) {
           if (params.activity_types && Array.isArray(params.activity_types)) {
               params.activity_types = params.activity_types.join(',');
           }
-          return parse$1.activities(await this.request('GET', urls.rest.account, `account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}?${lib$1.stringify(params)}`));
+          return parse$1.activities(await this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}`,
+              data: { ...params, activity_type: undefined },
+          }));
       }
       getPortfolioHistory(params) {
-          return this.request('GET', urls.rest.account, `account/portfolio/history?${lib$1.stringify(params)}`);
+          return this.request({
+              method: 'GET',
+              url: `${urls.rest.account}/account/portfolio/history`,
+              data: params,
+          });
       }
-      getBars(params) {
-          const transformed = {
-              ...params,
-              symbols: params.symbols.join(','),
-          };
-          return this.request('GET', urls.rest.market_data, `bars/${params.timeframe}?${lib$1.stringify(transformed)}`);
+      async getTrades(params) {
+          return parse$1.pageOfTrades(await this.request({
+              method: 'GET',
+              url: `${urls.rest.market_data}/stocks/${params.symbol}/trades`,
+              data: { ...params, symbol: undefined },
+          }));
       }
-      getLastTrade(params) {
-          return this.request('GET', urls.rest.market_data, `last/stocks/${params.symbol}`);
+      async getQuotes(params) {
+          return parse$1.pageOfQuotes(await this.request({
+              method: 'GET',
+              url: `${urls.rest.market_data}/stocks/${params.symbol}/quotes`,
+              data: { ...params, symbol: undefined },
+          }));
       }
-      getLastQuote(params) {
-          return this.request('GET', urls.rest.market_data, `last_quote/stocks/${params.symbol}`);
+      async getBars(params) {
+          return parse$1.pageOfBars(await this.request({
+              method: 'GET',
+              url: `${urls.rest.market_data}/stocks/${params.symbol}/bars`,
+              data: { ...params, symbol: undefined },
+          }));
       }
-      async request(method, url, endpoint, data, isJson = true) {
+      async request(params) {
           let headers = {};
           if ('access_token' in this.params.credentials) {
               headers['Authorization'] = `Bearer ${this.params.credentials.access_token}`;
@@ -3996,39 +4157,44 @@
           else {
               headers['APCA-API-KEY-ID'] = this.params.credentials.key;
               headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
-              if (this.params.credentials.paper && url == urls.rest.account) {
-                  url = urls.rest.account.replace('api.', 'paper-api.');
+              if (this.params.credentials.paper) {
+                  params.url = params.url.replace('api.', 'paper-api.');
               }
           }
-          if (data) {
-              for (let [key, value] of Object.entries(data)) {
+          let query = '';
+          if (params.data) {
+              for (let [key, value] of Object.entries(params.data)) {
                   if (value instanceof Date) {
-                      data[key] = value.toISOString();
+                      params.data[key] = value.toISOString();
                   }
               }
+              if (params.method != 'POST' && params.method != 'PATCH') {
+                  query = '?'.concat(lib$1.stringify(params.data));
+                  params.data = undefined;
+              }
           }
-          const makeCall = () => unifetch(`${url}/${endpoint}`, {
-              method: method,
+          const makeCall = () => unifetch(params.url.concat(query), {
+              method: params.method,
               headers,
-              body: JSON.stringify(data),
-          });
-          const func = this.params.rate_limit
+              body: JSON.stringify(params.data),
+          }), func = this.params.rate_limit
               ? () => this.limiter.schedule(makeCall)
               : makeCall;
-          let resp;
-          let result = {};
+          let resp, result = {};
           try {
               resp = await func();
-              if (!isJson)
+              if (!(params.isJSON == undefined ? true : params.isJSON)) {
                   return resp.ok;
+              }
               result = await resp.json();
           }
           catch (e) {
               console.error(e);
               throw result;
           }
-          if ('code' in result && 'message' in result)
+          if ('code' in result || 'message' in result) {
               throw result;
+          }
           return result;
       }
   }
@@ -4393,98 +4559,112 @@
       constructor(params) {
           super();
           this.params = params;
-          this.subscriptions = [];
-          this.authenticated = false;
-          switch (params.stream) {
+          if (!('paper' in params.credentials) &&
+              !('key' in params.credentials && params.credentials.key.startsWith('A'))) {
+              params.credentials['paper'] = true;
+          }
+          switch (params.type) {
               case 'account':
-                  this.host = params.credentials.key.startsWith('PK')
-                      ? urls.websocket.account_paper
+                  this.host = params.credentials.paper
+                      ? urls.websocket.account.replace('api.', 'paper-api.')
                       : urls.websocket.account;
                   break;
               case 'market_data':
-                  this.host = urls.websocket.market_data;
+                  this.host = urls.websocket.market_data(this.params.source);
                   break;
               default:
                   this.host = 'unknown';
           }
           this.connection = new browser$1(this.host);
           this.connection.onopen = () => {
-              if (!this.authenticated) {
-                  this.connection.send(JSON.stringify({
-                      action: 'authenticate',
-                      data: {
-                          key_id: params.credentials.key,
-                          secret_key: params.credentials.secret,
-                      },
-                  }));
+              let message = {};
+              switch (this.params.type) {
+                  case 'account':
+                      message = {
+                          action: 'authenticate',
+                          data: {
+                              key_id: params.credentials.key,
+                              secret_key: params.credentials.secret,
+                          },
+                      };
+                      break;
+                  case 'market_data':
+                      message = { action: 'auth', ...params.credentials };
+                      break;
               }
+              this.connection.send(JSON.stringify(message));
               this.emit('open', this);
           };
           this.connection.onclose = () => this.emit('close', this);
-          this.connection.onmessage = (message) => {
-              const object = JSON.parse(message.data);
-              if ('stream' in object && object.stream == 'authorization') {
-                  if (object.data.status == 'authorized') {
+          this.connection.onmessage = (event) => {
+              let parsed = JSON.parse(event.data), messages = this.params.type == 'account' ? [parsed] : parsed;
+              messages.forEach((message) => {
+                  this.emit('message', message);
+                  if ('T' in message && message.msg == 'authenticated') {
                       this.authenticated = true;
                       this.emit('authenticated', this);
-                      console.log('Connected to the websocket.');
                   }
-                  else {
-                      this.connection.close();
-                      throw new Error('There was an error in authorizing your websocket connection. Object received: ' +
-                          JSON.stringify(object, null, 2));
+                  else if ('stream' in message && message.stream == 'authorization') {
+                      if (message.data.status == 'authorized') {
+                          this.authenticated = true;
+                          this.emit('authenticated', this);
+                      }
                   }
-              }
-              this.emit('message', object);
-              if ('stream' in object) {
+                  if ('stream' in message && message.stream == 'trade_updates') {
+                      this.emit('trade_updates', message.data);
+                  }
                   const x = {
-                      trade_updates: 'trade_updates',
-                      account_updates: 'account_updates',
-                      T: 'trade',
-                      Q: 'quote',
-                      AM: 'aggregate_minute',
+                      success: 'success',
+                      subscription: 'subscription',
+                      error: 'error',
+                      t: 'trade',
+                      q: 'quote',
+                      b: 'bar',
                   };
-                  this.emit(x[object.stream.split('.')[0]], object.data);
-              }
+                  if ('T' in message) {
+                      this.emit(x[message.T.split('.')[0]], message);
+                  }
+              });
           };
           this.connection.onerror = (err) => {
               this.emit('error', err);
           };
       }
-      on(event, listener) {
-          return super.on(event, listener);
+      subscribe(channel, symbols = []) {
+          switch (this.params.type) {
+              case 'account':
+                  this.send(JSON.stringify({ action: 'listen', data: { streams: [channel] } }));
+                  break;
+              case 'market_data':
+                  let message = { action: 'subscribe' };
+                  message[channel] = symbols;
+                  this.send(JSON.stringify(message));
+                  break;
+          }
+          return this;
+      }
+      unsubscribe(channel, symbols = []) {
+          switch (this.params.type) {
+              case 'account':
+                  this.send(JSON.stringify({ action: 'unlisten', data: { streams: [channel] } }));
+                  break;
+              case 'market_data':
+                  let message = { action: 'unsubscribe' };
+                  message[channel] = symbols;
+                  this.send(JSON.stringify(message));
+                  break;
+          }
+          return this;
       }
       send(message) {
           if (!this.authenticated) {
-              throw new Error("You can't send a message until you are authenticated!");
+              throw new Error('not authenticated');
           }
           if (typeof message == 'object') {
               message = JSON.stringify(message);
           }
           this.connection.send(message);
           return this;
-      }
-      subscribe(channels) {
-          this.subscriptions.push(...channels);
-          return this.send(JSON.stringify({
-              action: 'listen',
-              data: {
-                  streams: channels,
-              },
-          }));
-      }
-      unsubscribe(channels) {
-          for (let i = 0, ln = this.subscriptions.length; i < ln; i++) {
-              if (channels.includes(this.subscriptions[i])) {
-                  this.subscriptions.splice(i, 1);
-              }
-          }
-          return this.send(JSON.stringify({
-              action: 'unlisten',
-              data: {
-                  streams: channels,
-              },
-          }));
       }
   }
 

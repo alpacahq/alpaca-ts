@@ -1,5 +1,5 @@
-import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, PortfolioHistory, Bar, LastQuote, LastTrade, Activity, DefaultCredentials, OAuthCredentials, OrderCancelation } from './entities.js';
-import { GetOrder, GetOrders, PlaceOrder, ReplaceOrder, CancelOrder, GetPosition, ClosePosition, GetAsset, GetAssets, GetWatchList, CreateWatchList, UpdateWatchList, AddToWatchList, RemoveFromWatchList, DeleteWatchList, GetCalendar, UpdateAccountConfigurations, GetAccountActivities, GetPortfolioHistory, GetBars, GetLastTrade, GetLastQuote } from './params.js';
+import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, PortfolioHistory, Activity, DefaultCredentials, OAuthCredentials, OrderCancelation, PageOfTrades, PageOfQuotes, PageOfBars } from './entities.js';
+import { GetOrder, GetOrders, PlaceOrder, ReplaceOrder, CancelOrder, GetPosition, ClosePosition, GetAsset, GetAssets, GetWatchList, CreateWatchList, UpdateWatchList, AddToWatchList, RemoveFromWatchList, DeleteWatchList, GetCalendar, UpdateAccountConfigurations, GetAccountActivities, GetPortfolioHistory, GetBars, GetTrades, GetQuotes } from './params.js';
 export declare class AlpacaClient {
     params: {
         credentials?: DefaultCredentials | OAuthCredentials;
@@ -37,10 +37,8 @@ export declare class AlpacaClient {
     updateAccountConfigurations(params: UpdateAccountConfigurations): Promise<AccountConfigurations>;
     getAccountActivities(params: GetAccountActivities): Promise<Activity[]>;
     getPortfolioHistory(params?: GetPortfolioHistory): Promise<PortfolioHistory>;
-    getBars(params: GetBars): Promise<{
-        [symbol: string]: Bar[];
-    }>;
-    getLastTrade(params: GetLastTrade): Promise<LastTrade>;
-    getLastQuote(params: GetLastQuote): Promise<LastQuote>;
+    getTrades(params: GetTrades): Promise<PageOfTrades>;
+    getQuotes(params: GetQuotes): Promise<PageOfQuotes>;
+    getBars(params: GetBars): Promise<PageOfBars>;
     private request;
 }

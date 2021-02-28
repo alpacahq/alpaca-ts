@@ -26,8 +26,14 @@ export {
   Activity,
   PortfolioHistory,
   Bar,
-  LastQuote,
-  LastTrade,
+  Quote,
+  Trade,
+  PageOfBars,
+  PageOfQuotes,
+  PageOfTrades,
+  DataSource,
+  Channel,
+  Message,
 } from './entities'
 
 export {
@@ -51,6 +57,6 @@ export {
   GetAccountActivities,
   GetPortfolioHistory,
   GetBars,
-  GetLastTrade,
-  GetLastQuote,
+  GetTrades,
+  GetQuotes,
 } from './params'

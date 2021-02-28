@@ -355,41 +355,6 @@ export interface Asset {
 }
 
 /**
- * Price and volume data during a particular time interval
- */
-export interface Bar {
-  /**
-   * the beginning time of this bar as a Unix epoch in seconds
-   */
-  t: number
-
-  /**
-   * open price
-   */
-  o: number
-
-  /**
-   * high price
-   */
-  h: number
-
-  /**
-   * low price
-   */
-  l: number
-
-  /**
-   * close price
-   */
-  c: number
-
-  /**
-   * volume
-   */
-  v: number
-}
-
-/**
  * Contains the time of open and close for a market on a particular day from 1970 to 2029
  */
 export interface Calendar {
@@ -447,97 +412,184 @@ export interface Clock {
   next_close: Date
 }
 
-/**
- * Last quote details for a symbol
- */
-export interface LastQuote {
-  status: string
-  symbol: string
-  last: {
-    /**
-     * the current ask price
-     */
-    askprice: number
-
-    /**
-     * the current ask size
-     */
-    asksize: number
-
-    /**
-     * the exchange code of the ask quote
-     */
-    askexchange: number
-
-    /**
-     * the current bid price
-     */
-    bidprice: number
-
-    /**
-     * the current bid size
-     */
-    bidsize: number
-
-    /**
-     * the exchange code of the bid quote
-     */
-    bidexchange: number
-
-    /**
-     * epoch timestamp in nanoseconds
-     */
-    timestamp: number
-  }
+/** A trade which occurred. */
+export interface RawTrade {
+  /** Timestamp in RFC-3339 format with nanosecond precision. */
+  t: string
+  /** Exchange where the trade happened. */
+  x: string
+  /** Trade price. */
+  p: number
+  /** Trade size. */
+  s: number
+  /** Trade conditions. */
+  c: string[]
+  /** Trade ID. */
+  i: number
+  /** Tape. */
+  z: string
 }
 
-/**
- * Last trade details for a symbol
- */
-export interface LastTrade {
-  status: string
+/** A page of one or many trades. */
+export interface RawPageOfTrades {
+  /** Array of trades. */
+  trades: RawTrade[]
+  /** Symbol that was queried. */
   symbol: string
-  last: {
-    /**
-     * last trade price
-     */
-    price: number
+  /** Token that can be used to query the next page. */
+  next_page_token: string
+}
 
-    /**
-     * last trade volume size
-     */
-    size: number
+/** A trade which occurred. */
+export interface Trade {
+  /** Get the raw data as it came from Alpaca. */
+  raw(): RawTrade
+  /** Timestamp in RFC-3339 format with nanosecond precision. */
+  t: Date
+  /** Exchange where the trade happened. */
+  x: string
+  /** Trade price. */
+  p: number
+  /** Trade size. */
+  s: number
+  /** Trade conditions. */
+  c: string[]
+  /** Trade ID. */
+  i: number
+  /** Tape. */
+  z: string
+}
 
-    /**
-     * exchange code where the last trade was made
-     */
-    exchange: number
+/** A page of one or many trades. */
+export interface PageOfTrades {
+  /** Get the raw data as it came from Alpaca. */
+  raw(): RawPageOfTrades
+  /** Array of trades. */
+  trades: Trade[]
+  /** Symbol that was queried. */
+  symbol: string
+  /** Token that can be used to query the next page. */
+  next_page_token: string
+}
 
-    /**
-     * condition flag 1
-     */
-    cond1: number
+/** A quote for a symbol. */
+export interface RawQuote {
+  /** Timestamp in RFC-3339 format with nanosecond precision. */
+  t: string
+  /** Ask exchange. */
+  ax: string
+  /** Ask price. */
+  ap: number
+  /** Ask size. */
+  as: number
+  /** Bid exchange. */
+  bx: string
+  /** Bid price. */
+  bp: number
+  /** Bid size. */
+  bs: number
+  /** Quote conditions. */
+  c: string[]
+}
 
-    /**
-     * condition flag 2
-     */
-    cond2: number
+/** A page of one or many quotes. */
+export interface RawPageOfQuotes {
+  /** Array of quotes. */
+  quotes: RawQuote[]
+  /** Symbol that was queried. */
+  symbol: string
+  /** Token that can be used to query the next page. */
+  next_page_token: string
+}
 
-    /**
-     * condition flag 3
-     */
-    cond3: number
+/** A quote for a symbol. */
+export interface Quote {
+  /** Get the raw data as it came from Alpaca. */
+  raw(): RawQuote
+  /** Timestamp in Date format. */
+  t: Date
+  /** Ask exchange. */
+  ax: string
+  /** Ask price. */
+  ap: number
+  /** Ask size. */
+  as: number
+  /** Bid exchange. */
+  bx: string
+  /** Bid price. */
+  bp: number
+  /** Bid size. */
+  bs: number
+  /** Quote conditions. */
+  c: string[]
+}
 
-    /**
-     * condition flag 4
-     */
-    cond4: number
+/** A page of one or many quotes. */
+export interface PageOfQuotes {
+  /** Get the raw data as it came from Alpaca. */
+  raw(): RawPageOfQuotes
+  /** Array of quotes. */
+  quotes: Quote[]
+  /** Symbol that was queried. */
+  symbol: string
+  /** Token that can be used to query the next page. */
+  next_page_token: string
+}
 
-    /**
-     * epoch timestamp in nanoseconds
-     */
-    timestamp: number
-  }
+/** A bar for a symbol. */
+export interface RawBar {
+  /** Timestamp in RFC-3339 format with nanosecond precision. */
+  t: string
+  /** Open price. */
+  o: number
+  /** High price. */
+  h: number
+  /** Low price. */
+  l: number
+  /** Close price. */
+  c: number
+  /** Volume. */
+  v: number
+}
+
+/** A page of one or many bars. */
+export interface RawPageOfBars {
+  /** Array of bars. */
+  bars: RawBar[]
+  /** Symbol that was queried. */
+  symbol: string
+  /** Token that can be used to query the next page. */
+  next_page_token: string
+}
+
+/** A bar for a symbol. */
+export interface Bar {
+  /** Get the raw data as it came from Alpaca. */
+  raw(): RawBar
+  /** Timestamp in Date format. */
+  t: Date
+  /** Open price. */
+  o: number
+  /** High price. */
+  h: number
+  /** Low price. */
+  l: number
+  /** Close price. */
+  c: number
+  /** Volume. */
+  v: number
+}
+
+/** A page of one or many bars. */
+export interface PageOfBars {
+  /** Get the raw data as it came from Alpaca. */
+  raw(): RawPageOfBars
+  /** Array of bars. */
+  bars: Bar[]
+  /** Symbol that was queried. */
+  symbol: string
+  /** Token that can be used to query the next page. */
+  next_page_token: string
 }
 
 /**
@@ -593,6 +645,8 @@ export interface RawOrder {
   trail_percent: string
   hwm: string
 }
+
+export type DataSource = 'iex' | 'sip'
 
 export type OrderType =
   | 'market'
@@ -1059,31 +1113,6 @@ export interface Position {
   change_today: number
 }
 
-export interface Quote {
-  ev: string
-  T: string
-  x: number
-  p: number
-  s: number
-  X: number
-  P: number
-  S: number
-  c: number[]
-  t: number
-}
-
-export interface Trade {
-  ev: string
-  T: string
-  i: number
-  x: number
-  p: number
-  s: number
-  t: number
-  c: number[]
-  z: number
-}
-
 export type ActivityType =
   /**
    * Order fills (both partial and full fills)
@@ -1440,4 +1469,13 @@ export interface Watchlist {
    * When the watchlist was last updated
    */
   updated_at: string
+}
+
+export type Channel = 'trades' | 'quotes' | 'bars' | 'trade_updates'
+
+export interface Message {
+  T: 'success' | 'error' | 'subscription'
+  code?: number
+  msg: string
+  [key: string]: any
 }
