@@ -568,7 +568,7 @@ export interface RawOrder {
     trail_percent: string;
     hwm: string;
 }
-export declare type MarketDataSource = 'iex' | 'sip';
+export declare type DataSource = 'iex' | 'sip';
 export declare type OrderType = 'market' | 'limit' | 'stop' | 'stop_limit' | 'trailing_stop';
 export declare type OrderSide = 'buy' | 'sell';
 export declare type OrderTimeInForce = 
@@ -1240,4 +1240,11 @@ export interface Watchlist {
      * When the watchlist was last updated
      */
     updated_at: string;
+}
+export declare type Channel = 'trades' | 'quotes' | 'bars' | 'trade_updates';
+export interface Message {
+    T: 'success' | 'error' | 'subscription';
+    code?: number;
+    msg: string;
+    [key: string]: any;
 }

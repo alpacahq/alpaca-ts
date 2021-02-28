@@ -7,7 +7,6 @@ exports.default = {
     },
     websocket: {
         account: 'wss://api.alpaca.markets/stream',
-        account_paper: 'wss://paper-api.alpaca.markets/stream',
-        market_data: (source) => `wss://stream.data.alpaca.markets/v2/${source}`,
+        market_data: (source = 'iex') => `wss://stream.data.alpaca.markets/v2/${source}`,
     },
 };

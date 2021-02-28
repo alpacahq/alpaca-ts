@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.0.9
+ * alpaca@5.1.0-beta
  * released under the permissive ISC license
  */
 
@@ -5313,8 +5313,7 @@ var urls = {
     },
     websocket: {
         account: 'wss://api.alpaca.markets/stream',
-        account_paper: 'wss://paper-api.alpaca.markets/stream',
-        market_data: (source) => `wss://stream.data.alpaca.markets/v2/${source}`,
+        market_data: (source = 'iex') => `wss://stream.data.alpaca.markets/v2/${source}`,
     },
 };
 
@@ -9970,97 +9969,108 @@ class AlpacaStream extends eventemitter3 {
     constructor(params) {
         super();
         this.params = params;
-        this.subscriptions = [];
-        this.authenticated = false;
-        switch (params.stream) {
+        switch (params.type) {
             case 'account':
-                this.host = params.credentials.key.startsWith('PK')
-                    ? urls.websocket.account_paper
+                this.host = params.credentials.paper
+                    ? urls.websocket.account.replace('api.', 'paper-api.')
                     : urls.websocket.account;
                 break;
             case 'market_data':
+                this.host = urls.websocket.market_data(this.params.source);
                 break;
             default:
                 this.host = 'unknown';
         }
         this.connection = new node(this.host);
         this.connection.onopen = () => {
-            if (!this.authenticated) {
-                this.connection.send(JSON.stringify({
-                    action: 'authenticate',
-                    data: {
-                        key_id: params.credentials.key,
-                        secret_key: params.credentials.secret,
-                    },
-                }));
+            let message = {};
+            switch (this.params.type) {
+                case 'account':
+                    message = {
+                        action: 'authenticate',
+                        data: {
+                            key_id: params.credentials.key,
+                            secret_key: params.credentials.secret,
+                        },
+                    };
+                    break;
+                case 'market_data':
+                    message = Object.assign({ action: 'auth' }, params.credentials);
+                    break;
             }
+            this.connection.send(JSON.stringify(message));
             this.emit('open', this);
         };
         this.connection.onclose = () => this.emit('close', this);
-        this.connection.onmessage = (message) => {
-            const object = JSON.parse(message.data);
-            if ('stream' in object && object.stream == 'authorization') {
-                if (object.data.status == 'authorized') {
+        this.connection.onmessage = (event) => {
+            let parsed = JSON.parse(event.data), messages = this.params.type == 'account' ? [parsed] : parsed;
+            messages.forEach((message) => {
+                this.emit('message', message);
+                if ('T' in message && message.msg == 'authenticated') {
                     this.authenticated = true;
                     this.emit('authenticated', this);
-                    console.log('Connected to the websocket.');
                 }
-                else {
-                    this.connection.close();
-                    throw new Error('There was an error in authorizing your websocket connection. Object received: ' +
-                        JSON.stringify(object, null, 2));
+                else if ('stream' in message && message.stream == 'authorization') {
+                    if (message.data.status == 'authorized') {
+                        this.authenticated = true;
+                        this.emit('authenticated', this);
+                    }
                 }
-            }
-            this.emit('message', object);
-            if ('stream' in object) {
+                if ('stream' in message && message.stream == 'trade_updates') {
+                    this.emit('trade_updates', message.data);
+                }
                 const x = {
-                    trade_updates: 'trade_updates',
-                    account_updates: 'account_updates',
-                    T: 'trade',
-                    Q: 'quote',
-                    AM: 'aggregate_minute',
+                    success: 'success',
+                    subscription: 'subscription',
+                    error: 'error',
+                    t: 'trade',
+                    q: 'quote',
+                    b: 'bar',
                 };
-                this.emit(x[object.stream.split('.')[0]], object.data);
-            }
+                if ('T' in message) {
+                    this.emit(x[message.T.split('.')[0]], message);
+                }
+            });
         };
         this.connection.onerror = (err) => {
             this.emit('error', err);
         };
     }
-    on(event, listener) {
-        return super.on(event, listener);
+    subscribe(channel, symbols = []) {
+        switch (this.params.type) {
+            case 'account':
+                this.send(JSON.stringify({ action: 'listen', data: { streams: [channel] } }));
+                break;
+            case 'market_data':
+                let message = { action: 'subscribe' };
+                message[channel] = symbols;
+                this.send(JSON.stringify(message));
+                break;
+        }
+        return this;
+    }
+    unsubscribe(channel, symbols = []) {
+        switch (this.params.type) {
+            case 'account':
+                this.send(JSON.stringify({ action: 'unlisten', data: { streams: [channel] } }));
+                break;
+            case 'market_data':
+                let message = { action: 'unsubscribe' };
+                message[channel] = symbols;
+                this.send(JSON.stringify(message));
+                break;
+        }
+        return this;
     }
     send(message) {
         if (!this.authenticated) {
-            throw new Error("You can't send a message until you are authenticated!");
+            throw new Error('not authenticated');
         }
         if (typeof message == 'object') {
             message = JSON.stringify(message);
         }
         this.connection.send(message);
         return this;
-    }
-    subscribe(channels) {
-        this.subscriptions.push(...channels);
-        return this.send(JSON.stringify({
-            action: 'listen',
-            data: {
-                streams: channels,
-            },
-        }));
-    }
-    unsubscribe(channels) {
-        for (let i = 0, ln = this.subscriptions.length; i < ln; i++) {
-            if (channels.includes(this.subscriptions[i])) {
-                this.subscriptions.splice(i, 1);
-            }
-        }
-        return this.send(JSON.stringify({
-            action: 'unlisten',
-            data: {
-                streams: channels,
-            },
-        }));
     }
 }
 

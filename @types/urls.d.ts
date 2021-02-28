@@ -1,4 +1,4 @@
-import { MarketDataSource } from './entities';
+import { DataSource } from './entities';
 declare const _default: {
     rest: {
         account: string;
@@ -6,8 +6,7 @@ declare const _default: {
     };
     websocket: {
         account: string;
-        account_paper: string;
-        market_data: (source: MarketDataSource) => string;
+        market_data: (source?: DataSource) => string;
     };
 };
 export default _default;

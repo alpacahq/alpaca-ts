@@ -1,34 +1,45 @@
 /// <reference types="ws" />
 import WebSocket from 'isomorphic-ws';
 import EventEmitter from 'eventemitter3';
-import { AccountUpdate, AggregateMinute, DefaultCredentials, Quote, Trade, TradeUpdate } from './entities.js';
-export declare interface AlpacaStreamEvents {
+import { Bar, Channel, DataSource, DefaultCredentials, Quote, Trade, TradeUpdate, Message } from './entities.js';
+export declare interface Events {
     open: (connection: AlpacaStream) => void;
     close: (connection: AlpacaStream) => void;
     authenticated: (connection: AlpacaStream) => void;
-    error: (error: WebSocket.ErrorEvent) => void;
+    success: (message: Message) => void;
+    error: (message: WebSocket.ErrorEvent | Message) => void;
+    subscription: (message: Message) => void;
     message: (data: Object) => void;
-    trade: (data: Trade) => void;
     trade_updates: (data: TradeUpdate) => void;
-    account_updates: (data: AccountUpdate) => void;
+    trade: (data: Trade) => void;
     quote: (data: Quote) => void;
-    aggregate_minute: (data: AggregateMinute) => void;
+    bar: (data: Bar) => void;
 }
 export declare class AlpacaStream extends EventEmitter {
     protected params: {
         credentials: DefaultCredentials;
-        stream: 'account' | 'market_data';
+        type: 'account' | 'market_data';
+        source?: DataSource;
     };
     private host;
     private connection;
-    private subscriptions;
     private authenticated;
     constructor(params: {
         credentials: DefaultCredentials;
-        stream: 'account' | 'market_data';
+        type: 'account' | 'market_data';
+        source?: DataSource;
     });
-    on<U extends keyof AlpacaStreamEvents>(event: U | string | symbol | any, listener: AlpacaStreamEvents[U]): this;
-    send(message: any): this;
-    subscribe(channels: string[]): this;
-    unsubscribe(channels: string[]): this;
+    /**
+     * Subscribe to an account or data stream channel.
+     * @param channel trades, quotes, bars, trade_updates
+     * @param symbols only use with data stream ex. [ "AAPL", "TSLA", ... ]
+     */
+    subscribe(channel: Channel, symbols?: string[]): this;
+    /**
+     * Unsubscribe to an account or data stream channel.
+     * @param channel trades, quotes, bars, trade_updates
+     * @param symbols only use with data stream ex. [ "AAPL", "TSLA", ... ]
+     */
+    unsubscribe(channel: Channel, symbols?: string[]): this;
+    private send;
 }

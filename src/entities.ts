@@ -646,7 +646,7 @@ export interface RawOrder {
   hwm: string
 }
 
-export type MarketDataSource = 'iex' | 'sip'
+export type DataSource = 'iex' | 'sip'
 
 export type OrderType =
   | 'market'
@@ -1469,4 +1469,13 @@ export interface Watchlist {
    * When the watchlist was last updated
    */
   updated_at: string
+}
+
+export type Channel = 'trades' | 'quotes' | 'bars' | 'trade_updates'
+
+export interface Message {
+  T: 'success' | 'error' | 'subscription'
+  code?: number
+  msg: string
+  [key: string]: any
 }
