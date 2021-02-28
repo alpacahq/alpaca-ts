@@ -1,7 +1,8 @@
 > **New!**  
-> Support for the Alpaca Market Data v2 API is here. 😄  
-> Version bumped to `5.1.2-beta` as some breaking changes were made to the
-> `AlpacaStream` class.
+> Support for the Market Data API v2 is here. This library's version has been
+> incremented to `5.1.3-beta` as some breaking changes were made to the
+> `AlpacaStream` class. It will remain `beta` until Alpaca marks a stable
+> version of the data API.
 
 # alpaca
 
@@ -24,8 +25,8 @@ WebSocket streams.
 
 ## Features
 
-- [x] Fully asynchronous API.
 - [x] Fully typed.
+- [x] Fully asynchronous promise based API.
 - [x] Extensible `AlpacaClient` and `AlpacaStream` classes.
 - [x] Built-in rate limiting.
 - [x] Built-in number and date parsing.
@@ -135,6 +136,8 @@ console.log(typeof account.raw().buying_power) // string
 
 The following methods are available on the client.
 
+#### Account
+
 - [isAuthenticated](#isauthenticated)
 - [getAccount](#getaccount)
 - [getOrder](#getorder)
@@ -162,6 +165,9 @@ The following methods are available on the client.
 - [updateAccountConfigurations](#updateAccountConfigurations)
 - [getAccountActivities](#getAccountActivities)
 - [getPortfolioHistory](#getPortfolioHistory)
+
+#### Market Data
+
 - [getTrades](#getTrades)
 - [getQuotes](#getQuotes)
 - [getBars](#getBars)
@@ -356,19 +362,32 @@ await client.getPortfolioHistory({ period: '1D', timeframe: '1Min' })
 #### getTrades
 
 ```typescript
-// todo
+await client.getTrades({
+  symbol: 'SPY',
+  start: new Date('2021-02-26T14:30:00.007Z'),
+  end: new Date('2021-02-26T14:35:00.007Z'),
+})
 ```
 
 #### getQuotes
 
 ```typescript
-// todo
+await client.getQuotes({
+  symbol: 'SPY',
+  start: new Date('2021-02-26T14:30:00.007Z'),
+  end: new Date('2021-02-26T14:35:00.007Z'),
+})
 ```
 
 #### getBars
 
 ```typescript
-// todo
+await client.getBars({
+  symbol: 'SPY',
+  start: new Date('2021-02-26T14:30:00.007Z'),
+  end: new Date('2021-02-26T14:35:00.007Z'),
+  timeframe: '1Min',
+})
 ```
 
 ## Stream
@@ -387,18 +406,9 @@ const stream = new AlpacaStream({
     secret: 'xxxxxxxxxxxx',
     paper: true,
   },
-  type: 'market_data', // or "account"
+  type: 'market_data', // or 'account'
 })
 ```
-
-### Events
-
-| Event           | Stream        |
-| :-------------- | :------------ |
-| `trade_updates` | `account`     |
-| `trades`        | `market_data` |
-| `quotes`        | `market_data` |
-| `bars`          | `market_data` |
 
 ### Methods
 
@@ -407,6 +417,15 @@ The following methods are available on the stream.
 - [subscribe](#subscribe)
 - [unsubscribe](#unsubscribe)
 - [on](#on)
+
+### Channels
+
+| Channel         | Type          |
+| :-------------- | :------------ |
+| `trade_updates` | `account`     |
+| `trades`        | `market_data` |
+| `quotes`        | `market_data` |
+| `bars`          | `market_data` |
 
 #### subscribe
 
