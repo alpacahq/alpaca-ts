@@ -70,7 +70,7 @@ class AlpacaClient {
             }));
         });
     }
-    getOrders(params) {
+    getOrders(params = {}) {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.orders(yield this.request({
                 method: 'GET',

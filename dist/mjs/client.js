@@ -49,7 +49,7 @@ export class AlpacaClient {
             data: { nested: params.nested },
         }));
     }
-    async getOrders(params) {
+    async getOrders(params = {}) {
         return parse.orders(await this.request({
             method: 'GET',
             url: `${urls.rest.account}/orders`,

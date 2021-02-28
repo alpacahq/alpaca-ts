@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.1.1-beta
+ * alpaca@5.1.2-beta
  * released under the permissive ISC license
  */
 
@@ -5543,7 +5543,7 @@ class AlpacaClient {
             }));
         });
     }
-    getOrders(params) {
+    getOrders(params = {}) {
         return __awaiter(this, void 0, void 0, function* () {
             return parse$1.orders(yield this.request({
                 method: 'GET',

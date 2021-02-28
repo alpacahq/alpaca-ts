@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.1.1-beta
+ * alpaca@5.1.2-beta
  * released under the permissive ISC license
  */
 
@@ -3961,7 +3961,7 @@ class AlpacaClient {
             data: { nested: params.nested },
         }));
     }
-    async getOrders(params) {
+    async getOrders(params = {}) {
         return parse$1.orders(await this.request({
             method: 'GET',
             url: `${urls.rest.account}/orders`,

@@ -121,7 +121,7 @@ export class AlpacaClient {
     )
   }
 
-  async getOrders(params?: GetOrders): Promise<Order[]> {
+  async getOrders(params: GetOrders = {}): Promise<Order[]> {
     return parse.orders(
       await this.request<RawOrder[]>({
         method: 'GET',

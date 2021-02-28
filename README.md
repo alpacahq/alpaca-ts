@@ -162,9 +162,9 @@ The following methods are available on the client.
 - [updateAccountConfigurations](#updateAccountConfigurations)
 - [getAccountActivities](#getAccountActivities)
 - [getPortfolioHistory](#getPortfolioHistory)
-- [getBars](#getbars)
-- [getLastTrade](#getlasttrade)
-- [getLastQuote](#getlastquote)
+- [getTrades](#getTrades)
+- [getQuotes](#getQuotes)
+- [getBars](#getBars)
 
 #### isAuthenticated
 
@@ -353,22 +353,22 @@ await client.getAccountActivities({ activity_type: 'FILL' })
 await client.getPortfolioHistory({ period: '1D', timeframe: '1Min' })
 ```
 
+#### getTrades
+
+```typescript
+// todo
+```
+
+#### getQuotes
+
+```typescript
+// todo
+```
+
 #### getBars
 
 ```typescript
-await client.getBars({ symbols: ['SPY', 'DIA', 'XLF'], timeframe: '1Min' })
-```
-
-#### getLastTrade
-
-```typescript
-await client.getLastTrade({ symbol: 'SPY' })
-```
-
-#### getLastQuote
-
-```typescript
-await client.getLastQuote({ symbol: 'SPY' })
+// todo
 ```
 
 ## Stream
