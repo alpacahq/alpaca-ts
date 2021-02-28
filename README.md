@@ -385,20 +385,20 @@ const stream = new AlpacaStream({
   credentials: {
     key: 'xxxxxx',
     secret: 'xxxxxxxxxxxx',
+    paper: true,
   },
-  stream: 'market_data',
+  type: 'market_data',
 })
 ```
 
 ### Events
 
-| Event              | Stream        |
-| :----------------- | :------------ |
-| `aggregate_minute` | `market_data` |
-| `quote`            | `market_data` |
-| `trade`            | `market_data` |
-| `trade_updates`    | `account`     |
-| `account_updates`  | `account`     |
+| Event           | Stream        |
+| :-------------- | :------------ |
+| `trade_updates` | `account`     |
+| `trades`        | `market_data` |
+| `quotes`        | `market_data` |
+| `bars`          | `market_data` |
 
 ### Methods
 
@@ -411,21 +411,24 @@ The following methods are available on the stream.
 #### subscribe
 
 ```typescript
-stream.once('authenticated', () => stream.subscribe(['AM.SPY']))
+stream.once('authenticated', () =>
+  stream.subscribe('bars', ['SPY', 'AAPL', 'TSLA']),
+)
 ```
 
 #### unsubscribe
 
 ```typescript
-stream.unsubscribe(["AM.SPY"]));
+stream.unsubscribe('bars', ['SPY'])
 ```
 
 #### on
 
 ```typescript
 stream.on('message', (message) => console.log(message))
+stream.on('trade', (trade) => console.log(trade))
+stream.on('bar', (bar) => console.log(bar))
 stream.on('quote', (quote) => console.log(quote))
-stream.on('aggregate_minute', (aggregate) => console.log(aggregate))
 stream.on('trade_updates', (update) => console.log(update))
 stream.on('error', (error) => console.warn(error))
 ```
