@@ -1,6 +1,6 @@
 > **New!**  
 > Support for the Alpaca Market Data v2 API is here. 😄  
-> Version bumped to `5.1.1-beta` as some breaking changes were made to the
+> Version bumped to `5.1.2-beta` as some breaking changes were made to the
 > `AlpacaStream` class.
 
 # alpaca
