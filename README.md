@@ -406,7 +406,8 @@ const stream = new AlpacaStream({
     secret: 'xxxxxxxxxxxx',
     paper: true,
   },
-  type: 'market_data', // or 'account'
+  type: 'market_data', // or "account"
+  source: 'iex', // or "sip" depending on your subscription
 })
 ```
 
