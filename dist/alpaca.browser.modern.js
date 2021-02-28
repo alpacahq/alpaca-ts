@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.1.0-beta
+ * alpaca@5.1.1-beta
  * released under the permissive ISC license
  */
 
@@ -4553,6 +4553,10 @@ class AlpacaStream extends eventemitter3 {
     constructor(params) {
         super();
         this.params = params;
+        if (!('paper' in params.credentials) &&
+            !('key' in params.credentials && params.credentials.key.startsWith('A'))) {
+            params.credentials['paper'] = true;
+        }
         switch (params.type) {
             case 'account':
                 this.host = params.credentials.paper

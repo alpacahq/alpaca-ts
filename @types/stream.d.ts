@@ -3,19 +3,24 @@ import WebSocket from 'isomorphic-ws';
 import EventEmitter from 'eventemitter3';
 import { Bar, Channel, DataSource, DefaultCredentials, Quote, Trade, TradeUpdate, Message } from './entities.js';
 export declare interface Events {
-    open: (connection: AlpacaStream) => void;
-    close: (connection: AlpacaStream) => void;
-    authenticated: (connection: AlpacaStream) => void;
+    open: (stream: AlpacaStream) => void;
+    close: (stream: AlpacaStream) => void;
+    authenticated: (stream: AlpacaStream) => void;
     success: (message: Message) => void;
-    error: (message: WebSocket.ErrorEvent | Message) => void;
+    error: (message: WebSocket.ErrorEvent) => void;
     subscription: (message: Message) => void;
-    message: (data: Object) => void;
-    trade_updates: (data: TradeUpdate) => void;
-    trade: (data: Trade) => void;
-    quote: (data: Quote) => void;
-    bar: (data: Bar) => void;
+    message: (message: Object) => void;
+    trade_updates: (update: TradeUpdate) => void;
+    trade: (trade: Trade) => void;
+    quote: (quote: Quote) => void;
+    bar: (bar: Bar) => void;
 }
-export declare class AlpacaStream extends EventEmitter {
+export declare interface AlpacaStream {
+    on<U extends keyof Events>(event: U, listener: Events[U]): this;
+    once<U extends keyof Events>(event: U, listener: Events[U]): this;
+    emit<U extends keyof Events>(event: U, ...args: Parameters<Events[U]>): boolean;
+}
+export declare class AlpacaStream extends EventEmitter<string | symbol | any> {
     protected params: {
         credentials: DefaultCredentials;
         type: 'account' | 'market_data';

@@ -15,20 +15,29 @@ import {
 } from './entities.js'
 
 export declare interface Events {
-  open: (connection: AlpacaStream) => void
-  close: (connection: AlpacaStream) => void
-  authenticated: (connection: AlpacaStream) => void
+  open: (stream: AlpacaStream) => void
+  close: (stream: AlpacaStream) => void
+  authenticated: (stream: AlpacaStream) => void
   success: (message: Message) => void
-  error: (message: WebSocket.ErrorEvent | Message) => void
+  error: (message: WebSocket.ErrorEvent) => void
   subscription: (message: Message) => void
-  message: (data: Object) => void
-  trade_updates: (data: TradeUpdate) => void
-  trade: (data: Trade) => void
-  quote: (data: Quote) => void
-  bar: (data: Bar) => void
+  message: (message: Object) => void
+  trade_updates: (update: TradeUpdate) => void
+  trade: (trade: Trade) => void
+  quote: (quote: Quote) => void
+  bar: (bar: Bar) => void
 }
 
-export class AlpacaStream extends EventEmitter {
+export declare interface AlpacaStream {
+  on<U extends keyof Events>(event: U, listener: Events[U]): this
+  once<U extends keyof Events>(event: U, listener: Events[U]): this
+  emit<U extends keyof Events>(
+    event: U,
+    ...args: Parameters<Events[U]>
+  ): boolean
+}
+
+export class AlpacaStream extends EventEmitter<string | symbol | any> {
   private host: string
   private connection: WebSocket
   private authenticated: boolean
@@ -42,6 +51,15 @@ export class AlpacaStream extends EventEmitter {
   ) {
     // construct EventEmitter
     super()
+
+    if (
+      // if not specified
+      !('paper' in params.credentials) &&
+      // and live key isn't already provided
+      !('key' in params.credentials && params.credentials.key.startsWith('A'))
+    ) {
+      params.credentials['paper'] = true
+    }
 
     // assign the host we will connect to
     switch (params.type) {

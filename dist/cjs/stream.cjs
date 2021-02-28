@@ -12,6 +12,13 @@ class AlpacaStream extends eventemitter3_1.default {
         // construct EventEmitter
         super();
         this.params = params;
+        if (
+        // if not specified
+        !('paper' in params.credentials) &&
+            // and live key isn't already provided
+            !('key' in params.credentials && params.credentials.key.startsWith('A'))) {
+            params.credentials['paper'] = true;
+        }
         // assign the host we will connect to
         switch (params.type) {
             case 'account':
