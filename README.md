@@ -387,7 +387,7 @@ const stream = new AlpacaStream({
     secret: 'xxxxxxxxxxxx',
     paper: true,
   },
-  type: 'market_data',
+  type: 'market_data', // or "account"
 })
 ```
 
