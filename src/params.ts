@@ -108,6 +108,7 @@ export interface PlaceOrder {
   qty: number
   side: OrderSide
   type: OrderType
+  notional: number
   time_in_force: OrderTimeInForce
   limit_price?: number
   stop_price?: number
