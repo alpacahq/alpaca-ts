@@ -1,6 +1,6 @@
 > **New!**  
 > Support for the Market Data API v2 is here. This library's version has been
-> incremented to `5.1.3-beta` as some breaking changes were made to the
+> incremented to `5.1.4-beta` as some breaking changes were made to the
 > `AlpacaStream` class. It will remain `beta` until Alpaca marks a stable
 > version of the data API.
 
