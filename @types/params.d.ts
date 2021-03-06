@@ -87,10 +87,11 @@ export interface GetWatchList {
 }
 export interface PlaceOrder {
     symbol: string;
-    qty: number;
     side: OrderSide;
     type: OrderType;
     time_in_force: OrderTimeInForce;
+    qty?: number;
+    notional?: number;
     limit_price?: number;
     stop_price?: number;
     extended_hours?: boolean;
