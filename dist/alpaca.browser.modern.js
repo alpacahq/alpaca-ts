@@ -4152,9 +4152,9 @@ class AlpacaClient {
         else {
             headers['APCA-API-KEY-ID'] = this.params.credentials.key;
             headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
-            if (this.params.credentials.paper) {
-                params.url = params.url.replace('api.', 'paper-api.');
-            }
+        }
+        if (this.params.credentials.paper) {
+            params.url = params.url.replace('api.', 'paper-api.');
         }
         let query = '';
         if (params.data) {
