@@ -163,7 +163,13 @@ The following methods are available on the client.
 - [getAccountActivities](#getAccountActivities)
 - [getPortfolioHistory](#getPortfolioHistory)
 
-#### Market Data
+#### Market Data v1
+
+- [getTrades](#getLastTrade)
+- [getQuotes](#getLastQuote)
+- [getBars_v1](#getBars_v1)
+
+#### Market Data v2
 
 - [getTrades](#getTrades)
 - [getQuotes](#getQuotes)
@@ -356,6 +362,24 @@ await client.getAccountActivities({ activity_type: 'FILL' })
 
 ```typescript
 await client.getPortfolioHistory({ period: '1D', timeframe: '1Min' })
+```
+
+#### getLastTrade
+
+```typescript
+await client.getLastTrade({ symbol: 'SPY' })
+```
+
+#### getLastQuote
+
+```typescript
+await client.getLastQuote({ symbol: 'SPY' })
+```
+
+#### getBars_v1
+
+```typescript
+await client.getBars_v1({ symbols: ['SPY', 'DIA', 'XLF'], timeframe: '1Min' })
 ```
 
 #### getTrades
