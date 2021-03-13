@@ -646,6 +646,134 @@ export interface RawOrder {
   hwm: string
 }
 
+/**
+ * Price and volume data during a particular time interval
+ */
+export interface Bar_v1 {
+  /**
+   * the beginning time of this bar as a Unix epoch in seconds
+   */
+  t: number
+
+  /**
+   * open price
+   */
+  o: number
+
+  /**
+   * high price
+   */
+  h: number
+
+  /**
+   * low price
+   */
+  l: number
+
+  /**
+   * close price
+   */
+  c: number
+
+  /**
+   * volume
+   */
+  v: number
+}
+
+/**
+ * Last quote details for a symbol
+ */
+export interface LastQuote {
+  status: string
+  symbol: string
+  last: {
+    /**
+     * the current ask price
+     */
+    askprice: number
+
+    /**
+     * the current ask size
+     */
+    asksize: number
+
+    /**
+     * the exchange code of the ask quote
+     */
+    askexchange: number
+
+    /**
+     * the current bid price
+     */
+    bidprice: number
+
+    /**
+     * the current bid size
+     */
+    bidsize: number
+
+    /**
+     * the exchange code of the bid quote
+     */
+    bidexchange: number
+
+    /**
+     * epoch timestamp in nanoseconds
+     */
+    timestamp: number
+  }
+}
+
+/**
+ * Last trade details for a symbol
+ */
+export interface LastTrade {
+  status: string
+  symbol: string
+  last: {
+    /**
+     * last trade price
+     */
+    price: number
+
+    /**
+     * last trade volume size
+     */
+    size: number
+
+    /**
+     * exchange code where the last trade was made
+     */
+    exchange: number
+
+    /**
+     * condition flag 1
+     */
+    cond1: number
+
+    /**
+     * condition flag 2
+     */
+    cond2: number
+
+    /**
+     * condition flag 3
+     */
+    cond3: number
+
+    /**
+     * condition flag 4
+     */
+    cond4: number
+
+    /**
+     * epoch timestamp in nanoseconds
+     */
+    timestamp: number
+  }
+}
+
 export type DataSource = 'iex' | 'sip'
 
 export type OrderType =

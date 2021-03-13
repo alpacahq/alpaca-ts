@@ -211,6 +211,32 @@ export class AlpacaClient {
             data: params,
         });
     }
+    /** @deprecated Alpaca Data API v2 is currently in public beta. */
+    async getBars_v1(params) {
+        const transformed = {
+            ...params,
+            symbols: params.symbols.join(','),
+        };
+        return await this.request({
+            method: 'GET',
+            url: `${urls.rest.market_data}/bars/${params.timeframe}`,
+            data: transformed,
+        });
+    }
+    /** @deprecated Alpaca Data API v2 is currently in public beta. */
+    async getLastTrade(params) {
+        return await this.request({
+            method: 'GET',
+            url: `${urls.rest.market_data}/last/stocks/${params.symbol}`,
+        });
+    }
+    /** @deprecated Alpaca Data API v2 is currently in public beta. */
+    async getLastQuote(params) {
+        return await this.request({
+            method: 'GET',
+            url: `${urls.rest.market_data}/last_quote/stocks/${params.symbol}`,
+        });
+    }
     async getTrades(params) {
         return parse.pageOfTrades(await this.request({
             method: 'GET',

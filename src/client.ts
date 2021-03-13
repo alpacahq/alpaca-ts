@@ -28,6 +28,9 @@ import {
   PageOfTrades,
   PageOfQuotes,
   PageOfBars,
+  Bar_v1,
+  LastQuote,
+  LastTrade,
 } from './entities.js'
 
 import {
@@ -51,8 +54,11 @@ import {
   GetAccountActivities,
   GetPortfolioHistory,
   GetBars,
+  GetBars_v1,
   GetTrades,
   GetQuotes,
+  GetLastTrade,
+  GetLastQuote,
 } from './params.js'
 
 const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch
@@ -331,6 +337,38 @@ export class AlpacaClient {
       method: 'GET',
       url: `${urls.rest.account}/account/portfolio/history`,
       data: params,
+    })
+  }
+
+  /** @deprecated Alpaca Data API v2 is currently in public beta. */
+  async getBars_v1(
+    params: GetBars_v1,
+  ): Promise<{ [symbol: string]: Bar_v1[] }> {
+    const transformed: Omit<GetBars_v1, 'symbols'> & { symbols: string } = {
+      ...params,
+      symbols: params.symbols.join(','),
+    }
+
+    return await this.request({
+      method: 'GET',
+      url: `${urls.rest.market_data}/bars/${params.timeframe}`,
+      data: transformed,
+    })
+  }
+
+  /** @deprecated Alpaca Data API v2 is currently in public beta. */
+  async getLastTrade(params: GetLastTrade): Promise<LastTrade> {
+    return await this.request({
+      method: 'GET',
+      url: `${urls.rest.market_data}/last/stocks/${params.symbol}`,
+    })
+  }
+
+  /** @deprecated Alpaca Data API v2 is currently in public beta. */
+  async getLastQuote(params: GetLastQuote): Promise<LastQuote> {
+    return await this.request({
+      method: 'GET',
+      url: `${urls.rest.market_data}/last_quote/stocks/${params.symbol}`,
     })
   }
 

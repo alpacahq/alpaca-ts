@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.1.5-beta
+ * alpaca@6.0.0
  * released under the permissive ISC license
  */
 
@@ -4127,6 +4127,29 @@
               method: 'GET',
               url: `${urls.rest.account}/account/portfolio/history`,
               data: params,
+          });
+      }
+      async getBars_v1(params) {
+          const transformed = {
+              ...params,
+              symbols: params.symbols.join(','),
+          };
+          return await this.request({
+              method: 'GET',
+              url: `${urls.rest.market_data}/bars/${params.timeframe}`,
+              data: transformed,
+          });
+      }
+      async getLastTrade(params) {
+          return await this.request({
+              method: 'GET',
+              url: `${urls.rest.market_data}/last/stocks/${params.symbol}`,
+          });
+      }
+      async getLastQuote(params) {
+          return await this.request({
+              method: 'GET',
+              url: `${urls.rest.market_data}/last_quote/stocks/${params.symbol}`,
           });
       }
       async getTrades(params) {

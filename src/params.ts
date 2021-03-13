@@ -72,6 +72,24 @@ export interface GetBars {
   timeframe: '1Sec' | '1Min' | '1Hour' | '1Day'
 }
 
+export interface GetBars_v1 {
+  timeframe: string
+  symbols: string[]
+  limit?: number
+  start?: Date
+  end?: Date
+  after?: Date
+  until?: Date
+}
+
+export interface GetLastQuote {
+  symbol: string
+}
+
+export interface GetLastTrade {
+  symbol: string
+}
+
 export interface GetOrder {
   order_id?: string
   client_order_id?: string
