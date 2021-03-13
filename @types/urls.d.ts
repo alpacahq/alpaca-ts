@@ -2,7 +2,8 @@ import { DataSource } from './entities';
 declare const _default: {
     rest: {
         account: string;
-        market_data: string;
+        market_data_v2: string;
+        market_data_v1: string;
     };
     websocket: {
         account: string;

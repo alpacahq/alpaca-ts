@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.0.0
+ * alpaca@6.0.1
  * released under the permissive ISC license
  */
 
@@ -3621,7 +3621,8 @@ var browser = self.fetch || (self.fetch = require$$0$1.default || require$$0$1);
 var urls = {
     rest: {
         account: 'https://api.alpaca.markets/v2',
-        market_data: 'https://data.alpaca.markets/v2',
+        market_data_v2: 'https://data.alpaca.markets/v2',
+        market_data_v1: 'https://data.alpaca.markets/v1',
     },
     websocket: {
         account: 'wss://api.alpaca.markets/stream',
@@ -4130,40 +4131,40 @@ class AlpacaClient {
         };
         return await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data}/bars/${params.timeframe}`,
+            url: `${urls.rest.market_data_v1}/bars/${params.timeframe}`,
             data: transformed,
         });
     }
     async getLastTrade(params) {
         return await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data}/last/stocks/${params.symbol}`,
+            url: `${urls.rest.market_data_v1}/last/stocks/${params.symbol}`,
         });
     }
     async getLastQuote(params) {
         return await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data}/last_quote/stocks/${params.symbol}`,
+            url: `${urls.rest.market_data_v1}/last_quote/stocks/${params.symbol}`,
         });
     }
     async getTrades(params) {
         return parse$1.pageOfTrades(await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data}/stocks/${params.symbol}/trades`,
+            url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/trades`,
             data: { ...params, symbol: undefined },
         }));
     }
     async getQuotes(params) {
         return parse$1.pageOfQuotes(await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data}/stocks/${params.symbol}/quotes`,
+            url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/quotes`,
             data: { ...params, symbol: undefined },
         }));
     }
     async getBars(params) {
         return parse$1.pageOfBars(await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data}/stocks/${params.symbol}/bars`,
+            url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/bars`,
             data: { ...params, symbol: undefined },
         }));
     }

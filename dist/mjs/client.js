@@ -219,7 +219,7 @@ export class AlpacaClient {
         };
         return await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data}/bars/${params.timeframe}`,
+            url: `${urls.rest.market_data_v1}/bars/${params.timeframe}`,
             data: transformed,
         });
     }
@@ -227,34 +227,34 @@ export class AlpacaClient {
     async getLastTrade(params) {
         return await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data}/last/stocks/${params.symbol}`,
+            url: `${urls.rest.market_data_v1}/last/stocks/${params.symbol}`,
         });
     }
     /** @deprecated Alpaca Data API v2 is currently in public beta. */
     async getLastQuote(params) {
         return await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data}/last_quote/stocks/${params.symbol}`,
+            url: `${urls.rest.market_data_v1}/last_quote/stocks/${params.symbol}`,
         });
     }
     async getTrades(params) {
         return parse.pageOfTrades(await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data}/stocks/${params.symbol}/trades`,
+            url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/trades`,
             data: { ...params, symbol: undefined },
         }));
     }
     async getQuotes(params) {
         return parse.pageOfQuotes(await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data}/stocks/${params.symbol}/quotes`,
+            url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/quotes`,
             data: { ...params, symbol: undefined },
         }));
     }
     async getBars(params) {
         return parse.pageOfBars(await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data}/stocks/${params.symbol}/bars`,
+            url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/bars`,
             data: { ...params, symbol: undefined },
         }));
     }
