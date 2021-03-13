@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.0.0
+ * alpaca@6.0.1
  * released under the permissive ISC license
  */
 
@@ -5309,7 +5309,8 @@ var isomorphicUnfetch = commonjsGlobal.fetch = commonjsGlobal.fetch || (
 var urls = {
     rest: {
         account: 'https://api.alpaca.markets/v2',
-        market_data: 'https://data.alpaca.markets/v2',
+        market_data_v2: 'https://data.alpaca.markets/v2',
+        market_data_v1: 'https://data.alpaca.markets/v1',
     },
     websocket: {
         account: 'wss://api.alpaca.markets/stream',
@@ -5727,7 +5728,7 @@ class AlpacaClient {
             const transformed = Object.assign(Object.assign({}, params), { symbols: params.symbols.join(',') });
             return yield this.request({
                 method: 'GET',
-                url: `${urls.rest.market_data}/bars/${params.timeframe}`,
+                url: `${urls.rest.market_data_v1}/bars/${params.timeframe}`,
                 data: transformed,
             });
         });
@@ -5736,7 +5737,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.request({
                 method: 'GET',
-                url: `${urls.rest.market_data}/last/stocks/${params.symbol}`,
+                url: `${urls.rest.market_data_v1}/last/stocks/${params.symbol}`,
             });
         });
     }
@@ -5744,7 +5745,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.request({
                 method: 'GET',
-                url: `${urls.rest.market_data}/last_quote/stocks/${params.symbol}`,
+                url: `${urls.rest.market_data_v1}/last_quote/stocks/${params.symbol}`,
             });
         });
     }
@@ -5752,7 +5753,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse$1.pageOfTrades(yield this.request({
                 method: 'GET',
-                url: `${urls.rest.market_data}/stocks/${params.symbol}/trades`,
+                url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/trades`,
                 data: Object.assign(Object.assign({}, params), { symbol: undefined }),
             }));
         });
@@ -5761,7 +5762,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse$1.pageOfQuotes(yield this.request({
                 method: 'GET',
-                url: `${urls.rest.market_data}/stocks/${params.symbol}/quotes`,
+                url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/quotes`,
                 data: Object.assign(Object.assign({}, params), { symbol: undefined }),
             }));
         });
@@ -5770,7 +5771,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse$1.pageOfBars(yield this.request({
                 method: 'GET',
-                url: `${urls.rest.market_data}/stocks/${params.symbol}/bars`,
+                url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/bars`,
                 data: Object.assign(Object.assign({}, params), { symbol: undefined }),
             }));
         });
