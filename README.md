@@ -165,8 +165,8 @@ The following methods are available on the client.
 
 #### Market Data v1
 
-- [getTrades](#getLastTrade)
-- [getQuotes](#getLastQuote)
+- [getLastTrade](#getLastTrade)
+- [getLastQuote](#getLastQuote)
 - [getBars_v1](#getBars_v1)
 
 #### Market Data v2
