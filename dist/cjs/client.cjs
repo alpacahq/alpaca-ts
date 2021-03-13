@@ -249,6 +249,35 @@ class AlpacaClient {
             data: params,
         });
     }
+    /** @deprecated Alpaca Data API v2 is currently in public beta. */
+    getBars_v1(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const transformed = Object.assign(Object.assign({}, params), { symbols: params.symbols.join(',') });
+            return yield this.request({
+                method: 'GET',
+                url: `${urls_js_1.default.rest.market_data}/bars/${params.timeframe}`,
+                data: transformed,
+            });
+        });
+    }
+    /** @deprecated Alpaca Data API v2 is currently in public beta. */
+    getLastTrade(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.request({
+                method: 'GET',
+                url: `${urls_js_1.default.rest.market_data}/last/stocks/${params.symbol}`,
+            });
+        });
+    }
+    /** @deprecated Alpaca Data API v2 is currently in public beta. */
+    getLastQuote(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.request({
+                method: 'GET',
+                url: `${urls_js_1.default.rest.market_data}/last_quote/stocks/${params.symbol}`,
+            });
+        });
+    }
     getTrades(params) {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.pageOfTrades(yield this.request({

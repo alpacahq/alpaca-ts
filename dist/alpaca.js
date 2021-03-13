@@ -1,5 +1,5 @@
 /*! 
- * alpaca@5.1.5-beta
+ * alpaca@6.0.0
  * released under the permissive ISC license
  */
 
@@ -448,6 +448,32 @@ class AlpacaClient {
             method: 'GET',
             url: `${urls.rest.account}/account/portfolio/history`,
             data: params,
+        });
+    }
+    getBars_v1(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const transformed = Object.assign(Object.assign({}, params), { symbols: params.symbols.join(',') });
+            return yield this.request({
+                method: 'GET',
+                url: `${urls.rest.market_data}/bars/${params.timeframe}`,
+                data: transformed,
+            });
+        });
+    }
+    getLastTrade(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.request({
+                method: 'GET',
+                url: `${urls.rest.market_data}/last/stocks/${params.symbol}`,
+            });
+        });
+    }
+    getLastQuote(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.request({
+                method: 'GET',
+                url: `${urls.rest.market_data}/last_quote/stocks/${params.symbol}`,
+            });
         });
     }
     getTrades(params) {
