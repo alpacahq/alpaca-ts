@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "author": "117",
   "contributors": [
@@ -58,7 +58,8 @@
     "clean": "rimraf dist @types",
     "test": "npm run test:default",
     "test:default": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "release": "standard-version"
   },
   "jest": {
     "preset": "ts-jest",
@@ -95,6 +96,7 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.39.0",
     "rollup-plugin-terser": "^7.0.2",
+    "standard-version": "^9.1.1",
     "ts-jest": "^26.5.1",
     "tslib": "^2.0.3",
     "typescript": "^4.2.1-rc"
