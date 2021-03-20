@@ -29,8 +29,8 @@ import {
   PageOfQuotes,
   PageOfBars,
   Bar_v1,
-  LastQuote,
-  LastTrade,
+  LastQuote_v1,
+  LastTrade_v1,
 } from './entities.js'
 
 import {
@@ -57,8 +57,8 @@ import {
   GetBars_v1,
   GetTrades,
   GetQuotes,
-  GetLastTrade,
-  GetLastQuote,
+  GetLastTrade_v1,
+  GetLastQuote_v1,
 } from './params.js'
 
 const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch
@@ -357,7 +357,7 @@ export class AlpacaClient {
   }
 
   /** @deprecated Alpaca Data API v2 is currently in public beta. */
-  async getLastTrade(params: GetLastTrade): Promise<LastTrade> {
+  async getLastTrade_v1(params: GetLastTrade_v1): Promise<LastTrade_v1> {
     return await this.request({
       method: 'GET',
       url: `${urls.rest.market_data_v1}/last/stocks/${params.symbol}`,
@@ -365,7 +365,7 @@ export class AlpacaClient {
   }
 
   /** @deprecated Alpaca Data API v2 is currently in public beta. */
-  async getLastQuote(params: GetLastQuote): Promise<LastQuote> {
+  async getLastQuote_v1(params: GetLastQuote_v1): Promise<LastQuote_v1> {
     return await this.request({
       method: 'GET',
       url: `${urls.rest.market_data_v1}/last_quote/stocks/${params.symbol}`,

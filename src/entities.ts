@@ -684,7 +684,7 @@ export interface Bar_v1 {
 /**
  * Last quote details for a symbol
  */
-export interface LastQuote {
+export interface LastQuote_v1 {
   status: string
   symbol: string
   last: {
@@ -728,7 +728,7 @@ export interface LastQuote {
 /**
  * Last trade details for a symbol
  */
-export interface LastTrade {
+export interface LastTrade_v1 {
   status: string
   symbol: string
   last: {

@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.0.1
+ * alpaca@6.1.0
  * released under the permissive ISC license
  */
 
@@ -4135,13 +4135,13 @@ class AlpacaClient {
             data: transformed,
         });
     }
-    async getLastTrade(params) {
+    async getLastTrade_v1(params) {
         return await this.request({
             method: 'GET',
             url: `${urls.rest.market_data_v1}/last/stocks/${params.symbol}`,
         });
     }
-    async getLastQuote(params) {
+    async getLastQuote_v1(params) {
         return await this.request({
             method: 'GET',
             url: `${urls.rest.market_data_v1}/last_quote/stocks/${params.symbol}`,

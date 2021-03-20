@@ -1,5 +1,6 @@
 > **New!**  
-> Support for the Market Data API v2 is here. Legacy v1 methods are also included.
+> Support for the Market Data API v2 is here. Legacy v1 methods are also
+> included.
 
 # alpaca
 
@@ -165,8 +166,8 @@ The following methods are available on the client.
 
 #### Market Data v1
 
-- [getLastTrade](#getLastTrade)
-- [getLastQuote](#getLastQuote)
+- [getLastTrade_v1](#getLastTrade_v1)
+- [getLastQuote_v1](#getLastQuote_v1)
 - [getBars_v1](#getBars_v1)
 
 #### Market Data v2
@@ -364,16 +365,16 @@ await client.getAccountActivities({ activity_type: 'FILL' })
 await client.getPortfolioHistory({ period: '1D', timeframe: '1Min' })
 ```
 
-#### getLastTrade
+#### getLastTrade_v1
 
 ```typescript
-await client.getLastTrade({ symbol: 'SPY' })
+await client.getLastTrade_v1({ symbol: 'SPY' })
 ```
 
-#### getLastQuote
+#### getLastQuote_v1
 
 ```typescript
-await client.getLastQuote({ symbol: 'SPY' })
+await client.getLastQuote_v1({ symbol: 'SPY' })
 ```
 
 #### getBars_v1

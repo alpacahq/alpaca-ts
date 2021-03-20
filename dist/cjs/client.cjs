@@ -261,7 +261,7 @@ class AlpacaClient {
         });
     }
     /** @deprecated Alpaca Data API v2 is currently in public beta. */
-    getLastTrade(params) {
+    getLastTrade_v1(params) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.request({
                 method: 'GET',
@@ -270,7 +270,7 @@ class AlpacaClient {
         });
     }
     /** @deprecated Alpaca Data API v2 is currently in public beta. */
-    getLastQuote(params) {
+    getLastQuote_v1(params) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.request({
                 method: 'GET',

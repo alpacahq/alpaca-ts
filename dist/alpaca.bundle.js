@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.0.1
+ * alpaca@6.1.0
  * released under the permissive ISC license
  */
 
@@ -5733,7 +5733,7 @@ class AlpacaClient {
             });
         });
     }
-    getLastTrade(params) {
+    getLastTrade_v1(params) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.request({
                 method: 'GET',
@@ -5741,7 +5741,7 @@ class AlpacaClient {
             });
         });
     }
-    getLastQuote(params) {
+    getLastQuote_v1(params) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.request({
                 method: 'GET',

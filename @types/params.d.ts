@@ -68,10 +68,10 @@ export interface GetBars_v1 {
     after?: Date;
     until?: Date;
 }
-export interface GetLastQuote {
+export interface GetLastQuote_v1 {
     symbol: string;
 }
-export interface GetLastTrade {
+export interface GetLastTrade_v1 {
     symbol: string;
 }
 export interface GetOrder {

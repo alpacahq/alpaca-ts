@@ -1,5 +1,5 @@
-import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, PortfolioHistory, Activity, DefaultCredentials, OAuthCredentials, OrderCancelation, PageOfTrades, PageOfQuotes, PageOfBars, Bar_v1, LastQuote, LastTrade } from './entities.js';
-import { GetOrder, GetOrders, PlaceOrder, ReplaceOrder, CancelOrder, GetPosition, ClosePosition, GetAsset, GetAssets, GetWatchList, CreateWatchList, UpdateWatchList, AddToWatchList, RemoveFromWatchList, DeleteWatchList, GetCalendar, UpdateAccountConfigurations, GetAccountActivities, GetPortfolioHistory, GetBars, GetBars_v1, GetTrades, GetQuotes, GetLastTrade, GetLastQuote } from './params.js';
+import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, PortfolioHistory, Activity, DefaultCredentials, OAuthCredentials, OrderCancelation, PageOfTrades, PageOfQuotes, PageOfBars, Bar_v1, LastQuote_v1, LastTrade_v1 } from './entities.js';
+import { GetOrder, GetOrders, PlaceOrder, ReplaceOrder, CancelOrder, GetPosition, ClosePosition, GetAsset, GetAssets, GetWatchList, CreateWatchList, UpdateWatchList, AddToWatchList, RemoveFromWatchList, DeleteWatchList, GetCalendar, UpdateAccountConfigurations, GetAccountActivities, GetPortfolioHistory, GetBars, GetBars_v1, GetTrades, GetQuotes, GetLastTrade_v1, GetLastQuote_v1 } from './params.js';
 export declare class AlpacaClient {
     params: {
         credentials?: DefaultCredentials | OAuthCredentials;
@@ -42,9 +42,9 @@ export declare class AlpacaClient {
         [symbol: string]: Bar_v1[];
     }>;
     /** @deprecated Alpaca Data API v2 is currently in public beta. */
-    getLastTrade(params: GetLastTrade): Promise<LastTrade>;
+    getLastTrade_v1(params: GetLastTrade_v1): Promise<LastTrade_v1>;
     /** @deprecated Alpaca Data API v2 is currently in public beta. */
-    getLastQuote(params: GetLastQuote): Promise<LastQuote>;
+    getLastQuote_v1(params: GetLastQuote_v1): Promise<LastQuote_v1>;
     getTrades(params: GetTrades): Promise<PageOfTrades>;
     getQuotes(params: GetQuotes): Promise<PageOfQuotes>;
     getBars(params: GetBars): Promise<PageOfBars>;

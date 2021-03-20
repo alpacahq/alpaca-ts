@@ -224,14 +224,14 @@ export class AlpacaClient {
         });
     }
     /** @deprecated Alpaca Data API v2 is currently in public beta. */
-    async getLastTrade(params) {
+    async getLastTrade_v1(params) {
         return await this.request({
             method: 'GET',
             url: `${urls.rest.market_data_v1}/last/stocks/${params.symbol}`,
         });
     }
     /** @deprecated Alpaca Data API v2 is currently in public beta. */
-    async getLastQuote(params) {
+    async getLastQuote_v1(params) {
         return await this.request({
             method: 'GET',
             url: `${urls.rest.market_data_v1}/last_quote/stocks/${params.symbol}`,
