@@ -352,6 +352,11 @@ export interface Asset {
    * to check whether the name is currently available to short at Alpaca).
    */
   easy_to_borrow: boolean
+
+  /**
+   * Asset is fractionable or not.
+   */
+  fractionable: boolean
 }
 
 /**
