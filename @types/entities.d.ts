@@ -299,6 +299,10 @@ export interface Asset {
      * to check whether the name is currently available to short at Alpaca).
      */
     easy_to_borrow: boolean;
+    /**
+     * Asset is fractionable or not.
+     */
+    fractionable: boolean;
 }
 /**
  * Contains the time of open and close for a market on a particular day from 1970 to 2029
