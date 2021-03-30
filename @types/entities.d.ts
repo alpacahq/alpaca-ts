@@ -355,6 +355,8 @@ export interface Clock {
 }
 /** A trade which occurred. */
 export interface RawTrade {
+    /** Trade symbol. */
+    S: string;
     /** Timestamp in RFC-3339 format with nanosecond precision. */
     t: string;
     /** Exchange where the trade happened. */
@@ -383,6 +385,8 @@ export interface RawPageOfTrades {
 export interface Trade {
     /** Get the raw data as it came from Alpaca. */
     raw(): RawTrade;
+    /** Trade symbol. */
+    S: string;
     /** Timestamp in RFC-3339 format with nanosecond precision. */
     t: Date;
     /** Exchange where the trade happened. */
@@ -411,6 +415,8 @@ export interface PageOfTrades {
 }
 /** A quote for a symbol. */
 export interface RawQuote {
+    /** Quote symbol. */
+    S: string;
     /** Timestamp in RFC-3339 format with nanosecond precision. */
     t: string;
     /** Ask exchange. */
@@ -441,6 +447,8 @@ export interface RawPageOfQuotes {
 export interface Quote {
     /** Get the raw data as it came from Alpaca. */
     raw(): RawQuote;
+    /** Quote symbol. */
+    S: string;
     /** Timestamp in Date format. */
     t: Date;
     /** Ask exchange. */
@@ -471,6 +479,8 @@ export interface PageOfQuotes {
 }
 /** A bar for a symbol. */
 export interface RawBar {
+    /** Bar symbol. */
+    S: string;
     /** Timestamp in RFC-3339 format with nanosecond precision. */
     t: string;
     /** Open price. */
@@ -497,6 +507,8 @@ export interface RawPageOfBars {
 export interface Bar {
     /** Get the raw data as it came from Alpaca. */
     raw(): RawBar;
+    /** Bar symbol. */
+    S: string;
     /** Timestamp in Date format. */
     t: Date;
     /** Open price. */
