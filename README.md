@@ -1,7 +1,3 @@
-> **New!**  
-> Support for the Market Data API v2 is here. Legacy v1 methods are also
-> included.
-
 # @master-chief/alpaca
 
 ![version](https://img.shields.io/github/package-json/v/117/alpaca?color=196DFF&style=flat-square)
