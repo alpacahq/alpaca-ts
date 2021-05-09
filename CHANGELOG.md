@@ -1,8 +1,15 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See
+[standard-version](https://github.com/conventional-changelog/standard-version)
+for commit guidelines.
 
 ### [6.1.4](https://github.com/117/alpaca/compare/v6.1.3...v6.1.4) (2021-05-09)
+
+- Upgrade lodash to version 4.17.21 or later.
+  [CVE-2021-23337](https://github.com/advisories/GHSA-35jh-r3h4-6jhm)
+- Upgrade hosted-git-info to version 2.8.9 or later.
+  [CVE-2021-23362](https://github.com/advisories/GHSA-43f8-2h32-f4cj)
 
 ### [6.1.3](https://github.com/117/alpaca/compare/v6.1.2...v6.1.3) (2021-03-30)
 
