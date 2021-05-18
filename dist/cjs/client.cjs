@@ -317,8 +317,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.snapshots(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.market_data_v2}/stocks/snapshots`,
-                data: Object.assign(Object.assign({}, params), { symbols: params.symbols }),
+                url: `${urls_js_1.default.rest.market_data_v2}/stocks/snapshots?symbols=${params.symbols.join(',')}`,
             }));
         });
     }

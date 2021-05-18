@@ -216,8 +216,8 @@ function snapshot(raw) {
 }
 function snapshots(raw) {
     let parsed = {};
-    for (let key in Object.keys(raw)) {
-        parsed[key] = snapshot(raw[key]);
+    for (let [key, value] of Object.entries(raw)) {
+        parsed[key] = snapshot(value);
     }
     return parsed;
 }
@@ -536,8 +536,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse.snapshots(yield this.request({
                 method: 'GET',
-                url: `${urls.rest.market_data_v2}/stocks/snapshots`,
-                data: Object.assign(Object.assign({}, params), { symbols: params.symbols }),
+                url: `${urls.rest.market_data_v2}/stocks/snapshots?symbols=${params.symbols.join(',')}`,
             }));
         });
     }

@@ -267,8 +267,7 @@ export class AlpacaClient {
     async getSnapshots(params) {
         return parse.snapshots(await this.request({
             method: 'GET',
-            url: `${urls.rest.market_data_v2}/stocks/snapshots`,
-            data: { ...params, symbols: params.symbols },
+            url: `${urls.rest.market_data_v2}/stocks/snapshots?symbols=${params.symbols.join(',')}`,
         }));
     }
     async request(params) {
