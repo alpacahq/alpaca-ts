@@ -171,6 +171,8 @@ The following methods are available on the client.
 - [getTrades](#getTrades)
 - [getQuotes](#getQuotes)
 - [getBars](#getBars)
+- [getSnapshot](#getSnapshot)
+- [getSnapshots](#getSnapshots)
 
 #### isAuthenticated
 
@@ -408,6 +410,18 @@ await client.getBars({
   end: new Date('2021-02-26T14:35:00.007Z'),
   timeframe: '1Min',
 })
+```
+
+#### getSnapshot
+
+```typescript
+await client.getSnapshot({ symbol: 'SPY' })
+```
+
+#### getSnapshots
+
+```typescript
+await client.getSnapshots({ symbols: ['SPY', 'DIA'] })
 ```
 
 ## Stream

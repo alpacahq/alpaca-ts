@@ -31,6 +31,7 @@ import {
   Bar_v1,
   LastQuote_v1,
   LastTrade_v1,
+  Snapshot,
 } from './entities.js'
 
 import {
@@ -59,6 +60,8 @@ import {
   GetQuotes,
   GetLastTrade_v1,
   GetLastQuote_v1,
+  GetSnapshot,
+  GetSnapshots,
 } from './params.js'
 
 const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch
@@ -398,6 +401,27 @@ export class AlpacaClient {
         method: 'GET',
         url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/bars`,
         data: { ...params, symbol: undefined },
+      }),
+    )
+  }
+
+  async getSnapshot(params: GetSnapshot): Promise<Snapshot> {
+    return parse.snapshot(
+      await this.request({
+        method: 'GET',
+        url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/snapshot`,
+      }),
+    )
+  }
+
+  async getSnapshots(
+    params: GetSnapshots,
+  ): Promise<{ [key: string]: Snapshot }> {
+    return parse.snapshots(
+      await this.request({
+        method: 'GET',
+        url: `${urls.rest.market_data_v2}/stocks/snapshots`,
+        data: { ...params, symbols: params.symbols },
       }),
     )
   }

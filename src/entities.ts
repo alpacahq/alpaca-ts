@@ -791,6 +791,102 @@ export interface LastTrade_v1 {
   }
 }
 
+export interface RawSnapshot {
+  symbol: string
+  latestTrade: {
+    t: string
+    x: string
+    p: number
+    s: number
+    c?: string[] | null
+    i: number
+    z: string
+  }
+  latestQuote: {
+    t: string
+    ax: string
+    ap: number
+    as: number
+    bx: string
+    bp: number
+    bs: number
+    c?: string[] | null
+  }
+  minuteBar: {
+    t: string
+    o: number
+    h: number
+    l: number
+    c: number
+    v: number
+  }
+  dailyBar: {
+    t: string
+    o: number
+    h: number
+    l: number
+    c: number
+    v: number
+  }
+  prevDailyBar: {
+    t: string
+    o: number
+    h: number
+    l: number
+    c: number
+    v: number
+  }
+}
+
+export interface Snapshot {
+  /** Get the raw data as it came from Alpaca. */
+  raw(): RawSnapshot
+  symbol: string
+  latestTrade: {
+    t: Date
+    x: string
+    p: number
+    s: number
+    c?: string[] | null
+    i: number
+    z: string
+  }
+  latestQuote: {
+    t: Date
+    ax: string
+    ap: number
+    as: number
+    bx: string
+    bp: number
+    bs: number
+    c?: string[] | null
+  }
+  minuteBar: {
+    t: Date
+    o: number
+    h: number
+    l: number
+    c: number
+    v: number
+  }
+  dailyBar: {
+    t: Date
+    o: number
+    h: number
+    l: number
+    c: number
+    v: number
+  }
+  prevDailyBar: {
+    t: Date
+    o: number
+    h: number
+    l: number
+    c: number
+    v: number
+  }
+}
+
 export type DataSource = 'iex' | 'sip'
 
 export type OrderType =

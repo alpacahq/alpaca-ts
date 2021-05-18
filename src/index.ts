@@ -34,6 +34,7 @@ export {
   PageOfBars,
   PageOfQuotes,
   PageOfTrades,
+  Snapshot,
   DataSource,
   Channel,
   Message,
