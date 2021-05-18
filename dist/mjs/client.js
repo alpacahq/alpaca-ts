@@ -258,6 +258,19 @@ export class AlpacaClient {
             data: { ...params, symbol: undefined },
         }));
     }
+    async getSnapshot(params) {
+        return parse.snapshot(await this.request({
+            method: 'GET',
+            url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/snapshot`,
+        }));
+    }
+    async getSnapshots(params) {
+        return parse.snapshots(await this.request({
+            method: 'GET',
+            url: `${urls.rest.market_data_v2}/stocks/snapshots`,
+            data: { ...params, symbols: params.symbols },
+        }));
+    }
     async request(params) {
         let headers = {};
         if ('access_token' in this.params.credentials) {

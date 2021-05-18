@@ -51,6 +51,12 @@ export interface GetQuotes {
     limit?: number;
     page_token?: string;
 }
+export interface GetSnapshot {
+    symbol: string;
+}
+export interface GetSnapshots {
+    symbols: string[];
+}
 export interface GetBars {
     symbol: string;
     start: Date;

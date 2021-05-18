@@ -158,6 +158,24 @@ function pageOfBars(page) {
         throw new Error(`PageOfTrades parsing failed "${err.message}"`);
     }
 }
+function snapshot(raw) {
+    if (!raw) {
+        return undefined;
+    }
+    try {
+        return Object.assign(Object.assign({}, raw), { raw: () => raw, latestTrade: Object.assign(Object.assign({}, raw.latestTrade), { t: new Date(raw.latestTrade.t) }), latestQuote: Object.assign(Object.assign({}, raw.latestQuote), { t: new Date(raw.latestQuote.t) }), minuteBar: Object.assign(Object.assign({}, raw.minuteBar), { t: new Date(raw.minuteBar.t) }), dailyBar: Object.assign(Object.assign({}, raw.dailyBar), { t: new Date(raw.dailyBar.t) }), prevDailyBar: Object.assign(Object.assign({}, raw.prevDailyBar), { t: new Date(raw.prevDailyBar.t) }) });
+    }
+    catch (err) {
+        throw new Error(`Snapshot parsing failed "${err.message}"`);
+    }
+}
+function snapshots(raw) {
+    let parsed = {};
+    for (let key in Object.keys(raw)) {
+        parsed[key] = snapshot(raw[key]);
+    }
+    return parsed;
+}
 function number(numStr) {
     if (typeof numStr === 'undefined')
         return numStr;
@@ -177,4 +195,6 @@ exports.default = {
     pageOfTrades,
     pageOfQuotes,
     pageOfBars,
+    snapshot,
+    snapshots,
 };

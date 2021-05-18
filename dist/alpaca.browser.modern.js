@@ -3899,6 +3899,47 @@ function pageOfBars(page) {
         throw new Error(`PageOfTrades parsing failed "${err.message}"`);
     }
 }
+function snapshot(raw) {
+    if (!raw) {
+        return undefined;
+    }
+    try {
+        return {
+            ...raw,
+            raw: () => raw,
+            latestTrade: {
+                ...raw.latestTrade,
+                t: new Date(raw.latestTrade.t),
+            },
+            latestQuote: {
+                ...raw.latestQuote,
+                t: new Date(raw.latestQuote.t),
+            },
+            minuteBar: {
+                ...raw.minuteBar,
+                t: new Date(raw.minuteBar.t),
+            },
+            dailyBar: {
+                ...raw.dailyBar,
+                t: new Date(raw.dailyBar.t),
+            },
+            prevDailyBar: {
+                ...raw.prevDailyBar,
+                t: new Date(raw.prevDailyBar.t),
+            },
+        };
+    }
+    catch (err) {
+        throw new Error(`Snapshot parsing failed "${err.message}"`);
+    }
+}
+function snapshots(raw) {
+    let parsed = {};
+    for (let key in Object.keys(raw)) {
+        parsed[key] = snapshot(raw[key]);
+    }
+    return parsed;
+}
 function number(numStr) {
     if (typeof numStr === 'undefined')
         return numStr;
@@ -3918,6 +3959,8 @@ var parse$1 = {
     pageOfTrades,
     pageOfQuotes,
     pageOfBars,
+    snapshot,
+    snapshots,
 };
 
 const unifetch = typeof fetch !== 'undefined' ? fetch : browser;
@@ -4166,6 +4209,19 @@ class AlpacaClient {
             method: 'GET',
             url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/bars`,
             data: { ...params, symbol: undefined },
+        }));
+    }
+    async getSnapshot(params) {
+        return parse$1.snapshot(await this.request({
+            method: 'GET',
+            url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/snapshot`,
+        }));
+    }
+    async getSnapshots(params) {
+        return parse$1.snapshots(await this.request({
+            method: 'GET',
+            url: `${urls.rest.market_data_v2}/stocks/snapshots`,
+            data: { ...params, symbols: params.symbols },
         }));
     }
     async request(params) {
