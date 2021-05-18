@@ -365,8 +365,8 @@ function snapshots(raw: { [key: string]: RawSnapshot }): {
 } {
   let parsed: { [key: string]: Snapshot } = {}
 
-  for (let key in Object.keys(raw)) {
-    parsed[key] = snapshot(raw[key])
+  for (let [key, value] of Object.entries(raw)) {
+    parsed[key] = snapshot(value)
   }
 
   return parsed

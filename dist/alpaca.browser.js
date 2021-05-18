@@ -3941,8 +3941,8 @@
   }
   function snapshots(raw) {
       let parsed = {};
-      for (let key in Object.keys(raw)) {
-          parsed[key] = snapshot(raw[key]);
+      for (let [key, value] of Object.entries(raw)) {
+          parsed[key] = snapshot(value);
       }
       return parsed;
   }
@@ -4226,8 +4226,7 @@
       async getSnapshots(params) {
           return parse$1.snapshots(await this.request({
               method: 'GET',
-              url: `${urls.rest.market_data_v2}/stocks/snapshots`,
-              data: { ...params, symbols: params.symbols },
+              url: `${urls.rest.market_data_v2}/stocks/snapshots?symbols=${params.symbols.join(',')}`,
           }));
       }
       async request(params) {
