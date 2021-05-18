@@ -3918,31 +3918,31 @@
                       ...raw.latestTrade,
                       t: new Date(raw.latestTrade.t),
                   }
-                  : undefined,
+                  : null,
               latestQuote: raw.latestQuote
                   ? {
                       ...raw.latestQuote,
                       t: new Date(raw.latestQuote.t),
                   }
-                  : undefined,
+                  : null,
               minuteBar: raw.minuteBar
                   ? {
                       ...raw.minuteBar,
                       t: new Date(raw.minuteBar.t),
                   }
-                  : undefined,
+                  : null,
               dailyBar: raw.dailyBar
                   ? {
                       ...raw.dailyBar,
                       t: new Date(raw.dailyBar.t),
                   }
-                  : undefined,
+                  : null,
               prevDailyBar: raw.prevDailyBar
                   ? {
                       ...raw.prevDailyBar,
                       t: new Date(raw.prevDailyBar.t),
                   }
-                  : undefined,
+                  : null,
           };
       }
       catch (err) {
