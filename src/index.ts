@@ -64,6 +64,8 @@ export {
   GetBars_v1,
   GetTrades,
   GetQuotes,
+  GetSnapshot,
+  GetSnapshots,
   GetLastTrade_v1,
   GetLastQuote_v1,
 } from './params'
