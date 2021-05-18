@@ -1,18 +1,17 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See
+[standard-version](https://github.com/conventional-changelog/standard-version)
+for commit guidelines.
 
 ## [6.2.0](https://github.com/117/alpaca/compare/v6.1.9...v6.2.0) (2021-05-18)
 
-### [6.1.9](https://github.com/117/alpaca/compare/v6.1.8...v6.1.9) (2021-05-18)
-
-### [6.1.8](https://github.com/117/alpaca/compare/v6.1.7...v6.1.8) (2021-05-18)
-
-### [6.1.7](https://github.com/117/alpaca/compare/v6.1.10...v6.1.7) (2021-05-18)
-
-### [6.1.10](https://github.com/117/alpaca/compare/v6.1.5...v6.1.10) (2021-05-18)
-
-### [6.1.6](https://github.com/117/alpaca/compare/v6.1.5...v6.1.6) (2021-05-18)
+- Added
+  [getSnapshot](https://alpaca.markets/docs/api-documentation/api-v2/market-data/alpaca-data-api-v2/historical/#snapshot---ticker)
+  method.
+- Added
+  [getSnapshots](https://alpaca.markets/docs/api-documentation/api-v2/market-data/alpaca-data-api-v2/historical/#snapshot---multiple-tickers)
+  method.
 
 ### [6.1.5](https://github.com/117/alpaca/compare/v6.1.6...v6.1.5) (2021-05-18)
 
