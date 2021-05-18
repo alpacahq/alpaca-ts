@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.1.2
+ * alpaca@6.1.5
  * released under the permissive ISC license
  */
 
@@ -4187,7 +4187,7 @@ class AlpacaClient {
                     params.data[key] = value.toISOString();
                 }
             }
-            if (params.method != 'POST' && params.method != 'PATCH') {
+            if (!['POST', 'PATCH', 'PUT'].includes(params.method)) {
                 query = '?'.concat(lib$1.stringify(params.data));
                 params.data = undefined;
             }

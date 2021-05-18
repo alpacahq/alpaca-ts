@@ -327,7 +327,7 @@ class AlpacaClient {
                     }
                 }
                 // build query
-                if (params.method != 'POST' && params.method != 'PATCH') {
+                if (!['POST', 'PATCH', 'PUT'].includes(params.method)) {
                     query = '?'.concat(qs_1.default.stringify(params.data));
                     params.data = undefined;
                 }
