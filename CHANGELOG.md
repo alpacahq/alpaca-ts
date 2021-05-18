@@ -1,10 +1,12 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See
+[standard-version](https://github.com/conventional-changelog/standard-version)
+for commit guidelines.
 
 ### [6.1.5](https://github.com/117/alpaca/compare/v6.1.6...v6.1.5) (2021-05-18)
 
-### [6.1.6](https://github.com/117/alpaca/compare/v6.1.4...v6.1.6) (2021-05-18)
+- Fixed PUT request [issue](https://github.com/117/alpaca/issues/70).
 
 ### [6.1.4](https://github.com/117/alpaca/compare/v6.1.3...v6.1.4) (2021-05-09)
 
