@@ -334,26 +334,36 @@ function snapshot(raw: RawSnapshot): Snapshot {
     return {
       ...raw,
       raw: () => raw,
-      latestTrade: {
-        ...raw.latestTrade,
-        t: new Date(raw.latestTrade.t),
-      },
-      latestQuote: {
-        ...raw.latestQuote,
-        t: new Date(raw.latestQuote.t),
-      },
-      minuteBar: {
-        ...raw.minuteBar,
-        t: new Date(raw.minuteBar.t),
-      },
-      dailyBar: {
-        ...raw.dailyBar,
-        t: new Date(raw.dailyBar.t),
-      },
-      prevDailyBar: {
-        ...raw.prevDailyBar,
-        t: new Date(raw.prevDailyBar.t),
-      },
+      latestTrade: raw.latestTrade
+        ? {
+            ...raw.latestTrade,
+            t: new Date(raw.latestTrade.t),
+          }
+        : undefined,
+      latestQuote: raw.latestQuote
+        ? {
+            ...raw.latestQuote,
+            t: new Date(raw.latestQuote.t),
+          }
+        : undefined,
+      minuteBar: raw.minuteBar
+        ? {
+            ...raw.minuteBar,
+            t: new Date(raw.minuteBar.t),
+          }
+        : undefined,
+      dailyBar: raw.dailyBar
+        ? {
+            ...raw.dailyBar,
+            t: new Date(raw.dailyBar.t),
+          }
+        : undefined,
+      prevDailyBar: raw.prevDailyBar
+        ? {
+            ...raw.prevDailyBar,
+            t: new Date(raw.prevDailyBar.t),
+          }
+        : undefined,
     } as any as Snapshot
   } catch (err) {
     throw new Error(`Snapshot parsing failed "${err.message}"`)
