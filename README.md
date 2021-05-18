@@ -1,4 +1,4 @@
-# @master-chief/alpaca
+# alpaca
 
 ![version](https://img.shields.io/github/package-json/v/117/alpaca?color=196DFF&style=flat-square)
 ![code](https://img.shields.io/github/languages/code-size/117/alpaca?color=F1A42E&style=flat-square&label=size)
