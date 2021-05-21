@@ -104,11 +104,17 @@ export class AlpacaStream extends EventEmitter<string | symbol | any> {
     // pass through
     this.connection.onclose = () => this.emit('close', this)
 
-    this.connection.onmessage = (event: any) => {
-      let parsed = JSON.parse(event.data),
-        messages: any[] = this.params.type == 'account' ? [parsed] : parsed
+    this.connection.onmessage = async (event: any) => {
+      let data = event.data
 
-      messages.forEach((message) => {
+      if (data instanceof Blob) {
+        data = await event.data.text()
+      }
+
+      let parsed = JSON.parse(data),
+        messages = this.params.type == 'account' ? [parsed] : parsed
+
+      messages.forEach((message: any) => {
         // pass the message
         this.emit('message', message)
 
