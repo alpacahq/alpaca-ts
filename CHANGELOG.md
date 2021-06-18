@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [6.2.3](https://github.com/117/alpaca/compare/v6.2.1...v6.2.3) (2021-06-18)
 
+- Update some dependencies.
+
 ### [6.2.2](https://github.com/117/alpaca/compare/v6.2.1...v6.2.2) (2021-05-21)
 
 - Fixed `AlpacaStream` issue [#71](https://github.com/117/alpaca/issues/71)
