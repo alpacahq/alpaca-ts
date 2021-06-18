@@ -1,8 +1,8 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See
-[standard-version](https://github.com/conventional-changelog/standard-version)
-for commit guidelines.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [6.2.3](https://github.com/117/alpaca/compare/v6.2.1...v6.2.3) (2021-06-18)
 
 ### [6.2.2](https://github.com/117/alpaca/compare/v6.2.1...v6.2.2) (2021-05-21)
 
