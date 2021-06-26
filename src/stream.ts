@@ -109,6 +109,8 @@ export class AlpacaStream extends EventEmitter<string | symbol | any> {
 
       if (data instanceof Blob) {
         data = await event.data.text()
+      } else if (data instanceof ArrayBuffer) {
+        data = String.fromCharCode(...new Uint8Array(event.data))
       }
 
       let parsed = JSON.parse(data),
