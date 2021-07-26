@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [6.2.5](https://github.com/117/alpaca/compare/v6.2.1...v6.2.5) (2021-07-26)
 
+- Change return types to `boolean` as requested [#76](https://github.com/117/alpaca/issues/76).
+
 ### [6.2.4](https://github.com/117/alpaca/compare/v6.2.3...v6.2.4) (2021-06-27)
 
 - Support `ArrayBuffer` messages [#75](https://github.com/117/alpaca/pull/75).

@@ -16,7 +16,7 @@ export declare class AlpacaClient {
     getOrders(params?: GetOrders): Promise<Order[]>;
     placeOrder(params: PlaceOrder): Promise<Order>;
     replaceOrder(params: ReplaceOrder): Promise<Order>;
-    cancelOrder(params: CancelOrder): Promise<Boolean>;
+    cancelOrder(params: CancelOrder): Promise<boolean>;
     cancelOrders(): Promise<OrderCancelation[]>;
     getPosition(params: GetPosition): Promise<Position>;
     getPositions(): Promise<Position[]>;
@@ -29,8 +29,8 @@ export declare class AlpacaClient {
     createWatchlist(params: CreateWatchList): Promise<Watchlist[]>;
     updateWatchlist(params: UpdateWatchList): Promise<Watchlist>;
     addToWatchlist(params: AddToWatchList): Promise<Watchlist>;
-    removeFromWatchlist(params: RemoveFromWatchList): Promise<Boolean>;
-    deleteWatchlist(params: DeleteWatchList): Promise<Boolean>;
+    removeFromWatchlist(params: RemoveFromWatchList): Promise<boolean>;
+    deleteWatchlist(params: DeleteWatchList): Promise<boolean>;
     getCalendar(params?: GetCalendar): Promise<Calendar[]>;
     getClock(): Promise<Clock>;
     getAccountConfigurations(): Promise<AccountConfigurations>;

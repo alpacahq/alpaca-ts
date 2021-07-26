@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.2.0
+ * alpaca@6.2.5
  * released under the permissive ISC license
  */
 
@@ -6640,11 +6640,16 @@ class PerMessageDeflate {
         this._inflate[kTotalLength]
       );
 
-      this._inflate[kTotalLength] = 0;
-      this._inflate[kBuffers] = [];
+      if (this._inflate._readableState.endEmitted) {
+        this._inflate.close();
+        this._inflate = null;
+      } else {
+        this._inflate[kTotalLength] = 0;
+        this._inflate[kBuffers] = [];
 
-      if (fin && this.params[`${endpoint}_no_context_takeover`]) {
-        this._inflate.reset();
+        if (fin && this.params[`${endpoint}_no_context_takeover`]) {
+          this._inflate.reset();
+        }
       }
 
       callback(null, data);
@@ -6754,6 +6759,7 @@ function inflateOnData(chunk) {
   }
 
   this[kError] = new RangeError('Max payload size exceeded');
+  this[kError].code = 'WS_ERR_UNSUPPORTED_MESSAGE_LENGTH';
   this[kError][kStatusCode] = 1009;
   this.removeListener('data', inflateOnData);
   this.reset();
@@ -6845,18 +6851,7 @@ try {
 }
 });
 
-var validation = createCommonjsModule(function (module, exports) {
-
-try {
-  const isValidUTF8 = utf8Validate;
-
-  exports.isValidUTF8 =
-    typeof isValidUTF8 === 'object'
-      ? isValidUTF8.Validation.isValidUTF8 // utf-8-validate@<3.0.0
-      : isValidUTF8;
-} catch (e) /* istanbul ignore next */ {
-  exports.isValidUTF8 = () => true;
-}
+var validation = createCommonjsModule(function (module) {
 
 /**
  * Checks if a status code is allowed in a close frame.
@@ -6865,7 +6860,7 @@ try {
  * @return {Boolean} `true` if the status code is valid, else `false`
  * @public
  */
-exports.isValidStatusCode = (code) => {
+function isValidStatusCode(code) {
   return (
     (code >= 1000 &&
       code <= 1014 &&
@@ -6874,7 +6869,92 @@ exports.isValidStatusCode = (code) => {
       code !== 1006) ||
     (code >= 3000 && code <= 4999)
   );
-};
+}
+
+/**
+ * Checks if a given buffer contains only correct UTF-8.
+ * Ported from https://www.cl.cam.ac.uk/%7Emgk25/ucs/utf8_check.c by
+ * Markus Kuhn.
+ *
+ * @param {Buffer} buf The buffer to check
+ * @return {Boolean} `true` if `buf` contains only correct UTF-8, else `false`
+ * @public
+ */
+function _isValidUTF8(buf) {
+  const len = buf.length;
+  let i = 0;
+
+  while (i < len) {
+    if ((buf[i] & 0x80) === 0) {
+      // 0xxxxxxx
+      i++;
+    } else if ((buf[i] & 0xe0) === 0xc0) {
+      // 110xxxxx 10xxxxxx
+      if (
+        i + 1 === len ||
+        (buf[i + 1] & 0xc0) !== 0x80 ||
+        (buf[i] & 0xfe) === 0xc0 // Overlong
+      ) {
+        return false;
+      }
+
+      i += 2;
+    } else if ((buf[i] & 0xf0) === 0xe0) {
+      // 1110xxxx 10xxxxxx 10xxxxxx
+      if (
+        i + 2 >= len ||
+        (buf[i + 1] & 0xc0) !== 0x80 ||
+        (buf[i + 2] & 0xc0) !== 0x80 ||
+        (buf[i] === 0xe0 && (buf[i + 1] & 0xe0) === 0x80) || // Overlong
+        (buf[i] === 0xed && (buf[i + 1] & 0xe0) === 0xa0) // Surrogate (U+D800 - U+DFFF)
+      ) {
+        return false;
+      }
+
+      i += 3;
+    } else if ((buf[i] & 0xf8) === 0xf0) {
+      // 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+      if (
+        i + 3 >= len ||
+        (buf[i + 1] & 0xc0) !== 0x80 ||
+        (buf[i + 2] & 0xc0) !== 0x80 ||
+        (buf[i + 3] & 0xc0) !== 0x80 ||
+        (buf[i] === 0xf0 && (buf[i + 1] & 0xf0) === 0x80) || // Overlong
+        (buf[i] === 0xf4 && buf[i + 1] > 0x8f) ||
+        buf[i] > 0xf4 // > U+10FFFF
+      ) {
+        return false;
+      }
+
+      i += 4;
+    } else {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+try {
+  let isValidUTF8 = utf8Validate;
+
+  /* istanbul ignore if */
+  if (typeof isValidUTF8 === 'object') {
+    isValidUTF8 = isValidUTF8.Validation.isValidUTF8; // utf-8-validate@<3.0.0
+  }
+
+  module.exports = {
+    isValidStatusCode,
+    isValidUTF8(buf) {
+      return buf.length < 150 ? _isValidUTF8(buf) : isValidUTF8(buf);
+    }
+  };
+} catch (e) /* istanbul ignore next */ {
+  module.exports = {
+    isValidStatusCode,
+    isValidUTF8: _isValidUTF8
+  };
+}
 });
 
 const { Writable } = Stream;
@@ -7045,14 +7125,26 @@ class Receiver extends Writable {
 
     if ((buf[0] & 0x30) !== 0x00) {
       this._loop = false;
-      return error(RangeError, 'RSV2 and RSV3 must be clear', true, 1002);
+      return error(
+        RangeError,
+        'RSV2 and RSV3 must be clear',
+        true,
+        1002,
+        'WS_ERR_UNEXPECTED_RSV_2_3'
+      );
     }
 
     const compressed = (buf[0] & 0x40) === 0x40;
 
     if (compressed && !this._extensions[permessageDeflate.extensionName]) {
       this._loop = false;
-      return error(RangeError, 'RSV1 must be clear', true, 1002);
+      return error(
+        RangeError,
+        'RSV1 must be clear',
+        true,
+        1002,
+        'WS_ERR_UNEXPECTED_RSV_1'
+      );
     }
 
     this._fin = (buf[0] & 0x80) === 0x80;
@@ -7062,31 +7154,61 @@ class Receiver extends Writable {
     if (this._opcode === 0x00) {
       if (compressed) {
         this._loop = false;
-        return error(RangeError, 'RSV1 must be clear', true, 1002);
+        return error(
+          RangeError,
+          'RSV1 must be clear',
+          true,
+          1002,
+          'WS_ERR_UNEXPECTED_RSV_1'
+        );
       }
 
       if (!this._fragmented) {
         this._loop = false;
-        return error(RangeError, 'invalid opcode 0', true, 1002);
+        return error(
+          RangeError,
+          'invalid opcode 0',
+          true,
+          1002,
+          'WS_ERR_INVALID_OPCODE'
+        );
       }
 
       this._opcode = this._fragmented;
     } else if (this._opcode === 0x01 || this._opcode === 0x02) {
       if (this._fragmented) {
         this._loop = false;
-        return error(RangeError, `invalid opcode ${this._opcode}`, true, 1002);
+        return error(
+          RangeError,
+          `invalid opcode ${this._opcode}`,
+          true,
+          1002,
+          'WS_ERR_INVALID_OPCODE'
+        );
       }
 
       this._compressed = compressed;
     } else if (this._opcode > 0x07 && this._opcode < 0x0b) {
       if (!this._fin) {
         this._loop = false;
-        return error(RangeError, 'FIN must be set', true, 1002);
+        return error(
+          RangeError,
+          'FIN must be set',
+          true,
+          1002,
+          'WS_ERR_EXPECTED_FIN'
+        );
       }
 
       if (compressed) {
         this._loop = false;
-        return error(RangeError, 'RSV1 must be clear', true, 1002);
+        return error(
+          RangeError,
+          'RSV1 must be clear',
+          true,
+          1002,
+          'WS_ERR_UNEXPECTED_RSV_1'
+        );
       }
 
       if (this._payloadLength > 0x7d) {
@@ -7095,12 +7217,19 @@ class Receiver extends Writable {
           RangeError,
           `invalid payload length ${this._payloadLength}`,
           true,
-          1002
+          1002,
+          'WS_ERR_INVALID_CONTROL_PAYLOAD_LENGTH'
         );
       }
     } else {
       this._loop = false;
-      return error(RangeError, `invalid opcode ${this._opcode}`, true, 1002);
+      return error(
+        RangeError,
+        `invalid opcode ${this._opcode}`,
+        true,
+        1002,
+        'WS_ERR_INVALID_OPCODE'
+      );
     }
 
     if (!this._fin && !this._fragmented) this._fragmented = this._opcode;
@@ -7109,11 +7238,23 @@ class Receiver extends Writable {
     if (this._isServer) {
       if (!this._masked) {
         this._loop = false;
-        return error(RangeError, 'MASK must be set', true, 1002);
+        return error(
+          RangeError,
+          'MASK must be set',
+          true,
+          1002,
+          'WS_ERR_EXPECTED_MASK'
+        );
       }
     } else if (this._masked) {
       this._loop = false;
-      return error(RangeError, 'MASK must be clear', true, 1002);
+      return error(
+        RangeError,
+        'MASK must be clear',
+        true,
+        1002,
+        'WS_ERR_UNEXPECTED_MASK'
+      );
     }
 
     if (this._payloadLength === 126) this._state = GET_PAYLOAD_LENGTH_16;
@@ -7162,7 +7303,8 @@ class Receiver extends Writable {
         RangeError,
         'Unsupported WebSocket frame: payload length > 2^53 - 1',
         false,
-        1009
+        1009,
+        'WS_ERR_UNSUPPORTED_DATA_PAYLOAD_LENGTH'
       );
     }
 
@@ -7181,7 +7323,13 @@ class Receiver extends Writable {
       this._totalPayloadLength += this._payloadLength;
       if (this._totalPayloadLength > this._maxPayload && this._maxPayload > 0) {
         this._loop = false;
-        return error(RangeError, 'Max payload size exceeded', false, 1009);
+        return error(
+          RangeError,
+          'Max payload size exceeded',
+          false,
+          1009,
+          'WS_ERR_UNSUPPORTED_MESSAGE_LENGTH'
+        );
       }
     }
 
@@ -7261,7 +7409,13 @@ class Receiver extends Writable {
         this._messageLength += buf.length;
         if (this._messageLength > this._maxPayload && this._maxPayload > 0) {
           return cb(
-            error(RangeError, 'Max payload size exceeded', false, 1009)
+            error(
+              RangeError,
+              'Max payload size exceeded',
+              false,
+              1009,
+              'WS_ERR_UNSUPPORTED_MESSAGE_LENGTH'
+            )
           );
         }
 
@@ -7308,7 +7462,13 @@ class Receiver extends Writable {
 
         if (!isValidUTF8$1(buf)) {
           this._loop = false;
-          return error(Error, 'invalid UTF-8 sequence', true, 1007);
+          return error(
+            Error,
+            'invalid UTF-8 sequence',
+            true,
+            1007,
+            'WS_ERR_INVALID_UTF8'
+          );
         }
 
         this.emit('message', buf.toString());
@@ -7333,18 +7493,36 @@ class Receiver extends Writable {
         this.emit('conclude', 1005, '');
         this.end();
       } else if (data.length === 1) {
-        return error(RangeError, 'invalid payload length 1', true, 1002);
+        return error(
+          RangeError,
+          'invalid payload length 1',
+          true,
+          1002,
+          'WS_ERR_INVALID_CONTROL_PAYLOAD_LENGTH'
+        );
       } else {
         const code = data.readUInt16BE(0);
 
         if (!isValidStatusCode(code)) {
-          return error(RangeError, `invalid status code ${code}`, true, 1002);
+          return error(
+            RangeError,
+            `invalid status code ${code}`,
+            true,
+            1002,
+            'WS_ERR_INVALID_CLOSE_CODE'
+          );
         }
 
         const buf = data.slice(2);
 
         if (!isValidUTF8$1(buf)) {
-          return error(Error, 'invalid UTF-8 sequence', true, 1007);
+          return error(
+            Error,
+            'invalid UTF-8 sequence',
+            true,
+            1007,
+            'WS_ERR_INVALID_UTF8'
+          );
         }
 
         this.emit('conclude', code, buf.toString());
@@ -7370,15 +7548,17 @@ var receiver = Receiver;
  * @param {Boolean} prefix Specifies whether or not to add a default prefix to
  *     `message`
  * @param {Number} statusCode The status code
+ * @param {String} errorCode The exposed error code
  * @return {(Error|RangeError)} The error
  * @private
  */
-function error(ErrorCtor, message, prefix, statusCode) {
+function error(ErrorCtor, message, prefix, statusCode, errorCode) {
   const err = new ErrorCtor(
     prefix ? `Invalid WebSocket frame: ${message}` : message
   );
 
   Error.captureStackTrace(err, error);
+  err.code = errorCode;
   err[kStatusCode$1] = statusCode;
   return err;
 }
@@ -8841,9 +9021,8 @@ function initAsClient(websocket, address, protocols, options) {
 
         if (extensions[permessageDeflate.extensionName]) {
           perMessageDeflate.accept(extensions[permessageDeflate.extensionName]);
-          websocket._extensions[
-            permessageDeflate.extensionName
-          ] = perMessageDeflate;
+          websocket._extensions[permessageDeflate.extensionName] =
+            perMessageDeflate;
         }
       } catch (err) {
         abortHandshake(
@@ -8905,6 +9084,16 @@ function abortHandshake(websocket, stream, message) {
 
   if (stream.setHeader) {
     stream.abort();
+
+    if (stream.socket && !stream.socket.destroyed) {
+      //
+      // On Node.js >= 14.3.0 `request.abort()` does not destroy the socket if
+      // called after the request completed. See
+      // https://github.com/websockets/ws/issues/1869.
+      //
+      stream.socket.destroy();
+    }
+
     stream.once('abort', websocket.emitClose.bind(websocket));
     websocket.emit('error', err);
   } else {
@@ -8986,11 +9175,10 @@ function receiverOnError(err) {
   const websocket = this[kWebSocket$1];
 
   websocket._socket.removeListener('data', socketOnData);
+  websocket._socket.resume();
 
-  websocket._readyState = WebSocket.CLOSING;
-  websocket._closeCode = err[kStatusCode$2];
+  websocket.close(err[kStatusCode$2]);
   websocket.emit('error', err);
-  websocket._socket.destroy();
 }
 
 /**
@@ -9167,6 +9355,7 @@ function duplexOnError(err) {
  */
 function createWebSocketStream(ws, options) {
   let resumeOnReceiverDrain = true;
+  let terminateOnDestroy = true;
 
   function receiverOnDrain() {
     if (resumeOnReceiverDrain) ws._socket.resume();
@@ -9200,6 +9389,16 @@ function createWebSocketStream(ws, options) {
   ws.once('error', function error(err) {
     if (duplex.destroyed) return;
 
+    // Prevent `ws.terminate()` from being called by `duplex._destroy()`.
+    //
+    // - If the state of the `WebSocket` connection is `CONNECTING`,
+    //   `ws.terminate()` is a noop as no socket was assigned.
+    // - Otherwise, the error was re-emitted from the listener of the `'error'`
+    //   event of the `Receiver` object. The listener already closes the
+    //   connection by calling `ws.close()`. This allows a close frame to be
+    //   sent to the other peer. If `ws.terminate()` is called right after this,
+    //   the close frame might not be sent.
+    terminateOnDestroy = false;
     duplex.destroy(err);
   });
 
@@ -9227,7 +9426,8 @@ function createWebSocketStream(ws, options) {
       if (!called) callback(err);
       process.nextTick(emitClose, duplex);
     });
-    ws.terminate();
+
+    if (terminateOnDestroy) ws.terminate();
   };
 
   duplex._final = function (callback) {
@@ -9568,7 +9768,7 @@ class WebSocketServer extends EventEmitter {
     let protocol = req.headers['sec-websocket-protocol'];
 
     if (protocol) {
-      protocol = protocol.trim().split(/ *, */);
+      protocol = protocol.split(',').map(trim);
 
       //
       // Optionally call external protocol selection handler.
@@ -9685,6 +9885,18 @@ function abortHandshake$1(socket, code, message, headers) {
 
   socket.removeListener('error', socketOnError$1);
   socket.destroy();
+}
+
+/**
+ * Remove whitespace characters from both ends of a string.
+ *
+ * @param {String} str The string
+ * @return {String} A new string representing `str` stripped of whitespace
+ *     characters from both its beginning and end
+ * @private
+ */
+function trim(str) {
+  return str.trim();
 }
 
 websocket.createWebSocketStream = stream;
@@ -10075,8 +10287,15 @@ class AlpacaStream extends eventemitter3 {
             this.emit('open', this);
         };
         this.connection.onclose = () => this.emit('close', this);
-        this.connection.onmessage = (event) => {
-            let parsed = JSON.parse(event.data), messages = this.params.type == 'account' ? [parsed] : parsed;
+        this.connection.onmessage = (event) => __awaiter(this, void 0, void 0, function* () {
+            let data = event.data;
+            if (data instanceof Blob) {
+                data = yield event.data.text();
+            }
+            else if (data instanceof ArrayBuffer) {
+                data = String.fromCharCode(...new Uint8Array(event.data));
+            }
+            let parsed = JSON.parse(data), messages = this.params.type == 'account' ? [parsed] : parsed;
             messages.forEach((message) => {
                 this.emit('message', message);
                 if ('T' in message && message.msg == 'authenticated') {
@@ -10104,7 +10323,7 @@ class AlpacaStream extends eventemitter3 {
                     this.emit(x[message.T.split('.')[0]], message);
                 }
             });
-        };
+        });
         this.connection.onerror = (err) => {
             this.emit('error', err);
         };

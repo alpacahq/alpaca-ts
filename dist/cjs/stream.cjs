@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -56,8 +65,15 @@ class AlpacaStream extends eventemitter3_1.default {
         };
         // pass through
         this.connection.onclose = () => this.emit('close', this);
-        this.connection.onmessage = (event) => {
-            let parsed = JSON.parse(event.data), messages = this.params.type == 'account' ? [parsed] : parsed;
+        this.connection.onmessage = (event) => __awaiter(this, void 0, void 0, function* () {
+            let data = event.data;
+            if (data instanceof Blob) {
+                data = yield event.data.text();
+            }
+            else if (data instanceof ArrayBuffer) {
+                data = String.fromCharCode(...new Uint8Array(event.data));
+            }
+            let parsed = JSON.parse(data), messages = this.params.type == 'account' ? [parsed] : parsed;
             messages.forEach((message) => {
                 // pass the message
                 this.emit('message', message);
@@ -89,7 +105,7 @@ class AlpacaStream extends eventemitter3_1.default {
                     this.emit(x[message.T.split('.')[0]], message);
                 }
             });
-        };
+        });
         // pass the error
         this.connection.onerror = (err) => {
             this.emit('error', err);

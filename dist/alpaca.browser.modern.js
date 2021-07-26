@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.2.0
+ * alpaca@6.2.5
  * released under the permissive ISC license
  */
 
@@ -4680,8 +4680,15 @@ class AlpacaStream extends eventemitter3 {
             this.emit('open', this);
         };
         this.connection.onclose = () => this.emit('close', this);
-        this.connection.onmessage = (event) => {
-            let parsed = JSON.parse(event.data), messages = this.params.type == 'account' ? [parsed] : parsed;
+        this.connection.onmessage = async (event) => {
+            let data = event.data;
+            if (data instanceof Blob) {
+                data = await event.data.text();
+            }
+            else if (data instanceof ArrayBuffer) {
+                data = String.fromCharCode(...new Uint8Array(event.data));
+            }
+            let parsed = JSON.parse(data), messages = this.params.type == 'account' ? [parsed] : parsed;
             messages.forEach((message) => {
                 this.emit('message', message);
                 if ('T' in message && message.msg == 'authenticated') {

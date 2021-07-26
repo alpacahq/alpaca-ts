@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.2.0
+ * alpaca@6.2.5
  * released under the permissive ISC license
  */
 
@@ -638,8 +638,15 @@ class AlpacaStream extends EventEmitter {
             this.emit('open', this);
         };
         this.connection.onclose = () => this.emit('close', this);
-        this.connection.onmessage = (event) => {
-            let parsed = JSON.parse(event.data), messages = this.params.type == 'account' ? [parsed] : parsed;
+        this.connection.onmessage = (event) => __awaiter(this, void 0, void 0, function* () {
+            let data = event.data;
+            if (data instanceof Blob) {
+                data = yield event.data.text();
+            }
+            else if (data instanceof ArrayBuffer) {
+                data = String.fromCharCode(...new Uint8Array(event.data));
+            }
+            let parsed = JSON.parse(data), messages = this.params.type == 'account' ? [parsed] : parsed;
             messages.forEach((message) => {
                 this.emit('message', message);
                 if ('T' in message && message.msg == 'authenticated') {
@@ -667,7 +674,7 @@ class AlpacaStream extends EventEmitter {
                     this.emit(x[message.T.split('.')[0]], message);
                 }
             });
-        };
+        });
         this.connection.onerror = (err) => {
             this.emit('error', err);
         };

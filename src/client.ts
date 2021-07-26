@@ -163,8 +163,8 @@ export class AlpacaClient {
     )
   }
 
-  cancelOrder(params: CancelOrder): Promise<Boolean> {
-    return this.request<Boolean>({
+  cancelOrder(params: CancelOrder): Promise<boolean> {
+    return this.request<boolean>({
       method: 'DELETE',
       url: `${urls.rest.account}/orders/${params.order_id}`,
       isJSON: false,
@@ -269,15 +269,15 @@ export class AlpacaClient {
     })
   }
 
-  removeFromWatchlist(params: RemoveFromWatchList): Promise<Boolean> {
-    return this.request<Boolean>({
+  removeFromWatchlist(params: RemoveFromWatchList): Promise<boolean> {
+    return this.request<boolean>({
       method: 'DELETE',
       url: `${urls.rest.account}/watchlists/${params.uuid}/${params.symbol}`,
     })
   }
 
-  deleteWatchlist(params: DeleteWatchList): Promise<Boolean> {
-    return this.request<Boolean>({
+  deleteWatchlist(params: DeleteWatchList): Promise<boolean> {
+    return this.request<boolean>({
       method: 'DELETE',
       url: `${urls.rest.account}/watchlists/${params.uuid}`,
     })
