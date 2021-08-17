@@ -4,10 +4,14 @@
  */
 
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.alpaca = {}));
-}(this, (function (exports) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('util')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'util'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.alpaca = {}, global.require$$0$3));
+}(this, (function (exports, require$$0$3) { 'use strict';
+
+  function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+  var require$$0__default = /*#__PURE__*/_interopDefaultLegacy(require$$0$3);
 
   var load = function (received, defaults, onto = {}) {
     var k, ref, v;
@@ -34,13 +38,13 @@
     return onto;
   };
 
-  var parser = {
+  var parser$8 = {
   	load: load,
   	overwrite: overwrite
   };
 
-  var DLList;
-  DLList = class DLList {
+  var DLList$2;
+  DLList$2 = class DLList {
     constructor(incr, decr) {
       this.incr = incr;
       this.decr = decr;
@@ -143,14 +147,14 @@
     }
 
   };
-  var DLList_1 = DLList;
+  var DLList_1 = DLList$2;
 
-  function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+  function asyncGeneratorStep$8(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+  function _asyncToGenerator$8(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$8(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$8(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  var Events;
-  Events = class Events {
+  var Events$6;
+  Events$6 = class Events {
     constructor(instance) {
       this.instance = instance;
       this._events = {};
@@ -202,7 +206,7 @@
     trigger(name, ...args) {
       var _this = this;
 
-      return _asyncToGenerator(function* () {
+      return _asyncToGenerator$8(function* () {
         var e, promises;
 
         try {
@@ -220,7 +224,7 @@
           promises = _this._events[name].map(
           /*#__PURE__*/
           function () {
-            var _ref = _asyncToGenerator(function* (listener) {
+            var _ref = _asyncToGenerator$8(function* (listener) {
               var e, returned;
 
               if (listener.status === "none") {
@@ -270,14 +274,14 @@
     }
 
   };
-  var Events_1 = Events;
+  var Events_1 = Events$6;
 
-  var DLList$1, Events$1, Queues;
+  var DLList$1, Events$5, Queues$1;
   DLList$1 = DLList_1;
-  Events$1 = Events_1;
-  Queues = class Queues {
+  Events$5 = Events_1;
+  Queues$1 = class Queues {
     constructor(num_priorities) {
-      this.Events = new Events$1(this);
+      this.Events = new Events$5(this);
       this._length = 0;
 
       this._lists = function () {
@@ -345,22 +349,22 @@
     }
 
   };
-  var Queues_1 = Queues;
+  var Queues_1 = Queues$1;
 
-  var BottleneckError;
-  BottleneckError = class BottleneckError extends Error {};
-  var BottleneckError_1 = BottleneckError;
+  var BottleneckError$4;
+  BottleneckError$4 = class BottleneckError extends Error {};
+  var BottleneckError_1 = BottleneckError$4;
 
-  function asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+  function asyncGeneratorStep$7(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  function _asyncToGenerator$1(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+  function _asyncToGenerator$7(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$7(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$7(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  var BottleneckError$1, DEFAULT_PRIORITY, Job, NUM_PRIORITIES, parser$1;
-  NUM_PRIORITIES = 10;
-  DEFAULT_PRIORITY = 5;
-  parser$1 = parser;
-  BottleneckError$1 = BottleneckError_1;
-  Job = class Job {
+  var BottleneckError$3, DEFAULT_PRIORITY$1, Job$1, NUM_PRIORITIES$1, parser$7;
+  NUM_PRIORITIES$1 = 10;
+  DEFAULT_PRIORITY$1 = 5;
+  parser$7 = parser$8;
+  BottleneckError$3 = BottleneckError_1;
+  Job$1 = class Job {
     constructor(task, args, options, jobDefaults, rejectOnDrop, Events, _states, Promise) {
       this.task = task;
       this.args = args;
@@ -368,7 +372,7 @@
       this.Events = Events;
       this._states = _states;
       this.Promise = Promise;
-      this.options = parser$1.load(options, jobDefaults);
+      this.options = parser$7.load(options, jobDefaults);
       this.options.priority = this._sanitizePriority(this.options.priority);
 
       if (this.options.id === jobDefaults.id) {
@@ -384,12 +388,12 @@
 
     _sanitizePriority(priority) {
       var sProperty;
-      sProperty = ~~priority !== priority ? DEFAULT_PRIORITY : priority;
+      sProperty = ~~priority !== priority ? DEFAULT_PRIORITY$1 : priority;
 
       if (sProperty < 0) {
         return 0;
-      } else if (sProperty > NUM_PRIORITIES - 1) {
-        return NUM_PRIORITIES - 1;
+      } else if (sProperty > NUM_PRIORITIES$1 - 1) {
+        return NUM_PRIORITIES$1 - 1;
       } else {
         return sProperty;
       }
@@ -405,7 +409,7 @@
     } = {}) {
       if (this._states.remove(this.options.id)) {
         if (this.rejectOnDrop) {
-          this._reject(error != null ? error : new BottleneckError$1(message));
+          this._reject(error != null ? error : new BottleneckError$3(message));
         }
 
         this.Events.trigger("dropped", {
@@ -425,7 +429,7 @@
       status = this._states.jobStatus(this.options.id);
 
       if (!(status === expected || expected === "DONE" && status === null)) {
-        throw new BottleneckError$1(`Invalid job status ${status}, expected ${expected}. Please open an issue at https://github.com/SGrondin/bottleneck/issues`);
+        throw new BottleneckError$3(`Invalid job status ${status}, expected ${expected}. Please open an issue at https://github.com/SGrondin/bottleneck/issues`);
       }
     }
 
@@ -469,7 +473,7 @@
     doExecute(chained, clearGlobalState, run, free) {
       var _this = this;
 
-      return _asyncToGenerator$1(function* () {
+      return _asyncToGenerator$7(function* () {
         var error, eventInfo, passed;
 
         if (_this.retryCount === 0) {
@@ -521,14 +525,14 @@
         options: this.options,
         retryCount: this.retryCount
       };
-      error = new BottleneckError$1(`This job timed out after ${this.options.expiration} ms.`);
+      error = new BottleneckError$3(`This job timed out after ${this.options.expiration} ms.`);
       return this._onFailure(error, eventInfo, clearGlobalState, run, free);
     }
 
     _onFailure(error, eventInfo, clearGlobalState, run, free) {
       var _this2 = this;
 
-      return _asyncToGenerator$1(function* () {
+      return _asyncToGenerator$7(function* () {
         var retry, retryAfter;
 
         if (clearGlobalState()) {
@@ -563,21 +567,21 @@
     }
 
   };
-  var Job_1 = Job;
+  var Job_1 = Job$1;
 
-  function asyncGeneratorStep$2(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+  function asyncGeneratorStep$6(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  function _asyncToGenerator$2(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$2(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$2(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+  function _asyncToGenerator$6(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$6(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$6(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  var BottleneckError$2, LocalDatastore, parser$2;
-  parser$2 = parser;
+  var BottleneckError$2, LocalDatastore$1, parser$6;
+  parser$6 = parser$8;
   BottleneckError$2 = BottleneckError_1;
-  LocalDatastore = class LocalDatastore {
+  LocalDatastore$1 = class LocalDatastore {
     constructor(instance, storeOptions, storeInstanceOptions) {
       this.instance = instance;
       this.storeOptions = storeOptions;
       this.clientId = this.instance._randomIndex();
-      parser$2.load(storeInstanceOptions, storeInstanceOptions, this);
+      parser$6.load(storeInstanceOptions, storeInstanceOptions, this);
       this._nextRequest = this._lastReservoirRefresh = this._lastReservoirIncrease = Date.now();
       this._running = 0;
       this._done = 0;
@@ -625,7 +629,7 @@
     __publish__(message) {
       var _this = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         yield _this.yieldLoop();
         return _this.instance.Events.trigger("message", message.toString());
       })();
@@ -634,7 +638,7 @@
     __disconnect__(flush) {
       var _this2 = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         yield _this2.yieldLoop();
         clearInterval(_this2.heartbeat);
         return _this2.Promise.resolve();
@@ -655,9 +659,9 @@
     __updateSettings__(options) {
       var _this3 = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         yield _this3.yieldLoop();
-        parser$2.overwrite(options, options, _this3.storeOptions);
+        parser$6.overwrite(options, options, _this3.storeOptions);
 
         _this3._startHeartbeat();
 
@@ -670,7 +674,7 @@
     __running__() {
       var _this4 = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         yield _this4.yieldLoop();
         return _this4._running;
       })();
@@ -679,7 +683,7 @@
     __queued__() {
       var _this5 = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         yield _this5.yieldLoop();
         return _this5.instance.queued();
       })();
@@ -688,7 +692,7 @@
     __done__() {
       var _this6 = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         yield _this6.yieldLoop();
         return _this6._done;
       })();
@@ -697,7 +701,7 @@
     __groupCheck__(time) {
       var _this7 = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         yield _this7.yieldLoop();
         return _this7._nextRequest + _this7.timeout < time;
       })();
@@ -729,7 +733,7 @@
     __incrementReservoir__(incr) {
       var _this8 = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         var reservoir;
         yield _this8.yieldLoop();
         reservoir = _this8.storeOptions.reservoir += incr;
@@ -743,7 +747,7 @@
     __currentReservoir__() {
       var _this9 = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         yield _this9.yieldLoop();
         return _this9.storeOptions.reservoir;
       })();
@@ -760,7 +764,7 @@
     __check__(weight) {
       var _this10 = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         var now;
         yield _this10.yieldLoop();
         now = Date.now();
@@ -771,7 +775,7 @@
     __register__(index, weight, expiration) {
       var _this11 = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         var now, wait;
         yield _this11.yieldLoop();
         now = Date.now();
@@ -805,7 +809,7 @@
     __submit__(queueLength, weight) {
       var _this12 = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         var blocked, now, reachedHWM;
         yield _this12.yieldLoop();
 
@@ -835,7 +839,7 @@
     __free__(index, weight) {
       var _this13 = this;
 
-      return _asyncToGenerator$2(function* () {
+      return _asyncToGenerator$6(function* () {
         yield _this13.yieldLoop();
         _this13._running -= weight;
         _this13._done += weight;
@@ -849,7 +853,7 @@
     }
 
   };
-  var LocalDatastore_1 = LocalDatastore;
+  var LocalDatastore_1 = LocalDatastore$1;
 
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -873,7 +877,7 @@
   	return fn(module, module.exports), module.exports;
   }
 
-  var require$$0 = {
+  var require$$0$2 = {
   	"blacklist_client.lua": "local blacklist = ARGV[num_static_argv + 1]\n\nif redis.call('zscore', client_last_seen_key, blacklist) then\n  redis.call('zadd', client_last_seen_key, 0, blacklist)\nend\n\n\nreturn {}\n",
   	"check.lua": "local weight = tonumber(ARGV[num_static_argv + 1])\n\nlocal capacity = process_tick(now, false)['capacity']\nlocal nextRequest = tonumber(redis.call('hget', settings_key, 'nextRequest'))\n\nreturn conditions_check(capacity, weight) and nextRequest - now <= 0\n",
   	"conditions_check.lua": "local conditions_check = function (capacity, weight)\n  return capacity == nil or weight <= capacity\nend\n",
@@ -898,10 +902,10 @@
   	"validate_keys.lua": "if not (redis.call('exists', settings_key) == 1) then\n  return redis.error_reply('SETTINGS_KEY_NOT_FOUND')\nend\n"
   };
 
-  var Scripts = createCommonjsModule(function (module, exports) {
+  var Scripts$3 = createCommonjsModule(function (module, exports) {
 
   var headers, lua, templates;
-  lua = require$$0;
+  lua = require$$0$2;
   headers = {
     refs: lua["refs.lua"],
     validate_keys: lua["validate_keys.lua"],
@@ -1062,26 +1066,26 @@
   };
   });
 
-  function asyncGeneratorStep$3(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+  function asyncGeneratorStep$5(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  function _asyncToGenerator$3(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$3(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$3(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+  function _asyncToGenerator$5(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$5(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$5(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  var Events$2, RedisConnection, Scripts$1, parser$3;
-  parser$3 = parser;
-  Events$2 = Events_1;
-  Scripts$1 = Scripts;
+  var Events$4, RedisConnection$2, Scripts$2, parser$5;
+  parser$5 = parser$8;
+  Events$4 = Events_1;
+  Scripts$2 = Scripts$3;
 
-  RedisConnection = function () {
+  RedisConnection$2 = function () {
     class RedisConnection {
       constructor(options = {}) {
-        parser$3.load(options, this.defaults, this);
+        parser$5.load(options, this.defaults, this);
 
         if (this.Redis == null) {
           this.Redis = eval("require")("redis"); // Obfuscated or else Webpack/Angular will try to inline the optional redis module. To override this behavior: pass the redis module to Bottleneck as the 'Redis' option.
         }
 
         if (this.Events == null) {
-          this.Events = new Events$2(this);
+          this.Events = new Events$4(this);
         }
 
         this.terminated = false;
@@ -1128,7 +1132,7 @@
       _loadScript(name) {
         return new this.Promise((resolve, reject) => {
           var payload;
-          payload = Scripts$1.payload(name);
+          payload = Scripts$2.payload(name);
           return this.client.multi([["script", "load", payload]]).exec((err, replies) => {
             if (err != null) {
               return reject(err);
@@ -1141,7 +1145,7 @@
       }
 
       _loadScripts() {
-        return this.Promise.all(Scripts$1.names.map(k => {
+        return this.Promise.all(Scripts$2.names.map(k => {
           return this._loadScript(k);
         }));
       }
@@ -1149,7 +1153,7 @@
       __runCommand__(cmd) {
         var _this = this;
 
-        return _asyncToGenerator$3(function* () {
+        return _asyncToGenerator$5(function* () {
           yield _this.ready;
           return new _this.Promise((resolve, reject) => {
             return _this.client.multi([cmd]).exec_atomic(function (err, replies) {
@@ -1188,7 +1192,7 @@
         return this.Promise.all([instance.channel(), instance.channel_client()].map(
         /*#__PURE__*/
         function () {
-          var _ref = _asyncToGenerator$3(function* (channel) {
+          var _ref = _asyncToGenerator$5(function* (channel) {
             if (!_this2.terminated) {
               yield new _this2.Promise((resolve, reject) => {
                 return _this2.subscriber.unsubscribe(channel, function (err, chan) {
@@ -1214,7 +1218,7 @@
 
       __scriptArgs__(name, id, args, cb) {
         var keys;
-        keys = Scripts$1.keys(name, id);
+        keys = Scripts$2.keys(name, id);
         return [this.shas[name], keys.length].concat(keys, args, cb);
       }
 
@@ -1250,26 +1254,26 @@
     return RedisConnection;
   }.call(void 0);
 
-  var RedisConnection_1 = RedisConnection;
+  var RedisConnection_1 = RedisConnection$2;
 
-  function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+  function _slicedToArray$3(arr, i) { return _arrayWithHoles$3(arr) || _iterableToArrayLimit$3(arr, i) || _nonIterableRest$3(); }
 
-  function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+  function _nonIterableRest$3() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-  function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+  function _iterableToArrayLimit$3(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-  function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+  function _arrayWithHoles$3(arr) { if (Array.isArray(arr)) return arr; }
 
   function asyncGeneratorStep$4(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
   function _asyncToGenerator$4(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$4(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$4(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  var Events$3, IORedisConnection, Scripts$2, parser$4;
-  parser$4 = parser;
+  var Events$3, IORedisConnection$2, Scripts$1, parser$4;
+  parser$4 = parser$8;
   Events$3 = Events_1;
-  Scripts$2 = Scripts;
+  Scripts$1 = Scripts$3;
 
-  IORedisConnection = function () {
+  IORedisConnection$2 = function () {
     class IORedisConnection {
       constructor(options = {}) {
         parser$4.load(options, this.defaults, this);
@@ -1331,9 +1335,9 @@
       }
 
       _loadScripts() {
-        return Scripts$2.names.forEach(name => {
+        return Scripts$1.names.forEach(name => {
           return this.client.defineCommand(name, {
-            lua: Scripts$2.payload(name)
+            lua: Scripts$1.payload(name)
           });
         });
       }
@@ -1348,11 +1352,9 @@
 
           var _ref = yield _this.client.pipeline([cmd]).exec();
 
-          var _ref2 = _slicedToArray(_ref, 1);
+          var _ref2 = _slicedToArray$3(_ref, 1);
 
-          var _ref2$ = _slicedToArray(_ref2[0], 2);
-
-          _ref2$[0];
+          var _ref2$ = _slicedToArray$3(_ref2[0], 2);
           deleted = _ref2$[1];
           return deleted;
         })();
@@ -1391,7 +1393,7 @@
 
       __scriptArgs__(name, id, args, cb) {
         var keys;
-        keys = Scripts$2.keys(name, id);
+        keys = Scripts$1.keys(name, id);
         return [keys.length].concat(keys, args, cb);
       }
 
@@ -1433,32 +1435,32 @@
     return IORedisConnection;
   }.call(void 0);
 
-  var IORedisConnection_1 = IORedisConnection;
+  var IORedisConnection_1 = IORedisConnection$2;
 
-  function _slicedToArray$1(arr, i) { return _arrayWithHoles$1(arr) || _iterableToArrayLimit$1(arr, i) || _nonIterableRest$1(); }
+  function _slicedToArray$2(arr, i) { return _arrayWithHoles$2(arr) || _iterableToArrayLimit$2(arr, i) || _nonIterableRest$2(); }
 
-  function _nonIterableRest$1() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+  function _nonIterableRest$2() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-  function _iterableToArrayLimit$1(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+  function _iterableToArrayLimit$2(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-  function _arrayWithHoles$1(arr) { if (Array.isArray(arr)) return arr; }
+  function _arrayWithHoles$2(arr) { if (Array.isArray(arr)) return arr; }
 
-  function asyncGeneratorStep$5(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+  function asyncGeneratorStep$3(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  function _asyncToGenerator$5(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$5(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$5(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+  function _asyncToGenerator$3(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$3(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$3(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  var BottleneckError$3, IORedisConnection$1, RedisConnection$1, RedisDatastore, parser$5;
-  parser$5 = parser;
-  BottleneckError$3 = BottleneckError_1;
+  var BottleneckError$1, IORedisConnection$1, RedisConnection$1, RedisDatastore$1, parser$3;
+  parser$3 = parser$8;
+  BottleneckError$1 = BottleneckError_1;
   RedisConnection$1 = RedisConnection_1;
   IORedisConnection$1 = IORedisConnection_1;
-  RedisDatastore = class RedisDatastore {
+  RedisDatastore$1 = class RedisDatastore {
     constructor(instance, storeOptions, storeInstanceOptions) {
       this.instance = instance;
       this.storeOptions = storeOptions;
       this.originalId = this.instance.id;
       this.clientId = this.instance._randomIndex();
-      parser$5.load(storeInstanceOptions, storeInstanceOptions, this);
+      parser$3.load(storeInstanceOptions, storeInstanceOptions, this);
       this.clients = {};
       this.capacityPriorityCounters = {};
       this.sharedConnection = this.connection != null;
@@ -1505,7 +1507,7 @@
     __publish__(message) {
       var _this = this;
 
-      return _asyncToGenerator$5(function* () {
+      return _asyncToGenerator$3(function* () {
         var client;
 
         var _ref = yield _this.ready;
@@ -1518,7 +1520,7 @@
     onMessage(channel, message) {
       var _this2 = this;
 
-      return _asyncToGenerator$5(function* () {
+      return _asyncToGenerator$3(function* () {
         var capacity, counter, data, drained, e, newCapacity, pos, priorityClient, rawCapacity, type;
 
         try {
@@ -1532,7 +1534,7 @@
           } else if (type === "capacity-priority") {
             var _data$split = data.split(":");
 
-            var _data$split2 = _slicedToArray$1(_data$split, 3);
+            var _data$split2 = _slicedToArray$2(_data$split, 3);
 
             rawCapacity = _data$split2[0];
             priorityClient = _data$split2[1];
@@ -1550,7 +1552,7 @@
             } else {
               return _this2.capacityPriorityCounters[counter] = setTimeout(
               /*#__PURE__*/
-              _asyncToGenerator$5(function* () {
+              _asyncToGenerator$3(function* () {
                 var e;
 
                 try {
@@ -1588,7 +1590,7 @@
     runScript(name, args) {
       var _this3 = this;
 
-      return _asyncToGenerator$5(function* () {
+      return _asyncToGenerator$3(function* () {
         if (!(name === "init" || name === "register_client")) {
           yield _this3.ready;
         }
@@ -1670,9 +1672,9 @@
     __updateSettings__(options) {
       var _this4 = this;
 
-      return _asyncToGenerator$5(function* () {
+      return _asyncToGenerator$3(function* () {
         yield _this4.runScript("update_settings", _this4.prepareObject(options));
-        return parser$5.overwrite(options, options, _this4.storeOptions);
+        return parser$3.overwrite(options, options, _this4.storeOptions);
       })();
     }
 
@@ -1691,7 +1693,7 @@
     __groupCheck__() {
       var _this5 = this;
 
-      return _asyncToGenerator$5(function* () {
+      return _asyncToGenerator$3(function* () {
         return _this5.convertBool((yield _this5.runScript("group_check", [])));
       })();
     }
@@ -1707,7 +1709,7 @@
     __check__(weight) {
       var _this6 = this;
 
-      return _asyncToGenerator$5(function* () {
+      return _asyncToGenerator$3(function* () {
         return _this6.convertBool((yield _this6.runScript("check", _this6.prepareArray([weight]))));
       })();
     }
@@ -1715,12 +1717,12 @@
     __register__(index, weight, expiration) {
       var _this7 = this;
 
-      return _asyncToGenerator$5(function* () {
+      return _asyncToGenerator$3(function* () {
         var reservoir, success, wait;
 
         var _ref4 = yield _this7.runScript("register", _this7.prepareArray([index, weight, expiration]));
 
-        var _ref5 = _slicedToArray$1(_ref4, 3);
+        var _ref5 = _slicedToArray$2(_ref4, 3);
 
         success = _ref5[0];
         wait = _ref5[1];
@@ -1736,13 +1738,13 @@
     __submit__(queueLength, weight) {
       var _this8 = this;
 
-      return _asyncToGenerator$5(function* () {
+      return _asyncToGenerator$3(function* () {
         var blocked, e, maxConcurrent, reachedHWM, strategy;
 
         try {
           var _ref6 = yield _this8.runScript("submit", _this8.prepareArray([queueLength, weight]));
 
-          var _ref7 = _slicedToArray$1(_ref6, 3);
+          var _ref7 = _slicedToArray$2(_ref6, 3);
 
           reachedHWM = _ref7[0];
           blocked = _ref7[1];
@@ -1758,12 +1760,10 @@
           if (e.message.indexOf("OVERWEIGHT") === 0) {
             var _e$message$split = e.message.split(":");
 
-            var _e$message$split2 = _slicedToArray$1(_e$message$split, 3);
-
-            _e$message$split2[0];
+            var _e$message$split2 = _slicedToArray$2(_e$message$split, 3);
             weight = _e$message$split2[1];
             maxConcurrent = _e$message$split2[2];
-            throw new BottleneckError$3(`Impossible to add a job having a weight of ${weight} to a limiter having a maxConcurrent setting of ${maxConcurrent}`);
+            throw new BottleneckError$1(`Impossible to add a job having a weight of ${weight} to a limiter having a maxConcurrent setting of ${maxConcurrent}`);
           } else {
             throw e;
           }
@@ -1774,7 +1774,7 @@
     __free__(index, weight) {
       var _this9 = this;
 
-      return _asyncToGenerator$5(function* () {
+      return _asyncToGenerator$3(function* () {
         var running;
         running = yield _this9.runScript("free", _this9.prepareArray([index]));
         return {
@@ -1784,11 +1784,11 @@
     }
 
   };
-  var RedisDatastore_1 = RedisDatastore;
+  var RedisDatastore_1 = RedisDatastore$1;
 
-  var BottleneckError$4, States;
-  BottleneckError$4 = BottleneckError_1;
-  States = class States {
+  var BottleneckError, States$1;
+  BottleneckError = BottleneckError_1;
+  States$1 = class States {
     constructor(status1) {
       this.status = status1;
       this._jobs = {};
@@ -1843,7 +1843,7 @@
         pos = this.status.indexOf(status);
 
         if (pos < 0) {
-          throw new BottleneckError$4(`status must be one of ${this.status.join(', ')}`);
+          throw new BottleneckError(`status must be one of ${this.status.join(', ')}`);
         }
 
         ref = this._jobs;
@@ -1871,21 +1871,21 @@
     }
 
   };
-  var States_1 = States;
+  var States_1 = States$1;
 
-  function asyncGeneratorStep$6(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+  function asyncGeneratorStep$2(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  function _asyncToGenerator$6(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$6(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$6(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+  function _asyncToGenerator$2(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$2(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$2(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-  var DLList$2, Sync;
-  DLList$2 = DLList_1;
-  Sync = class Sync {
+  var DLList, Sync$1;
+  DLList = DLList_1;
+  Sync$1 = class Sync {
     constructor(name, Promise) {
       this.schedule = this.schedule.bind(this);
       this.name = name;
       this.Promise = Promise;
       this._running = 0;
-      this._queue = new DLList$2();
+      this._queue = new DLList();
     }
 
     isEmpty() {
@@ -1895,7 +1895,7 @@
     _tryToRun() {
       var _this = this;
 
-      return _asyncToGenerator$6(function* () {
+      return _asyncToGenerator$2(function* () {
         var args, cb, error, reject, resolve, returned, task;
 
         if (_this._running < 1 && _this._queue.length > 0) {
@@ -1907,7 +1907,7 @@
           args = _this$_queue$shift.args;
           resolve = _this$_queue$shift.resolve;
           reject = _this$_queue$shift.reject;
-          cb = yield _asyncToGenerator$6(function* () {
+          cb = yield _asyncToGenerator$2(function* () {
             try {
               returned = yield task(...args);
               return function () {
@@ -1950,41 +1950,43 @@
     }
 
   };
-  var Sync_1 = Sync;
+  var Sync_1 = Sync$1;
 
   var version = "2.19.5";
   var require$$8 = {
   	version: version
   };
 
-  function _slicedToArray$2(arr, i) { return _arrayWithHoles$2(arr) || _iterableToArrayLimit$2(arr, i) || _nonIterableRest$2(); }
+  var require$$0$1 = Bottleneck_1;
 
-  function _nonIterableRest$2() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+  function _slicedToArray$1(arr, i) { return _arrayWithHoles$1(arr) || _iterableToArrayLimit$1(arr, i) || _nonIterableRest$1(); }
 
-  function _iterableToArrayLimit$2(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+  function _nonIterableRest$1() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-  function _arrayWithHoles$2(arr) { if (Array.isArray(arr)) return arr; }
+  function _iterableToArrayLimit$1(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-  function asyncGeneratorStep$7(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+  function _arrayWithHoles$1(arr) { if (Array.isArray(arr)) return arr; }
 
-  function _asyncToGenerator$7(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$7(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$7(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+  function asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  var Events$4, Group, IORedisConnection$2, RedisConnection$2, Scripts$3, parser$6;
-  parser$6 = parser;
-  Events$4 = Events_1;
-  RedisConnection$2 = RedisConnection_1;
-  IORedisConnection$2 = IORedisConnection_1;
-  Scripts$3 = Scripts;
+  function _asyncToGenerator$1(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$1(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+  var Events$2, Group, IORedisConnection, RedisConnection, Scripts, parser$2;
+  parser$2 = parser$8;
+  Events$2 = Events_1;
+  RedisConnection = RedisConnection_1;
+  IORedisConnection = IORedisConnection_1;
+  Scripts = Scripts$3;
 
   Group = function () {
     class Group {
       constructor(limiterOptions = {}) {
         this.deleteKey = this.deleteKey.bind(this);
         this.limiterOptions = limiterOptions;
-        parser$6.load(this.limiterOptions, this.defaults, this);
-        this.Events = new Events$4(this);
+        parser$2.load(this.limiterOptions, this.defaults, this);
+        this.Events = new Events$2(this);
         this.instances = {};
-        this.Bottleneck = Bottleneck_1;
+        this.Bottleneck = require$$0$1;
 
         this._startAutoCleanup();
 
@@ -1992,11 +1994,11 @@
 
         if (this.connection == null) {
           if (this.limiterOptions.datastore === "redis") {
-            this.connection = new RedisConnection$2(Object.assign({}, this.limiterOptions, {
+            this.connection = new RedisConnection(Object.assign({}, this.limiterOptions, {
               Events: this.Events
             }));
           } else if (this.limiterOptions.datastore === "ioredis") {
-            this.connection = new IORedisConnection$2(Object.assign({}, this.limiterOptions, {
+            this.connection = new IORedisConnection(Object.assign({}, this.limiterOptions, {
               Events: this.Events
             }));
           }
@@ -2020,12 +2022,12 @@
       deleteKey(key = "") {
         var _this = this;
 
-        return _asyncToGenerator$7(function* () {
+        return _asyncToGenerator$1(function* () {
           var deleted, instance;
           instance = _this.instances[key];
 
           if (_this.connection) {
-            deleted = yield _this.connection.__runCommand__(['del', ...Scripts$3.allKeys(`${_this.id}-${key}`)]);
+            deleted = yield _this.connection.__runCommand__(['del', ...Scripts.allKeys(`${_this.id}-${key}`)]);
           }
 
           if (instance != null) {
@@ -2060,7 +2062,7 @@
       clusterKeys() {
         var _this2 = this;
 
-        return _asyncToGenerator$7(function* () {
+        return _asyncToGenerator$1(function* () {
           var cursor, end, found, i, k, keys, len, next, start;
 
           if (_this2.connection == null) {
@@ -2075,7 +2077,7 @@
           while (cursor !== 0) {
             var _ref = yield _this2.connection.__runCommand__(["scan", cursor != null ? cursor : 0, "match", `b_${_this2.id}-*_settings`, "count", 10000]);
 
-            var _ref2 = _slicedToArray$2(_ref, 2);
+            var _ref2 = _slicedToArray$1(_ref, 2);
 
             next = _ref2[0];
             found = _ref2[1];
@@ -2098,7 +2100,7 @@
         clearInterval(this.interval);
         return typeof (base = this.interval = setInterval(
         /*#__PURE__*/
-        _asyncToGenerator$7(function* () {
+        _asyncToGenerator$1(function* () {
           var e, k, ref, results, time, v;
           time = Date.now();
           ref = _this3.instances;
@@ -2124,8 +2126,8 @@
       }
 
       updateSettings(options = {}) {
-        parser$6.overwrite(options, this.defaults, this);
-        parser$6.overwrite(options, options, this.limiterOptions);
+        parser$2.overwrite(options, this.defaults, this);
+        parser$2.overwrite(options, options, this.limiterOptions);
 
         if (options.timeout != null) {
           return this._startAutoCleanup();
@@ -2152,16 +2154,16 @@
 
   var Group_1 = Group;
 
-  var Batcher, Events$5, parser$7;
-  parser$7 = parser;
-  Events$5 = Events_1;
+  var Batcher, Events$1, parser$1;
+  parser$1 = parser$8;
+  Events$1 = Events_1;
 
   Batcher = function () {
     class Batcher {
       constructor(options = {}) {
         this.options = options;
-        parser$7.load(this.options, this.defaults, this);
-        this.Events = new Events$5(this);
+        parser$1.load(this.options, this.defaults, this);
+        this.Events = new Events$1(this);
         this._arr = [];
 
         this._resetPromise();
@@ -2215,44 +2217,44 @@
 
   var Batcher_1 = Batcher;
 
-  function _slicedToArray$3(arr, i) { return _arrayWithHoles$3(arr) || _iterableToArrayLimit$3(arr, i) || _nonIterableRest$3(); }
+  function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-  function _iterableToArrayLimit$3(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+  function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-  function _toArray(arr) { return _arrayWithHoles$3(arr) || _iterableToArray(arr) || _nonIterableRest$3(); }
+  function _toArray(arr) { return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest(); }
 
-  function _nonIterableRest$3() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+  function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
   function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
-  function _arrayWithHoles$3(arr) { if (Array.isArray(arr)) return arr; }
+  function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-  function asyncGeneratorStep$8(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+  function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  function _asyncToGenerator$8(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep$8(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep$8(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+  function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
   var Bottleneck,
-      DEFAULT_PRIORITY$1,
-      Events$6,
-      Job$1,
-      LocalDatastore$1,
-      NUM_PRIORITIES$1,
-      Queues$1,
-      RedisDatastore$1,
-      States$1,
-      Sync$1,
-      parser$8,
+      DEFAULT_PRIORITY,
+      Events,
+      Job,
+      LocalDatastore,
+      NUM_PRIORITIES,
+      Queues,
+      RedisDatastore,
+      States,
+      Sync,
+      parser,
       splice = [].splice;
-  NUM_PRIORITIES$1 = 10;
-  DEFAULT_PRIORITY$1 = 5;
-  parser$8 = parser;
-  Queues$1 = Queues_1;
-  Job$1 = Job_1;
-  LocalDatastore$1 = LocalDatastore_1;
-  RedisDatastore$1 = RedisDatastore_1;
-  Events$6 = Events_1;
-  States$1 = States_1;
-  Sync$1 = Sync_1;
+  NUM_PRIORITIES = 10;
+  DEFAULT_PRIORITY = 5;
+  parser = parser$8;
+  Queues = Queues_1;
+  Job = Job_1;
+  LocalDatastore = LocalDatastore_1;
+  RedisDatastore = RedisDatastore_1;
+  Events = Events_1;
+  States = States_1;
+  Sync = Sync_1;
 
   Bottleneck = function () {
     class Bottleneck {
@@ -2262,23 +2264,23 @@
 
         this._validateOptions(options, invalid);
 
-        parser$8.load(options, this.instanceDefaults, this);
-        this._queues = new Queues$1(NUM_PRIORITIES$1);
+        parser.load(options, this.instanceDefaults, this);
+        this._queues = new Queues(NUM_PRIORITIES);
         this._scheduled = {};
-        this._states = new States$1(["RECEIVED", "QUEUED", "RUNNING", "EXECUTING"].concat(this.trackDoneStatus ? ["DONE"] : []));
+        this._states = new States(["RECEIVED", "QUEUED", "RUNNING", "EXECUTING"].concat(this.trackDoneStatus ? ["DONE"] : []));
         this._limiter = null;
-        this.Events = new Events$6(this);
-        this._submitLock = new Sync$1("submit", this.Promise);
-        this._registerLock = new Sync$1("register", this.Promise);
-        storeOptions = parser$8.load(options, this.storeDefaults, {});
+        this.Events = new Events(this);
+        this._submitLock = new Sync("submit", this.Promise);
+        this._registerLock = new Sync("register", this.Promise);
+        storeOptions = parser.load(options, this.storeDefaults, {});
 
         this._store = function () {
           if (this.datastore === "redis" || this.datastore === "ioredis" || this.connection != null) {
-            storeInstanceOptions = parser$8.load(options, this.redisStoreDefaults, {});
-            return new RedisDatastore$1(this, storeOptions, storeInstanceOptions);
+            storeInstanceOptions = parser.load(options, this.redisStoreDefaults, {});
+            return new RedisDatastore(this, storeOptions, storeInstanceOptions);
           } else if (this.datastore === "local") {
-            storeInstanceOptions = parser$8.load(options, this.localStoreDefaults, {});
-            return new LocalDatastore$1(this, storeOptions, storeInstanceOptions);
+            storeInstanceOptions = parser.load(options, this.localStoreDefaults, {});
+            return new LocalDatastore(this, storeOptions, storeInstanceOptions);
           } else {
             throw new Bottleneck.prototype.BottleneckError(`Invalid datastore type: ${this.datastore}`);
           }
@@ -2383,7 +2385,7 @@
       _free(index, job, options, eventInfo) {
         var _this = this;
 
-        return _asyncToGenerator$8(function* () {
+        return _asyncToGenerator(function* () {
           var e, running;
 
           try {
@@ -2503,7 +2505,7 @@
 
       stop(options = {}) {
         var done, waitForExecuting;
-        options = parser$8.load(options, this.stopDefaults);
+        options = parser.load(options, this.stopDefaults);
 
         waitForExecuting = at => {
           var finished;
@@ -2556,7 +2558,7 @@
             return waitForExecuting(0);
           });
         })) : this.schedule({
-          priority: NUM_PRIORITIES$1 - 1,
+          priority: NUM_PRIORITIES - 1,
           weight: 0
         }, () => {
           return waitForExecuting(1);
@@ -2576,7 +2578,7 @@
       _addToQueue(job) {
         var _this2 = this;
 
-        return _asyncToGenerator$8(function* () {
+        return _asyncToGenerator(function* () {
           var args, blocked, error, options, reachedHWM, shifted, strategy;
           args = job.args;
           options = job.options;
@@ -2647,13 +2649,13 @@
         if (typeof args[0] === "function") {
           var _ref3, _ref4, _splice$call, _splice$call2;
 
-          ref = args, (_ref3 = ref, _ref4 = _toArray(_ref3), fn = _ref4[0], args = _ref4.slice(1), _ref3), (_splice$call = splice.call(args, -1), _splice$call2 = _slicedToArray$3(_splice$call, 1), cb = _splice$call2[0], _splice$call);
-          options = parser$8.load({}, this.jobDefaults);
+          ref = args, (_ref3 = ref, _ref4 = _toArray(_ref3), fn = _ref4[0], args = _ref4.slice(1), _ref3), (_splice$call = splice.call(args, -1), _splice$call2 = _slicedToArray(_splice$call, 1), cb = _splice$call2[0], _splice$call);
+          options = parser.load({}, this.jobDefaults);
         } else {
           var _ref5, _ref6, _splice$call3, _splice$call4;
 
-          ref1 = args, (_ref5 = ref1, _ref6 = _toArray(_ref5), options = _ref6[0], fn = _ref6[1], args = _ref6.slice(2), _ref5), (_splice$call3 = splice.call(args, -1), _splice$call4 = _slicedToArray$3(_splice$call3, 1), cb = _splice$call4[0], _splice$call3);
-          options = parser$8.load(options, this.jobDefaults);
+          ref1 = args, (_ref5 = ref1, _ref6 = _toArray(_ref5), options = _ref6[0], fn = _ref6[1], args = _ref6.slice(2), _ref5), (_splice$call3 = splice.call(args, -1), _splice$call4 = _slicedToArray(_splice$call3, 1), cb = _splice$call4[0], _splice$call3);
+          options = parser.load(options, this.jobDefaults);
         }
 
         task = (...args) => {
@@ -2664,7 +2666,7 @@
           });
         };
 
-        job = new Job$1(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise);
+        job = new Job(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise);
         job.promise.then(function (args) {
           return typeof cb === "function" ? cb(...args) : void 0;
         }).catch(function (args) {
@@ -2698,7 +2700,7 @@
           args = _args4.slice(2);
         }
 
-        job = new Job$1(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise);
+        job = new Job(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise);
 
         this._receive(job);
 
@@ -2723,9 +2725,9 @@
       updateSettings(options = {}) {
         var _this3 = this;
 
-        return _asyncToGenerator$8(function* () {
-          yield _this3._store.__updateSettings__(parser$8.overwrite(options, _this3.storeDefaults));
-          parser$8.overwrite(options, _this3.instanceDefaults, _this3);
+        return _asyncToGenerator(function* () {
+          yield _this3._store.__updateSettings__(parser.overwrite(options, _this3.storeDefaults));
+          parser.overwrite(options, _this3.instanceDefaults, _this3);
           return _this3;
         })();
       }
@@ -2740,7 +2742,7 @@
 
     }
     Bottleneck.default = Bottleneck;
-    Bottleneck.Events = Events$6;
+    Bottleneck.Events = Events;
     Bottleneck.version = Bottleneck.prototype.version = require$$8.version;
     Bottleneck.strategy = Bottleneck.prototype.strategy = {
       LEAK: 1,
@@ -2754,7 +2756,7 @@
     Bottleneck.IORedisConnection = Bottleneck.prototype.IORedisConnection = IORedisConnection_1;
     Bottleneck.Batcher = Bottleneck.prototype.Batcher = Batcher_1;
     Bottleneck.prototype.jobDefaults = {
-      priority: DEFAULT_PRIORITY$1,
+      priority: DEFAULT_PRIORITY,
       weight: 1,
       expiration: null,
       id: "<no-id>"
@@ -2806,7 +2808,1093 @@
 
   var Bottleneck_1 = Bottleneck;
 
-  var lib = Bottleneck_1;
+  var lib$1 = require$$0$1;
+
+  /* eslint complexity: [2, 18], max-statements: [2, 33] */
+  var shams = function hasSymbols() {
+  	if (typeof Symbol !== 'function' || typeof Object.getOwnPropertySymbols !== 'function') { return false; }
+  	if (typeof Symbol.iterator === 'symbol') { return true; }
+
+  	var obj = {};
+  	var sym = Symbol('test');
+  	var symObj = Object(sym);
+  	if (typeof sym === 'string') { return false; }
+
+  	if (Object.prototype.toString.call(sym) !== '[object Symbol]') { return false; }
+  	if (Object.prototype.toString.call(symObj) !== '[object Symbol]') { return false; }
+
+  	// temp disabled per https://github.com/ljharb/object.assign/issues/17
+  	// if (sym instanceof Symbol) { return false; }
+  	// temp disabled per https://github.com/WebReflection/get-own-property-symbols/issues/4
+  	// if (!(symObj instanceof Symbol)) { return false; }
+
+  	// if (typeof Symbol.prototype.toString !== 'function') { return false; }
+  	// if (String(sym) !== Symbol.prototype.toString.call(sym)) { return false; }
+
+  	var symVal = 42;
+  	obj[sym] = symVal;
+  	for (sym in obj) { return false; } // eslint-disable-line no-restricted-syntax, no-unreachable-loop
+  	if (typeof Object.keys === 'function' && Object.keys(obj).length !== 0) { return false; }
+
+  	if (typeof Object.getOwnPropertyNames === 'function' && Object.getOwnPropertyNames(obj).length !== 0) { return false; }
+
+  	var syms = Object.getOwnPropertySymbols(obj);
+  	if (syms.length !== 1 || syms[0] !== sym) { return false; }
+
+  	if (!Object.prototype.propertyIsEnumerable.call(obj, sym)) { return false; }
+
+  	if (typeof Object.getOwnPropertyDescriptor === 'function') {
+  		var descriptor = Object.getOwnPropertyDescriptor(obj, sym);
+  		if (descriptor.value !== symVal || descriptor.enumerable !== true) { return false; }
+  	}
+
+  	return true;
+  };
+
+  var origSymbol = typeof Symbol !== 'undefined' && Symbol;
+
+
+  var hasSymbols$1 = function hasNativeSymbols() {
+  	if (typeof origSymbol !== 'function') { return false; }
+  	if (typeof Symbol !== 'function') { return false; }
+  	if (typeof origSymbol('foo') !== 'symbol') { return false; }
+  	if (typeof Symbol('bar') !== 'symbol') { return false; }
+
+  	return shams();
+  };
+
+  /* eslint no-invalid-this: 1 */
+
+  var ERROR_MESSAGE = 'Function.prototype.bind called on incompatible ';
+  var slice = Array.prototype.slice;
+  var toStr$1 = Object.prototype.toString;
+  var funcType = '[object Function]';
+
+  var implementation = function bind(that) {
+      var target = this;
+      if (typeof target !== 'function' || toStr$1.call(target) !== funcType) {
+          throw new TypeError(ERROR_MESSAGE + target);
+      }
+      var args = slice.call(arguments, 1);
+
+      var bound;
+      var binder = function () {
+          if (this instanceof bound) {
+              var result = target.apply(
+                  this,
+                  args.concat(slice.call(arguments))
+              );
+              if (Object(result) === result) {
+                  return result;
+              }
+              return this;
+          } else {
+              return target.apply(
+                  that,
+                  args.concat(slice.call(arguments))
+              );
+          }
+      };
+
+      var boundLength = Math.max(0, target.length - args.length);
+      var boundArgs = [];
+      for (var i = 0; i < boundLength; i++) {
+          boundArgs.push('$' + i);
+      }
+
+      bound = Function('binder', 'return function (' + boundArgs.join(',') + '){ return binder.apply(this,arguments); }')(binder);
+
+      if (target.prototype) {
+          var Empty = function Empty() {};
+          Empty.prototype = target.prototype;
+          bound.prototype = new Empty();
+          Empty.prototype = null;
+      }
+
+      return bound;
+  };
+
+  var functionBind = Function.prototype.bind || implementation;
+
+  var src = functionBind.call(Function.call, Object.prototype.hasOwnProperty);
+
+  var undefined$1;
+
+  var $SyntaxError = SyntaxError;
+  var $Function = Function;
+  var $TypeError$1 = TypeError;
+
+  // eslint-disable-next-line consistent-return
+  var getEvalledConstructor = function (expressionSyntax) {
+  	try {
+  		return $Function('"use strict"; return (' + expressionSyntax + ').constructor;')();
+  	} catch (e) {}
+  };
+
+  var $gOPD = Object.getOwnPropertyDescriptor;
+  if ($gOPD) {
+  	try {
+  		$gOPD({}, '');
+  	} catch (e) {
+  		$gOPD = null; // this is IE 8, which has a broken gOPD
+  	}
+  }
+
+  var throwTypeError = function () {
+  	throw new $TypeError$1();
+  };
+  var ThrowTypeError = $gOPD
+  	? (function () {
+  		try {
+  			// eslint-disable-next-line no-unused-expressions, no-caller, no-restricted-properties
+  			arguments.callee; // IE 8 does not throw here
+  			return throwTypeError;
+  		} catch (calleeThrows) {
+  			try {
+  				// IE 8 throws on Object.getOwnPropertyDescriptor(arguments, '')
+  				return $gOPD(arguments, 'callee').get;
+  			} catch (gOPDthrows) {
+  				return throwTypeError;
+  			}
+  		}
+  	}())
+  	: throwTypeError;
+
+  var hasSymbols = hasSymbols$1();
+
+  var getProto = Object.getPrototypeOf || function (x) { return x.__proto__; }; // eslint-disable-line no-proto
+
+  var needsEval = {};
+
+  var TypedArray = typeof Uint8Array === 'undefined' ? undefined$1 : getProto(Uint8Array);
+
+  var INTRINSICS = {
+  	'%AggregateError%': typeof AggregateError === 'undefined' ? undefined$1 : AggregateError,
+  	'%Array%': Array,
+  	'%ArrayBuffer%': typeof ArrayBuffer === 'undefined' ? undefined$1 : ArrayBuffer,
+  	'%ArrayIteratorPrototype%': hasSymbols ? getProto([][Symbol.iterator]()) : undefined$1,
+  	'%AsyncFromSyncIteratorPrototype%': undefined$1,
+  	'%AsyncFunction%': needsEval,
+  	'%AsyncGenerator%': needsEval,
+  	'%AsyncGeneratorFunction%': needsEval,
+  	'%AsyncIteratorPrototype%': needsEval,
+  	'%Atomics%': typeof Atomics === 'undefined' ? undefined$1 : Atomics,
+  	'%BigInt%': typeof BigInt === 'undefined' ? undefined$1 : BigInt,
+  	'%Boolean%': Boolean,
+  	'%DataView%': typeof DataView === 'undefined' ? undefined$1 : DataView,
+  	'%Date%': Date,
+  	'%decodeURI%': decodeURI,
+  	'%decodeURIComponent%': decodeURIComponent,
+  	'%encodeURI%': encodeURI,
+  	'%encodeURIComponent%': encodeURIComponent,
+  	'%Error%': Error,
+  	'%eval%': eval, // eslint-disable-line no-eval
+  	'%EvalError%': EvalError,
+  	'%Float32Array%': typeof Float32Array === 'undefined' ? undefined$1 : Float32Array,
+  	'%Float64Array%': typeof Float64Array === 'undefined' ? undefined$1 : Float64Array,
+  	'%FinalizationRegistry%': typeof FinalizationRegistry === 'undefined' ? undefined$1 : FinalizationRegistry,
+  	'%Function%': $Function,
+  	'%GeneratorFunction%': needsEval,
+  	'%Int8Array%': typeof Int8Array === 'undefined' ? undefined$1 : Int8Array,
+  	'%Int16Array%': typeof Int16Array === 'undefined' ? undefined$1 : Int16Array,
+  	'%Int32Array%': typeof Int32Array === 'undefined' ? undefined$1 : Int32Array,
+  	'%isFinite%': isFinite,
+  	'%isNaN%': isNaN,
+  	'%IteratorPrototype%': hasSymbols ? getProto(getProto([][Symbol.iterator]())) : undefined$1,
+  	'%JSON%': typeof JSON === 'object' ? JSON : undefined$1,
+  	'%Map%': typeof Map === 'undefined' ? undefined$1 : Map,
+  	'%MapIteratorPrototype%': typeof Map === 'undefined' || !hasSymbols ? undefined$1 : getProto(new Map()[Symbol.iterator]()),
+  	'%Math%': Math,
+  	'%Number%': Number,
+  	'%Object%': Object,
+  	'%parseFloat%': parseFloat,
+  	'%parseInt%': parseInt,
+  	'%Promise%': typeof Promise === 'undefined' ? undefined$1 : Promise,
+  	'%Proxy%': typeof Proxy === 'undefined' ? undefined$1 : Proxy,
+  	'%RangeError%': RangeError,
+  	'%ReferenceError%': ReferenceError,
+  	'%Reflect%': typeof Reflect === 'undefined' ? undefined$1 : Reflect,
+  	'%RegExp%': RegExp,
+  	'%Set%': typeof Set === 'undefined' ? undefined$1 : Set,
+  	'%SetIteratorPrototype%': typeof Set === 'undefined' || !hasSymbols ? undefined$1 : getProto(new Set()[Symbol.iterator]()),
+  	'%SharedArrayBuffer%': typeof SharedArrayBuffer === 'undefined' ? undefined$1 : SharedArrayBuffer,
+  	'%String%': String,
+  	'%StringIteratorPrototype%': hasSymbols ? getProto(''[Symbol.iterator]()) : undefined$1,
+  	'%Symbol%': hasSymbols ? Symbol : undefined$1,
+  	'%SyntaxError%': $SyntaxError,
+  	'%ThrowTypeError%': ThrowTypeError,
+  	'%TypedArray%': TypedArray,
+  	'%TypeError%': $TypeError$1,
+  	'%Uint8Array%': typeof Uint8Array === 'undefined' ? undefined$1 : Uint8Array,
+  	'%Uint8ClampedArray%': typeof Uint8ClampedArray === 'undefined' ? undefined$1 : Uint8ClampedArray,
+  	'%Uint16Array%': typeof Uint16Array === 'undefined' ? undefined$1 : Uint16Array,
+  	'%Uint32Array%': typeof Uint32Array === 'undefined' ? undefined$1 : Uint32Array,
+  	'%URIError%': URIError,
+  	'%WeakMap%': typeof WeakMap === 'undefined' ? undefined$1 : WeakMap,
+  	'%WeakRef%': typeof WeakRef === 'undefined' ? undefined$1 : WeakRef,
+  	'%WeakSet%': typeof WeakSet === 'undefined' ? undefined$1 : WeakSet
+  };
+
+  var doEval = function doEval(name) {
+  	var value;
+  	if (name === '%AsyncFunction%') {
+  		value = getEvalledConstructor('async function () {}');
+  	} else if (name === '%GeneratorFunction%') {
+  		value = getEvalledConstructor('function* () {}');
+  	} else if (name === '%AsyncGeneratorFunction%') {
+  		value = getEvalledConstructor('async function* () {}');
+  	} else if (name === '%AsyncGenerator%') {
+  		var fn = doEval('%AsyncGeneratorFunction%');
+  		if (fn) {
+  			value = fn.prototype;
+  		}
+  	} else if (name === '%AsyncIteratorPrototype%') {
+  		var gen = doEval('%AsyncGenerator%');
+  		if (gen) {
+  			value = getProto(gen.prototype);
+  		}
+  	}
+
+  	INTRINSICS[name] = value;
+
+  	return value;
+  };
+
+  var LEGACY_ALIASES = {
+  	'%ArrayBufferPrototype%': ['ArrayBuffer', 'prototype'],
+  	'%ArrayPrototype%': ['Array', 'prototype'],
+  	'%ArrayProto_entries%': ['Array', 'prototype', 'entries'],
+  	'%ArrayProto_forEach%': ['Array', 'prototype', 'forEach'],
+  	'%ArrayProto_keys%': ['Array', 'prototype', 'keys'],
+  	'%ArrayProto_values%': ['Array', 'prototype', 'values'],
+  	'%AsyncFunctionPrototype%': ['AsyncFunction', 'prototype'],
+  	'%AsyncGenerator%': ['AsyncGeneratorFunction', 'prototype'],
+  	'%AsyncGeneratorPrototype%': ['AsyncGeneratorFunction', 'prototype', 'prototype'],
+  	'%BooleanPrototype%': ['Boolean', 'prototype'],
+  	'%DataViewPrototype%': ['DataView', 'prototype'],
+  	'%DatePrototype%': ['Date', 'prototype'],
+  	'%ErrorPrototype%': ['Error', 'prototype'],
+  	'%EvalErrorPrototype%': ['EvalError', 'prototype'],
+  	'%Float32ArrayPrototype%': ['Float32Array', 'prototype'],
+  	'%Float64ArrayPrototype%': ['Float64Array', 'prototype'],
+  	'%FunctionPrototype%': ['Function', 'prototype'],
+  	'%Generator%': ['GeneratorFunction', 'prototype'],
+  	'%GeneratorPrototype%': ['GeneratorFunction', 'prototype', 'prototype'],
+  	'%Int8ArrayPrototype%': ['Int8Array', 'prototype'],
+  	'%Int16ArrayPrototype%': ['Int16Array', 'prototype'],
+  	'%Int32ArrayPrototype%': ['Int32Array', 'prototype'],
+  	'%JSONParse%': ['JSON', 'parse'],
+  	'%JSONStringify%': ['JSON', 'stringify'],
+  	'%MapPrototype%': ['Map', 'prototype'],
+  	'%NumberPrototype%': ['Number', 'prototype'],
+  	'%ObjectPrototype%': ['Object', 'prototype'],
+  	'%ObjProto_toString%': ['Object', 'prototype', 'toString'],
+  	'%ObjProto_valueOf%': ['Object', 'prototype', 'valueOf'],
+  	'%PromisePrototype%': ['Promise', 'prototype'],
+  	'%PromiseProto_then%': ['Promise', 'prototype', 'then'],
+  	'%Promise_all%': ['Promise', 'all'],
+  	'%Promise_reject%': ['Promise', 'reject'],
+  	'%Promise_resolve%': ['Promise', 'resolve'],
+  	'%RangeErrorPrototype%': ['RangeError', 'prototype'],
+  	'%ReferenceErrorPrototype%': ['ReferenceError', 'prototype'],
+  	'%RegExpPrototype%': ['RegExp', 'prototype'],
+  	'%SetPrototype%': ['Set', 'prototype'],
+  	'%SharedArrayBufferPrototype%': ['SharedArrayBuffer', 'prototype'],
+  	'%StringPrototype%': ['String', 'prototype'],
+  	'%SymbolPrototype%': ['Symbol', 'prototype'],
+  	'%SyntaxErrorPrototype%': ['SyntaxError', 'prototype'],
+  	'%TypedArrayPrototype%': ['TypedArray', 'prototype'],
+  	'%TypeErrorPrototype%': ['TypeError', 'prototype'],
+  	'%Uint8ArrayPrototype%': ['Uint8Array', 'prototype'],
+  	'%Uint8ClampedArrayPrototype%': ['Uint8ClampedArray', 'prototype'],
+  	'%Uint16ArrayPrototype%': ['Uint16Array', 'prototype'],
+  	'%Uint32ArrayPrototype%': ['Uint32Array', 'prototype'],
+  	'%URIErrorPrototype%': ['URIError', 'prototype'],
+  	'%WeakMapPrototype%': ['WeakMap', 'prototype'],
+  	'%WeakSetPrototype%': ['WeakSet', 'prototype']
+  };
+
+
+
+  var $concat = functionBind.call(Function.call, Array.prototype.concat);
+  var $spliceApply = functionBind.call(Function.apply, Array.prototype.splice);
+  var $replace = functionBind.call(Function.call, String.prototype.replace);
+  var $strSlice = functionBind.call(Function.call, String.prototype.slice);
+
+  /* adapted from https://github.com/lodash/lodash/blob/4.17.15/dist/lodash.js#L6735-L6744 */
+  var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g;
+  var reEscapeChar = /\\(\\)?/g; /** Used to match backslashes in property paths. */
+  var stringToPath = function stringToPath(string) {
+  	var first = $strSlice(string, 0, 1);
+  	var last = $strSlice(string, -1);
+  	if (first === '%' && last !== '%') {
+  		throw new $SyntaxError('invalid intrinsic syntax, expected closing `%`');
+  	} else if (last === '%' && first !== '%') {
+  		throw new $SyntaxError('invalid intrinsic syntax, expected opening `%`');
+  	}
+  	var result = [];
+  	$replace(string, rePropName, function (match, number, quote, subString) {
+  		result[result.length] = quote ? $replace(subString, reEscapeChar, '$1') : number || match;
+  	});
+  	return result;
+  };
+  /* end adaptation */
+
+  var getBaseIntrinsic = function getBaseIntrinsic(name, allowMissing) {
+  	var intrinsicName = name;
+  	var alias;
+  	if (src(LEGACY_ALIASES, intrinsicName)) {
+  		alias = LEGACY_ALIASES[intrinsicName];
+  		intrinsicName = '%' + alias[0] + '%';
+  	}
+
+  	if (src(INTRINSICS, intrinsicName)) {
+  		var value = INTRINSICS[intrinsicName];
+  		if (value === needsEval) {
+  			value = doEval(intrinsicName);
+  		}
+  		if (typeof value === 'undefined' && !allowMissing) {
+  			throw new $TypeError$1('intrinsic ' + name + ' exists, but is not available. Please file an issue!');
+  		}
+
+  		return {
+  			alias: alias,
+  			name: intrinsicName,
+  			value: value
+  		};
+  	}
+
+  	throw new $SyntaxError('intrinsic ' + name + ' does not exist!');
+  };
+
+  var getIntrinsic = function GetIntrinsic(name, allowMissing) {
+  	if (typeof name !== 'string' || name.length === 0) {
+  		throw new $TypeError$1('intrinsic name must be a non-empty string');
+  	}
+  	if (arguments.length > 1 && typeof allowMissing !== 'boolean') {
+  		throw new $TypeError$1('"allowMissing" argument must be a boolean');
+  	}
+
+  	var parts = stringToPath(name);
+  	var intrinsicBaseName = parts.length > 0 ? parts[0] : '';
+
+  	var intrinsic = getBaseIntrinsic('%' + intrinsicBaseName + '%', allowMissing);
+  	var intrinsicRealName = intrinsic.name;
+  	var value = intrinsic.value;
+  	var skipFurtherCaching = false;
+
+  	var alias = intrinsic.alias;
+  	if (alias) {
+  		intrinsicBaseName = alias[0];
+  		$spliceApply(parts, $concat([0, 1], alias));
+  	}
+
+  	for (var i = 1, isOwn = true; i < parts.length; i += 1) {
+  		var part = parts[i];
+  		var first = $strSlice(part, 0, 1);
+  		var last = $strSlice(part, -1);
+  		if (
+  			(
+  				(first === '"' || first === "'" || first === '`')
+  				|| (last === '"' || last === "'" || last === '`')
+  			)
+  			&& first !== last
+  		) {
+  			throw new $SyntaxError('property names with quotes must have matching quotes');
+  		}
+  		if (part === 'constructor' || !isOwn) {
+  			skipFurtherCaching = true;
+  		}
+
+  		intrinsicBaseName += '.' + part;
+  		intrinsicRealName = '%' + intrinsicBaseName + '%';
+
+  		if (src(INTRINSICS, intrinsicRealName)) {
+  			value = INTRINSICS[intrinsicRealName];
+  		} else if (value != null) {
+  			if (!(part in value)) {
+  				if (!allowMissing) {
+  					throw new $TypeError$1('base intrinsic for ' + name + ' exists, but the property is not available.');
+  				}
+  				return void undefined$1;
+  			}
+  			if ($gOPD && (i + 1) >= parts.length) {
+  				var desc = $gOPD(value, part);
+  				isOwn = !!desc;
+
+  				// By convention, when a data property is converted to an accessor
+  				// property to emulate a data property that does not suffer from
+  				// the override mistake, that accessor's getter is marked with
+  				// an `originalValue` property. Here, when we detect this, we
+  				// uphold the illusion by pretending to see that original data
+  				// property, i.e., returning the value rather than the getter
+  				// itself.
+  				if (isOwn && 'get' in desc && !('originalValue' in desc.get)) {
+  					value = desc.get;
+  				} else {
+  					value = value[part];
+  				}
+  			} else {
+  				isOwn = src(value, part);
+  				value = value[part];
+  			}
+
+  			if (isOwn && !skipFurtherCaching) {
+  				INTRINSICS[intrinsicRealName] = value;
+  			}
+  		}
+  	}
+  	return value;
+  };
+
+  var callBind = createCommonjsModule(function (module) {
+
+
+
+
+  var $apply = getIntrinsic('%Function.prototype.apply%');
+  var $call = getIntrinsic('%Function.prototype.call%');
+  var $reflectApply = getIntrinsic('%Reflect.apply%', true) || functionBind.call($call, $apply);
+
+  var $gOPD = getIntrinsic('%Object.getOwnPropertyDescriptor%', true);
+  var $defineProperty = getIntrinsic('%Object.defineProperty%', true);
+  var $max = getIntrinsic('%Math.max%');
+
+  if ($defineProperty) {
+  	try {
+  		$defineProperty({}, 'a', { value: 1 });
+  	} catch (e) {
+  		// IE 8 has a broken defineProperty
+  		$defineProperty = null;
+  	}
+  }
+
+  module.exports = function callBind(originalFunction) {
+  	var func = $reflectApply(functionBind, $call, arguments);
+  	if ($gOPD && $defineProperty) {
+  		var desc = $gOPD(func, 'length');
+  		if (desc.configurable) {
+  			// original length, plus the receiver, minus any additional arguments (after the receiver)
+  			$defineProperty(
+  				func,
+  				'length',
+  				{ value: 1 + $max(0, originalFunction.length - (arguments.length - 1)) }
+  			);
+  		}
+  	}
+  	return func;
+  };
+
+  var applyBind = function applyBind() {
+  	return $reflectApply(functionBind, $apply, arguments);
+  };
+
+  if ($defineProperty) {
+  	$defineProperty(module.exports, 'apply', { value: applyBind });
+  } else {
+  	module.exports.apply = applyBind;
+  }
+  });
+
+  var $indexOf = callBind(getIntrinsic('String.prototype.indexOf'));
+
+  var callBound = function callBoundIntrinsic(name, allowMissing) {
+  	var intrinsic = getIntrinsic(name, !!allowMissing);
+  	if (typeof intrinsic === 'function' && $indexOf(name, '.prototype.') > -1) {
+  		return callBind(intrinsic);
+  	}
+  	return intrinsic;
+  };
+
+  var util_inspect = require$$0__default['default'].inspect;
+
+  var hasMap = typeof Map === 'function' && Map.prototype;
+  var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, 'size') : null;
+  var mapSize = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get === 'function' ? mapSizeDescriptor.get : null;
+  var mapForEach = hasMap && Map.prototype.forEach;
+  var hasSet = typeof Set === 'function' && Set.prototype;
+  var setSizeDescriptor = Object.getOwnPropertyDescriptor && hasSet ? Object.getOwnPropertyDescriptor(Set.prototype, 'size') : null;
+  var setSize = hasSet && setSizeDescriptor && typeof setSizeDescriptor.get === 'function' ? setSizeDescriptor.get : null;
+  var setForEach = hasSet && Set.prototype.forEach;
+  var hasWeakMap = typeof WeakMap === 'function' && WeakMap.prototype;
+  var weakMapHas = hasWeakMap ? WeakMap.prototype.has : null;
+  var hasWeakSet = typeof WeakSet === 'function' && WeakSet.prototype;
+  var weakSetHas = hasWeakSet ? WeakSet.prototype.has : null;
+  var hasWeakRef = typeof WeakRef === 'function' && WeakRef.prototype;
+  var weakRefDeref = hasWeakRef ? WeakRef.prototype.deref : null;
+  var booleanValueOf = Boolean.prototype.valueOf;
+  var objectToString = Object.prototype.toString;
+  var functionToString = Function.prototype.toString;
+  var match = String.prototype.match;
+  var bigIntValueOf = typeof BigInt === 'function' ? BigInt.prototype.valueOf : null;
+  var gOPS = Object.getOwnPropertySymbols;
+  var symToString = typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol' ? Symbol.prototype.toString : null;
+  var hasShammedSymbols = typeof Symbol === 'function' && typeof Symbol.iterator === 'object';
+  var isEnumerable = Object.prototype.propertyIsEnumerable;
+
+  var gPO = (typeof Reflect === 'function' ? Reflect.getPrototypeOf : Object.getPrototypeOf) || (
+      [].__proto__ === Array.prototype // eslint-disable-line no-proto
+          ? function (O) {
+              return O.__proto__; // eslint-disable-line no-proto
+          }
+          : null
+  );
+
+  var inspectCustom = util_inspect.custom;
+  var inspectSymbol = inspectCustom && isSymbol(inspectCustom) ? inspectCustom : null;
+  var toStringTag = typeof Symbol === 'function' && typeof Symbol.toStringTag !== 'undefined' ? Symbol.toStringTag : null;
+
+  var objectInspect = function inspect_(obj, options, depth, seen) {
+      var opts = options || {};
+
+      if (has$3(opts, 'quoteStyle') && (opts.quoteStyle !== 'single' && opts.quoteStyle !== 'double')) {
+          throw new TypeError('option "quoteStyle" must be "single" or "double"');
+      }
+      if (
+          has$3(opts, 'maxStringLength') && (typeof opts.maxStringLength === 'number'
+              ? opts.maxStringLength < 0 && opts.maxStringLength !== Infinity
+              : opts.maxStringLength !== null
+          )
+      ) {
+          throw new TypeError('option "maxStringLength", if provided, must be a positive integer, Infinity, or `null`');
+      }
+      var customInspect = has$3(opts, 'customInspect') ? opts.customInspect : true;
+      if (typeof customInspect !== 'boolean' && customInspect !== 'symbol') {
+          throw new TypeError('option "customInspect", if provided, must be `true`, `false`, or `\'symbol\'`');
+      }
+
+      if (
+          has$3(opts, 'indent')
+          && opts.indent !== null
+          && opts.indent !== '\t'
+          && !(parseInt(opts.indent, 10) === opts.indent && opts.indent > 0)
+      ) {
+          throw new TypeError('options "indent" must be "\\t", an integer > 0, or `null`');
+      }
+
+      if (typeof obj === 'undefined') {
+          return 'undefined';
+      }
+      if (obj === null) {
+          return 'null';
+      }
+      if (typeof obj === 'boolean') {
+          return obj ? 'true' : 'false';
+      }
+
+      if (typeof obj === 'string') {
+          return inspectString(obj, opts);
+      }
+      if (typeof obj === 'number') {
+          if (obj === 0) {
+              return Infinity / obj > 0 ? '0' : '-0';
+          }
+          return String(obj);
+      }
+      if (typeof obj === 'bigint') {
+          return String(obj) + 'n';
+      }
+
+      var maxDepth = typeof opts.depth === 'undefined' ? 5 : opts.depth;
+      if (typeof depth === 'undefined') { depth = 0; }
+      if (depth >= maxDepth && maxDepth > 0 && typeof obj === 'object') {
+          return isArray$3(obj) ? '[Array]' : '[Object]';
+      }
+
+      var indent = getIndent(opts, depth);
+
+      if (typeof seen === 'undefined') {
+          seen = [];
+      } else if (indexOf(seen, obj) >= 0) {
+          return '[Circular]';
+      }
+
+      function inspect(value, from, noIndent) {
+          if (from) {
+              seen = seen.slice();
+              seen.push(from);
+          }
+          if (noIndent) {
+              var newOpts = {
+                  depth: opts.depth
+              };
+              if (has$3(opts, 'quoteStyle')) {
+                  newOpts.quoteStyle = opts.quoteStyle;
+              }
+              return inspect_(value, newOpts, depth + 1, seen);
+          }
+          return inspect_(value, opts, depth + 1, seen);
+      }
+
+      if (typeof obj === 'function') {
+          var name = nameOf(obj);
+          var keys = arrObjKeys(obj, inspect);
+          return '[Function' + (name ? ': ' + name : ' (anonymous)') + ']' + (keys.length > 0 ? ' { ' + keys.join(', ') + ' }' : '');
+      }
+      if (isSymbol(obj)) {
+          var symString = hasShammedSymbols ? String(obj).replace(/^(Symbol\(.*\))_[^)]*$/, '$1') : symToString.call(obj);
+          return typeof obj === 'object' && !hasShammedSymbols ? markBoxed(symString) : symString;
+      }
+      if (isElement(obj)) {
+          var s = '<' + String(obj.nodeName).toLowerCase();
+          var attrs = obj.attributes || [];
+          for (var i = 0; i < attrs.length; i++) {
+              s += ' ' + attrs[i].name + '=' + wrapQuotes(quote(attrs[i].value), 'double', opts);
+          }
+          s += '>';
+          if (obj.childNodes && obj.childNodes.length) { s += '...'; }
+          s += '</' + String(obj.nodeName).toLowerCase() + '>';
+          return s;
+      }
+      if (isArray$3(obj)) {
+          if (obj.length === 0) { return '[]'; }
+          var xs = arrObjKeys(obj, inspect);
+          if (indent && !singleLineValues(xs)) {
+              return '[' + indentedJoin(xs, indent) + ']';
+          }
+          return '[ ' + xs.join(', ') + ' ]';
+      }
+      if (isError(obj)) {
+          var parts = arrObjKeys(obj, inspect);
+          if (parts.length === 0) { return '[' + String(obj) + ']'; }
+          return '{ [' + String(obj) + '] ' + parts.join(', ') + ' }';
+      }
+      if (typeof obj === 'object' && customInspect) {
+          if (inspectSymbol && typeof obj[inspectSymbol] === 'function') {
+              return obj[inspectSymbol]();
+          } else if (customInspect !== 'symbol' && typeof obj.inspect === 'function') {
+              return obj.inspect();
+          }
+      }
+      if (isMap(obj)) {
+          var mapParts = [];
+          mapForEach.call(obj, function (value, key) {
+              mapParts.push(inspect(key, obj, true) + ' => ' + inspect(value, obj));
+          });
+          return collectionOf('Map', mapSize.call(obj), mapParts, indent);
+      }
+      if (isSet(obj)) {
+          var setParts = [];
+          setForEach.call(obj, function (value) {
+              setParts.push(inspect(value, obj));
+          });
+          return collectionOf('Set', setSize.call(obj), setParts, indent);
+      }
+      if (isWeakMap(obj)) {
+          return weakCollectionOf('WeakMap');
+      }
+      if (isWeakSet(obj)) {
+          return weakCollectionOf('WeakSet');
+      }
+      if (isWeakRef(obj)) {
+          return weakCollectionOf('WeakRef');
+      }
+      if (isNumber(obj)) {
+          return markBoxed(inspect(Number(obj)));
+      }
+      if (isBigInt(obj)) {
+          return markBoxed(inspect(bigIntValueOf.call(obj)));
+      }
+      if (isBoolean(obj)) {
+          return markBoxed(booleanValueOf.call(obj));
+      }
+      if (isString(obj)) {
+          return markBoxed(inspect(String(obj)));
+      }
+      if (!isDate(obj) && !isRegExp$1(obj)) {
+          var ys = arrObjKeys(obj, inspect);
+          var isPlainObject = gPO ? gPO(obj) === Object.prototype : obj instanceof Object || obj.constructor === Object;
+          var protoTag = obj instanceof Object ? '' : 'null prototype';
+          var stringTag = !isPlainObject && toStringTag && Object(obj) === obj && toStringTag in obj ? toStr(obj).slice(8, -1) : protoTag ? 'Object' : '';
+          var constructorTag = isPlainObject || typeof obj.constructor !== 'function' ? '' : obj.constructor.name ? obj.constructor.name + ' ' : '';
+          var tag = constructorTag + (stringTag || protoTag ? '[' + [].concat(stringTag || [], protoTag || []).join(': ') + '] ' : '');
+          if (ys.length === 0) { return tag + '{}'; }
+          if (indent) {
+              return tag + '{' + indentedJoin(ys, indent) + '}';
+          }
+          return tag + '{ ' + ys.join(', ') + ' }';
+      }
+      return String(obj);
+  };
+
+  function wrapQuotes(s, defaultStyle, opts) {
+      var quoteChar = (opts.quoteStyle || defaultStyle) === 'double' ? '"' : "'";
+      return quoteChar + s + quoteChar;
+  }
+
+  function quote(s) {
+      return String(s).replace(/"/g, '&quot;');
+  }
+
+  function isArray$3(obj) { return toStr(obj) === '[object Array]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+  function isDate(obj) { return toStr(obj) === '[object Date]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+  function isRegExp$1(obj) { return toStr(obj) === '[object RegExp]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+  function isError(obj) { return toStr(obj) === '[object Error]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+  function isString(obj) { return toStr(obj) === '[object String]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+  function isNumber(obj) { return toStr(obj) === '[object Number]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+  function isBoolean(obj) { return toStr(obj) === '[object Boolean]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+
+  // Symbol and BigInt do have Symbol.toStringTag by spec, so that can't be used to eliminate false positives
+  function isSymbol(obj) {
+      if (hasShammedSymbols) {
+          return obj && typeof obj === 'object' && obj instanceof Symbol;
+      }
+      if (typeof obj === 'symbol') {
+          return true;
+      }
+      if (!obj || typeof obj !== 'object' || !symToString) {
+          return false;
+      }
+      try {
+          symToString.call(obj);
+          return true;
+      } catch (e) {}
+      return false;
+  }
+
+  function isBigInt(obj) {
+      if (!obj || typeof obj !== 'object' || !bigIntValueOf) {
+          return false;
+      }
+      try {
+          bigIntValueOf.call(obj);
+          return true;
+      } catch (e) {}
+      return false;
+  }
+
+  var hasOwn = Object.prototype.hasOwnProperty || function (key) { return key in this; };
+  function has$3(obj, key) {
+      return hasOwn.call(obj, key);
+  }
+
+  function toStr(obj) {
+      return objectToString.call(obj);
+  }
+
+  function nameOf(f) {
+      if (f.name) { return f.name; }
+      var m = match.call(functionToString.call(f), /^function\s*([\w$]+)/);
+      if (m) { return m[1]; }
+      return null;
+  }
+
+  function indexOf(xs, x) {
+      if (xs.indexOf) { return xs.indexOf(x); }
+      for (var i = 0, l = xs.length; i < l; i++) {
+          if (xs[i] === x) { return i; }
+      }
+      return -1;
+  }
+
+  function isMap(x) {
+      if (!mapSize || !x || typeof x !== 'object') {
+          return false;
+      }
+      try {
+          mapSize.call(x);
+          try {
+              setSize.call(x);
+          } catch (s) {
+              return true;
+          }
+          return x instanceof Map; // core-js workaround, pre-v2.5.0
+      } catch (e) {}
+      return false;
+  }
+
+  function isWeakMap(x) {
+      if (!weakMapHas || !x || typeof x !== 'object') {
+          return false;
+      }
+      try {
+          weakMapHas.call(x, weakMapHas);
+          try {
+              weakSetHas.call(x, weakSetHas);
+          } catch (s) {
+              return true;
+          }
+          return x instanceof WeakMap; // core-js workaround, pre-v2.5.0
+      } catch (e) {}
+      return false;
+  }
+
+  function isWeakRef(x) {
+      if (!weakRefDeref || !x || typeof x !== 'object') {
+          return false;
+      }
+      try {
+          weakRefDeref.call(x);
+          return true;
+      } catch (e) {}
+      return false;
+  }
+
+  function isSet(x) {
+      if (!setSize || !x || typeof x !== 'object') {
+          return false;
+      }
+      try {
+          setSize.call(x);
+          try {
+              mapSize.call(x);
+          } catch (m) {
+              return true;
+          }
+          return x instanceof Set; // core-js workaround, pre-v2.5.0
+      } catch (e) {}
+      return false;
+  }
+
+  function isWeakSet(x) {
+      if (!weakSetHas || !x || typeof x !== 'object') {
+          return false;
+      }
+      try {
+          weakSetHas.call(x, weakSetHas);
+          try {
+              weakMapHas.call(x, weakMapHas);
+          } catch (s) {
+              return true;
+          }
+          return x instanceof WeakSet; // core-js workaround, pre-v2.5.0
+      } catch (e) {}
+      return false;
+  }
+
+  function isElement(x) {
+      if (!x || typeof x !== 'object') { return false; }
+      if (typeof HTMLElement !== 'undefined' && x instanceof HTMLElement) {
+          return true;
+      }
+      return typeof x.nodeName === 'string' && typeof x.getAttribute === 'function';
+  }
+
+  function inspectString(str, opts) {
+      if (str.length > opts.maxStringLength) {
+          var remaining = str.length - opts.maxStringLength;
+          var trailer = '... ' + remaining + ' more character' + (remaining > 1 ? 's' : '');
+          return inspectString(str.slice(0, opts.maxStringLength), opts) + trailer;
+      }
+      // eslint-disable-next-line no-control-regex
+      var s = str.replace(/(['\\])/g, '\\$1').replace(/[\x00-\x1f]/g, lowbyte);
+      return wrapQuotes(s, 'single', opts);
+  }
+
+  function lowbyte(c) {
+      var n = c.charCodeAt(0);
+      var x = {
+          8: 'b',
+          9: 't',
+          10: 'n',
+          12: 'f',
+          13: 'r'
+      }[n];
+      if (x) { return '\\' + x; }
+      return '\\x' + (n < 0x10 ? '0' : '') + n.toString(16).toUpperCase();
+  }
+
+  function markBoxed(str) {
+      return 'Object(' + str + ')';
+  }
+
+  function weakCollectionOf(type) {
+      return type + ' { ? }';
+  }
+
+  function collectionOf(type, size, entries, indent) {
+      var joinedEntries = indent ? indentedJoin(entries, indent) : entries.join(', ');
+      return type + ' (' + size + ') {' + joinedEntries + '}';
+  }
+
+  function singleLineValues(xs) {
+      for (var i = 0; i < xs.length; i++) {
+          if (indexOf(xs[i], '\n') >= 0) {
+              return false;
+          }
+      }
+      return true;
+  }
+
+  function getIndent(opts, depth) {
+      var baseIndent;
+      if (opts.indent === '\t') {
+          baseIndent = '\t';
+      } else if (typeof opts.indent === 'number' && opts.indent > 0) {
+          baseIndent = Array(opts.indent + 1).join(' ');
+      } else {
+          return null;
+      }
+      return {
+          base: baseIndent,
+          prev: Array(depth + 1).join(baseIndent)
+      };
+  }
+
+  function indentedJoin(xs, indent) {
+      if (xs.length === 0) { return ''; }
+      var lineJoiner = '\n' + indent.prev + indent.base;
+      return lineJoiner + xs.join(',' + lineJoiner) + '\n' + indent.prev;
+  }
+
+  function arrObjKeys(obj, inspect) {
+      var isArr = isArray$3(obj);
+      var xs = [];
+      if (isArr) {
+          xs.length = obj.length;
+          for (var i = 0; i < obj.length; i++) {
+              xs[i] = has$3(obj, i) ? inspect(obj[i], obj) : '';
+          }
+      }
+      var syms = typeof gOPS === 'function' ? gOPS(obj) : [];
+      var symMap;
+      if (hasShammedSymbols) {
+          symMap = {};
+          for (var k = 0; k < syms.length; k++) {
+              symMap['$' + syms[k]] = syms[k];
+          }
+      }
+
+      for (var key in obj) { // eslint-disable-line no-restricted-syntax
+          if (!has$3(obj, key)) { continue; } // eslint-disable-line no-restricted-syntax, no-continue
+          if (isArr && String(Number(key)) === key && key < obj.length) { continue; } // eslint-disable-line no-restricted-syntax, no-continue
+          if (hasShammedSymbols && symMap['$' + key] instanceof Symbol) {
+              // this is to prevent shammed Symbols, which are stored as strings, from being included in the string key section
+              continue; // eslint-disable-line no-restricted-syntax, no-continue
+          } else if ((/[^\w$]/).test(key)) {
+              xs.push(inspect(key, obj) + ': ' + inspect(obj[key], obj));
+          } else {
+              xs.push(key + ': ' + inspect(obj[key], obj));
+          }
+      }
+      if (typeof gOPS === 'function') {
+          for (var j = 0; j < syms.length; j++) {
+              if (isEnumerable.call(obj, syms[j])) {
+                  xs.push('[' + inspect(syms[j]) + ']: ' + inspect(obj[syms[j]], obj));
+              }
+          }
+      }
+      return xs;
+  }
+
+  var $TypeError = getIntrinsic('%TypeError%');
+  var $WeakMap = getIntrinsic('%WeakMap%', true);
+  var $Map = getIntrinsic('%Map%', true);
+
+  var $weakMapGet = callBound('WeakMap.prototype.get', true);
+  var $weakMapSet = callBound('WeakMap.prototype.set', true);
+  var $weakMapHas = callBound('WeakMap.prototype.has', true);
+  var $mapGet = callBound('Map.prototype.get', true);
+  var $mapSet = callBound('Map.prototype.set', true);
+  var $mapHas = callBound('Map.prototype.has', true);
+
+  /*
+   * This function traverses the list returning the node corresponding to the
+   * given key.
+   *
+   * That node is also moved to the head of the list, so that if it's accessed
+   * again we don't need to traverse the whole list. By doing so, all the recently
+   * used nodes can be accessed relatively quickly.
+   */
+  var listGetNode = function (list, key) { // eslint-disable-line consistent-return
+  	for (var prev = list, curr; (curr = prev.next) !== null; prev = curr) {
+  		if (curr.key === key) {
+  			prev.next = curr.next;
+  			curr.next = list.next;
+  			list.next = curr; // eslint-disable-line no-param-reassign
+  			return curr;
+  		}
+  	}
+  };
+
+  var listGet = function (objects, key) {
+  	var node = listGetNode(objects, key);
+  	return node && node.value;
+  };
+  var listSet = function (objects, key, value) {
+  	var node = listGetNode(objects, key);
+  	if (node) {
+  		node.value = value;
+  	} else {
+  		// Prepend the new node to the beginning of the list
+  		objects.next = { // eslint-disable-line no-param-reassign
+  			key: key,
+  			next: objects.next,
+  			value: value
+  		};
+  	}
+  };
+  var listHas = function (objects, key) {
+  	return !!listGetNode(objects, key);
+  };
+
+  var sideChannel = function getSideChannel() {
+  	var $wm;
+  	var $m;
+  	var $o;
+  	var channel = {
+  		assert: function (key) {
+  			if (!channel.has(key)) {
+  				throw new $TypeError('Side channel does not contain ' + objectInspect(key));
+  			}
+  		},
+  		get: function (key) { // eslint-disable-line consistent-return
+  			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+  				if ($wm) {
+  					return $weakMapGet($wm, key);
+  				}
+  			} else if ($Map) {
+  				if ($m) {
+  					return $mapGet($m, key);
+  				}
+  			} else {
+  				if ($o) { // eslint-disable-line no-lonely-if
+  					return listGet($o, key);
+  				}
+  			}
+  		},
+  		has: function (key) {
+  			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+  				if ($wm) {
+  					return $weakMapHas($wm, key);
+  				}
+  			} else if ($Map) {
+  				if ($m) {
+  					return $mapHas($m, key);
+  				}
+  			} else {
+  				if ($o) { // eslint-disable-line no-lonely-if
+  					return listHas($o, key);
+  				}
+  			}
+  			return false;
+  		},
+  		set: function (key, value) {
+  			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+  				if (!$wm) {
+  					$wm = new $WeakMap();
+  				}
+  				$weakMapSet($wm, key, value);
+  			} else if ($Map) {
+  				if (!$m) {
+  					$m = new $Map();
+  				}
+  				$mapSet($m, key, value);
+  			} else {
+  				if (!$o) {
+  					/*
+  					 * Initialize the linked list as an empty node, so that we don't have
+  					 * to special-case handling of the first node: we can always refer to
+  					 * it as (previous node).next, instead of something like (list).head
+  					 */
+  					$o = { key: {}, next: null };
+  				}
+  				listSet($o, key, value);
+  			}
+  		}
+  	};
+  	return channel;
+  };
 
   var replace = String.prototype.replace;
   var percentTwenties = /%20/g;
@@ -2830,8 +3918,8 @@
       RFC3986: Format.RFC3986
   };
 
-  var has = Object.prototype.hasOwnProperty;
-  var isArray = Array.isArray;
+  var has$2 = Object.prototype.hasOwnProperty;
+  var isArray$2 = Array.isArray;
 
   var hexTable = (function () {
       var array = [];
@@ -2847,7 +3935,7 @@
           var item = queue.pop();
           var obj = item.obj[item.prop];
 
-          if (isArray(obj)) {
+          if (isArray$2(obj)) {
               var compacted = [];
 
               for (var j = 0; j < obj.length; ++j) {
@@ -2879,10 +3967,10 @@
       }
 
       if (typeof source !== 'object') {
-          if (isArray(target)) {
+          if (isArray$2(target)) {
               target.push(source);
           } else if (target && typeof target === 'object') {
-              if ((options && (options.plainObjects || options.allowPrototypes)) || !has.call(Object.prototype, source)) {
+              if ((options && (options.plainObjects || options.allowPrototypes)) || !has$2.call(Object.prototype, source)) {
                   target[source] = true;
               }
           } else {
@@ -2897,13 +3985,13 @@
       }
 
       var mergeTarget = target;
-      if (isArray(target) && !isArray(source)) {
+      if (isArray$2(target) && !isArray$2(source)) {
           mergeTarget = arrayToObject(target, options);
       }
 
-      if (isArray(target) && isArray(source)) {
+      if (isArray$2(target) && isArray$2(source)) {
           source.forEach(function (item, i) {
-              if (has.call(target, i)) {
+              if (has$2.call(target, i)) {
                   var targetItem = target[i];
                   if (targetItem && typeof targetItem === 'object' && item && typeof item === 'object') {
                       target[i] = merge(targetItem, item, options);
@@ -2920,7 +4008,7 @@
       return Object.keys(source).reduce(function (acc, key) {
           var value = source[key];
 
-          if (has.call(acc, key)) {
+          if (has$2.call(acc, key)) {
               acc[key] = merge(acc[key], value, options);
           } else {
               acc[key] = value;
@@ -3055,7 +4143,7 @@
   };
 
   var maybeMap = function maybeMap(val, fn) {
-      if (isArray(val)) {
+      if (isArray$2(val)) {
           var mapped = [];
           for (var i = 0; i < val.length; i += 1) {
               mapped.push(fn(val[i]));
@@ -3102,7 +4190,7 @@
   var toISO = Date.prototype.toISOString;
 
   var defaultFormat = formats['default'];
-  var defaults = {
+  var defaults$1 = {
       addQueryPrefix: false,
       allowDots: false,
       charset: 'utf-8',
@@ -3144,9 +4232,15 @@
       format,
       formatter,
       encodeValuesOnly,
-      charset
+      charset,
+      sideChannel$1
   ) {
       var obj = object;
+
+      if (sideChannel$1.has(object)) {
+          throw new RangeError('Cyclic object value');
+      }
+
       if (typeof filter === 'function') {
           obj = filter(prefix, obj);
       } else if (obj instanceof Date) {
@@ -3162,7 +4256,7 @@
 
       if (obj === null) {
           if (strictNullHandling) {
-              return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder, charset, 'key', format) : prefix;
+              return encoder && !encodeValuesOnly ? encoder(prefix, defaults$1.encoder, charset, 'key', format) : prefix;
           }
 
           obj = '';
@@ -3170,8 +4264,8 @@
 
       if (isNonNullishPrimitive(obj) || utils.isBuffer(obj)) {
           if (encoder) {
-              var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder, charset, 'key', format);
-              return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder, charset, 'value', format))];
+              var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults$1.encoder, charset, 'key', format);
+              return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults$1.encoder, charset, 'value', format))];
           }
           return [formatter(prefix) + '=' + formatter(String(obj))];
       }
@@ -3205,6 +4299,8 @@
               ? typeof generateArrayPrefix === 'function' ? generateArrayPrefix(prefix, key) : prefix
               : prefix + (allowDots ? '.' + key : '[' + key + ']');
 
+          sideChannel$1.set(object, true);
+          var valueSideChannel = sideChannel();
           pushToArray(values, stringify(
               value,
               keyPrefix,
@@ -3219,7 +4315,8 @@
               format,
               formatter,
               encodeValuesOnly,
-              charset
+              charset,
+              valueSideChannel
           ));
       }
 
@@ -3228,14 +4325,14 @@
 
   var normalizeStringifyOptions = function normalizeStringifyOptions(opts) {
       if (!opts) {
-          return defaults;
+          return defaults$1;
       }
 
       if (opts.encoder !== null && opts.encoder !== undefined && typeof opts.encoder !== 'function') {
           throw new TypeError('Encoder has to be a function.');
       }
 
-      var charset = opts.charset || defaults.charset;
+      var charset = opts.charset || defaults$1.charset;
       if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
           throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
       }
@@ -3249,27 +4346,27 @@
       }
       var formatter = formats.formatters[format];
 
-      var filter = defaults.filter;
+      var filter = defaults$1.filter;
       if (typeof opts.filter === 'function' || isArray$1(opts.filter)) {
           filter = opts.filter;
       }
 
       return {
-          addQueryPrefix: typeof opts.addQueryPrefix === 'boolean' ? opts.addQueryPrefix : defaults.addQueryPrefix,
-          allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+          addQueryPrefix: typeof opts.addQueryPrefix === 'boolean' ? opts.addQueryPrefix : defaults$1.addQueryPrefix,
+          allowDots: typeof opts.allowDots === 'undefined' ? defaults$1.allowDots : !!opts.allowDots,
           charset: charset,
-          charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
-          delimiter: typeof opts.delimiter === 'undefined' ? defaults.delimiter : opts.delimiter,
-          encode: typeof opts.encode === 'boolean' ? opts.encode : defaults.encode,
-          encoder: typeof opts.encoder === 'function' ? opts.encoder : defaults.encoder,
-          encodeValuesOnly: typeof opts.encodeValuesOnly === 'boolean' ? opts.encodeValuesOnly : defaults.encodeValuesOnly,
+          charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults$1.charsetSentinel,
+          delimiter: typeof opts.delimiter === 'undefined' ? defaults$1.delimiter : opts.delimiter,
+          encode: typeof opts.encode === 'boolean' ? opts.encode : defaults$1.encode,
+          encoder: typeof opts.encoder === 'function' ? opts.encoder : defaults$1.encoder,
+          encodeValuesOnly: typeof opts.encodeValuesOnly === 'boolean' ? opts.encodeValuesOnly : defaults$1.encodeValuesOnly,
           filter: filter,
           format: format,
           formatter: formatter,
-          serializeDate: typeof opts.serializeDate === 'function' ? opts.serializeDate : defaults.serializeDate,
-          skipNulls: typeof opts.skipNulls === 'boolean' ? opts.skipNulls : defaults.skipNulls,
+          serializeDate: typeof opts.serializeDate === 'function' ? opts.serializeDate : defaults$1.serializeDate,
+          skipNulls: typeof opts.skipNulls === 'boolean' ? opts.skipNulls : defaults$1.skipNulls,
           sort: typeof opts.sort === 'function' ? opts.sort : null,
-          strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
+          strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults$1.strictNullHandling
       };
   };
 
@@ -3313,6 +4410,7 @@
           objKeys.sort(options.sort);
       }
 
+      var sideChannel$1 = sideChannel();
       for (var i = 0; i < objKeys.length; ++i) {
           var key = objKeys[i];
 
@@ -3333,7 +4431,8 @@
               options.format,
               options.formatter,
               options.encodeValuesOnly,
-              options.charset
+              options.charset,
+              sideChannel$1
           ));
       }
 
@@ -3353,12 +4452,13 @@
       return joined.length > 0 ? prefix + joined : '';
   };
 
-  var has$2 = Object.prototype.hasOwnProperty;
-  var isArray$2 = Array.isArray;
+  var has = Object.prototype.hasOwnProperty;
+  var isArray = Array.isArray;
 
-  var defaults$1 = {
+  var defaults = {
       allowDots: false,
       allowPrototypes: false,
+      allowSparse: false,
       arrayLimit: 20,
       charset: 'utf-8',
       charsetSentinel: false,
@@ -3432,14 +4532,14 @@
 
           var key, val;
           if (pos === -1) {
-              key = options.decoder(part, defaults$1.decoder, charset, 'key');
+              key = options.decoder(part, defaults.decoder, charset, 'key');
               val = options.strictNullHandling ? null : '';
           } else {
-              key = options.decoder(part.slice(0, pos), defaults$1.decoder, charset, 'key');
+              key = options.decoder(part.slice(0, pos), defaults.decoder, charset, 'key');
               val = utils.maybeMap(
                   parseArrayValue(part.slice(pos + 1), options),
                   function (encodedVal) {
-                      return options.decoder(encodedVal, defaults$1.decoder, charset, 'value');
+                      return options.decoder(encodedVal, defaults.decoder, charset, 'value');
                   }
               );
           }
@@ -3449,10 +4549,10 @@
           }
 
           if (part.indexOf('[]=') > -1) {
-              val = isArray$2(val) ? [val] : val;
+              val = isArray(val) ? [val] : val;
           }
 
-          if (has$2.call(obj, key)) {
+          if (has.call(obj, key)) {
               obj[key] = utils.combine(obj[key], val);
           } else {
               obj[key] = val;
@@ -3520,7 +4620,7 @@
       var keys = [];
       if (parent) {
           // If we aren't using plain objects, optionally prefix keys that would overwrite object prototype properties
-          if (!options.plainObjects && has$2.call(Object.prototype, parent)) {
+          if (!options.plainObjects && has.call(Object.prototype, parent)) {
               if (!options.allowPrototypes) {
                   return;
               }
@@ -3534,7 +4634,7 @@
       var i = 0;
       while (options.depth > 0 && (segment = child.exec(key)) !== null && i < options.depth) {
           i += 1;
-          if (!options.plainObjects && has$2.call(Object.prototype, segment[1].slice(1, -1))) {
+          if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
               if (!options.allowPrototypes) {
                   return;
               }
@@ -3553,7 +4653,7 @@
 
   var normalizeParseOptions = function normalizeParseOptions(opts) {
       if (!opts) {
-          return defaults$1;
+          return defaults;
       }
 
       if (opts.decoder !== null && opts.decoder !== undefined && typeof opts.decoder !== 'function') {
@@ -3563,29 +4663,30 @@
       if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
           throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
       }
-      var charset = typeof opts.charset === 'undefined' ? defaults$1.charset : opts.charset;
+      var charset = typeof opts.charset === 'undefined' ? defaults.charset : opts.charset;
 
       return {
-          allowDots: typeof opts.allowDots === 'undefined' ? defaults$1.allowDots : !!opts.allowDots,
-          allowPrototypes: typeof opts.allowPrototypes === 'boolean' ? opts.allowPrototypes : defaults$1.allowPrototypes,
-          arrayLimit: typeof opts.arrayLimit === 'number' ? opts.arrayLimit : defaults$1.arrayLimit,
+          allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+          allowPrototypes: typeof opts.allowPrototypes === 'boolean' ? opts.allowPrototypes : defaults.allowPrototypes,
+          allowSparse: typeof opts.allowSparse === 'boolean' ? opts.allowSparse : defaults.allowSparse,
+          arrayLimit: typeof opts.arrayLimit === 'number' ? opts.arrayLimit : defaults.arrayLimit,
           charset: charset,
-          charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults$1.charsetSentinel,
-          comma: typeof opts.comma === 'boolean' ? opts.comma : defaults$1.comma,
-          decoder: typeof opts.decoder === 'function' ? opts.decoder : defaults$1.decoder,
-          delimiter: typeof opts.delimiter === 'string' || utils.isRegExp(opts.delimiter) ? opts.delimiter : defaults$1.delimiter,
+          charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
+          comma: typeof opts.comma === 'boolean' ? opts.comma : defaults.comma,
+          decoder: typeof opts.decoder === 'function' ? opts.decoder : defaults.decoder,
+          delimiter: typeof opts.delimiter === 'string' || utils.isRegExp(opts.delimiter) ? opts.delimiter : defaults.delimiter,
           // eslint-disable-next-line no-implicit-coercion, no-extra-parens
-          depth: (typeof opts.depth === 'number' || opts.depth === false) ? +opts.depth : defaults$1.depth,
+          depth: (typeof opts.depth === 'number' || opts.depth === false) ? +opts.depth : defaults.depth,
           ignoreQueryPrefix: opts.ignoreQueryPrefix === true,
-          interpretNumericEntities: typeof opts.interpretNumericEntities === 'boolean' ? opts.interpretNumericEntities : defaults$1.interpretNumericEntities,
-          parameterLimit: typeof opts.parameterLimit === 'number' ? opts.parameterLimit : defaults$1.parameterLimit,
+          interpretNumericEntities: typeof opts.interpretNumericEntities === 'boolean' ? opts.interpretNumericEntities : defaults.interpretNumericEntities,
+          parameterLimit: typeof opts.parameterLimit === 'number' ? opts.parameterLimit : defaults.parameterLimit,
           parseArrays: opts.parseArrays !== false,
-          plainObjects: typeof opts.plainObjects === 'boolean' ? opts.plainObjects : defaults$1.plainObjects,
-          strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults$1.strictNullHandling
+          plainObjects: typeof opts.plainObjects === 'boolean' ? opts.plainObjects : defaults.plainObjects,
+          strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
       };
   };
 
-  var parse = function (str, opts) {
+  var parse$1 = function (str, opts) {
       var options = normalizeParseOptions(opts);
 
       if (str === '' || str === null || typeof str === 'undefined') {
@@ -3604,12 +4705,16 @@
           obj = utils.merge(obj, newObj, options);
       }
 
+      if (options.allowSparse === true) {
+          return obj;
+      }
+
       return utils.compact(obj);
   };
 
-  var lib$1 = {
+  var lib = {
       formats: formats,
-      parse: parse,
+      parse: parse$1,
       stringify: stringify_1
   };
 
@@ -3620,9 +4725,9 @@
     'default': unfetch_module
   });
 
-  var require$$0$1 = /*@__PURE__*/getAugmentedNamespace(unfetch_module$1);
+  var require$$0 = /*@__PURE__*/getAugmentedNamespace(unfetch_module$1);
 
-  var browser = self.fetch || (self.fetch = require$$0$1.default || require$$0$1);
+  var browser$1 = self.fetch || (self.fetch = require$$0.default || require$$0);
 
   var urls = {
       rest: {
@@ -3961,7 +5066,7 @@
           return numStr;
       return parseFloat(numStr);
   }
-  var parse$1 = {
+  var parse = {
       account,
       activities,
       clock,
@@ -3979,17 +5084,18 @@
       snapshots,
   };
 
-  const unifetch = typeof fetch !== 'undefined' ? fetch : browser;
+  const unifetch = typeof fetch !== 'undefined' ? fetch : browser$1;
   class AlpacaClient {
+      params;
+      limiter = new lib$1({
+          reservoir: 200,
+          reservoirRefreshAmount: 200,
+          reservoirRefreshInterval: 60 * 1000,
+          maxConcurrent: 1,
+          minTime: 200,
+      });
       constructor(params) {
           this.params = params;
-          this.limiter = new lib({
-              reservoir: 200,
-              reservoirRefreshAmount: 200,
-              reservoirRefreshInterval: 60 * 1000,
-              maxConcurrent: 1,
-              minTime: 200,
-          });
           if (!('paper' in params.credentials) &&
               !('key' in params.credentials && params.credentials.key.startsWith('A'))) {
               params.credentials['paper'] = true;
@@ -4009,20 +5115,20 @@
           }
       }
       async getAccount() {
-          return parse$1.account(await this.request({
+          return parse.account(await this.request({
               method: 'GET',
               url: `${urls.rest.account}/account`,
           }));
       }
       async getOrder(params) {
-          return parse$1.order(await this.request({
+          return parse.order(await this.request({
               method: 'GET',
               url: `${urls.rest.account}/orders/${params.order_id || params.client_order_id}`,
               data: { nested: params.nested },
           }));
       }
       async getOrders(params = {}) {
-          return parse$1.orders(await this.request({
+          return parse.orders(await this.request({
               method: 'GET',
               url: `${urls.rest.account}/orders`,
               data: {
@@ -4032,14 +5138,14 @@
           }));
       }
       async placeOrder(params) {
-          return parse$1.order(await this.request({
+          return parse.order(await this.request({
               method: 'POST',
               url: `${urls.rest.account}/orders`,
               data: params,
           }));
       }
       async replaceOrder(params) {
-          return parse$1.order(await this.request({
+          return parse.order(await this.request({
               method: 'PATCH',
               url: `${urls.rest.account}/orders/${params.order_id}`,
               data: params,
@@ -4053,31 +5159,31 @@
           });
       }
       async cancelOrders() {
-          return parse$1.canceled_orders(await this.request({
+          return parse.canceled_orders(await this.request({
               method: 'DELETE',
               url: `${urls.rest.account}/orders`,
           }));
       }
       async getPosition(params) {
-          return parse$1.position(await this.request({
+          return parse.position(await this.request({
               method: 'GET',
               url: `${urls.rest.account}/positions/${params.symbol}`,
           }));
       }
       async getPositions() {
-          return parse$1.positions(await this.request({
+          return parse.positions(await this.request({
               method: 'GET',
               url: `${urls.rest.account}/positions`,
           }));
       }
       async closePosition(params) {
-          return parse$1.order(await this.request({
+          return parse.order(await this.request({
               method: 'DELETE',
               url: `${urls.rest.account}/positions/${params.symbol}`,
           }));
       }
       async closePositions() {
-          return parse$1.orders(await this.request({
+          return parse.orders(await this.request({
               method: 'DELETE',
               url: `${urls.rest.account}/positions`,
           }));
@@ -4148,7 +5254,7 @@
           });
       }
       async getClock() {
-          return parse$1.clock(await this.request({
+          return parse.clock(await this.request({
               method: 'GET',
               url: `${urls.rest.account}/clock`,
           }));
@@ -4170,7 +5276,7 @@
           if (params.activity_types && Array.isArray(params.activity_types)) {
               params.activity_types = params.activity_types.join(',');
           }
-          return parse$1.activities(await this.request({
+          return parse.activities(await this.request({
               method: 'GET',
               url: `${urls.rest.account}/account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}`,
               data: { ...params, activity_type: undefined },
@@ -4207,34 +5313,34 @@
           });
       }
       async getTrades(params) {
-          return parse$1.pageOfTrades(await this.request({
+          return parse.pageOfTrades(await this.request({
               method: 'GET',
               url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/trades`,
               data: { ...params, symbol: undefined },
           }));
       }
       async getQuotes(params) {
-          return parse$1.pageOfQuotes(await this.request({
+          return parse.pageOfQuotes(await this.request({
               method: 'GET',
               url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/quotes`,
               data: { ...params, symbol: undefined },
           }));
       }
       async getBars(params) {
-          return parse$1.pageOfBars(await this.request({
+          return parse.pageOfBars(await this.request({
               method: 'GET',
               url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/bars`,
               data: { ...params, symbol: undefined },
           }));
       }
       async getSnapshot(params) {
-          return parse$1.snapshot(await this.request({
+          return parse.snapshot(await this.request({
               method: 'GET',
               url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/snapshot`,
           }));
       }
       async getSnapshots(params) {
-          return parse$1.snapshots(await this.request({
+          return parse.snapshots(await this.request({
               method: 'GET',
               url: `${urls.rest.market_data_v2}/stocks/snapshots?symbols=${params.symbols.join(',')}`,
           }));
@@ -4259,7 +5365,7 @@
                   }
               }
               if (!['POST', 'PATCH', 'PUT'].includes(params.method)) {
-                  query = '?'.concat(lib$1.stringify(params.data));
+                  query = '?'.concat(lib.stringify(params.data));
                   params.data = undefined;
               }
           }
@@ -4305,7 +5411,7 @@
     ws = self.WebSocket || self.MozWebSocket;
   }
 
-  var browser$1 = ws;
+  var browser = ws;
 
   var eventemitter3 = createCommonjsModule(function (module) {
 
@@ -4645,7 +5751,19 @@
   }
   });
 
+  var isBlob = value => {
+  	if (typeof Blob === 'undefined') {
+  		return false;
+  	}
+
+  	return value instanceof Blob || Object.prototype.toString.call(value) === '[object Blob]';
+  };
+
   class AlpacaStream extends eventemitter3 {
+      params;
+      host;
+      connection;
+      authenticated;
       constructor(params) {
           super();
           this.params = params;
@@ -4665,7 +5783,7 @@
               default:
                   this.host = 'unknown';
           }
-          this.connection = new browser$1(this.host);
+          this.connection = new browser(this.host);
           this.connection.onopen = () => {
               let message = {};
               switch (this.params.type) {
@@ -4688,7 +5806,7 @@
           this.connection.onclose = () => this.emit('close', this);
           this.connection.onmessage = async (event) => {
               let data = event.data;
-              if (data instanceof Blob) {
+              if (isBlob(data)) {
                   data = await event.data.text();
               }
               else if (data instanceof ArrayBuffer) {
@@ -4772,7 +5890,7 @@
 
   exports.AlpacaClient = AlpacaClient;
   exports.AlpacaStream = AlpacaStream;
-  exports.default = index;
+  exports['default'] = index;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 

@@ -5,16 +5,17 @@ import urls from './urls.js';
 import parse from './parse.js';
 const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch;
 export class AlpacaClient {
+    params;
+    limiter = new Bottleneck({
+        reservoir: 200,
+        reservoirRefreshAmount: 200,
+        reservoirRefreshInterval: 60 * 1000,
+        // also use maxConcurrent and/or minTime for safety
+        maxConcurrent: 1,
+        minTime: 200,
+    });
     constructor(params) {
         this.params = params;
-        this.limiter = new Bottleneck({
-            reservoir: 200,
-            reservoirRefreshAmount: 200,
-            reservoirRefreshInterval: 60 * 1000,
-            // also use maxConcurrent and/or minTime for safety
-            maxConcurrent: 1,
-            minTime: 200,
-        });
         if (
         // if not specified
         !('paper' in params.credentials) &&

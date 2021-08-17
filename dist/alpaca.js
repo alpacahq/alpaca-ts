@@ -8,6 +8,7 @@ import qs from 'qs';
 import isofetch from 'isomorphic-unfetch';
 import WebSocket from 'isomorphic-ws';
 import EventEmitter from 'eventemitter3';
+import isBlob from 'is-blob';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -640,7 +641,7 @@ class AlpacaStream extends EventEmitter {
         this.connection.onclose = () => this.emit('close', this);
         this.connection.onmessage = (event) => __awaiter(this, void 0, void 0, function* () {
             let data = event.data;
-            if (data instanceof Blob) {
+            if (isBlob(data)) {
                 data = yield event.data.text();
             }
             else if (data instanceof ArrayBuffer) {
@@ -722,6 +723,5 @@ var index = {
     AlpacaStream: AlpacaStream,
 };
 
-export default index;
-export { AlpacaClient, AlpacaStream };
+export { AlpacaClient, AlpacaStream, index as default };
 //# sourceMappingURL=alpaca.js.map

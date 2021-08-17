@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlpacaStream = void 0;
 const isomorphic_ws_1 = __importDefault(require("isomorphic-ws"));
 const eventemitter3_1 = __importDefault(require("eventemitter3"));
+const is_blob_1 = __importDefault(require("is-blob"));
 const urls_js_1 = __importDefault(require("./urls.cjs"));
 class AlpacaStream extends eventemitter3_1.default {
     constructor(params) {
@@ -67,7 +68,7 @@ class AlpacaStream extends eventemitter3_1.default {
         this.connection.onclose = () => this.emit('close', this);
         this.connection.onmessage = (event) => __awaiter(this, void 0, void 0, function* () {
             let data = event.data;
-            if (data instanceof Blob) {
+            if (is_blob_1.default(data)) {
                 data = yield event.data.text();
             }
             else if (data instanceof ArrayBuffer) {
