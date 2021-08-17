@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [6.2.6](https://github.com/117/alpaca/compare/v6.2.5...v6.2.6) (2021-08-17)
 
+- Use alternative `Blob` check. [#71](https://github.com/117/alpaca/issues/71).
+
 ### [6.2.5](https://github.com/117/alpaca/compare/v6.2.1...v6.2.5) (2021-07-26)
 
 - Change return types to `boolean` as requested [#76](https://github.com/117/alpaca/issues/76).

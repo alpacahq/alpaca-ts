@@ -1,6 +1,6 @@
 import WebSocket from 'isomorphic-ws'
 import EventEmitter from 'eventemitter3'
-
+import isBlob from 'is-blob'
 import urls from './urls.js'
 
 import {
@@ -107,7 +107,7 @@ export class AlpacaStream extends EventEmitter<string | symbol | any> {
     this.connection.onmessage = async (event: any) => {
       let data = event.data
 
-      if (data instanceof Blob) {
+      if (isBlob(data)) {
         data = await event.data.text()
       } else if (data instanceof ArrayBuffer) {
         data = String.fromCharCode(...new Uint8Array(event.data))
