@@ -382,9 +382,18 @@ function snapshots(raw: { [key: string]: RawSnapshot }): {
   return parsed
 }
 
-function number(numStr: string): number {
-  if (typeof numStr === 'undefined') return numStr
-  return parseFloat(numStr)
+function number(numStr: string | any): number {
+  if (typeof numStr === 'undefined' || numStr == null) {
+    return numStr
+  }
+
+  const value = parseFloat(numStr)
+
+  if (Number.isNaN(value)) {
+    return numStr
+  }
+
+  return value
 }
 
 export default {
