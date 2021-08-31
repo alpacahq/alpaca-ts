@@ -325,7 +325,7 @@ function number(numStr) {
     }
     const value = parseFloat(numStr);
     if (Number.isNaN(value)) {
-        return numStr;
+        return null;
     }
     return value;
 }

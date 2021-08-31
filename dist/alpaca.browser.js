@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.3.0
+ * alpaca@6.3.1
  * released under the permissive ISC license
  */
 
@@ -5067,7 +5067,7 @@
       }
       const value = parseFloat(numStr);
       if (Number.isNaN(value)) {
-          return numStr;
+          return null;
       }
       return value;
   }
