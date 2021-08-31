@@ -1083,15 +1083,15 @@ export interface RawPosition {
     avg_entry_price: string;
     qty: string;
     side: string;
-    market_value: string;
+    market_value: string | null;
     cost_basis: string;
-    unrealized_pl: string;
-    unrealized_plpc: string;
-    unrealized_intraday_pl: string;
-    unrealized_intraday_plpc: string;
-    current_price: string;
-    lastday_price: string;
-    change_today: string;
+    unrealized_pl: string | null;
+    unrealized_plpc: string | null;
+    unrealized_intraday_pl: string | null;
+    unrealized_intraday_plpc: string | null;
+    current_price: string | null;
+    lastday_price: string | null;
+    change_today: string | null;
 }
 export declare type PositionSide = 'long' | 'short';
 /**
@@ -1133,7 +1133,7 @@ export interface Position {
     /**
      * Total dollar amount of the position
      */
-    market_value: number;
+    market_value: number | null;
     /**
      * Total cost basis in dollar
      */
@@ -1141,31 +1141,31 @@ export interface Position {
     /**
      * Unrealized profit/loss in dollars
      */
-    unrealized_pl: number;
+    unrealized_pl: number | null;
     /**
      * Unrealized profit/loss percent (by a factor of 1)
      */
-    unrealized_plpc: number;
+    unrealized_plpc: number | null;
     /**
      * Unrealized profit/loss in dollars for the day
      */
-    unrealized_intraday_pl: number;
+    unrealized_intraday_pl: number | null;
     /**
      * Unrealized profit/loss percent (by a factor of 1)
      */
-    unrealized_intraday_plpc: number;
+    unrealized_intraday_plpc: number | null;
     /**
      * Current asset price per share
      */
-    current_price: number;
+    current_price: number | null;
     /**
      * Last day's asset price per share based on the closing value of the last trading day
      */
-    lastday_price: number;
+    lastday_price: number | null;
     /**
      * Percent change from last day price (by a factor of 1)
      */
-    change_today: number;
+    change_today: number | null;
 }
 export declare type ActivityType = 
 /**

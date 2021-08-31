@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.2.5
+ * alpaca@6.3.0
  * released under the permissive ISC license
  */
 
@@ -5062,9 +5062,14 @@
       return parsed;
   }
   function number(numStr) {
-      if (typeof numStr === 'undefined')
+      if (typeof numStr === 'undefined' || numStr == null) {
           return numStr;
-      return parseFloat(numStr);
+      }
+      const value = parseFloat(numStr);
+      if (Number.isNaN(value)) {
+          return numStr;
+      }
+      return value;
   }
   var parse = {
       account,
