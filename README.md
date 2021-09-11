@@ -383,6 +383,8 @@ await client.getBars_v1({ symbols: ['SPY', 'DIA', 'XLF'], timeframe: '1Min' })
 
 #### getTrades
 
+##### Basic
+
 ```typescript
 await client.getTrades({
   symbol: 'SPY',
@@ -391,7 +393,26 @@ await client.getTrades({
 })
 ```
 
+##### Paginated
+
+```typescript
+let trades = []
+let page_token = ''
+
+// until the next token we receive is null
+while (page_token != null) {
+  let resp = await client.getTrades({ ..., page_token })
+  trades.push(...resp.trades)
+  page_token = resp.next_page_token
+}
+
+// wooh! we have collected trades from multiple pages
+console.log(trades.length)
+```
+
 #### getQuotes
+
+##### Basic
 
 ```typescript
 await client.getQuotes({
@@ -401,7 +422,26 @@ await client.getQuotes({
 })
 ```
 
+##### Paginated
+
+```typescript
+let quotes = []
+let page_token = ''
+
+// until the next token we receive is null
+while (page_token != null) {
+  let resp = await client.getQuotes({ ..., page_token })
+  quotes.push(...resp.quotes)
+  page_token = resp.next_page_token
+}
+
+// wooh! we have collected quotes from multiple pages
+console.log(quotes.length)
+```
+
 #### getBars
+
+##### Basic
 
 ```typescript
 await client.getBars({
@@ -409,7 +449,25 @@ await client.getBars({
   start: new Date('2021-02-26T14:30:00.007Z'),
   end: new Date('2021-02-26T14:35:00.007Z'),
   timeframe: '1Min',
+  // page_token: "MjAyMS0wMi0wNlQxMzowOTo0Mlo7MQ=="
 })
+```
+
+##### Paginated
+
+```typescript
+let bars = []
+let page_token = ''
+
+// until the next token we receive is null
+while (page_token != null) {
+  let resp = await client.getBars({ ..., page_token })
+  bars.push(...resp.bars)
+  page_token = resp.next_page_token
+}
+
+// wooh! we have collected bars from multiple pages
+console.log(bars.length)
 ```
 
 #### getSnapshot
