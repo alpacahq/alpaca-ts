@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [6.3.2](https://github.com/117/alpaca/compare/v6.3.1...v6.3.2) (2021-09-13)
 
+- Updated TradeUpdate field [#80](https://github.com/117/alpaca/pull/80).
+
 ### [6.3.1](https://github.com/117/alpaca/compare/v6.3.0...v6.3.1) (2021-08-31)
 
 ## [6.3.0](https://github.com/117/alpaca/compare/v6.2.7...v6.3.0) (2021-08-31)
