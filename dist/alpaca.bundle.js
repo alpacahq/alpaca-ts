@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.3.1
+ * alpaca@6.3.2
  * released under the permissive ISC license
  */
 
@@ -6530,13 +6530,14 @@ function activities(rawActivities) {
     }
 }
 function pageOfTrades(page) {
+    var _a;
     if (!page) {
         return undefined;
     }
     try {
         return {
             raw: () => page,
-            trades: page.trades.map((trade) => (Object.assign(Object.assign({ raw: () => trade }, trade), { t: new Date(trade.t) }))),
+            trades: ((_a = page.trades) !== null && _a !== void 0 ? _a : []).map((trade) => (Object.assign(Object.assign({ raw: () => trade }, trade), { t: new Date(trade.t) }))),
             symbol: page.symbol,
             next_page_token: page.next_page_token,
         };
@@ -6546,13 +6547,14 @@ function pageOfTrades(page) {
     }
 }
 function pageOfQuotes(page) {
+    var _a;
     if (!page) {
         return undefined;
     }
     try {
         return {
             raw: () => page,
-            quotes: page.quotes.map((quote) => (Object.assign(Object.assign({ raw: () => quote }, quote), { t: new Date(quote.t) }))),
+            quotes: ((_a = page.quotes) !== null && _a !== void 0 ? _a : []).map((quote) => (Object.assign(Object.assign({ raw: () => quote }, quote), { t: new Date(quote.t) }))),
             symbol: page.symbol,
             next_page_token: page.next_page_token,
         };
@@ -6562,13 +6564,14 @@ function pageOfQuotes(page) {
     }
 }
 function pageOfBars(page) {
+    var _a;
     if (!page) {
         return undefined;
     }
     try {
         return {
             raw: () => page,
-            bars: page.bars.map((bar) => (Object.assign(Object.assign({ raw: () => bar }, bar), { t: new Date(bar.t) }))),
+            bars: ((_a = page.bars) !== null && _a !== void 0 ? _a : []).map((bar) => (Object.assign(Object.assign({ raw: () => bar }, bar), { t: new Date(bar.t) }))),
             symbol: page.symbol,
             next_page_token: page.next_page_token,
         };

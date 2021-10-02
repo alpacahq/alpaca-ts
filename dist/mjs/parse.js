@@ -215,7 +215,7 @@ function pageOfTrades(page) {
     try {
         return {
             raw: () => page,
-            trades: page.trades.map((trade) => ({
+            trades: (page.trades ?? []).map((trade) => ({
                 raw: () => trade,
                 ...trade,
                 t: new Date(trade.t),
@@ -235,7 +235,7 @@ function pageOfQuotes(page) {
     try {
         return {
             raw: () => page,
-            quotes: page.quotes.map((quote) => ({
+            quotes: (page.quotes ?? []).map((quote) => ({
                 raw: () => quote,
                 ...quote,
                 t: new Date(quote.t),
@@ -255,7 +255,7 @@ function pageOfBars(page) {
     try {
         return {
             raw: () => page,
-            bars: page.bars.map((bar) => ({
+            bars: (page.bars ?? []).map((bar) => ({
                 raw: () => bar,
                 ...bar,
                 t: new Date(bar.t),

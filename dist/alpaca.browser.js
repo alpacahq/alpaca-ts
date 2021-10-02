@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.3.1
+ * alpaca@6.3.2
  * released under the permissive ISC license
  */
 
@@ -4957,7 +4957,7 @@
       try {
           return {
               raw: () => page,
-              trades: page.trades.map((trade) => ({
+              trades: (page.trades ?? []).map((trade) => ({
                   raw: () => trade,
                   ...trade,
                   t: new Date(trade.t),
@@ -4977,7 +4977,7 @@
       try {
           return {
               raw: () => page,
-              quotes: page.quotes.map((quote) => ({
+              quotes: (page.quotes ?? []).map((quote) => ({
                   raw: () => quote,
                   ...quote,
                   t: new Date(quote.t),
@@ -4997,7 +4997,7 @@
       try {
           return {
               raw: () => page,
-              bars: page.bars.map((bar) => ({
+              bars: (page.bars ?? []).map((bar) => ({
                   raw: () => bar,
                   ...bar,
                   t: new Date(bar.t),

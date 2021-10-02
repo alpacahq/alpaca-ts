@@ -68,7 +68,7 @@ class AlpacaStream extends eventemitter3_1.default {
         this.connection.onclose = () => this.emit('close', this);
         this.connection.onmessage = (event) => __awaiter(this, void 0, void 0, function* () {
             let data = event.data;
-            if (is_blob_1.default(data)) {
+            if ((0, is_blob_1.default)(data)) {
                 data = yield event.data.text();
             }
             else if (data instanceof ArrayBuffer) {
