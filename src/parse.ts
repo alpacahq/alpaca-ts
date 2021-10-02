@@ -291,7 +291,7 @@ function pageOfQuotes(page: RawPageOfQuotes): PageOfQuotes {
   try {
     return {
       raw: () => page,
-      quotes: page.quotes.map((quote) => ({
+      quotes: (page.quotes ?? []).map((quote) => ({
         raw: () => quote,
         ...quote,
         t: new Date(quote.t),
@@ -312,7 +312,7 @@ function pageOfBars(page: RawPageOfBars): PageOfBars {
   try {
     return {
       raw: () => page,
-      bars: page.bars.map((bar) => ({
+      bars: (page.bars ?? []).map((bar) => ({
         raw: () => bar,
         ...bar,
         t: new Date(bar.t),
