@@ -270,7 +270,7 @@ function pageOfTrades(page: RawPageOfTrades): PageOfTrades {
   try {
     return {
       raw: () => page,
-      trades: page.trades.map((trade) => ({
+      trades: (page.trades ?? []).map((trade) => ({
         raw: () => trade,
         ...trade,
         t: new Date(trade.t),
