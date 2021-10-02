@@ -270,7 +270,7 @@ function pageOfTrades(page: RawPageOfTrades): PageOfTrades {
   try {
     return {
       raw: () => page,
-      trades: (page.trades ?? []).map((trade) => ({
+      trades: (page.trades == null ? [] : page.trades).map((trade) => ({
         raw: () => trade,
         ...trade,
         t: new Date(trade.t),
@@ -291,7 +291,7 @@ function pageOfQuotes(page: RawPageOfQuotes): PageOfQuotes {
   try {
     return {
       raw: () => page,
-      quotes: (page.quotes ?? []).map((quote) => ({
+      quotes: (page.quotes == null ? [] : page.quotes).map((quote) => ({
         raw: () => quote,
         ...quote,
         t: new Date(quote.t),
@@ -312,7 +312,7 @@ function pageOfBars(page: RawPageOfBars): PageOfBars {
   try {
     return {
       raw: () => page,
-      bars: (page.bars ?? []).map((bar) => ({
+      bars: (page.bars == null ? [] : page.bars).map((bar) => ({
         raw: () => bar,
         ...bar,
         t: new Date(bar.t),
