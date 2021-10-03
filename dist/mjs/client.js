@@ -1,8 +1,8 @@
 import Bottleneck from 'bottleneck';
 import qs from 'qs';
 import isofetch from 'isomorphic-unfetch';
-import urls from './urls.js';
-import parse from './parse.js';
+import urls from './urls';
+import parse from './parse';
 const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch;
 export class AlpacaClient {
     params;

@@ -1,7 +1,7 @@
 /// <reference types="ws" />
 import WebSocket from 'isomorphic-ws';
 import EventEmitter from 'eventemitter3';
-import { Bar, Channel, DataSource, DefaultCredentials, Quote, Trade, TradeUpdate, Message } from './entities.js';
+import { Bar, Channel, DataSource, DefaultCredentials, Quote, Trade, TradeUpdate, Message } from './entities';
 export declare interface Events {
     open: (stream: AlpacaStream) => void;
     close: (stream: AlpacaStream) => void;

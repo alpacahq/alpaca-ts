@@ -1,7 +1,7 @@
 import WebSocket from 'isomorphic-ws';
 import EventEmitter from 'eventemitter3';
 import isBlob from 'is-blob';
-import urls from './urls.js';
+import urls from './urls';
 export class AlpacaStream extends EventEmitter {
     params;
     host;

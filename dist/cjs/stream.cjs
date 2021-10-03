@@ -16,7 +16,7 @@ exports.AlpacaStream = void 0;
 const isomorphic_ws_1 = __importDefault(require("isomorphic-ws"));
 const eventemitter3_1 = __importDefault(require("eventemitter3"));
 const is_blob_1 = __importDefault(require("is-blob"));
-const urls_js_1 = __importDefault(require("./urls.cjs"));
+const urls_1 = __importDefault(require("./urls"));
 class AlpacaStream extends eventemitter3_1.default {
     constructor(params) {
         // construct EventEmitter
@@ -33,11 +33,11 @@ class AlpacaStream extends eventemitter3_1.default {
         switch (params.type) {
             case 'account':
                 this.host = params.credentials.paper
-                    ? urls_js_1.default.websocket.account.replace('api.', 'paper-api.')
-                    : urls_js_1.default.websocket.account;
+                    ? urls_1.default.websocket.account.replace('api.', 'paper-api.')
+                    : urls_1.default.websocket.account;
                 break;
             case 'market_data':
-                this.host = urls_js_1.default.websocket.market_data(this.params.source);
+                this.host = urls_1.default.websocket.market_data(this.params.source);
                 break;
             default:
                 this.host = 'unknown';

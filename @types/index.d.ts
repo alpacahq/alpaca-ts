@@ -1,7 +1,7 @@
-export { AlpacaClient } from './client.js';
-export { AlpacaStream } from './stream.js';
-import { AlpacaClient } from './client.js';
-import { AlpacaStream } from './stream.js';
+export { AlpacaClient } from './client';
+export { AlpacaStream } from './stream';
+import { AlpacaClient } from './client';
+import { AlpacaStream } from './stream';
 declare const _default: {
     AlpacaClient: typeof AlpacaClient;
     AlpacaStream: typeof AlpacaStream;
