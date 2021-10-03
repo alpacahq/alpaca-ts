@@ -1,7 +1,7 @@
 import WebSocket from 'isomorphic-ws'
 import EventEmitter from 'eventemitter3'
 import isBlob from 'is-blob'
-import urls from './urls.js'
+import urls from './urls'
 
 import {
   Bar,
@@ -12,7 +12,7 @@ import {
   Trade,
   TradeUpdate,
   Message,
-} from './entities.js'
+} from './entities'
 
 export declare interface Events {
   open: (stream: AlpacaStream) => void

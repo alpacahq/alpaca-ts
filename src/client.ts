@@ -3,8 +3,8 @@ import Bottleneck from 'bottleneck'
 import qs from 'qs'
 import isofetch from 'isomorphic-unfetch'
 
-import urls from './urls.js'
-import parse from './parse.js'
+import urls from './urls'
+import parse from './parse'
 
 import {
   RawAccount,
@@ -32,7 +32,7 @@ import {
   LastQuote_v1,
   LastTrade_v1,
   Snapshot,
-} from './entities.js'
+} from './entities'
 
 import {
   GetOrder,

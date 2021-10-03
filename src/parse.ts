@@ -31,7 +31,7 @@ import {
   PageOfBars,
   Snapshot,
   RawSnapshot,
-} from './entities.js'
+} from './entities'
 
 function account(rawAccount: RawAccount): Account {
   if (!rawAccount) {

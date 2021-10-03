@@ -1,4 +1,4 @@
-import { OrderSide, OrderType, OrderTimeInForce } from './entities.js'
+import { OrderSide, OrderType, OrderTimeInForce } from './entities'
 
 export interface AddToWatchList {
   uuid: string
