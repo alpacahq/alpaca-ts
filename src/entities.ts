@@ -661,6 +661,7 @@ export interface RawOrder {
   trail_price: string
   trail_percent: string
   hwm: string
+  order_class?: OrderClass
 }
 
 /**
@@ -895,6 +896,12 @@ export type OrderType =
   | 'stop'
   | 'stop_limit'
   | 'trailing_stop'
+
+export type OrderClass =
+  | 'simple'
+  | 'bracket'
+  | 'oto'
+  | 'oco'
 
 export type OrderSide = 'buy' | 'sell'
 
@@ -1202,6 +1209,11 @@ export interface Order {
    * The highest (lowest) market price seen since the trailing stop order was submitted.
    */
   hwm: number
+
+  /**
+   * Mostly used for non-simple orders such as bracket, one-triggers-other, or one-cancels-other.
+   */
+  order_class: OrderClass
 }
 
 /**
