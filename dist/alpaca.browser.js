@@ -4817,6 +4817,7 @@
               trail_price: number(rawOrder.trail_price),
               trail_percent: number(rawOrder.trail_percent),
               hwm: number(rawOrder.hwm),
+              order_class: rawOrder.order_class
           };
       }
       catch (err) {
@@ -4859,6 +4860,7 @@
                   trail_price: number(order.trail_price),
                   trail_percent: number(order.trail_percent),
                   hwm: number(order.hwm),
+                  order_class: order.order_class
               },
           };
       }
