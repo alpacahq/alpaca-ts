@@ -583,6 +583,7 @@ export interface RawOrder {
     trail_price: string;
     trail_percent: string;
     hwm: string;
+    order_class?: OrderClass;
 }
 /**
  * Price and volume data during a particular time interval
@@ -787,6 +788,7 @@ export interface Snapshot {
 }
 export declare type DataSource = 'iex' | 'sip';
 export declare type OrderType = 'market' | 'limit' | 'stop' | 'stop_limit' | 'trailing_stop';
+export declare type OrderClass = 'simple' | 'bracket' | 'oto' | 'oco';
 export declare type OrderSide = 'buy' | 'sell';
 export declare type OrderTimeInForce = 
 /**
@@ -1041,6 +1043,10 @@ export interface Order {
      * The highest (lowest) market price seen since the trailing stop order was submitted.
      */
     hwm: number;
+    /**
+     * Mostly used for non-simple orders such as bracket, one-triggers-other, or one-cancels-other.
+     */
+    order_class: OrderClass;
 }
 /**
  * Timeseries data for equity and profit loss information of the account

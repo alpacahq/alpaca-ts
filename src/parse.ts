@@ -112,6 +112,7 @@ function order(rawOrder: RawOrder): Order {
       trail_price: number(rawOrder.trail_price),
       trail_percent: number(rawOrder.trail_percent),
       hwm: number(rawOrder.hwm),
+      order_class: rawOrder.order_class
     }
   } catch (err) {
     throw new Error(`Order parsing failed. ${err.message}`)
@@ -159,6 +160,7 @@ function canceled_order(input: RawOrderCancelation): OrderCancelation {
         trail_price: number(order.trail_price),
         trail_percent: number(order.trail_percent),
         hwm: number(order.hwm),
+        order_class: order.order_class
       },
     }
   } catch (err) {
