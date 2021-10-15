@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.3.9](https://github.com/117/alpaca/compare/v6.3.8...v6.3.9) (2021-10-15)
+
+
+### Bug Fixes
+
+* correct `both` with `all` adjustment param ([a156354](https://github.com/117/alpaca/commit/a1563547c823213964cba8c9bf1aa3de9bc2c3e1))
+
 ### [6.3.8](https://github.com/117/alpaca/compare/v6.3.7...v6.3.8) (2021-10-15)
 
 - Add new adjustment param to getBarsV2 [#84](https://github.com/117/alpaca/pull/85).
