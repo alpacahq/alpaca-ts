@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.3.10](https://github.com/117/alpaca/compare/v6.3.9...v6.3.10) (2021-11-11)
+
 ### [6.3.9](https://github.com/117/alpaca/compare/v6.3.8...v6.3.9) (2021-10-15)
 
 ### Bug Fixes
