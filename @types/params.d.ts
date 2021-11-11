@@ -8,6 +8,8 @@ export interface CancelOrder {
 }
 export interface ClosePosition {
     symbol: string;
+    qty?: number;
+    percentage?: number;
 }
 export interface CreateWatchList {
     name: string;

@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [6.3.10](https://github.com/117/alpaca/compare/v6.3.9...v6.3.10) (2021-11-11)
 
+- Add supports for qty and percentage params [#87](https://github.com/117/alpaca/issues/87).
+
 ### [6.3.9](https://github.com/117/alpaca/compare/v6.3.8...v6.3.9) (2021-10-15)
 
 ### Bug Fixes

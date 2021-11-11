@@ -203,6 +203,7 @@ export class AlpacaClient {
       await this.request<RawOrder>({
         method: 'DELETE',
         url: `${urls.rest.account}/positions/${params.symbol}`,
+        data: params,
       }),
     )
   }

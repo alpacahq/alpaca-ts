@@ -103,6 +103,7 @@ export class AlpacaClient {
         return parse.order(await this.request({
             method: 'DELETE',
             url: `${urls.rest.account}/positions/${params.symbol}`,
+            data: params,
         }));
     }
     async closePositions() {

@@ -133,6 +133,7 @@ class AlpacaClient {
             return parse_js_1.default.order(yield this.request({
                 method: 'DELETE',
                 url: `${urls_js_1.default.rest.account}/positions/${params.symbol}`,
+                data: params,
             }));
         });
     }

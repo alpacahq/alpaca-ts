@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.3.9
+ * alpaca@6.3.10
  * released under the permissive ISC license
  */
 
@@ -5187,6 +5187,7 @@
           return parse.order(await this.request({
               method: 'DELETE',
               url: `${urls.rest.account}/positions/${params.symbol}`,
+              data: params,
           }));
       }
       async closePositions() {

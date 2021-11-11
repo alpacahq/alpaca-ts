@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.3.9
+ * alpaca@6.3.10
  * released under the permissive ISC license
  */
 
@@ -366,6 +366,7 @@ class AlpacaClient {
             return parse.order(yield this.request({
                 method: 'DELETE',
                 url: `${urls.rest.account}/positions/${params.symbol}`,
+                data: params,
             }));
         });
     }
