@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca",
-  "version": "6.3.10",
+  "version": "6.3.11",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "author": "117",
   "contributors": [
@@ -11,7 +11,8 @@
     "husayt",
     "samwilkins333",
     "anback",
-    "hkang1"
+    "hkang1",
+    "jerrami"
   ],
   "license": "ISC",
   "keywords": [

@@ -65,11 +65,11 @@ export interface GetBars {
     end: Date;
     limit?: number;
     page_token?: string;
-    timeframe: '1Sec' | '1Min' | '1Hour' | '1Day';
+    timeframe: BarsTimeframe;
     adjustment?: 'all' | 'dividend' | 'raw' | 'split';
 }
 export interface GetBars_v1 {
-    timeframe: string;
+    timeframe: BarsV1Timeframe;
     symbols: string[];
     limit?: number;
     start?: Date;
@@ -143,6 +143,9 @@ export interface ReplaceOrder {
     stop_price?: number;
     client_order_id?: string;
 }
+export declare type BarsV1Timeframe = '1Min' | '5Min' | '15Min' | '1Day';
+/** Also supports arbitrary minute, hour, and day values.  E.g., '37Min', '6Hour', '3Day'  */
+export declare type BarsTimeframe = BarsV1Timeframe | '30Min' | '1Hour' | '2Hour' | '4Hour';
 export interface UpdateAccountConfigurations {
     dtbp_check?: string;
     no_shorting?: boolean;

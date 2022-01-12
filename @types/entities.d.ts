@@ -1075,7 +1075,7 @@ export interface PortfolioHistory {
     /**
      * time window size of each data element
      */
-    timeframe: string;
+    timeframe: '1Min' | '5Min' | '15Min' | '1H' | '1D';
 }
 /**
  * A position with unparsed fields, exactly as Alpaca provides it.

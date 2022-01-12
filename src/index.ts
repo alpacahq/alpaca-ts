@@ -68,4 +68,6 @@ export {
   GetSnapshots,
   GetLastTrade_v1,
   GetLastQuote_v1,
+  BarsV1Timeframe,
+  BarsTimeframe
 } from './params'
