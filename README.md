@@ -324,7 +324,7 @@ await client.removeFromWatchlist({
 await client.deleteWatchlist({ uuid: '2000e463-6f87-41c0-a8ba-3e40cbf67128' })
 ```
 
-#### getCalender
+#### getCalendar
 
 ```typescript
 await client.getCalendar({ start: new Date(), end: new Date() })
