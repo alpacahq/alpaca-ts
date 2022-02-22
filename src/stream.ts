@@ -162,7 +162,7 @@ export class AlpacaStream extends EventEmitter<string | symbol | any> {
    * Retrieve the underlying WebSocket connection AlpacaStream uses.
    * Now callers can read and modify properties of the web socket 
    * i.e., close the websocket with AlpacaStream.getConnection().close().
-   * @returns the of type WebSocket
+   * @returns a WebSocket object
    */
   getConnection() {
     return this.connection;
