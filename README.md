@@ -510,6 +510,7 @@ The following methods are available on the stream.
 - [subscribe](#subscribe)
 - [unsubscribe](#unsubscribe)
 - [on](#on)
+- [getConnection](#getConnection)
 
 ### Channels
 
@@ -543,6 +544,11 @@ stream.on('bar', (bar) => console.log(bar))
 stream.on('quote', (quote) => console.log(quote))
 stream.on('trade_updates', (update) => console.log(update))
 stream.on('error', (error) => console.warn(error))
+```
+
+#### getConnection
+```typescript
+stream.getConnection()
 ```
 
 ## Examples
