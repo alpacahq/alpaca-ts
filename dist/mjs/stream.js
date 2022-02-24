@@ -102,6 +102,15 @@ export class AlpacaStream extends EventEmitter {
         };
     }
     /**
+     * Retrieve the underlying WebSocket connection AlpacaStream uses.
+     * Now callers can read and modify properties of the web socket
+     * i.e., close the websocket with AlpacaStream.getConnection().close().
+     * @returns a WebSocket object
+     */
+    getConnection() {
+        return this.connection;
+    }
+    /**
      * Subscribe to an account or data stream channel.
      * @param channel trades, quotes, bars, trade_updates
      * @param symbols only use with data stream ex. [ "AAPL", "TSLA", ... ]
