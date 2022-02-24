@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.3.13](https://github.com/117/alpaca/compare/v6.3.11...v6.3.13) (2022-02-24)
+
 ### [6.3.10](https://github.com/117/alpaca/compare/v6.3.9...v6.3.10) (2021-11-11)
 
 - Add supports for qty and percentage params [#87](https://github.com/117/alpaca/issues/87).
