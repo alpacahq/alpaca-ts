@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.3.11
+ * alpaca@6.3.12
  * released under the permissive ISC license
  */
 
@@ -5844,6 +5844,9 @@ class AlpacaStream extends eventemitter3 {
         this.connection.onerror = (err) => {
             this.emit('error', err);
         };
+    }
+    getConnection() {
+        return this.connection;
     }
     subscribe(channel, symbols = []) {
         switch (this.params.type) {

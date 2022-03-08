@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.3.12](https://github.com/117/alpaca/compare/v6.3.11...v6.3.12) (2022-02-24)
+
 ### [6.3.11](https://github.com/117/alpaca/compare/v6.3.10...v6.3.11) (2021-11-11)
 
 - Expand timeframe options for getBars [#88](https://github.com/117/alpaca/issues/88).
