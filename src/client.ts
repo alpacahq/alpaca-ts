@@ -62,6 +62,7 @@ import {
   GetLastQuote_v1,
   GetSnapshot,
   GetSnapshots,
+  ClosePositions,
 } from './params.js'
 
 const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch
@@ -208,11 +209,13 @@ export class AlpacaClient {
     )
   }
 
-  async closePositions(): Promise<Order[]> {
+  async closePositions(params: ClosePositions): Promise<Order[]> {
     return parse.orders(
       await this.request<RawOrder[]>({
         method: 'DELETE',
-        url: `${urls.rest.account}/positions`,
+        url: `${urls.rest.account}/positions${
+          `?close_orders=${params.cancel_orders ?? false }`
+        }`,
       }),
     )
   }
