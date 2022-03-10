@@ -214,7 +214,7 @@ export class AlpacaClient {
       await this.request<RawOrder[]>({
         method: 'DELETE',
         url: `${urls.rest.account}/positions${
-          `?close_orders=${params.cancel_orders ?? false }`
+          `?cancel_orders=${params.cancel_orders ?? false }`
         }`,
       }),
     )
