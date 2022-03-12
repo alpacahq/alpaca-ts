@@ -1,10 +1,10 @@
-import Bottleneck from 'bottleneck'
+import Bottleneck from 'bottleneck';
 
-import qs from 'qs'
-import isofetch from 'isomorphic-unfetch'
+import qs from 'qs';
+import isofetch from 'isomorphic-unfetch';
 
-import urls from './urls.js'
-import parse from './parse.js'
+import urls from './urls.js';
+import parse from './parse.js';
 
 import {
   RawAccount,
@@ -32,7 +32,7 @@ import {
   LastQuote_v1,
   LastTrade_v1,
   Snapshot,
-} from './entities.js'
+} from './entities.js';
 
 import {
   GetOrder,
@@ -63,9 +63,9 @@ import {
   GetSnapshot,
   GetSnapshots,
   ClosePositions,
-} from './params.js'
+} from './params.js';
 
-const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch
+const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch;
 export class AlpacaClient {
   private limiter = new Bottleneck({
     reservoir: 200, // initial value
@@ -74,12 +74,12 @@ export class AlpacaClient {
     // also use maxConcurrent and/or minTime for safety
     maxConcurrent: 1,
     minTime: 200,
-  })
+  });
 
   constructor(
     public params: {
-      credentials?: DefaultCredentials | OAuthCredentials
-      rate_limit?: boolean
+      credentials?: DefaultCredentials | OAuthCredentials;
+      rate_limit?: boolean;
     },
   ) {
     if (
@@ -88,7 +88,7 @@ export class AlpacaClient {
       // and live key isn't already provided
       !('key' in params.credentials && params.credentials.key.startsWith('A'))
     ) {
-      params.credentials['paper'] = true
+      params.credentials['paper'] = true;
     }
 
     if (
@@ -97,16 +97,16 @@ export class AlpacaClient {
     ) {
       throw new Error(
         "can't create client with both default and oauth credentials",
-      )
+      );
     }
   }
 
   async isAuthenticated(): Promise<boolean> {
     try {
-      await this.getAccount()
-      return true
+      await this.getAccount();
+      return true;
     } catch {
-      return false
+      return false;
     }
   }
 
@@ -116,7 +116,7 @@ export class AlpacaClient {
         method: 'GET',
         url: `${urls.rest.account}/account`,
       }),
-    )
+    );
   }
 
   async getOrder(params: GetOrder): Promise<Order> {
@@ -128,7 +128,7 @@ export class AlpacaClient {
         }`,
         data: { nested: params.nested },
       }),
-    )
+    );
   }
 
   async getOrders(params: GetOrders = {}): Promise<Order[]> {
@@ -141,7 +141,7 @@ export class AlpacaClient {
           symbols: params.symbols ? params.symbols.join(',') : undefined,
         },
       }),
-    )
+    );
   }
 
   async placeOrder(params: PlaceOrder): Promise<Order> {
@@ -151,7 +151,7 @@ export class AlpacaClient {
         url: `${urls.rest.account}/orders`,
         data: params,
       }),
-    )
+    );
   }
 
   async replaceOrder(params: ReplaceOrder): Promise<Order> {
@@ -161,7 +161,7 @@ export class AlpacaClient {
         url: `${urls.rest.account}/orders/${params.order_id}`,
         data: params,
       }),
-    )
+    );
   }
 
   cancelOrder(params: CancelOrder): Promise<boolean> {
@@ -169,7 +169,7 @@ export class AlpacaClient {
       method: 'DELETE',
       url: `${urls.rest.account}/orders/${params.order_id}`,
       isJSON: false,
-    })
+    });
   }
 
   async cancelOrders(): Promise<OrderCancelation[]> {
@@ -178,7 +178,7 @@ export class AlpacaClient {
         method: 'DELETE',
         url: `${urls.rest.account}/orders`,
       }),
-    )
+    );
   }
 
   async getPosition(params: GetPosition): Promise<Position> {
@@ -187,7 +187,7 @@ export class AlpacaClient {
         method: 'GET',
         url: `${urls.rest.account}/positions/${params.symbol}`,
       }),
-    )
+    );
   }
 
   async getPositions(): Promise<Position[]> {
@@ -196,7 +196,7 @@ export class AlpacaClient {
         method: 'GET',
         url: `${urls.rest.account}/positions`,
       }),
-    )
+    );
   }
 
   async closePosition(params: ClosePosition): Promise<Order> {
@@ -206,25 +206,25 @@ export class AlpacaClient {
         url: `${urls.rest.account}/positions/${params.symbol}`,
         data: params,
       }),
-    )
+    );
   }
 
   async closePositions(params: ClosePositions): Promise<Order[]> {
     return parse.orders(
       await this.request<RawOrder[]>({
         method: 'DELETE',
-        url: `${urls.rest.account}/positions${
-          `?cancel_orders=${params.cancel_orders ?? false }`
-        }`,
+        url: `${urls.rest.account}/positions?cancel_orders=${JSON.stringify(
+          params.cancel_orders ?? false,
+        )}`,
       }),
-    )
+    );
   }
 
   getAsset(params: GetAsset): Promise<Asset> {
     return this.request({
       method: 'GET',
       url: `${urls.rest.account}/assets/${params.asset_id_or_symbol}`,
-    })
+    });
   }
 
   getAssets(params?: GetAssets): Promise<Asset[]> {
@@ -232,21 +232,21 @@ export class AlpacaClient {
       method: 'GET',
       url: `${urls.rest.account}/assets`,
       data: params,
-    })
+    });
   }
 
   getWatchlist(params: GetWatchList): Promise<Watchlist> {
     return this.request({
       method: 'GET',
       url: `${urls.rest.account}/watchlists/${params.uuid}`,
-    })
+    });
   }
 
   getWatchlists(): Promise<Watchlist[]> {
     return this.request({
       method: 'GET',
       url: `${urls.rest.account}/watchlists`,
-    })
+    });
   }
 
   createWatchlist(params: CreateWatchList): Promise<Watchlist[]> {
@@ -254,7 +254,7 @@ export class AlpacaClient {
       method: 'POST',
       url: `${urls.rest.account}/watchlists`,
       data: params,
-    })
+    });
   }
 
   updateWatchlist(params: UpdateWatchList): Promise<Watchlist> {
@@ -262,7 +262,7 @@ export class AlpacaClient {
       method: 'PUT',
       url: `${urls.rest.account}/watchlists/${params.uuid}`,
       data: params,
-    })
+    });
   }
 
   addToWatchlist(params: AddToWatchList): Promise<Watchlist> {
@@ -270,21 +270,21 @@ export class AlpacaClient {
       method: 'POST',
       url: `${urls.rest.account}/watchlists/${params.uuid}`,
       data: params,
-    })
+    });
   }
 
   removeFromWatchlist(params: RemoveFromWatchList): Promise<boolean> {
     return this.request<boolean>({
       method: 'DELETE',
       url: `${urls.rest.account}/watchlists/${params.uuid}/${params.symbol}`,
-    })
+    });
   }
 
   deleteWatchlist(params: DeleteWatchList): Promise<boolean> {
     return this.request<boolean>({
       method: 'DELETE',
       url: `${urls.rest.account}/watchlists/${params.uuid}`,
-    })
+    });
   }
 
   getCalendar(params?: GetCalendar): Promise<Calendar[]> {
@@ -292,7 +292,7 @@ export class AlpacaClient {
       method: 'GET',
       url: `${urls.rest.account}/calendar`,
       data: params,
-    })
+    });
   }
 
   async getClock(): Promise<Clock> {
@@ -301,14 +301,14 @@ export class AlpacaClient {
         method: 'GET',
         url: `${urls.rest.account}/clock`,
       }),
-    )
+    );
   }
 
   getAccountConfigurations(): Promise<AccountConfigurations> {
     return this.request({
       method: 'GET',
       url: `${urls.rest.account}/account/configurations`,
-    })
+    });
   }
 
   updateAccountConfigurations(
@@ -318,14 +318,14 @@ export class AlpacaClient {
       method: 'PATCH',
       url: `${urls.rest.account}/account/configurations`,
       data: params,
-    })
+    });
   }
 
   async getAccountActivities(
     params: GetAccountActivities,
   ): Promise<Activity[]> {
     if (params.activity_types && Array.isArray(params.activity_types)) {
-      params.activity_types = params.activity_types.join(',')
+      params.activity_types = params.activity_types.join(',');
     }
 
     return parse.activities(
@@ -336,7 +336,7 @@ export class AlpacaClient {
         }`,
         data: { ...params, activity_type: undefined },
       }),
-    )
+    );
   }
 
   getPortfolioHistory(params?: GetPortfolioHistory): Promise<PortfolioHistory> {
@@ -344,7 +344,7 @@ export class AlpacaClient {
       method: 'GET',
       url: `${urls.rest.account}/account/portfolio/history`,
       data: params,
-    })
+    });
   }
 
   /** @deprecated Alpaca Data API v2 is currently in public beta. */
@@ -354,13 +354,13 @@ export class AlpacaClient {
     const transformed: Omit<GetBars_v1, 'symbols'> & { symbols: string } = {
       ...params,
       symbols: params.symbols.join(','),
-    }
+    };
 
     return await this.request({
       method: 'GET',
       url: `${urls.rest.market_data_v1}/bars/${params.timeframe}`,
       data: transformed,
-    })
+    });
   }
 
   /** @deprecated Alpaca Data API v2 is currently in public beta. */
@@ -368,7 +368,7 @@ export class AlpacaClient {
     return await this.request({
       method: 'GET',
       url: `${urls.rest.market_data_v1}/last/stocks/${params.symbol}`,
-    })
+    });
   }
 
   /** @deprecated Alpaca Data API v2 is currently in public beta. */
@@ -376,7 +376,7 @@ export class AlpacaClient {
     return await this.request({
       method: 'GET',
       url: `${urls.rest.market_data_v1}/last_quote/stocks/${params.symbol}`,
-    })
+    });
   }
 
   async getTrades(params: GetTrades): Promise<PageOfTrades> {
@@ -386,7 +386,7 @@ export class AlpacaClient {
         url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/trades`,
         data: { ...params, symbol: undefined },
       }),
-    )
+    );
   }
 
   async getQuotes(params: GetQuotes): Promise<PageOfQuotes> {
@@ -396,7 +396,7 @@ export class AlpacaClient {
         url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/quotes`,
         data: { ...params, symbol: undefined },
       }),
-    )
+    );
   }
 
   async getBars(params: GetBars): Promise<PageOfBars> {
@@ -406,7 +406,7 @@ export class AlpacaClient {
         url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/bars`,
         data: { ...params, symbol: undefined },
       }),
-    )
+    );
   }
 
   async getSnapshot(params: GetSnapshot): Promise<Snapshot> {
@@ -415,7 +415,7 @@ export class AlpacaClient {
         method: 'GET',
         url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/snapshot`,
       }),
-    )
+    );
   }
 
   async getSnapshots(
@@ -428,44 +428,44 @@ export class AlpacaClient {
           urls.rest.market_data_v2
         }/stocks/snapshots?symbols=${params.symbols.join(',')}`,
       }),
-    )
+    );
   }
 
   private async request<T = any>(params: {
-    method: 'GET' | 'DELETE' | 'PUT' | 'PATCH' | 'POST'
-    url: string
-    data?: { [key: string]: any }
-    isJSON?: boolean
+    method: 'GET' | 'DELETE' | 'PUT' | 'PATCH' | 'POST';
+    url: string;
+    data?: { [key: string]: any };
+    isJSON?: boolean;
   }): Promise<T> {
-    let headers: any = {}
+    let headers: any = {};
 
     if ('access_token' in this.params.credentials) {
       headers[
         'Authorization'
-      ] = `Bearer ${this.params.credentials.access_token}`
+      ] = `Bearer ${this.params.credentials.access_token}`;
     } else {
-      headers['APCA-API-KEY-ID'] = this.params.credentials.key
-      headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret
+      headers['APCA-API-KEY-ID'] = this.params.credentials.key;
+      headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
     }
 
     if (this.params.credentials.paper) {
-      params.url = params.url.replace('api.', 'paper-api.')
+      params.url = params.url.replace('api.', 'paper-api.');
     }
 
-    let query = ''
+    let query = '';
 
     if (params.data) {
       // translate dates to ISO strings
       for (let [key, value] of Object.entries(params.data)) {
         if (value instanceof Date) {
-          params.data[key] = (value as Date).toISOString()
+          params.data[key] = (value as Date).toISOString();
         }
       }
 
       // build query
       if (!['POST', 'PATCH', 'PUT'].includes(params.method)) {
-        query = '?'.concat(qs.stringify(params.data))
-        params.data = undefined
+        query = '?'.concat(qs.stringify(params.data));
+        params.data = undefined;
       }
     }
 
@@ -477,28 +477,28 @@ export class AlpacaClient {
         }),
       func = this.params.rate_limit
         ? () => this.limiter.schedule(makeCall)
-        : makeCall
+        : makeCall;
 
     let resp,
-      result = {}
+      result = {};
 
     try {
-      resp = await func()
+      resp = await func();
 
       if (!(params.isJSON == undefined ? true : params.isJSON)) {
-        return resp.ok as any
+        return resp.ok as any;
       }
 
-      result = await resp.json()
+      result = await resp.json();
     } catch (e) {
-      console.error(e)
-      throw result
+      console.error(e);
+      throw result;
     }
 
     if ('code' in result || 'message' in result) {
-      throw result
+      throw result;
     }
 
-    return result as any
+    return result as any;
   }
 }

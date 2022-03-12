@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.3.12
+ * alpaca@6.3.13
  * released under the permissive ISC license
  */
 
@@ -5182,10 +5182,10 @@ class AlpacaClient {
             data: params,
         }));
     }
-    async closePositions() {
+    async closePositions(params) {
         return parse.orders(await this.request({
             method: 'DELETE',
-            url: `${urls.rest.account}/positions`,
+            url: `${urls.rest.account}/positions?cancel_orders=${JSON.stringify(params.cancel_orders ?? false)}`,
         }));
     }
     getAsset(params) {

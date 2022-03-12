@@ -11,6 +11,9 @@ export interface ClosePosition {
     qty?: number;
     percentage?: number;
 }
+export interface ClosePositions {
+    cancel_orders?: boolean;
+}
 export interface CreateWatchList {
     name: string;
     symbols?: string[];
