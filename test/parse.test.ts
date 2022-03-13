@@ -8,6 +8,7 @@ import {
   RawNonTradeActivity,
   TradeActivity,
   NonTradeActivity,
+  RawTradeUpdate
 } from '../src/entities'
 
 describe('Parser', () => {
@@ -219,5 +220,42 @@ describe('Parser', () => {
       expect((activities[0] as TradeActivity).price).toBe(6.66)
       expect((activities[1] as NonTradeActivity).net_amount).toBe(123.45)
     })
+  })
+
+  describe('parseTradeUpdate', () => {
+    it('should handle missing input', () => {
+      const result = parse.trade_update(null)
+      expect(result).toBeUndefined()
+    })
+
+    it('should parse each portion of a trade update, including inner order', () => {
+
+      /* Setup */
+      const dateIsoString = '2022-03-01T00:00:00.000000000Z'
+      const rawTradeUpdate = {
+        event: 'new',
+        execution_id: 'some-long-hex-string',
+        order: { qty: '1' } as RawOrder,
+        event_id: '123456',
+        at: dateIsoString,
+        timestamp: dateIsoString,
+        position_qty: '0',
+        price: '100.00',
+        qty: '1'
+      } as RawTradeUpdate;
+
+      const result = parse.trade_update(rawTradeUpdate);
+
+      /* Assertions */
+      expect(result.raw()).toBe(rawTradeUpdate);
+      expect(result.execution_id).toBe('some-long-hex-string');
+      expect(result.order.qty).toBe(1);
+      expect(result.event_id).toBe(123456);
+      expect(result.position_qty).toBe(0);
+      expect(result.at).toEqual(new Date(dateIsoString));
+      expect(result.timestamp).toEqual(new Date(dateIsoString))
+      expect(result.price).toBe(100.00);
+      expect(result.qty).toBe(1);
+    });
   })
 })
