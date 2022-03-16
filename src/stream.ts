@@ -3,6 +3,8 @@ import EventEmitter from 'eventemitter3'
 import isBlob from 'is-blob'
 import urls from './urls.js'
 
+import parse from './parse.js';
+
 import {
   Bar,
   Channel,
@@ -133,7 +135,7 @@ export class AlpacaStream extends EventEmitter<string | symbol | any> {
 
         // pass trade_updates event
         if ('stream' in message && message.stream == 'trade_updates') {
-          this.emit('trade_updates', message.data)
+          this.emit('trade_updates', parse.trade_update(message.data))
         }
 
         // pass trade, quote, bar event
