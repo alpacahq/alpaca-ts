@@ -14,6 +14,7 @@ WebSocket streams.
 - [Install](#install)
 - [Client](#client)
 - [Stream](#stream)
+- [Notes](#notes)
 - [Examples](#examples)
 - [Contributing](#contributing)
 
@@ -549,6 +550,16 @@ stream.on('error', (error) => console.warn(error))
 #### getConnection
 ```typescript
 stream.getConnection()
+```
+
+## Notes
+
+If you are having difficulty getting Jest to work with this library, add this to your configuration:
+
+```js
+moduleNameMapper: {
+  '@master-chief/alpaca': '<rootDir>/node_modules/@master-chief/alpaca/dist/cjs/index.cjs',
+},
 ```
 
 ## Examples
