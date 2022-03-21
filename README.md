@@ -562,6 +562,8 @@ moduleNameMapper: {
 },
 ```
 
+Credit to @calvintwr for finding this solution.
+
 ## Examples
 
 Don't know where to start? Check out our community-made examples
