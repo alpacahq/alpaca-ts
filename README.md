@@ -14,7 +14,7 @@ WebSocket streams.
 - [Install](#install)
 - [Client](#client)
 - [Stream](#stream)
-- [Notes](#notes)
+- [Common Issues](#common-issues)
 - [Examples](#examples)
 - [Contributing](#contributing)
 
@@ -552,7 +552,7 @@ stream.on('error', (error) => console.warn(error))
 stream.getConnection()
 ```
 
-## Notes
+## Common Issues
 
 If you are having difficulty getting Jest to work with this library, add this to your configuration:
 
