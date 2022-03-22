@@ -562,7 +562,7 @@ moduleNameMapper: {
 },
 ```
 
-Credit to [@calvintwr](https://github.com/calvintwr) for finding this solution.
+Credit to [@calvintwr](https://github.com/calvintwr) and [@wailinkyaww](https://github.com/wailinkyaww) for finding this solution.
 
 ## Examples
 
