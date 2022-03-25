@@ -1423,12 +1423,79 @@ export interface NonTradeActivity {
 }
 export declare type RawActivity = RawTradeActivity | RawNonTradeActivity;
 export declare type Activity = TradeActivity | NonTradeActivity;
-export interface TradeUpdate {
-    event: string;
-    price: string;
-    timestamp: string;
-    position_qty: string;
+/**
+ * The following type mirrors OrderStatus almost exactly,
+ * but differs slightly in its wording for each event.
+ * See https://alpaca.markets/docs/api-references/broker-api/events/#trade-events
+ * for an updated list of these events and their detailed descriptions.
+ */
+export declare type TradeUpdateEvent = 'new' | 'fill' | 'partial_fill' | 'canceled' | 'expired' | 'done_for_day' | 'replaced' | 'rejected' | 'pending_new' | 'stopped' | 'pending_cancel' | 'pending_replace' | 'calculated' | 'suspended' | 'order_replace_rejected' | 'order_cancel_rejected';
+export interface RawTradeUpdate {
+    event: TradeUpdateEvent;
+    execution_id: string;
     order: RawOrder;
+    event_id?: string;
+    at?: string;
+    timestamp?: string;
+    position_qty?: string;
+    price?: string;
+    qty?: string;
+}
+export interface TradeUpdate {
+    /**
+     * Get the raw data, exactly as it came from Alpaca
+     */
+    raw: () => RawTradeUpdate;
+    /**
+     * Trade update event type
+     */
+    event: TradeUpdateEvent;
+    /**
+     * Corresponding execution of an order.
+     * If an order gets filled over two executions (a partial_fill for example),
+     * you will receive two events with different IDs.
+     */
+    execution_id: string;
+    /**
+     * Monotonically increasing 64-bit integer.
+     * Haven't yet observed this property in practice, but it is
+     * on Alpaca's docs here: https://alpaca.markets/docs/api-references/broker-api/events/#trade-events,
+     * including for completeness.
+     */
+    event_id?: number;
+    /**
+     * The associated order that a trade_update event comes with
+     */
+    order: Order;
+    /**
+     * The timestamp of the trade update event.
+     * Alpaca docs at https://alpaca.markets/docs/api-references/broker-api/events/#trade-events
+     * are confusing. They say the 'at' property will contain the timestamp of
+     * the event, but currently as of 3/10/22 this is in the 'timestamp' property
+     * instead. Including both for completeness.
+     */
+    at?: Date;
+    /**
+    * The timestamp of the trade update event.
+    * Alpaca docs at https://alpaca.markets/docs/api-references/broker-api/events/#trade-events
+    * are confusing. They say the 'at' property will contain the timestamp of
+    * the event, but currently as of 3/10/22 this is in the 'timestamp' property
+    * instead. Including both for completeness.
+    */
+    timestamp?: Date;
+    /**
+     * The size of your total position, after a fill or partial fill event, in shares.
+     */
+    position_qty?: number;
+    /**
+     * The average price per share at which the order was filled or partially filled
+     */
+    price?: number;
+    /**
+     * The amount of shares that were filled in a trade update of type fill or partial_fill.
+     * Equivalent to the order.filled_qty property, which is preferred.
+     */
+    qty?: number;
 }
 export interface Watchlist {
     /**

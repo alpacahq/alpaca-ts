@@ -17,6 +17,7 @@ const isomorphic_ws_1 = __importDefault(require("isomorphic-ws"));
 const eventemitter3_1 = __importDefault(require("eventemitter3"));
 const is_blob_1 = __importDefault(require("is-blob"));
 const urls_js_1 = __importDefault(require("./urls.cjs"));
+const parse_js_1 = __importDefault(require("./parse.cjs"));
 class AlpacaStream extends eventemitter3_1.default {
     constructor(params) {
         // construct EventEmitter
@@ -91,7 +92,7 @@ class AlpacaStream extends eventemitter3_1.default {
                 }
                 // pass trade_updates event
                 if ('stream' in message && message.stream == 'trade_updates') {
-                    this.emit('trade_updates', message.data);
+                    this.emit('trade_updates', parse_js_1.default.trade_update(message.data));
                 }
                 // pass trade, quote, bar event
                 const x = {
