@@ -32,6 +32,7 @@ import {
   LastQuote_v1,
   LastTrade_v1,
   Snapshot,
+  NewsPage,
 } from './entities.js';
 
 import {
@@ -63,6 +64,7 @@ import {
   GetSnapshot,
   GetSnapshots,
   ClosePositions,
+  GetNews,
 } from './params.js';
 
 const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch;
@@ -291,6 +293,14 @@ export class AlpacaClient {
     return this.request({
       method: 'GET',
       url: `${urls.rest.account}/calendar`,
+      data: params,
+    });
+  }
+
+  getNews(params?: GetNews): Promise<NewsPage> {
+    return this.request({
+      method: 'GET',
+      url: `${urls.rest.beta}/news`,
       data: params,
     });
   }

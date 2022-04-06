@@ -3,9 +3,9 @@
  * Can be passed to the AlpacaClient and AlpacaStream.
  */
 export interface DefaultCredentials {
-  key: string
-  secret: string
-  paper?: boolean
+  key: string;
+  secret: string;
+  paper?: boolean;
 }
 
 /**
@@ -13,8 +13,8 @@ export interface DefaultCredentials {
  * Can be passed to the AlpacaClient.
  */
 export interface OAuthCredentials {
-  access_token: String
-  paper?: boolean
+  access_token: String;
+  paper?: boolean;
 }
 
 /**
@@ -22,32 +22,32 @@ export interface OAuthCredentials {
  * We encourage you to use the Account interface, which has many of these fields parsed.
  */
 export interface RawAccount {
-  account_blocked: boolean
-  account_number: string
-  buying_power: string
-  cash: string
-  created_at: string
-  currency: string
-  daytrade_count: number
-  daytrading_buying_power: string
-  equity: string
-  id: string
-  initial_margin: string
-  last_equity: string
-  last_maintenance_margin: string
-  long_market_value: string
-  maintenance_margin: string
-  multiplier: string
-  pattern_day_trader: boolean
-  portfolio_value: string
-  regt_buying_power: string
-  short_market_value: string
-  shorting_enabled: boolean
-  sma: string
-  status: string
-  trade_suspended_by_user: boolean
-  trading_blocked: boolean
-  transfers_blocked: boolean
+  account_blocked: boolean;
+  account_number: string;
+  buying_power: string;
+  cash: string;
+  created_at: string;
+  currency: string;
+  daytrade_count: number;
+  daytrading_buying_power: string;
+  equity: string;
+  id: string;
+  initial_margin: string;
+  last_equity: string;
+  last_maintenance_margin: string;
+  long_market_value: string;
+  maintenance_margin: string;
+  multiplier: string;
+  pattern_day_trader: boolean;
+  portfolio_value: string;
+  regt_buying_power: string;
+  short_market_value: string;
+  shorting_enabled: boolean;
+  sma: string;
+  status: string;
+  trade_suspended_by_user: boolean;
+  trading_blocked: boolean;
+  transfers_blocked: boolean;
 }
 
 /**
@@ -84,7 +84,7 @@ export type AccountStatus =
   /**
    * The account application has been rejected.
    */
-  | 'REJECTED'
+  | 'REJECTED';
 
 /**
  * Information related to an Alpaca account, such as account status, funds, and various
@@ -94,17 +94,17 @@ export interface Account {
   /**
    * Get the raw data, exactly as it came from Alpaca
    */
-  raw(): RawAccount
+  raw(): RawAccount;
 
   /**
    * If true, the account activity by user is prohibited.
    */
-  account_blocked: boolean
+  account_blocked: boolean;
 
   /**
    * Account number.
    */
-  account_number: string
+  account_number: string;
 
   /**
    * Current available $ buying power; If multiplier = 4, this is your daytrade buying
@@ -112,68 +112,68 @@ export interface Account {
    * multiplier = 2, buying_power = max(equity – initial_margin,0) * 2; If multiplier = 1,
    * buying_power = cash
    */
-  buying_power: number
+  buying_power: number;
 
   /**
    * Cash balance
    */
-  cash: number
+  cash: number;
 
   /**
    * Timestamp this account was created at
    */
-  created_at: Date
+  created_at: Date;
 
   /**
    * "USD"
    */
-  currency: string
+  currency: string;
 
   /**
    * The current number of daytrades that have been made in the last 5 trading days
    * (inclusive of today)
    */
-  daytrade_count: number
+  daytrade_count: number;
 
   /**
    * Your buying power for day trades (continuously updated value)
    */
-  daytrading_buying_power: number
+  daytrading_buying_power: number;
 
   /**
    * Cash + long_market_value + short_market_value
    */
-  equity: number
+  equity: number;
 
   /**
    * Account ID.
    */
-  id: string
+  id: string;
 
   /**
    * Reg T initial margin requirement (continuously updated value)
    */
-  initial_margin: number
+  initial_margin: number;
 
   /**
    * Equity as of previous trading day at 16:00:00 ET
    */
-  last_equity: number
+  last_equity: number;
 
   /**
    * Your maintenance margin requirement on the previous trading day
    */
-  last_maintenance_margin: number
+  last_maintenance_margin: number;
 
   /**
    * Real-time MtM value of all long positions held in the account
    */
-  long_market_value: number
+  long_market_value: number;
 
   /**
    * Maintenance margin requirement (continuously updated value)
    */
-  maintenance_margin: number
+  maintenance_margin: number;
 
   /**
    * Buying power multiplier that represents account margin classification; valid values 1
@@ -182,40 +182,40 @@ export interface Account {
    * with $2,000 or more equity), 4 (PDT account with 4x intraday buying power and 2x reg
    * T overnight buying power)
    */
-  multiplier: number
+  multiplier: number;
 
   /**
    * Whether or not the account has been flagged as a pattern day trader
    */
-  pattern_day_trader: boolean
+  pattern_day_trader: boolean;
 
   /**
    * Total value of cash + holding positions (This field is deprecated. It is equivalent
    * to the equity field.)
    */
-  portfolio_value: number
+  portfolio_value: number;
 
   /**
    * Your buying power under Regulation T (your excess equity - equity minus margin
    * value - times your margin multiplier)
    */
-  regt_buying_power: number
+  regt_buying_power: number;
 
   /**
    * Real-time MtM value of all short positions held in the account
    */
-  short_market_value: number
+  short_market_value: number;
 
   /**
    * Flag to denote whether or not the account is permitted to short
    */
-  shorting_enabled: boolean
+  shorting_enabled: boolean;
 
   /**
    * Value of special memorandum account (will be used at a later date to provide
    * additional buying_power)
    */
-  sma: number
+  sma: number;
 
   /**
    * The following are the possible account status values. Most likely, the account status
@@ -223,71 +223,71 @@ export interface Account {
    * when personal information is being updated from the dashboard, in which case you may
    * not be allowed trading for a short period of time until the change is approved.
    */
-  status: AccountStatus
+  status: AccountStatus;
 
   /**
    * User setting. If true, the account is not allowed to place orders.
    */
-  trade_suspended_by_user: boolean
+  trade_suspended_by_user: boolean;
 
   /**
    * If true, the account is not allowed to place orders.
    */
-  trading_blocked: boolean
+  trading_blocked: boolean;
 
   /**
    * If true, the account is not allowed to request money transfers.
    */
-  transfers_blocked: boolean
+  transfers_blocked: boolean;
 }
 
 export interface AccountConfigurations {
   /**
    * both, entry, or exit. Controls Day Trading Margin Call (DTMC) checks.
    */
-  dtbp_check: 'both' | 'entry' | 'exit'
+  dtbp_check: 'both' | 'entry' | 'exit';
 
   /**
    * If true, account becomes long-only mode.
    */
-  no_shorting: boolean
+  no_shorting: boolean;
 
   /**
    * If true, new orders are blocked.
    */
-  suspend_trade: boolean
+  suspend_trade: boolean;
 
   /**
    * all or none. If none, emails for order fills are not sent.
    */
-  trade_confirm_email: 'all' | 'none'
+  trade_confirm_email: 'all' | 'none';
 }
 
 export interface AccountUpdate {
-  id: string
-  created_at: string
-  updated_at: string
-  deleted_at: any
-  status: string
-  currency: string
-  cash: string
-  cash_withdrawable: string
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: any;
+  status: string;
+  currency: string;
+  cash: string;
+  cash_withdrawable: string;
 }
 
 export interface AggregateMinute {
-  ev: string
-  T: string
-  v: number
-  av: number
-  op: number
-  vw: number
-  o: number
-  c: number
-  h: number
-  l: number
-  a: number
-  s: number
-  e: number
+  ev: string;
+  T: string;
+  v: number;
+  av: number;
+  op: number;
+  vw: number;
+  o: number;
+  c: number;
+  h: number;
+  l: number;
+  a: number;
+  s: number;
+  e: number;
 }
 
 export type AssetExchange =
@@ -296,9 +296,9 @@ export type AssetExchange =
   | 'BATS'
   | 'NYSE'
   | 'NASDAQ'
-  | 'NYSEARCA'
+  | 'NYSEARCA';
 
-export type AssetStatus = 'active' | 'inactive'
+export type AssetStatus = 'active' | 'inactive';
 
 /**
  * The assets API serves as the master list of assets available for trade and data
@@ -310,53 +310,53 @@ export interface Asset {
   /**
    * Asset ID
    */
-  id: string
+  id: string;
 
   /**
    * "us_equity"
    */
-  class: string
+  class: string;
 
   /**
    * AMEX, ARCA, BATS, NYSE, NASDAQ or NYSEARCA
    */
-  exchange: AssetExchange
+  exchange: AssetExchange;
 
   /**
    * Asset symbol
    */
-  symbol: string
+  symbol: string;
 
   /**
    * active or inactive
    */
-  status: AssetStatus
+  status: AssetStatus;
 
   /**
    * Asset is tradable on Alpaca or not
    */
-  tradable: boolean
+  tradable: boolean;
 
   /**
    * Asset is marginable or not
    */
-  marginable: boolean
+  marginable: boolean;
 
   /**
    * Asset is shortable or not
    */
-  shortable: boolean
+  shortable: boolean;
 
   /**
    * Asset is easy-to-borrow or not (filtering for easy_to_borrow = True is the best way
    * to check whether the name is currently available to short at Alpaca).
    */
-  easy_to_borrow: boolean
+  easy_to_borrow: boolean;
 
   /**
    * Asset is fractionable or not.
    */
-  fractionable: boolean
+  fractionable: boolean;
 }
 
 /**
@@ -366,24 +366,24 @@ export interface Calendar {
   /**
    * Date string in YYYY-MM-DD format
    */
-  date: string
+  date: string;
 
   /**
    * The time the market opens at on this date in HH:MM format
    */
-  open: string
+  open: string;
 
   /**
    * The time the market closes at on this date in HH:MM format
    */
-  close: string
+  close: string;
 }
 
 export interface RawClock {
-  timestamp: string
-  is_open: boolean
-  next_open: string
-  next_close: string
+  timestamp: string;
+  is_open: boolean;
+  next_open: string;
+  next_close: string;
 }
 
 /**
@@ -394,237 +394,237 @@ export interface Clock {
   /**
    * Get the raw data, exactly as it came from Alpaca
    */
-  raw(): RawClock
+  raw(): RawClock;
 
   /**
    * Current timestamp
    */
-  timestamp: Date
+  timestamp: Date;
 
   /**
    * Whether or not the market is open
    */
-  is_open: boolean
+  is_open: boolean;
 
   /**
    * Next market open timestamp
    */
-  next_open: Date
+  next_open: Date;
 
   /**
    * Next market close timestamp
    */
-  next_close: Date
+  next_close: Date;
 }
 
 /** A trade which occurred. */
 export interface RawTrade {
   /** Trade symbol. */
-  S: string
+  S: string;
   /** Timestamp in RFC-3339 format with nanosecond precision. */
-  t: string
+  t: string;
   /** Exchange where the trade happened. */
-  x: string
+  x: string;
   /** Trade price. */
-  p: number
+  p: number;
   /** Trade size. */
-  s: number
+  s: number;
   /** Trade conditions. */
-  c: string[]
+  c: string[];
   /** Trade ID. */
-  i: number
+  i: number;
   /** Tape. */
-  z: string
+  z: string;
 }
 
 /** A page of one or many trades. */
 export interface RawPageOfTrades {
   /** Array of trades. */
-  trades: RawTrade[]
+  trades: RawTrade[];
   /** Symbol that was queried. */
-  symbol: string
+  symbol: string;
   /** Token that can be used to query the next page. */
-  next_page_token: string
+  next_page_token: string;
 }
 
 /** A trade which occurred. */
 export interface Trade {
   /** Get the raw data as it came from Alpaca. */
-  raw(): RawTrade
+  raw(): RawTrade;
   /** Trade symbol. */
-  S: string
+  S: string;
   /** Timestamp in RFC-3339 format with nanosecond precision. */
-  t: Date
+  t: Date;
   /** Exchange where the trade happened. */
-  x: string
+  x: string;
   /** Trade price. */
-  p: number
+  p: number;
   /** Trade size. */
-  s: number
+  s: number;
   /** Trade conditions. */
-  c: string[]
+  c: string[];
   /** Trade ID. */
-  i: number
+  i: number;
   /** Tape. */
-  z: string
+  z: string;
 }
 
 /** A page of one or many trades. */
 export interface PageOfTrades {
   /** Get the raw data as it came from Alpaca. */
-  raw(): RawPageOfTrades
+  raw(): RawPageOfTrades;
   /** Array of trades. */
-  trades: Trade[]
+  trades: Trade[];
   /** Symbol that was queried. */
-  symbol: string
+  symbol: string;
   /** Token that can be used to query the next page. */
-  next_page_token: string
+  next_page_token: string;
 }
 
 /** A quote for a symbol. */
 export interface RawQuote {
   /** Quote symbol. */
-  S: string
+  S: string;
   /** Timestamp in RFC-3339 format with nanosecond precision. */
-  t: string
+  t: string;
   /** Ask exchange. */
-  ax: string
+  ax: string;
   /** Ask price. */
-  ap: number
+  ap: number;
   /** Ask size. */
-  as: number
+  as: number;
   /** Bid exchange. */
-  bx: string
+  bx: string;
   /** Bid price. */
-  bp: number
+  bp: number;
   /** Bid size. */
-  bs: number
+  bs: number;
   /** Quote conditions. */
-  c: string[]
+  c: string[];
 }
 
 /** A page of one or many quotes. */
 export interface RawPageOfQuotes {
   /** Array of quotes. */
-  quotes: RawQuote[]
+  quotes: RawQuote[];
   /** Symbol that was queried. */
-  symbol: string
+  symbol: string;
   /** Token that can be used to query the next page. */
-  next_page_token: string
+  next_page_token: string;
 }
 
 /** A quote for a symbol. */
 export interface Quote {
   /** Get the raw data as it came from Alpaca. */
-  raw(): RawQuote
+  raw(): RawQuote;
   /** Quote symbol. */
-  S: string
+  S: string;
   /** Timestamp in Date format. */
-  t: Date
+  t: Date;
   /** Ask exchange. */
-  ax: string
+  ax: string;
   /** Ask price. */
-  ap: number
+  ap: number;
   /** Ask size. */
-  as: number
+  as: number;
   /** Bid exchange. */
-  bx: string
+  bx: string;
   /** Bid price. */
-  bp: number
+  bp: number;
   /** Bid size. */
-  bs: number
+  bs: number;
   /** Quote conditions. */
-  c: string[]
+  c: string[];
 }
 
 /** A page of one or many quotes. */
 export interface PageOfQuotes {
   /** Get the raw data as it came from Alpaca. */
-  raw(): RawPageOfQuotes
+  raw(): RawPageOfQuotes;
   /** Array of quotes. */
-  quotes: Quote[]
+  quotes: Quote[];
   /** Symbol that was queried. */
-  symbol: string
+  symbol: string;
   /** Token that can be used to query the next page. */
-  next_page_token: string
+  next_page_token: string;
 }
 
 /** A bar for a symbol. */
 export interface RawBar {
   /** Bar symbol. */
-  S: string
+  S: string;
   /** Timestamp in RFC-3339 format with nanosecond precision. */
-  t: string
+  t: string;
   /** Open price. */
-  o: number
+  o: number;
   /** High price. */
-  h: number
+  h: number;
   /** Low price. */
-  l: number
+  l: number;
   /** Close price. */
-  c: number
+  c: number;
   /** Volume. */
-  v: number
+  v: number;
 }
 
 /** A page of one or many bars. */
 export interface RawPageOfBars {
   /** Array of bars. */
-  bars: RawBar[]
+  bars: RawBar[];
   /** Symbol that was queried. */
-  symbol: string
+  symbol: string;
   /** Token that can be used to query the next page. */
-  next_page_token: string
+  next_page_token: string;
 }
 
 /** A bar for a symbol. */
 export interface Bar {
   /** Get the raw data as it came from Alpaca. */
-  raw(): RawBar
+  raw(): RawBar;
   /** Bar symbol. */
-  S: string
+  S: string;
   /** Timestamp in Date format. */
-  t: Date
+  t: Date;
   /** Open price. */
-  o: number
+  o: number;
   /** High price. */
-  h: number
+  h: number;
   /** Low price. */
-  l: number
+  l: number;
   /** Close price. */
-  c: number
+  c: number;
   /** Volume. */
-  v: number
+  v: number;
 }
 
 /** A page of one or many bars. */
 export interface PageOfBars {
   /** Get the raw data as it came from Alpaca. */
-  raw(): RawPageOfBars
+  raw(): RawPageOfBars;
   /** Array of bars. */
-  bars: Bar[]
+  bars: Bar[];
   /** Symbol that was queried. */
-  symbol: string
+  symbol: string;
   /** Token that can be used to query the next page. */
-  next_page_token: string
+  next_page_token: string;
 }
 
 /**
  * The parsed result of an order cancelation request.
  */
 export interface OrderCancelation {
-  id: string
-  status: number
-  order: Order
+  id: string;
+  status: number;
+  order: Order;
 }
 
 /**
  * The id, http status code and order as part of the cancel all orders request.
  */
 export interface RawOrderCancelation {
-  id: string
-  status: number
-  body: RawOrder
+  id: string;
+  status: number;
+  body: RawOrder;
 }
 
 /**
@@ -632,36 +632,36 @@ export interface RawOrderCancelation {
  * We encourage you to use the Order interface, which has many of these fields parsed.
  */
 export interface RawOrder {
-  id: string
-  client_order_id: string
-  created_at: string
-  updated_at: string
-  submitted_at: string
-  filled_at: string
-  expired_at: string
-  canceled_at: string
-  failed_at: string
-  replaced_at: string
-  replaced_by: string
-  replaces: string
-  asset_id: string
-  symbol: string
-  asset_class: string
-  qty: string
-  filled_qty: string
-  type: string
-  side: string
-  time_in_force: string
-  limit_price: string
-  stop_price: string
-  filled_avg_price: string
-  status: string
-  extended_hours: boolean
-  legs: RawOrder[]
-  trail_price: string
-  trail_percent: string
-  hwm: string
-  order_class?: OrderClass
+  id: string;
+  client_order_id: string;
+  created_at: string;
+  updated_at: string;
+  submitted_at: string;
+  filled_at: string;
+  expired_at: string;
+  canceled_at: string;
+  failed_at: string;
+  replaced_at: string;
+  replaced_by: string;
+  replaces: string;
+  asset_id: string;
+  symbol: string;
+  asset_class: string;
+  qty: string;
+  filled_qty: string;
+  type: string;
+  side: string;
+  time_in_force: string;
+  limit_price: string;
+  stop_price: string;
+  filled_avg_price: string;
+  status: string;
+  extended_hours: boolean;
+  legs: RawOrder[];
+  trail_price: string;
+  trail_percent: string;
+  hwm: string;
+  order_class?: OrderClass;
 }
 
 /**
@@ -671,239 +671,235 @@ export interface Bar_v1 {
   /**
    * the beginning time of this bar as a Unix epoch in seconds
    */
-  t: number
+  t: number;
 
   /**
    * open price
    */
-  o: number
+  o: number;
 
   /**
    * high price
    */
-  h: number
+  h: number;
 
   /**
    * low price
    */
-  l: number
+  l: number;
 
   /**
    * close price
    */
-  c: number
+  c: number;
 
   /**
    * volume
    */
-  v: number
+  v: number;
 }
 
 /**
  * Last quote details for a symbol
  */
 export interface LastQuote_v1 {
-  status: string
-  symbol: string
+  status: string;
+  symbol: string;
   last: {
     /**
      * the current ask price
      */
-    askprice: number
+    askprice: number;
 
     /**
      * the current ask size
      */
-    asksize: number
+    asksize: number;
 
     /**
      * the exchange code of the ask quote
      */
-    askexchange: number
+    askexchange: number;
 
     /**
      * the current bid price
      */
-    bidprice: number
+    bidprice: number;
 
     /**
      * the current bid size
      */
-    bidsize: number
+    bidsize: number;
 
     /**
      * the exchange code of the bid quote
      */
-    bidexchange: number
+    bidexchange: number;
 
     /**
      * epoch timestamp in nanoseconds
      */
-    timestamp: number
-  }
+    timestamp: number;
+  };
 }
 
 /**
  * Last trade details for a symbol
  */
 export interface LastTrade_v1 {
-  status: string
-  symbol: string
+  status: string;
+  symbol: string;
   last: {
     /**
      * last trade price
      */
-    price: number
+    price: number;
 
     /**
      * last trade volume size
      */
-    size: number
+    size: number;
 
     /**
      * exchange code where the last trade was made
      */
-    exchange: number
+    exchange: number;
 
     /**
      * condition flag 1
      */
-    cond1: number
+    cond1: number;
 
     /**
      * condition flag 2
      */
-    cond2: number
+    cond2: number;
 
     /**
      * condition flag 3
      */
-    cond3: number
+    cond3: number;
 
     /**
      * condition flag 4
      */
-    cond4: number
+    cond4: number;
 
     /**
      * epoch timestamp in nanoseconds
      */
-    timestamp: number
-  }
+    timestamp: number;
+  };
 }
 
 export interface RawSnapshot {
-  symbol: string
+  symbol: string;
   latestTrade: {
-    t: string
-    x: string
-    p: number
-    s: number
-    c?: string[] | null
-    i: number
-    z: string
-  }
+    t: string;
+    x: string;
+    p: number;
+    s: number;
+    c?: string[] | null;
+    i: number;
+    z: string;
+  };
   latestQuote: {
-    t: string
-    ax: string
-    ap: number
-    as: number
-    bx: string
-    bp: number
-    bs: number
-    c?: string[] | null
-  }
+    t: string;
+    ax: string;
+    ap: number;
+    as: number;
+    bx: string;
+    bp: number;
+    bs: number;
+    c?: string[] | null;
+  };
   minuteBar: {
-    t: string
-    o: number
-    h: number
-    l: number
-    c: number
-    v: number
-  }
+    t: string;
+    o: number;
+    h: number;
+    l: number;
+    c: number;
+    v: number;
+  };
   dailyBar: {
-    t: string
-    o: number
-    h: number
-    l: number
-    c: number
-    v: number
-  }
+    t: string;
+    o: number;
+    h: number;
+    l: number;
+    c: number;
+    v: number;
+  };
   prevDailyBar: {
-    t: string
-    o: number
-    h: number
-    l: number
-    c: number
-    v: number
-  }
+    t: string;
+    o: number;
+    h: number;
+    l: number;
+    c: number;
+    v: number;
+  };
 }
 
 export interface Snapshot {
   /** Get the raw data as it came from Alpaca. */
-  raw(): RawSnapshot
-  symbol: string
+  raw(): RawSnapshot;
+  symbol: string;
   latestTrade: {
-    t: Date
-    x: string
-    p: number
-    s: number
-    c?: string[] | null
-    i: number
-    z: string
-  }
+    t: Date;
+    x: string;
+    p: number;
+    s: number;
+    c?: string[] | null;
+    i: number;
+    z: string;
+  };
   latestQuote: {
-    t: Date
-    ax: string
-    ap: number
-    as: number
-    bx: string
-    bp: number
-    bs: number
-    c?: string[] | null
-  }
+    t: Date;
+    ax: string;
+    ap: number;
+    as: number;
+    bx: string;
+    bp: number;
+    bs: number;
+    c?: string[] | null;
+  };
   minuteBar: {
-    t: Date
-    o: number
-    h: number
-    l: number
-    c: number
-    v: number
-  }
+    t: Date;
+    o: number;
+    h: number;
+    l: number;
+    c: number;
+    v: number;
+  };
   dailyBar: {
-    t: Date
-    o: number
-    h: number
-    l: number
-    c: number
-    v: number
-  }
+    t: Date;
+    o: number;
+    h: number;
+    l: number;
+    c: number;
+    v: number;
+  };
   prevDailyBar: {
-    t: Date
-    o: number
-    h: number
-    l: number
-    c: number
-    v: number
-  }
+    t: Date;
+    o: number;
+    h: number;
+    l: number;
+    c: number;
+    v: number;
+  };
 }
 
-export type DataSource = 'iex' | 'sip'
+export type DataSource = 'iex' | 'sip';
 
 export type OrderType =
   | 'market'
   | 'limit'
   | 'stop'
   | 'stop_limit'
-  | 'trailing_stop'
+  | 'trailing_stop';
 
-export type OrderClass =
-  | 'simple'
-  | 'bracket'
-  | 'oto'
-  | 'oco'
+export type OrderClass = 'simple' | 'bracket' | 'oto' | 'oco';
 
-export type OrderSide = 'buy' | 'sell'
+export type OrderSide = 'buy' | 'sell';
 
 export type OrderTimeInForce =
   /**
@@ -956,7 +952,7 @@ export type OrderTimeInForce =
    * A Fill or Kill (FOK) order is only executed if the entire order quantity can be
    * filled, otherwise the order is canceled. Only available with API v2.
    */
-  | 'fok'
+  | 'fok';
 
 export type OrderStatus =
   /**
@@ -1053,7 +1049,7 @@ export type OrderStatus =
    * but remaining settlement calculations are still pending. This state only occurs on
    * rare occasions.
    */
-  | 'calculated'
+  | 'calculated';
 
 /**
  * An Order in Alpaca
@@ -1062,158 +1058,158 @@ export interface Order {
   /**
    * Get the raw data, exactly as it came from Alpaca
    */
-  raw(): RawOrder
+  raw(): RawOrder;
 
   /**
    * Order id
    */
-  id: string
+  id: string;
 
   /**
    * Client unique order id
    */
-  client_order_id: string
+  client_order_id: string;
 
   /**
    * When the order was created
    */
-  created_at: Date
+  created_at: Date;
 
   /**
    * When the order was last updated
    */
-  updated_at: Date
+  updated_at: Date;
 
   /**
    * When the order was submitted
    */
-  submitted_at: Date
+  submitted_at: Date;
 
   /**
    * When the order was filled
    */
-  filled_at: Date
+  filled_at: Date;
 
   /**
    * When the order expired
    */
-  expired_at: Date
+  expired_at: Date;
 
   /**
    * When the order was canceled
    */
-  canceled_at: Date
+  canceled_at: Date;
 
   /**
    * When the order failed
    */
-  failed_at: Date
+  failed_at: Date;
 
   /**
    * When the order was last replaced
    */
-  replaced_at: Date
+  replaced_at: Date;
 
   /**
    * The order ID that this order was replaced by
    */
-  replaced_by: string
+  replaced_by: string;
 
   /**
    * The order ID that this order replaces
    */
-  replaces: string
+  replaces: string;
 
   /**
    * Asset ID
    */
-  asset_id: string
+  asset_id: string;
 
   /**
    * Asset symbol
    */
-  symbol: string
+  symbol: string;
 
   /**
    * Asset class
    */
-  asset_class: string
+  asset_class: string;
 
   /**
    * Ordered quantity
    */
-  qty: number
+  qty: number;
 
   /**
    * Filled quantity
    */
-  filled_qty: number
+  filled_qty: number;
 
   /**
    * Order type (market, limit, stop, stop_limit, trailing_stop)
    */
-  type: OrderType
+  type: OrderType;
 
   /**
    * Buy or sell
    */
-  side: OrderSide
+  side: OrderSide;
 
   /**
    * Order Time in Force
    */
-  time_in_force: OrderTimeInForce
+  time_in_force: OrderTimeInForce;
 
   /**
    * Limit price
    */
-  limit_price: number
+  limit_price: number;
 
   /**
    * Stop price
    */
-  stop_price: number
+  stop_price: number;
 
   /**
    * Filled average price
    */
-  filled_avg_price: number
+  filled_avg_price: number;
 
   /**
    * The status of the order
    */
-  status: OrderStatus
+  status: OrderStatus;
 
   /**
    * If true, eligible for execution outside regular trading hours.
    */
-  extended_hours: boolean
+  extended_hours: boolean;
 
   /**
    * When querying non-simple order_class orders in a nested style, an array of Order
    * entities associated with this order. Otherwise, null.
    */
-  legs: Order[]
+  legs: Order[];
 
   /**
    * The dollar value away from the high water mark for trailing stop orders.
    */
-  trail_price: number
+  trail_price: number;
 
   /**
    * The percent value away from the high water mark for trailing stop orders.
    */
-  trail_percent: number
+  trail_percent: number;
 
   /**
    * The highest (lowest) market price seen since the trailing stop order was submitted.
    */
-  hwm: number
+  hwm: number;
 
   /**
    * Mostly used for non-simple orders such as bracket, one-triggers-other, or one-cancels-other.
    */
-  order_class: OrderClass
+  order_class: OrderClass;
 }
 
 /**
@@ -1223,32 +1219,32 @@ export interface PortfolioHistory {
   /**
    * time of each data element, left-labeled (the beginning of time window)
    */
-  timestamp: number[]
+  timestamp: number[];
 
   /**
    * equity value of the account in dollar amount as of the end of each time window
    */
-  equity: number[]
+  equity: number[];
 
   /**
    * profit/loss in dollar from the base value
    */
-  profit_loss: number[]
+  profit_loss: number[];
 
   /**
    * profit/loss in percentage from the base value
    */
-  profit_loss_pct: number[]
+  profit_loss_pct: number[];
 
   /**
    * basis in dollar of the profit loss calculation
    */
-  base_value: number
+  base_value: number;
 
   /**
    * time window size of each data element
    */
-  timeframe: '1Min' | '5Min' | '15Min' | '1H' | '1D'
+  timeframe: '1Min' | '5Min' | '15Min' | '1H' | '1D';
 }
 
 /**
@@ -1256,25 +1252,25 @@ export interface PortfolioHistory {
  * We encourage you to use the Position interface, which has many of these fields parsed.
  */
 export interface RawPosition {
-  asset_id: string
-  symbol: string
-  exchange: string
-  asset_class: string
-  avg_entry_price: string
-  qty: string
-  side: string
-  market_value: string | null
-  cost_basis: string
-  unrealized_pl: string | null
-  unrealized_plpc: string | null
-  unrealized_intraday_pl: string | null
-  unrealized_intraday_plpc: string | null
-  current_price: string | null
-  lastday_price: string | null
-  change_today: string | null
+  asset_id: string;
+  symbol: string;
+  exchange: string;
+  asset_class: string;
+  avg_entry_price: string;
+  qty: string;
+  side: string;
+  market_value: string | null;
+  cost_basis: string;
+  unrealized_pl: string | null;
+  unrealized_plpc: string | null;
+  unrealized_intraday_pl: string | null;
+  unrealized_intraday_plpc: string | null;
+  current_price: string | null;
+  lastday_price: string | null;
+  change_today: string | null;
 }
 
-export type PositionSide = 'long' | 'short'
+export type PositionSide = 'long' | 'short';
 
 /**
  * A position in Alpaca
@@ -1283,87 +1279,87 @@ export interface Position {
   /**
    * Get the raw data, exactly as it came from Alpaca
    */
-  raw(): RawPosition
+  raw(): RawPosition;
 
   /**
    * Asset ID
    */
-  asset_id: string
+  asset_id: string;
 
   /**
    * Symbol name of the asset
    */
-  symbol: string
+  symbol: string;
 
   /**
    * Exchange name of the asset
    */
-  exchange: string
+  exchange: string;
 
   /**
    * Asset class name
    */
-  asset_class: string
+  asset_class: string;
 
   /**
    * Average entry price of the position
    */
-  avg_entry_price: number
+  avg_entry_price: number;
 
   /**
    * The number of shares
    */
-  qty: number
+  qty: number;
 
   /**
    * long or short
    */
-  side: PositionSide
+  side: PositionSide;
 
   /**
    * Total dollar amount of the position
    */
-  market_value: number | null
+  market_value: number | null;
 
   /**
    * Total cost basis in dollar
    */
-  cost_basis: number
+  cost_basis: number;
 
   /**
    * Unrealized profit/loss in dollars
    */
-  unrealized_pl: number | null
+  unrealized_pl: number | null;
 
   /**
    * Unrealized profit/loss percent (by a factor of 1)
    */
-  unrealized_plpc: number | null
+  unrealized_plpc: number | null;
 
   /**
    * Unrealized profit/loss in dollars for the day
    */
-  unrealized_intraday_pl: number | null
+  unrealized_intraday_pl: number | null;
 
   /**
    * Unrealized profit/loss percent (by a factor of 1)
    */
-  unrealized_intraday_plpc: number | null
+  unrealized_intraday_plpc: number | null;
 
   /**
    * Current asset price per share
    */
-  current_price: number | null
+  current_price: number | null;
 
   /**
    * Last day's asset price per share based on the closing value of the last trading day
    */
-  lastday_price: number | null
+  lastday_price: number | null;
 
   /**
    * Percent change from last day price (by a factor of 1)
    */
-  change_today: number | null
+  change_today: number | null;
 }
 
 export type ActivityType =
@@ -1531,150 +1527,150 @@ export type ActivityType =
   /**
    * Stock split
    */
-  | 'SSP'
+  | 'SSP';
 
 export interface RawTradeActivity {
   // Only FILL
-  activity_type: Extract<ActivityType, 'FILL'>
-  cum_qty: string
-  id: string
-  leaves_qty: string
-  price: string
-  qty: string
-  side: string
-  symbol: string
-  transaction_time: string
-  order_id: string
-  type: string
+  activity_type: Extract<ActivityType, 'FILL'>;
+  cum_qty: string;
+  id: string;
+  leaves_qty: string;
+  price: string;
+  qty: string;
+  side: string;
+  symbol: string;
+  transaction_time: string;
+  order_id: string;
+  type: string;
 }
 
 export interface RawNonTradeActivity {
   // Everything except FILL
-  activity_type: Exclude<ActivityType, 'FILL'>
-  id: string
-  date: string
-  net_amount: string
-  symbol: string
-  qty: string
-  per_share_amount: string
+  activity_type: Exclude<ActivityType, 'FILL'>;
+  id: string;
+  date: string;
+  net_amount: string;
+  symbol: string;
+  qty: string;
+  per_share_amount: string;
 }
 
-export type TradeActivityType = 'fill' | 'partial_fill'
-export type TradeActivitySide = 'buy' | 'sell'
+export type TradeActivityType = 'fill' | 'partial_fill';
+export type TradeActivitySide = 'buy' | 'sell';
 
 export interface TradeActivity {
   /**
    * Get the raw data, exactly as it came from Alpaca
    */
-  raw(): RawTradeActivity
+  raw(): RawTradeActivity;
 
   /**
    * FILL
    */
-  activity_type: Extract<ActivityType, 'FILL'>
+  activity_type: Extract<ActivityType, 'FILL'>;
 
   /**
    * The cumulative quantity of shares involved in the execution.
    */
-  cum_qty: number
+  cum_qty: number;
 
   /**
    * An id for the activity. Always in "::" format. Can be sent as page_token in requests
    * to facilitate the paging of results.
    */
-  id: string
+  id: string;
 
   /**
    * For partially_filled orders, the quantity of shares that are left to be filled.
    */
-  leaves_qty: number
+  leaves_qty: number;
 
   /**
    * The per-share price that the trade was executed at.
    */
-  price: number
+  price: number;
 
   /**
    * The number of shares involved in the trade execution.
    */
-  qty: number
+  qty: number;
 
   /**
    * buy or sell
    */
-  side: TradeActivitySide
+  side: TradeActivitySide;
 
   /**
    * The symbol of the security being traded.
    */
-  symbol: string
+  symbol: string;
 
   /**
    * The time at which the execution occurred.
    */
-  transaction_time: string
+  transaction_time: string;
 
   /**
    * The id for the order that filled.
    */
-  order_id: string
+  order_id: string;
 
   /**
    * fill or partial_fill
    */
-  type: TradeActivityType
+  type: TradeActivityType;
 }
 
 export interface NonTradeActivity {
   /**
    * Get the raw data, exactly as it came from Alpaca
    */
-  raw(): RawNonTradeActivity
+  raw(): RawNonTradeActivity;
 
   /**
    * Activity type
    */
-  activity_type: Exclude<ActivityType, 'FILL'>
+  activity_type: Exclude<ActivityType, 'FILL'>;
 
   /**
    * An ID for the activity, always in "::" format. Can be sent as page_token in requests
    * to facilitate the paging of results.
    */
-  id: string
+  id: string;
 
   /**
    * The date on which the activity occurred or on which the transaction associated with
    * the activity settled.
    */
-  date: string
+  date: string;
 
   /**
    * The net amount of money (positive or negative) associated with the activity.
    */
-  net_amount: number
+  net_amount: number;
 
   /**
    * The symbol of the security involved with the activity. Not present for all activity
    * types.
    */
-  symbol: string
+  symbol: string;
 
   /**
    * For dividend activities, the number of shares that contributed to the payment. Not
    * present for other activity types.
    */
-  qty: number
+  qty: number;
 
   /**
    * For dividend activities, the average amount paid per share. Not present for other
    * activity types.
    */
-  per_share_amount: number
+  per_share_amount: number;
 }
 
-export type RawActivity = RawTradeActivity | RawNonTradeActivity
+export type RawActivity = RawTradeActivity | RawNonTradeActivity;
 
-export type Activity = TradeActivity | NonTradeActivity
+export type Activity = TradeActivity | NonTradeActivity;
 
 /**
  * The following type mirrors OrderStatus almost exactly,
@@ -1682,7 +1678,7 @@ export type Activity = TradeActivity | NonTradeActivity
  * See https://alpaca.markets/docs/api-references/broker-api/events/#trade-events
  * for an updated list of these events and their detailed descriptions.
  */
-export type TradeUpdateEvent = 
+export type TradeUpdateEvent =
   | 'new'
   | 'fill'
   | 'partial_fill'
@@ -1698,38 +1694,37 @@ export type TradeUpdateEvent =
   | 'calculated'
   | 'suspended'
   | 'order_replace_rejected'
-  | 'order_cancel_rejected'
-;
+  | 'order_cancel_rejected';
 
 export interface RawTradeUpdate {
-  event: TradeUpdateEvent
-  execution_id: string
-  order: RawOrder
-  event_id?: string
-  at?: string
-  timestamp?: string
-  position_qty?: string
-  price?: string
-  qty?: string
+  event: TradeUpdateEvent;
+  execution_id: string;
+  order: RawOrder;
+  event_id?: string;
+  at?: string;
+  timestamp?: string;
+  position_qty?: string;
+  price?: string;
+  qty?: string;
 }
 
 export interface TradeUpdate {
   /**
    * Get the raw data, exactly as it came from Alpaca
    */
-  raw: () => RawTradeUpdate
+  raw: () => RawTradeUpdate;
 
   /**
    * Trade update event type
    */
-  event: TradeUpdateEvent
+  event: TradeUpdateEvent;
 
   /**
-   * Corresponding execution of an order. 
-   * If an order gets filled over two executions (a partial_fill for example), 
+   * Corresponding execution of an order.
+   * If an order gets filled over two executions (a partial_fill for example),
    * you will receive two events with different IDs.
    */
-  execution_id: string
+  execution_id: string;
 
   /**
    * Monotonically increasing 64-bit integer.
@@ -1737,85 +1732,103 @@ export interface TradeUpdate {
    * on Alpaca's docs here: https://alpaca.markets/docs/api-references/broker-api/events/#trade-events,
    * including for completeness.
    */
-  event_id?: number
+  event_id?: number;
 
   /**
    * The associated order that a trade_update event comes with
    */
-  order: Order
+  order: Order;
 
- /** 
-  * The timestamp of the trade update event.
-  * Alpaca docs at https://alpaca.markets/docs/api-references/broker-api/events/#trade-events
-  * are confusing. They say the 'at' property will contain the timestamp of
-  * the event, but currently as of 3/10/22 this is in the 'timestamp' property
-  * instead. Including both for completeness. 
-  */ 
-  at?: Date
+  /**
+   * The timestamp of the trade update event.
+   * Alpaca docs at https://alpaca.markets/docs/api-references/broker-api/events/#trade-events
+   * are confusing. They say the 'at' property will contain the timestamp of
+   * the event, but currently as of 3/10/22 this is in the 'timestamp' property
+   * instead. Including both for completeness.
+   */
+  at?: Date;
 
-  /** 
-  * The timestamp of the trade update event.
-  * Alpaca docs at https://alpaca.markets/docs/api-references/broker-api/events/#trade-events
-  * are confusing. They say the 'at' property will contain the timestamp of
-  * the event, but currently as of 3/10/22 this is in the 'timestamp' property
-  * instead. Including both for completeness. 
-  */ 
-  timestamp?: Date
-  
+  /**
+   * The timestamp of the trade update event.
+   * Alpaca docs at https://alpaca.markets/docs/api-references/broker-api/events/#trade-events
+   * are confusing. They say the 'at' property will contain the timestamp of
+   * the event, but currently as of 3/10/22 this is in the 'timestamp' property
+   * instead. Including both for completeness.
+   */
+  timestamp?: Date;
+
   /**
    * The size of your total position, after a fill or partial fill event, in shares.
    */
-  position_qty?: number
+  position_qty?: number;
 
   /**
    * The average price per share at which the order was filled or partially filled
    */
-  price?: number
+  price?: number;
 
   /**
-   * The amount of shares that were filled in a trade update of type fill or partial_fill. 
+   * The amount of shares that were filled in a trade update of type fill or partial_fill.
    * Equivalent to the order.filled_qty property, which is preferred.
    */
-  qty?: number
+  qty?: number;
 }
 
 export interface Watchlist {
   /**
    * account ID
    */
-  account_id: string
+  account_id: string;
 
   /**
    * the content of this watchlist, in the order as registered by the client
    */
-  assets: Asset[]
+  assets: Asset[];
 
   /**
    * When the watchlist was created
    */
-  created_at: string
+  created_at: string;
 
   /**
    * watchlist id
    */
-  id: string
+  id: string;
 
   /**
    * user-defined watchlist name (up to 64 characters)
    */
-  name: string
+  name: string;
 
   /**
    * When the watchlist was last updated
    */
-  updated_at: string
+  updated_at: string;
 }
 
-export type Channel = 'trades' | 'quotes' | 'bars' | 'trade_updates'
+export interface News {
+  id: number;
+  headline: string;
+  author: string;
+  created_at: Date;
+  updated_at: Date;
+  summary: string;
+  url: string;
+  images: any[];
+  symbols: string[];
+  source: string;
+}
+
+export interface NewsPage {
+  news: News[];
+  next_page_token: string;
+}
+
+export type Channel = 'trades' | 'quotes' | 'bars' | 'trade_updates';
 
 export interface Message {
-  T: 'success' | 'error' | 'subscription'
-  code?: number
-  msg: string
-  [key: string]: any
+  T: 'success' | 'error' | 'subscription';
+  code?: number;
+  msg: string;
+  [key: string]: any;
 }
