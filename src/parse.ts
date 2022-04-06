@@ -32,12 +32,12 @@ import {
   Snapshot,
   RawSnapshot,
   TradeUpdate,
-  RawTradeUpdate
-} from './entities.js'
+  RawTradeUpdate,
+} from './entities.js';
 
 function account(rawAccount: RawAccount): Account {
   if (!rawAccount) {
-    return undefined
+    return undefined;
   }
 
   try {
@@ -60,15 +60,15 @@ function account(rawAccount: RawAccount): Account {
       last_maintenance_margin: number(rawAccount.last_maintenance_margin),
       sma: number(rawAccount.sma),
       status: rawAccount.status as AccountStatus,
-    }
+    };
   } catch (err) {
-    throw new Error(`Account parsing failed. ${err.message}`)
+    throw new Error(`Account parsing failed. ${err.message}`);
   }
 }
 
 function clock(rawClock: RawClock): Clock {
   if (!rawClock) {
-    return undefined
+    return undefined;
   }
 
   try {
@@ -78,15 +78,15 @@ function clock(rawClock: RawClock): Clock {
       is_open: rawClock.is_open,
       next_open: new Date(rawClock.next_open),
       next_close: new Date(rawClock.next_close),
-    }
+    };
   } catch (err) {
-    throw new Error(`Order parsing failed. ${err.message}`)
+    throw new Error(`Order parsing failed. ${err.message}`);
   }
 }
 
 function order(rawOrder: RawOrder): Order {
   if (!rawOrder) {
-    return undefined
+    return undefined;
   }
 
   try {
@@ -114,26 +114,26 @@ function order(rawOrder: RawOrder): Order {
       trail_price: number(rawOrder.trail_price),
       trail_percent: number(rawOrder.trail_percent),
       hwm: number(rawOrder.hwm),
-      order_class: rawOrder.order_class
-    }
+      order_class: rawOrder.order_class,
+    };
   } catch (err) {
-    throw new Error(`Order parsing failed. ${err.message}`)
+    throw new Error(`Order parsing failed. ${err.message}`);
   }
 }
 
 function orders(rawOrders: RawOrder[]): Order[] {
-  return rawOrders ? rawOrders.map((value) => order(value)) : undefined
+  return rawOrders ? rawOrders.map((value) => order(value)) : undefined;
 }
 
 function canceled_order(input: RawOrderCancelation): OrderCancelation {
   if (!input) {
-    return undefined
+    return undefined;
   }
 
-  let order = input.body
+  let order = input.body;
 
   // we don't want this field anymore
-  delete input.body
+  delete input.body;
 
   try {
     return {
@@ -162,11 +162,11 @@ function canceled_order(input: RawOrderCancelation): OrderCancelation {
         trail_price: number(order.trail_price),
         trail_percent: number(order.trail_percent),
         hwm: number(order.hwm),
-        order_class: order.order_class
+        order_class: order.order_class,
       },
-    }
+    };
   } catch (err) {
-    throw new Error(`Order parsing failed. ${err.message}`)
+    throw new Error(`Order parsing failed. ${err.message}`);
   }
 }
 
@@ -175,12 +175,12 @@ function canceled_orders(
 ): OrderCancelation[] {
   return rawOrderCancelations
     ? rawOrderCancelations.map((value) => canceled_order(value))
-    : undefined
+    : undefined;
 }
 
 function position(rawPosition: RawPosition): Position {
   if (!rawPosition) {
-    return undefined
+    return undefined;
   }
 
   try {
@@ -199,19 +199,19 @@ function position(rawPosition: RawPosition): Position {
       current_price: number(rawPosition.current_price),
       lastday_price: number(rawPosition.lastday_price),
       change_today: number(rawPosition.change_today),
-    }
+    };
   } catch (err) {
-    throw new Error(`Position parsing failed. ${err.message}`)
+    throw new Error(`Position parsing failed. ${err.message}`);
   }
 }
 
 function positions(rawPositions: RawPosition[]): Position[] {
-  return rawPositions ? rawPositions.map((pos) => position(pos)) : undefined
+  return rawPositions ? rawPositions.map((pos) => position(pos)) : undefined;
 }
 
 function tradeActivity(rawTradeActivity: RawTradeActivity): TradeActivity {
   if (!rawTradeActivity) {
-    return undefined
+    return undefined;
   }
 
   try {
@@ -224,9 +224,9 @@ function tradeActivity(rawTradeActivity: RawTradeActivity): TradeActivity {
       qty: number(rawTradeActivity.qty),
       side: rawTradeActivity.side as TradeActivitySide,
       type: rawTradeActivity.type as TradeActivityType,
-    }
+    };
   } catch (err) {
-    throw new Error(`TradeActivity parsing failed. ${err.message}`)
+    throw new Error(`TradeActivity parsing failed. ${err.message}`);
   }
 }
 
@@ -234,7 +234,7 @@ function nonTradeActivity(
   rawNonTradeActivity: RawNonTradeActivity,
 ): NonTradeActivity {
   if (!rawNonTradeActivity) {
-    return undefined
+    return undefined;
   }
 
   try {
@@ -244,15 +244,15 @@ function nonTradeActivity(
       net_amount: number(rawNonTradeActivity.net_amount),
       qty: number(rawNonTradeActivity.qty),
       per_share_amount: number(rawNonTradeActivity.per_share_amount),
-    }
+    };
   } catch (err) {
-    throw new Error(`NonTradeActivity parsing failed. ${err.message}`)
+    throw new Error(`NonTradeActivity parsing failed. ${err.message}`);
   }
 }
 
 function activities(rawActivities: Array<RawActivity>): Array<Activity> {
   if (!rawActivities) {
-    return undefined
+    return undefined;
   }
 
   try {
@@ -260,15 +260,15 @@ function activities(rawActivities: Array<RawActivity>): Array<Activity> {
       rawActivity.activity_type === 'FILL'
         ? tradeActivity(rawActivity)
         : nonTradeActivity(rawActivity),
-    )
+    );
   } catch (err) {
-    throw new Error(`Activity parsing failed. ${err.message}`)
+    throw new Error(`Activity parsing failed. ${err.message}`);
   }
 }
 
 function pageOfTrades(page: RawPageOfTrades): PageOfTrades {
   if (!page) {
-    return undefined
+    return undefined;
   }
 
   try {
@@ -281,15 +281,15 @@ function pageOfTrades(page: RawPageOfTrades): PageOfTrades {
       })),
       symbol: page.symbol,
       next_page_token: page.next_page_token,
-    }
+    };
   } catch (err) {
-    throw new Error(`PageOfTrades parsing failed "${err.message}"`)
+    throw new Error(`PageOfTrades parsing failed "${err.message}"`);
   }
 }
 
 function pageOfQuotes(page: RawPageOfQuotes): PageOfQuotes {
   if (!page) {
-    return undefined
+    return undefined;
   }
 
   try {
@@ -302,15 +302,15 @@ function pageOfQuotes(page: RawPageOfQuotes): PageOfQuotes {
       })),
       symbol: page.symbol,
       next_page_token: page.next_page_token,
-    }
+    };
   } catch (err) {
-    throw new Error(`PageOfTrades parsing failed "${err.message}"`)
+    throw new Error(`PageOfTrades parsing failed "${err.message}"`);
   }
 }
 
 function pageOfBars(page: RawPageOfBars): PageOfBars {
   if (!page) {
-    return undefined
+    return undefined;
   }
 
   try {
@@ -323,15 +323,15 @@ function pageOfBars(page: RawPageOfBars): PageOfBars {
       })),
       symbol: page.symbol,
       next_page_token: page.next_page_token,
-    }
+    };
   } catch (err) {
-    throw new Error(`PageOfTrades parsing failed "${err.message}"`)
+    throw new Error(`PageOfTrades parsing failed "${err.message}"`);
   }
 }
 
 function snapshot(raw: RawSnapshot): Snapshot {
   if (!raw) {
-    return undefined
+    return undefined;
   }
 
   try {
@@ -368,42 +368,39 @@ function snapshot(raw: RawSnapshot): Snapshot {
             t: new Date(raw.prevDailyBar.t),
           }
         : null,
-    } as any as Snapshot
+    } as any as Snapshot;
   } catch (err) {
-    throw new Error(`Snapshot parsing failed "${err.message}"`)
+    throw new Error(`Snapshot parsing failed "${err.message}"`);
   }
 }
 
 function snapshots(raw: { [key: string]: RawSnapshot }): {
-  [key: string]: Snapshot
+  [key: string]: Snapshot;
 } {
-  let parsed: { [key: string]: Snapshot } = {}
+  let parsed: { [key: string]: Snapshot } = {};
 
   for (let [key, value] of Object.entries(raw)) {
-    parsed[key] = snapshot(value)
+    parsed[key] = snapshot(value);
   }
 
-  return parsed
+  return parsed;
 }
 
 function number(numStr: string | any): number {
   if (typeof numStr === 'undefined' || numStr == null) {
-    return numStr
+    return numStr;
   }
 
-  const value = parseFloat(numStr)
+  const value = parseFloat(numStr);
 
   if (Number.isNaN(value)) {
-    return null
+    return null;
   }
 
-  return value
+  return value;
 }
 
-function trade_update(
-  rawTradeUpdate: RawTradeUpdate
-): TradeUpdate {
-
+function trade_update(rawTradeUpdate: RawTradeUpdate): TradeUpdate {
   if (!rawTradeUpdate) return undefined;
 
   return {
@@ -411,15 +408,21 @@ function trade_update(
     event: rawTradeUpdate.event,
     execution_id: rawTradeUpdate.execution_id,
     order: order(rawTradeUpdate.order),
-    
-    /* Only include the non-obligatory fields if they exist */ 
-    ... rawTradeUpdate.event_id &&  { event_id: number(rawTradeUpdate.event_id) },
-    ... rawTradeUpdate.at && { at: new Date(rawTradeUpdate.at) },
-    ... rawTradeUpdate.timestamp && { timestamp: new Date(rawTradeUpdate.timestamp) },
-    ... rawTradeUpdate.position_qty && { position_qty: number(rawTradeUpdate.position_qty) },
-    ... rawTradeUpdate.price && { price: number(rawTradeUpdate.price) },
-    ... rawTradeUpdate.qty && { qty: number(rawTradeUpdate.qty) }
-  }
+
+    /* Only include the non-obligatory fields if they exist */
+    ...(rawTradeUpdate.event_id && {
+      event_id: number(rawTradeUpdate.event_id),
+    }),
+    ...(rawTradeUpdate.at && { at: new Date(rawTradeUpdate.at) }),
+    ...(rawTradeUpdate.timestamp && {
+      timestamp: new Date(rawTradeUpdate.timestamp),
+    }),
+    ...(rawTradeUpdate.position_qty && {
+      position_qty: number(rawTradeUpdate.position_qty),
+    }),
+    ...(rawTradeUpdate.price && { price: number(rawTradeUpdate.price) }),
+    ...(rawTradeUpdate.qty && { qty: number(rawTradeUpdate.qty) }),
+  };
 }
 
 export default {
@@ -438,5 +441,5 @@ export default {
   pageOfBars,
   snapshot,
   snapshots,
-  trade_update
-}
+  trade_update,
+};

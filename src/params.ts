@@ -197,7 +197,7 @@ export interface UpdateWatchList {
 }
 
 export interface GetNews {
-  symbols?: string[];
+  symbols?: string[] | string;
   start?: Date;
   end?: Date;
   limit?: number;
