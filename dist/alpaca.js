@@ -37,7 +37,7 @@ function __awaiter(thisArg, _arguments, P, generator) {
 
 var urls = {
     rest: {
-        beta: 'https://api.alpaca.markets/v1beta1',
+        beta: 'https://data.alpaca.markets/v1beta1',
         account: 'https://api.alpaca.markets/v2',
         market_data_v2: 'https://data.alpaca.markets/v2',
         market_data_v1: 'https://data.alpaca.markets/v1',

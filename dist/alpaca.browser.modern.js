@@ -4723,7 +4723,7 @@ var browser$1 = self.fetch || (self.fetch = require$$0.default || require$$0);
 
 var urls = {
     rest: {
-        beta: 'https://api.alpaca.markets/v1beta1',
+        beta: 'https://data.alpaca.markets/v1beta1',
         account: 'https://api.alpaca.markets/v2',
         market_data_v2: 'https://data.alpaca.markets/v2',
         market_data_v1: 'https://data.alpaca.markets/v1',
