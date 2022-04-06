@@ -178,6 +178,10 @@ export class AlpacaClient {
         });
     }
     getNews(params) {
+        // transform symbols if necessary
+        if ('symbols' in params && Array.isArray(params.symbols)) {
+            params.symbols = params.symbols.join(',');
+        }
         return this.request({
             method: 'GET',
             url: `${urls.rest.beta}/news`,

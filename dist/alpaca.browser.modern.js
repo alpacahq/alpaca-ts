@@ -4810,7 +4810,7 @@ function order(rawOrder) {
             trail_price: number(rawOrder.trail_price),
             trail_percent: number(rawOrder.trail_percent),
             hwm: number(rawOrder.hwm),
-            order_class: rawOrder.order_class
+            order_class: rawOrder.order_class,
         };
     }
     catch (err) {
@@ -4853,7 +4853,7 @@ function canceled_order(input) {
                 trail_price: number(order.trail_price),
                 trail_percent: number(order.trail_percent),
                 hwm: number(order.hwm),
-                order_class: order.order_class
+                order_class: order.order_class,
             },
         };
     }
@@ -5074,12 +5074,18 @@ function trade_update(rawTradeUpdate) {
         event: rawTradeUpdate.event,
         execution_id: rawTradeUpdate.execution_id,
         order: order(rawTradeUpdate.order),
-        ...rawTradeUpdate.event_id && { event_id: number(rawTradeUpdate.event_id) },
-        ...rawTradeUpdate.at && { at: new Date(rawTradeUpdate.at) },
-        ...rawTradeUpdate.timestamp && { timestamp: new Date(rawTradeUpdate.timestamp) },
-        ...rawTradeUpdate.position_qty && { position_qty: number(rawTradeUpdate.position_qty) },
-        ...rawTradeUpdate.price && { price: number(rawTradeUpdate.price) },
-        ...rawTradeUpdate.qty && { qty: number(rawTradeUpdate.qty) }
+        ...(rawTradeUpdate.event_id && {
+            event_id: number(rawTradeUpdate.event_id),
+        }),
+        ...(rawTradeUpdate.at && { at: new Date(rawTradeUpdate.at) }),
+        ...(rawTradeUpdate.timestamp && {
+            timestamp: new Date(rawTradeUpdate.timestamp),
+        }),
+        ...(rawTradeUpdate.position_qty && {
+            position_qty: number(rawTradeUpdate.position_qty),
+        }),
+        ...(rawTradeUpdate.price && { price: number(rawTradeUpdate.price) }),
+        ...(rawTradeUpdate.qty && { qty: number(rawTradeUpdate.qty) }),
     };
 }
 var parse = {
@@ -5098,7 +5104,7 @@ var parse = {
     pageOfBars,
     snapshot,
     snapshots,
-    trade_update
+    trade_update,
 };
 
 const unifetch = typeof fetch !== 'undefined' ? fetch : browser$1;
@@ -5272,6 +5278,9 @@ class AlpacaClient {
         });
     }
     getNews(params) {
+        if ('symbols' in params && Array.isArray(params.symbols)) {
+            params.symbols = params.symbols.join(',');
+        }
         return this.request({
             method: 'GET',
             url: `${urls.rest.beta}/news`,

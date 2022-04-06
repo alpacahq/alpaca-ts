@@ -161,7 +161,7 @@ export interface UpdateWatchList {
     symbols?: string[];
 }
 export interface GetNews {
-    symbols?: string[];
+    symbols?: string[] | string;
     start?: Date;
     end?: Date;
     limit?: number;

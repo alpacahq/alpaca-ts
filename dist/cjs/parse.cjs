@@ -194,7 +194,13 @@ function number(numStr) {
 function trade_update(rawTradeUpdate) {
     if (!rawTradeUpdate)
         return undefined;
-    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ raw: () => rawTradeUpdate, event: rawTradeUpdate.event, execution_id: rawTradeUpdate.execution_id, order: order(rawTradeUpdate.order) }, rawTradeUpdate.event_id && { event_id: number(rawTradeUpdate.event_id) }), rawTradeUpdate.at && { at: new Date(rawTradeUpdate.at) }), rawTradeUpdate.timestamp && { timestamp: new Date(rawTradeUpdate.timestamp) }), rawTradeUpdate.position_qty && { position_qty: number(rawTradeUpdate.position_qty) }), rawTradeUpdate.price && { price: number(rawTradeUpdate.price) }), rawTradeUpdate.qty && { qty: number(rawTradeUpdate.qty) });
+    return Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({ raw: () => rawTradeUpdate, event: rawTradeUpdate.event, execution_id: rawTradeUpdate.execution_id, order: order(rawTradeUpdate.order) }, (rawTradeUpdate.event_id && {
+        event_id: number(rawTradeUpdate.event_id),
+    })), (rawTradeUpdate.at && { at: new Date(rawTradeUpdate.at) })), (rawTradeUpdate.timestamp && {
+        timestamp: new Date(rawTradeUpdate.timestamp),
+    })), (rawTradeUpdate.position_qty && {
+        position_qty: number(rawTradeUpdate.position_qty),
+    })), (rawTradeUpdate.price && { price: number(rawTradeUpdate.price) })), (rawTradeUpdate.qty && { qty: number(rawTradeUpdate.qty) }));
 }
 exports.default = {
     account,
@@ -212,5 +218,5 @@ exports.default = {
     pageOfBars,
     snapshot,
     snapshots,
-    trade_update
+    trade_update,
 };
