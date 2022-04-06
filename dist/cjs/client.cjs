@@ -211,6 +211,13 @@ class AlpacaClient {
             data: params,
         });
     }
+    getNews(params) {
+        return this.request({
+            method: 'GET',
+            url: `${urls_js_1.default.rest.beta}/news`,
+            data: params,
+        });
+    }
     getClock() {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.clock(yield this.request({

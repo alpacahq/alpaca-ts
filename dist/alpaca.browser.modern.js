@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.3.15
+ * alpaca@6.3.16
  * released under the permissive ISC license
  */
 
@@ -4723,6 +4723,7 @@ var browser$1 = self.fetch || (self.fetch = require$$0.default || require$$0);
 
 var urls = {
     rest: {
+        beta: 'https://api.alpaca.markets/v1beta1',
         account: 'https://api.alpaca.markets/v2',
         market_data_v2: 'https://data.alpaca.markets/v2',
         market_data_v1: 'https://data.alpaca.markets/v1',
@@ -5267,6 +5268,13 @@ class AlpacaClient {
         return this.request({
             method: 'GET',
             url: `${urls.rest.account}/calendar`,
+            data: params,
+        });
+    }
+    getNews(params) {
+        return this.request({
+            method: 'GET',
+            url: `${urls.rest.beta}/news`,
             data: params,
         });
     }

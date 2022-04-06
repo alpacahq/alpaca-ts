@@ -1476,12 +1476,12 @@ export interface TradeUpdate {
      */
     at?: Date;
     /**
-    * The timestamp of the trade update event.
-    * Alpaca docs at https://alpaca.markets/docs/api-references/broker-api/events/#trade-events
-    * are confusing. They say the 'at' property will contain the timestamp of
-    * the event, but currently as of 3/10/22 this is in the 'timestamp' property
-    * instead. Including both for completeness.
-    */
+     * The timestamp of the trade update event.
+     * Alpaca docs at https://alpaca.markets/docs/api-references/broker-api/events/#trade-events
+     * are confusing. They say the 'at' property will contain the timestamp of
+     * the event, but currently as of 3/10/22 this is in the 'timestamp' property
+     * instead. Including both for completeness.
+     */
     timestamp?: Date;
     /**
      * The size of your total position, after a fill or partial fill event, in shares.
@@ -1522,6 +1522,22 @@ export interface Watchlist {
      * When the watchlist was last updated
      */
     updated_at: string;
+}
+export interface News {
+    id: number;
+    headline: string;
+    author: string;
+    created_at: Date;
+    updated_at: Date;
+    summary: string;
+    url: string;
+    images: any[];
+    symbols: string[];
+    source: string;
+}
+export interface NewsPage {
+    news: News[];
+    next_page_token: string;
 }
 export declare type Channel = 'trades' | 'quotes' | 'bars' | 'trade_updates';
 export interface Message {

@@ -160,3 +160,13 @@ export interface UpdateWatchList {
     name?: string;
     symbols?: string[];
 }
+export interface GetNews {
+    symbols?: string[];
+    start?: Date;
+    end?: Date;
+    limit?: number;
+    sort?: 'ASC' | 'DESC';
+    include_content?: boolean;
+    exclude_contentless?: boolean;
+    page_token?: string;
+}

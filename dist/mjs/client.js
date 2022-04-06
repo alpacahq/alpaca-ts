@@ -177,6 +177,13 @@ export class AlpacaClient {
             data: params,
         });
     }
+    getNews(params) {
+        return this.request({
+            method: 'GET',
+            url: `${urls.rest.beta}/news`,
+            data: params,
+        });
+    }
     async getClock() {
         return parse.clock(await this.request({
             method: 'GET',
