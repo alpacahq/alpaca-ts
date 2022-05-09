@@ -170,6 +170,7 @@ The following methods are available on the client.
 #### Market Data v2
 
 - [getTrades](#getTrades)
+- [getLatestTrade](#getLatestTrade)
 - [getQuotes](#getQuotes)
 - [getBars](#getBars)
 - [getSnapshot](#getSnapshot)
@@ -381,6 +382,12 @@ await client.getLastQuote_v1({ symbol: 'SPY' });
 
 ```typescript
 await client.getBars_v1({ symbols: ['SPY', 'DIA', 'XLF'], timeframe: '1Min' });
+```
+
+#### getLatestTrade
+
+```typescript
+await client.getLatestTrade({ symbol: 'SPY' });
 ```
 
 #### getTrades
