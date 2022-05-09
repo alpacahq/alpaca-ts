@@ -33,6 +33,7 @@ import {
   LastTrade_v1,
   Snapshot,
   NewsPage,
+  LatestTrade,
 } from './entities.js';
 
 import {
@@ -65,6 +66,7 @@ import {
   GetSnapshots,
   ClosePositions,
   GetNews,
+  GetLatestTrade,
 } from './params.js';
 
 const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch;
@@ -420,6 +422,27 @@ export class AlpacaClient {
         method: 'GET',
         url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/bars`,
         data: { ...params, symbol: undefined },
+      }),
+    );
+  }
+
+  async getLatestTrade({
+    symbol,
+    feed,
+    limit,
+  }: GetLatestTrade): Promise<LatestTrade> {
+    let query = '';
+
+    if (feed || limit) {
+      query = '?'.concat(qs.stringify({ feed, limit }));
+    }
+
+    return parse.latestTrade(
+      await this.request({
+        method: 'GET',
+        url: `${urls.rest.market_data_v2}/stocks/${symbol}/trades/latest`.concat(
+          query,
+        ),
       }),
     );
   }

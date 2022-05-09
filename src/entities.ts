@@ -1051,6 +1051,33 @@ export type OrderStatus =
    */
   | 'calculated';
 
+export interface RawLatestTrade {
+  symbol: string;
+  trade: {
+    t: string;
+    x: string;
+    p: number;
+    s: number;
+    c: string[];
+    i: number;
+    z: string;
+  };
+}
+
+export interface LatestTrade {
+  raw(): RawLatestTrade;
+  symbol: string;
+  trade: {
+    t: Date;
+    x: string;
+    p: number;
+    s: number;
+    c: string[];
+    i: number;
+    z: string;
+  };
+}
+
 /**
  * An Order in Alpaca
  */

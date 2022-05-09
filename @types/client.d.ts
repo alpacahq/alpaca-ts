@@ -1,5 +1,5 @@
-import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, PortfolioHistory, Activity, DefaultCredentials, OAuthCredentials, OrderCancelation, PageOfTrades, PageOfQuotes, PageOfBars, Bar_v1, LastQuote_v1, LastTrade_v1, Snapshot, NewsPage } from './entities.js';
-import { GetOrder, GetOrders, PlaceOrder, ReplaceOrder, CancelOrder, GetPosition, ClosePosition, GetAsset, GetAssets, GetWatchList, CreateWatchList, UpdateWatchList, AddToWatchList, RemoveFromWatchList, DeleteWatchList, GetCalendar, UpdateAccountConfigurations, GetAccountActivities, GetPortfolioHistory, GetBars, GetBars_v1, GetTrades, GetQuotes, GetLastTrade_v1, GetLastQuote_v1, GetSnapshot, GetSnapshots, ClosePositions, GetNews } from './params.js';
+import { Account, Order, Position, Asset, Watchlist, Calendar, Clock, AccountConfigurations, PortfolioHistory, Activity, DefaultCredentials, OAuthCredentials, OrderCancelation, PageOfTrades, PageOfQuotes, PageOfBars, Bar_v1, LastQuote_v1, LastTrade_v1, Snapshot, NewsPage, LatestTrade } from './entities.js';
+import { GetOrder, GetOrders, PlaceOrder, ReplaceOrder, CancelOrder, GetPosition, ClosePosition, GetAsset, GetAssets, GetWatchList, CreateWatchList, UpdateWatchList, AddToWatchList, RemoveFromWatchList, DeleteWatchList, GetCalendar, UpdateAccountConfigurations, GetAccountActivities, GetPortfolioHistory, GetBars, GetBars_v1, GetTrades, GetQuotes, GetLastTrade_v1, GetLastQuote_v1, GetSnapshot, GetSnapshots, ClosePositions, GetNews, GetLatestTrade } from './params.js';
 export declare class AlpacaClient {
     params: {
         credentials?: DefaultCredentials | OAuthCredentials;
@@ -49,6 +49,7 @@ export declare class AlpacaClient {
     getTrades(params: GetTrades): Promise<PageOfTrades>;
     getQuotes(params: GetQuotes): Promise<PageOfQuotes>;
     getBars(params: GetBars): Promise<PageOfBars>;
+    getLatestTrade({ symbol, feed, limit, }: GetLatestTrade): Promise<LatestTrade>;
     getSnapshot(params: GetSnapshot): Promise<Snapshot>;
     getSnapshots(params: GetSnapshots): Promise<{
         [key: string]: Snapshot;

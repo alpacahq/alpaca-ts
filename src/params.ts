@@ -1,4 +1,9 @@
-import { OrderSide, OrderType, OrderTimeInForce } from './entities.js';
+import {
+  OrderSide,
+  OrderType,
+  OrderTimeInForce,
+  DataSource,
+} from './entities.js';
 
 export interface AddToWatchList {
   uuid: string;
@@ -188,6 +193,12 @@ export interface UpdateAccountConfigurations {
   no_shorting?: boolean;
   suspend_trade?: boolean;
   trade_confirm_email?: string;
+}
+
+export interface GetLatestTrade {
+  symbol: string;
+  feed?: DataSource;
+  limit?: number;
 }
 
 export interface UpdateWatchList {

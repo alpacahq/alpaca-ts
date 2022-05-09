@@ -318,6 +318,18 @@ class AlpacaClient {
             }));
         });
     }
+    getLatestTrade({ symbol, feed, limit, }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let query = '';
+            if (feed || limit) {
+                query = '?'.concat(qs_1.default.stringify({ feed, limit }));
+            }
+            return parse_js_1.default.latestTrade(yield this.request({
+                method: 'GET',
+                url: `${urls_js_1.default.rest.market_data_v2}/stocks/${symbol}/trades/latest`.concat(query),
+            }));
+        });
+    }
     getSnapshot(params) {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.snapshot(yield this.request({

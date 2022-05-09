@@ -1,6 +1,7 @@
-import { Account, RawAccount, RawOrder, Order, RawPosition, Position, RawTradeActivity, TradeActivity, RawNonTradeActivity, NonTradeActivity, RawActivity, Activity, RawClock, Clock, RawOrderCancelation, OrderCancelation, PageOfTrades, RawPageOfTrades, PageOfQuotes, RawPageOfQuotes, RawPageOfBars, PageOfBars, Snapshot, RawSnapshot, TradeUpdate, RawTradeUpdate } from './entities.js';
+import { Account, RawAccount, RawOrder, Order, RawPosition, Position, RawTradeActivity, TradeActivity, RawNonTradeActivity, NonTradeActivity, RawActivity, Activity, RawClock, Clock, RawOrderCancelation, OrderCancelation, PageOfTrades, RawPageOfTrades, PageOfQuotes, RawPageOfQuotes, RawPageOfBars, PageOfBars, Snapshot, RawSnapshot, TradeUpdate, RawTradeUpdate, RawLatestTrade, LatestTrade } from './entities.js';
 declare function account(rawAccount: RawAccount): Account;
 declare function clock(rawClock: RawClock): Clock;
+declare function latestTrade(raw: RawLatestTrade): LatestTrade;
 declare function order(rawOrder: RawOrder): Order;
 declare function orders(rawOrders: RawOrder[]): Order[];
 declare function canceled_orders(rawOrderCancelations: RawOrderCancelation[]): OrderCancelation[];
@@ -36,5 +37,6 @@ declare const _default: {
     snapshot: typeof snapshot;
     snapshots: typeof snapshots;
     trade_update: typeof trade_update;
+    latestTrade: typeof latestTrade;
 };
 export default _default;

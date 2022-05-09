@@ -45,6 +45,24 @@ function clock(rawClock) {
         throw new Error(`Order parsing failed. ${err.message}`);
     }
 }
+function latestTrade(raw) {
+    if (!raw) {
+        return undefined;
+    }
+    try {
+        return {
+            ...raw,
+            raw: () => raw,
+            trade: {
+                ...raw.trade,
+                t: new Date(raw.trade.t),
+            },
+        };
+    }
+    catch (err) {
+        throw new Error(`Latest trade parsing failed. ${err.message}`);
+    }
+}
 function order(rawOrder) {
     if (!rawOrder) {
         return undefined;
@@ -371,4 +389,5 @@ export default {
     snapshot,
     snapshots,
     trade_update,
+    latestTrade,
 };

@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.3.16
+ * alpaca@6.3.17
  * released under the permissive ISC license
  */
 
@@ -4789,6 +4789,24 @@
           throw new Error(`Order parsing failed. ${err.message}`);
       }
   }
+  function latestTrade(raw) {
+      if (!raw) {
+          return undefined;
+      }
+      try {
+          return {
+              ...raw,
+              raw: () => raw,
+              trade: {
+                  ...raw.trade,
+                  t: new Date(raw.trade.t),
+              },
+          };
+      }
+      catch (err) {
+          throw new Error(`Latest trade parsing failed. ${err.message}`);
+      }
+  }
   function order(rawOrder) {
       if (!rawOrder) {
           return undefined;
@@ -5113,6 +5131,7 @@
       snapshot,
       snapshots,
       trade_update,
+      latestTrade,
   };
 
   const unifetch = typeof fetch !== 'undefined' ? fetch : browser$1;
@@ -5373,6 +5392,16 @@
               method: 'GET',
               url: `${urls.rest.market_data_v2}/stocks/${params.symbol}/bars`,
               data: { ...params, symbol: undefined },
+          }));
+      }
+      async getLatestTrade({ symbol, feed, limit, }) {
+          let query = '';
+          if (feed || limit) {
+              query = '?'.concat(lib.stringify({ feed, limit }));
+          }
+          return parse.latestTrade(await this.request({
+              method: 'GET',
+              url: `${urls.rest.market_data_v2}/stocks/${symbol}/trades/latest`.concat(query),
           }));
       }
       async getSnapshot(params) {

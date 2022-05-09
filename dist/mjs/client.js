@@ -271,6 +271,16 @@ export class AlpacaClient {
             data: { ...params, symbol: undefined },
         }));
     }
+    async getLatestTrade({ symbol, feed, limit, }) {
+        let query = '';
+        if (feed || limit) {
+            query = '?'.concat(qs.stringify({ feed, limit }));
+        }
+        return parse.latestTrade(await this.request({
+            method: 'GET',
+            url: `${urls.rest.market_data_v2}/stocks/${symbol}/trades/latest`.concat(query),
+        }));
+    }
     async getSnapshot(params) {
         return parse.snapshot(await this.request({
             method: 'GET',
