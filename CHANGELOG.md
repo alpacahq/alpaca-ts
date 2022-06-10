@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.3.20](https://github.com/117/alpaca/compare/v6.3.19...v6.3.20) (2022-06-10)
+
 ### [6.3.19](https://github.com/117/alpaca/compare/v6.3.18...v6.3.19) (2022-06-10)
 
 - Add support for custom endpoint urls (#105)
