@@ -43,7 +43,7 @@ export class AlpacaStream extends EventEmitter<string | symbol | any> {
   private host: string;
   private connection: WebSocket;
   private authenticated: boolean;
-  private baseURLs: Endpoints;
+  private baseURLs: Endpoints = endpoints;
 
   constructor(
     protected params: {

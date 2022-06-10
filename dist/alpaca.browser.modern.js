@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.3.18
+ * alpaca@6.3.19
  * released under the permissive ISC license
  */
 
@@ -5129,7 +5129,7 @@ var lib = require$$0;
 const unifetch = typeof fetch !== 'undefined' ? fetch : browser$1;
 class AlpacaClient {
     params;
-    baseURLs;
+    baseURLs = endpoints;
     limiter = new lib({
         reservoir: 200,
         reservoirRefreshAmount: 200,
@@ -5831,7 +5831,7 @@ class AlpacaStream extends eventemitter3 {
     host;
     connection;
     authenticated;
-    baseURLs;
+    baseURLs = endpoints;
     constructor(params) {
         super();
         this.params = params;

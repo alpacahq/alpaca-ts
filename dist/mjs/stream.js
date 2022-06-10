@@ -8,7 +8,7 @@ export class AlpacaStream extends EventEmitter {
     host;
     connection;
     authenticated;
-    baseURLs;
+    baseURLs = endpoints;
     constructor(params) {
         // construct EventEmitter
         super();

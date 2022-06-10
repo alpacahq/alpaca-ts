@@ -22,6 +22,7 @@ const unifetch = typeof fetch !== 'undefined' ? fetch : isomorphic_unfetch_1.def
 class AlpacaClient {
     constructor(params) {
         this.params = params;
+        this.baseURLs = endpoints_js_1.default;
         this.limiter = new bottleneck_1.default({
             reservoir: 200,
             reservoirRefreshAmount: 200,

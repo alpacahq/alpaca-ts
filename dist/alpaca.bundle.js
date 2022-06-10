@@ -1,5 +1,5 @@
 /*! 
- * alpaca@6.3.18
+ * alpaca@6.3.19
  * released under the permissive ISC license
  */
 
@@ -86916,6 +86916,7 @@ const unifetch = typeof fetch !== 'undefined' ? fetch : isomorphicUnfetch;
 class AlpacaClient {
     constructor(params) {
         this.params = params;
+        this.baseURLs = endpoints;
         this.limiter = new lib({
             reservoir: 200,
             reservoirRefreshAmount: 200,
@@ -91847,6 +91848,7 @@ class AlpacaStream extends eventemitter3 {
     constructor(params) {
         super();
         this.params = params;
+        this.baseURLs = endpoints;
         if ('endpoints' in params) {
             this.baseURLs = Object.assign(endpoints, params.endpoints);
         }

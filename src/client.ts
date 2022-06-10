@@ -70,8 +70,7 @@ import {
 
 const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch;
 export class AlpacaClient {
-  private baseURLs: Endpoints;
-
+  private baseURLs: Endpoints = endpoints;
   private limiter = new Bottleneck({
     reservoir: 200, // initial value
     reservoirRefreshAmount: 200,
