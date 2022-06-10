@@ -1,17 +1,22 @@
-import WebSocket from 'isomorphic-ws';
-import EventEmitter from 'eventemitter3';
 import isBlob from 'is-blob';
-import urls from './urls.js';
 import parse from './parse.js';
+import WebSocket from 'isomorphic-ws';
+import endpoints from './endpoints.js';
+import EventEmitter from 'eventemitter3';
 export class AlpacaStream extends EventEmitter {
     params;
     host;
     connection;
     authenticated;
+    baseURLs;
     constructor(params) {
         // construct EventEmitter
         super();
         this.params = params;
+        // override endpoints if custom provided
+        if ('endpoints' in params) {
+            this.baseURLs = Object.assign(endpoints, params.endpoints);
+        }
         if (
         // if not specified
         !('paper' in params.credentials) &&
@@ -23,11 +28,11 @@ export class AlpacaStream extends EventEmitter {
         switch (params.type) {
             case 'account':
                 this.host = params.credentials.paper
-                    ? urls.websocket.account.replace('api.', 'paper-api.')
-                    : urls.websocket.account;
+                    ? this.baseURLs.websocket.account.replace('api.', 'paper-api.')
+                    : this.baseURLs.websocket.account;
                 break;
             case 'market_data':
-                this.host = urls.websocket.market_data(this.params.source);
+                this.host = this.baseURLs.websocket.market_data(this.params.source);
                 break;
             default:
                 this.host = 'unknown';

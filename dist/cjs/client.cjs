@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlpacaClient = void 0;
-const bottleneck_1 = __importDefault(require("bottleneck"));
 const qs_1 = __importDefault(require("qs"));
-const isomorphic_unfetch_1 = __importDefault(require("isomorphic-unfetch"));
-const urls_js_1 = __importDefault(require("./urls.cjs"));
 const parse_js_1 = __importDefault(require("./parse.cjs"));
+const isomorphic_unfetch_1 = __importDefault(require("isomorphic-unfetch"));
+const endpoints_js_1 = __importDefault(require("./endpoints.cjs"));
+const bottleneck_1 = __importDefault(require("bottleneck"));
 const unifetch = typeof fetch !== 'undefined' ? fetch : isomorphic_unfetch_1.default;
 class AlpacaClient {
     constructor(params) {
@@ -30,6 +30,10 @@ class AlpacaClient {
             maxConcurrent: 1,
             minTime: 200,
         });
+        // override endpoints if custom provided
+        if ('endpoints' in params) {
+            this.baseURLs = Object.assign(endpoints_js_1.default, params.endpoints);
+        }
         if (
         // if not specified
         !('paper' in params.credentials) &&
@@ -57,7 +61,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.account(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.account}/account`,
+                url: `${this.baseURLs.rest.account}/account`,
             }));
         });
     }
@@ -65,7 +69,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.order(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.account}/orders/${params.order_id || params.client_order_id}`,
+                url: `${this.baseURLs.rest.account}/orders/${params.order_id || params.client_order_id}`,
                 data: { nested: params.nested },
             }));
         });
@@ -74,7 +78,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.orders(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.account}/orders`,
+                url: `${this.baseURLs.rest.account}/orders`,
                 data: Object.assign(Object.assign({}, params), { symbols: params.symbols ? params.symbols.join(',') : undefined }),
             }));
         });
@@ -83,7 +87,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.order(yield this.request({
                 method: 'POST',
-                url: `${urls_js_1.default.rest.account}/orders`,
+                url: `${this.baseURLs.rest.account}/orders`,
                 data: params,
             }));
         });
@@ -92,7 +96,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.order(yield this.request({
                 method: 'PATCH',
-                url: `${urls_js_1.default.rest.account}/orders/${params.order_id}`,
+                url: `${this.baseURLs.rest.account}/orders/${params.order_id}`,
                 data: params,
             }));
         });
@@ -100,7 +104,7 @@ class AlpacaClient {
     cancelOrder(params) {
         return this.request({
             method: 'DELETE',
-            url: `${urls_js_1.default.rest.account}/orders/${params.order_id}`,
+            url: `${this.baseURLs.rest.account}/orders/${params.order_id}`,
             isJSON: false,
         });
     }
@@ -108,7 +112,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.canceled_orders(yield this.request({
                 method: 'DELETE',
-                url: `${urls_js_1.default.rest.account}/orders`,
+                url: `${this.baseURLs.rest.account}/orders`,
             }));
         });
     }
@@ -116,7 +120,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.position(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.account}/positions/${params.symbol}`,
+                url: `${this.baseURLs.rest.account}/positions/${params.symbol}`,
             }));
         });
     }
@@ -124,7 +128,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.positions(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.account}/positions`,
+                url: `${this.baseURLs.rest.account}/positions`,
             }));
         });
     }
@@ -132,7 +136,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.order(yield this.request({
                 method: 'DELETE',
-                url: `${urls_js_1.default.rest.account}/positions/${params.symbol}`,
+                url: `${this.baseURLs.rest.account}/positions/${params.symbol}`,
                 data: params,
             }));
         });
@@ -142,72 +146,72 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.orders(yield this.request({
                 method: 'DELETE',
-                url: `${urls_js_1.default.rest.account}/positions?cancel_orders=${JSON.stringify((_a = params.cancel_orders) !== null && _a !== void 0 ? _a : false)}`,
+                url: `${this.baseURLs.rest.account}/positions?cancel_orders=${JSON.stringify((_a = params.cancel_orders) !== null && _a !== void 0 ? _a : false)}`,
             }));
         });
     }
     getAsset(params) {
         return this.request({
             method: 'GET',
-            url: `${urls_js_1.default.rest.account}/assets/${params.asset_id_or_symbol}`,
+            url: `${this.baseURLs.rest.account}/assets/${params.asset_id_or_symbol}`,
         });
     }
     getAssets(params) {
         return this.request({
             method: 'GET',
-            url: `${urls_js_1.default.rest.account}/assets`,
+            url: `${this.baseURLs.rest.account}/assets`,
             data: params,
         });
     }
     getWatchlist(params) {
         return this.request({
             method: 'GET',
-            url: `${urls_js_1.default.rest.account}/watchlists/${params.uuid}`,
+            url: `${this.baseURLs.rest.account}/watchlists/${params.uuid}`,
         });
     }
     getWatchlists() {
         return this.request({
             method: 'GET',
-            url: `${urls_js_1.default.rest.account}/watchlists`,
+            url: `${this.baseURLs.rest.account}/watchlists`,
         });
     }
     createWatchlist(params) {
         return this.request({
             method: 'POST',
-            url: `${urls_js_1.default.rest.account}/watchlists`,
+            url: `${this.baseURLs.rest.account}/watchlists`,
             data: params,
         });
     }
     updateWatchlist(params) {
         return this.request({
             method: 'PUT',
-            url: `${urls_js_1.default.rest.account}/watchlists/${params.uuid}`,
+            url: `${this.baseURLs.rest.account}/watchlists/${params.uuid}`,
             data: params,
         });
     }
     addToWatchlist(params) {
         return this.request({
             method: 'POST',
-            url: `${urls_js_1.default.rest.account}/watchlists/${params.uuid}`,
+            url: `${this.baseURLs.rest.account}/watchlists/${params.uuid}`,
             data: params,
         });
     }
     removeFromWatchlist(params) {
         return this.request({
             method: 'DELETE',
-            url: `${urls_js_1.default.rest.account}/watchlists/${params.uuid}/${params.symbol}`,
+            url: `${this.baseURLs.rest.account}/watchlists/${params.uuid}/${params.symbol}`,
         });
     }
     deleteWatchlist(params) {
         return this.request({
             method: 'DELETE',
-            url: `${urls_js_1.default.rest.account}/watchlists/${params.uuid}`,
+            url: `${this.baseURLs.rest.account}/watchlists/${params.uuid}`,
         });
     }
     getCalendar(params) {
         return this.request({
             method: 'GET',
-            url: `${urls_js_1.default.rest.account}/calendar`,
+            url: `${this.baseURLs.rest.account}/calendar`,
             data: params,
         });
     }
@@ -218,7 +222,7 @@ class AlpacaClient {
         }
         return this.request({
             method: 'GET',
-            url: `${urls_js_1.default.rest.beta}/news`,
+            url: `${this.baseURLs.rest.beta}/news`,
             data: params,
         });
     }
@@ -226,20 +230,20 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.clock(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.account}/clock`,
+                url: `${this.baseURLs.rest.account}/clock`,
             }));
         });
     }
     getAccountConfigurations() {
         return this.request({
             method: 'GET',
-            url: `${urls_js_1.default.rest.account}/account/configurations`,
+            url: `${this.baseURLs.rest.account}/account/configurations`,
         });
     }
     updateAccountConfigurations(params) {
         return this.request({
             method: 'PATCH',
-            url: `${urls_js_1.default.rest.account}/account/configurations`,
+            url: `${this.baseURLs.rest.account}/account/configurations`,
             data: params,
         });
     }
@@ -250,7 +254,7 @@ class AlpacaClient {
             }
             return parse_js_1.default.activities(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.account}/account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}`,
+                url: `${this.baseURLs.rest.account}/account/activities${params.activity_type ? '/'.concat(params.activity_type) : ''}`,
                 data: Object.assign(Object.assign({}, params), { activity_type: undefined }),
             }));
         });
@@ -258,7 +262,7 @@ class AlpacaClient {
     getPortfolioHistory(params) {
         return this.request({
             method: 'GET',
-            url: `${urls_js_1.default.rest.account}/account/portfolio/history`,
+            url: `${this.baseURLs.rest.account}/account/portfolio/history`,
             data: params,
         });
     }
@@ -268,7 +272,7 @@ class AlpacaClient {
             const transformed = Object.assign(Object.assign({}, params), { symbols: params.symbols.join(',') });
             return yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.market_data_v1}/bars/${params.timeframe}`,
+                url: `${this.baseURLs.rest.market_data_v1}/bars/${params.timeframe}`,
                 data: transformed,
             });
         });
@@ -278,7 +282,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.market_data_v1}/last/stocks/${params.symbol}`,
+                url: `${this.baseURLs.rest.market_data_v1}/last/stocks/${params.symbol}`,
             });
         });
     }
@@ -287,7 +291,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.market_data_v1}/last_quote/stocks/${params.symbol}`,
+                url: `${this.baseURLs.rest.market_data_v1}/last_quote/stocks/${params.symbol}`,
             });
         });
     }
@@ -295,7 +299,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.pageOfTrades(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.market_data_v2}/stocks/${params.symbol}/trades`,
+                url: `${this.baseURLs.rest.market_data_v2}/stocks/${params.symbol}/trades`,
                 data: Object.assign(Object.assign({}, params), { symbol: undefined }),
             }));
         });
@@ -304,7 +308,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.pageOfQuotes(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.market_data_v2}/stocks/${params.symbol}/quotes`,
+                url: `${this.baseURLs.rest.market_data_v2}/stocks/${params.symbol}/quotes`,
                 data: Object.assign(Object.assign({}, params), { symbol: undefined }),
             }));
         });
@@ -313,7 +317,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.pageOfBars(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.market_data_v2}/stocks/${params.symbol}/bars`,
+                url: `${this.baseURLs.rest.market_data_v2}/stocks/${params.symbol}/bars`,
                 data: Object.assign(Object.assign({}, params), { symbol: undefined }),
             }));
         });
@@ -326,7 +330,7 @@ class AlpacaClient {
             }
             return parse_js_1.default.latestTrade(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.market_data_v2}/stocks/${symbol}/trades/latest`.concat(query),
+                url: `${this.baseURLs.rest.market_data_v2}/stocks/${symbol}/trades/latest`.concat(query),
             }));
         });
     }
@@ -334,7 +338,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.snapshot(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.market_data_v2}/stocks/${params.symbol}/snapshot`,
+                url: `${this.baseURLs.rest.market_data_v2}/stocks/${params.symbol}/snapshot`,
             }));
         });
     }
@@ -342,7 +346,7 @@ class AlpacaClient {
         return __awaiter(this, void 0, void 0, function* () {
             return parse_js_1.default.snapshots(yield this.request({
                 method: 'GET',
-                url: `${urls_js_1.default.rest.market_data_v2}/stocks/snapshots?symbols=${params.symbols.join(',')}`,
+                url: `${this.baseURLs.rest.market_data_v2}/stocks/snapshots?symbols=${params.symbols.join(',')}`,
             }));
         });
     }

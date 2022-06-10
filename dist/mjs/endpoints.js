@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+const endpoints = {
     rest: {
         beta: 'https://data.alpaca.markets/v1beta1',
         account: 'https://api.alpaca.markets/v2',
@@ -12,3 +10,4 @@ exports.default = {
         market_data: (source = 'iex') => `wss://stream.data.alpaca.markets/v2/${source}`,
     },
 };
+export default endpoints;

@@ -13,16 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlpacaStream = void 0;
-const isomorphic_ws_1 = __importDefault(require("isomorphic-ws"));
-const eventemitter3_1 = __importDefault(require("eventemitter3"));
 const is_blob_1 = __importDefault(require("is-blob"));
-const urls_js_1 = __importDefault(require("./urls.cjs"));
 const parse_js_1 = __importDefault(require("./parse.cjs"));
+const isomorphic_ws_1 = __importDefault(require("isomorphic-ws"));
+const endpoints_js_1 = __importDefault(require("./endpoints.cjs"));
+const eventemitter3_1 = __importDefault(require("eventemitter3"));
 class AlpacaStream extends eventemitter3_1.default {
     constructor(params) {
         // construct EventEmitter
         super();
         this.params = params;
+        // override endpoints if custom provided
+        if ('endpoints' in params) {
+            this.baseURLs = Object.assign(endpoints_js_1.default, params.endpoints);
+        }
         if (
         // if not specified
         !('paper' in params.credentials) &&
@@ -34,11 +38,11 @@ class AlpacaStream extends eventemitter3_1.default {
         switch (params.type) {
             case 'account':
                 this.host = params.credentials.paper
-                    ? urls_js_1.default.websocket.account.replace('api.', 'paper-api.')
-                    : urls_js_1.default.websocket.account;
+                    ? this.baseURLs.websocket.account.replace('api.', 'paper-api.')
+                    : this.baseURLs.websocket.account;
                 break;
             case 'market_data':
-                this.host = urls_js_1.default.websocket.market_data(this.params.source);
+                this.host = this.baseURLs.websocket.market_data(this.params.source);
                 break;
             default:
                 this.host = 'unknown';

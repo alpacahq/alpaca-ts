@@ -1,7 +1,7 @@
 /// <reference types="ws" />
 import WebSocket from 'isomorphic-ws';
 import EventEmitter from 'eventemitter3';
-import { Bar, Channel, DataSource, DefaultCredentials, Quote, Trade, TradeUpdate, Message } from './entities.js';
+import { Bar, Channel, DataSource, DefaultCredentials, Quote, Trade, TradeUpdate, Message, Endpoints } from './entities.js';
 export declare interface Events {
     open: (stream: AlpacaStream) => void;
     close: (stream: AlpacaStream) => void;
@@ -25,14 +25,17 @@ export declare class AlpacaStream extends EventEmitter<string | symbol | any> {
         credentials: DefaultCredentials;
         type: 'account' | 'market_data';
         source?: DataSource;
+        endpoints?: Endpoints | Map<keyof Endpoints, any>;
     };
     private host;
     private connection;
     private authenticated;
+    private baseURLs;
     constructor(params: {
         credentials: DefaultCredentials;
         type: 'account' | 'market_data';
         source?: DataSource;
+        endpoints?: Endpoints | Map<keyof Endpoints, any>;
     });
     /**
      * Retrieve the underlying WebSocket connection AlpacaStream uses.

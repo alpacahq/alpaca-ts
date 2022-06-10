@@ -1,13 +1,13 @@
-export { AlpacaClient } from './client.js'
-export { AlpacaStream } from './stream.js'
+export { AlpacaClient } from './client.js';
+export { AlpacaStream } from './stream.js';
 
-import { AlpacaClient } from './client.js'
-import { AlpacaStream } from './stream.js'
+import { AlpacaClient } from './client.js';
+import { AlpacaStream } from './stream.js';
 
 export default {
   AlpacaClient: AlpacaClient,
   AlpacaStream: AlpacaStream,
-}
+};
 
 export {
   Account,
@@ -38,7 +38,7 @@ export {
   DataSource,
   Channel,
   Message,
-} from './entities'
+} from './entities';
 
 export {
   GetOrder,
@@ -69,5 +69,5 @@ export {
   GetLastTrade_v1,
   GetLastQuote_v1,
   BarsV1Timeframe,
-  BarsTimeframe
-} from './params'
+  BarsTimeframe,
+} from './params';

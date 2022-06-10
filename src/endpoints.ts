@@ -1,6 +1,6 @@
-import { DataSource } from './entities';
+import { DataSource, Endpoints } from './entities';
 
-export default {
+const endpoints: Endpoints = {
   rest: {
     beta: 'https://data.alpaca.markets/v1beta1',
     account: 'https://api.alpaca.markets/v2',
@@ -13,3 +13,5 @@ export default {
       `wss://stream.data.alpaca.markets/v2/${source}`,
   },
 };
+
+export default endpoints;
