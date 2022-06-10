@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.3.19](https://github.com/117/alpaca/compare/v6.3.18...v6.3.19) (2022-06-10)
+
 ### [6.3.18](https://github.com/117/alpaca/compare/v6.3.17...v6.3.18) (2022-05-09)
 
 ### [6.3.17](https://github.com/117/alpaca/compare/v6.3.16...v6.3.17) (2022-04-06)
