@@ -38,7 +38,7 @@ export {
   DataSource,
   Channel,
   Message,
-} from './entities.js';
+} from './entities';
 
 export {
   GetOrder,
@@ -70,4 +70,4 @@ export {
   GetLastQuote_v1,
   BarsV1Timeframe,
   BarsTimeframe,
-} from './params.js';
+} from './params';

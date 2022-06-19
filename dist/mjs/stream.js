@@ -4,11 +4,15 @@ import WebSocket from 'isomorphic-ws';
 import endpoints from './endpoints.js';
 import EventEmitter from 'eventemitter3';
 export class AlpacaStream extends EventEmitter {
+    params;
+    host;
+    connection;
+    authenticated;
+    baseURLs = endpoints;
     constructor(params) {
         // construct EventEmitter
         super();
         this.params = params;
-        this.baseURLs = endpoints;
         // override endpoints if custom provided
         if ('endpoints' in params) {
             this.baseURLs = Object.assign(endpoints, params.endpoints);

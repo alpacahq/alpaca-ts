@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
     "rootDir": "./src",
     "noImplicitThis": true,
     "esModuleInterop": true,
@@ -12,9 +12,7 @@
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": false,
-    "typeRoots": ["./node_modules/@types/", "./@types"],
-    "declaration": true,
-    "outDir": "./@types"
+    "typeRoots": ["./node_modules/@types/"]
   },
   "include": ["src/*.ts"],
   "exclude": ["node_modules", "dist", "test", "conf", "example"],

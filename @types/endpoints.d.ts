@@ -1,3 +1,3 @@
-import { Endpoints } from './entities.js';
+import { Endpoints } from './entities';
 declare const endpoints: Endpoints;
 export default endpoints;

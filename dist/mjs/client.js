@@ -5,17 +5,18 @@ import endpoints from './endpoints.js';
 import Bottleneck from 'bottleneck';
 const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch;
 export class AlpacaClient {
+    params;
+    baseURLs = endpoints;
+    limiter = new Bottleneck({
+        reservoir: 200,
+        reservoirRefreshAmount: 200,
+        reservoirRefreshInterval: 60 * 1000,
+        // also use maxConcurrent and/or minTime for safety
+        maxConcurrent: 1,
+        minTime: 200,
+    });
     constructor(params) {
         this.params = params;
-        this.baseURLs = endpoints;
-        this.limiter = new Bottleneck({
-            reservoir: 200,
-            reservoirRefreshAmount: 200,
-            reservoirRefreshInterval: 60 * 1000,
-            // also use maxConcurrent and/or minTime for safety
-            maxConcurrent: 1,
-            minTime: 200,
-        });
         // override endpoints if custom provided
         if ('endpoints' in params) {
             this.baseURLs = Object.assign(endpoints, params.endpoints);
