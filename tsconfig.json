@@ -12,7 +12,9 @@
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": false,
-    "typeRoots": ["./node_modules/@types/"]
+    "typeRoots": ["./node_modules/@types/", "./@types"],
+    "declaration": true,
+    "outDir": "./@types"
   },
   "include": ["src/*.ts"],
   "exclude": ["node_modules", "dist", "test", "conf", "example"],
