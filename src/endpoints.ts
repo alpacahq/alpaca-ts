@@ -1,4 +1,4 @@
-import { DataSource, Endpoints } from './entities';
+import { DataSource, Endpoints } from './entities.js';
 
 const endpoints: Endpoints = {
   rest: {

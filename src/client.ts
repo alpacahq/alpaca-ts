@@ -68,7 +68,8 @@ import {
   GetLatestTrade,
 } from './params.js';
 
-const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch;
+const unifetch: any = typeof fetch !== 'undefined' ? fetch : isofetch;
+
 export class AlpacaClient {
   private baseURLs: Endpoints = endpoints;
   private limiter = new Bottleneck({
