@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlpacaStream = void 0;
 const is_blob_1 = __importDefault(require("is-blob"));
-const parse_js_1 = __importDefault(require("./parse.cjs"));
+const parse_js_1 = __importDefault(require("./parse.js"));
 const isomorphic_ws_1 = __importDefault(require("isomorphic-ws"));
-const endpoints_js_1 = __importDefault(require("./endpoints.cjs"));
+const endpoints_js_1 = __importDefault(require("./endpoints.js"));
 const eventemitter3_1 = __importDefault(require("eventemitter3"));
 class AlpacaStream extends eventemitter3_1.default {
     constructor(params) {

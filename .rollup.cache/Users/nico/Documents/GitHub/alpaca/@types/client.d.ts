@@ -41,13 +41,10 @@ export declare class AlpacaClient {
     updateAccountConfigurations(params: UpdateAccountConfigurations): Promise<AccountConfigurations>;
     getAccountActivities(params: GetAccountActivities): Promise<Activity[]>;
     getPortfolioHistory(params?: GetPortfolioHistory): Promise<PortfolioHistory>;
-    /** @deprecated Alpaca Data API v2 is currently in public beta. */
     getBars_v1(params: GetBars_v1): Promise<{
         [symbol: string]: Bar_v1[];
     }>;
-    /** @deprecated Alpaca Data API v2 is currently in public beta. */
     getLastTrade_v1(params: GetLastTrade_v1): Promise<LastTrade_v1>;
-    /** @deprecated Alpaca Data API v2 is currently in public beta. */
     getLastQuote_v1(params: GetLastQuote_v1): Promise<LastQuote_v1>;
     getTrades(params: GetTrades): Promise<PageOfTrades>;
     getQuotes(params: GetQuotes): Promise<PageOfQuotes>;

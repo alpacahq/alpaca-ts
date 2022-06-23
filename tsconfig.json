@@ -3,7 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
-    "rootDir": "./src",
+    "rootDir": "src",
     "noImplicitThis": true,
     "esModuleInterop": true,
     "removeComments": false,
@@ -12,9 +12,11 @@
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": false,
-    "typeRoots": ["./node_modules/@types/"]
+    "typeRoots": ["./node_modules/@types"],
+    "declarationDir": "./@types",
+    "composite": true
   },
   "include": ["src/*.ts"],
-  "exclude": ["node_modules", "dist", "test", "conf", "example"],
+  "exclude": ["node_modules", "@types", "dist", "test", "conf", "example"],
   "compileOnSave": false
 }
