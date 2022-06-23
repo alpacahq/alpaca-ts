@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlpacaClient = void 0;
 const qs_1 = __importDefault(require("qs"));
-const parse_js_1 = __importDefault(require("./parse.js"));
+const parse_js_1 = __importDefault(require("./parse.cjs"));
 const isomorphic_unfetch_1 = __importDefault(require("isomorphic-unfetch"));
-const endpoints_js_1 = __importDefault(require("./endpoints.js"));
+const endpoints_js_1 = __importDefault(require("./endpoints.cjs"));
 const bottleneck_1 = __importDefault(require("bottleneck"));
 const unifetch = typeof fetch !== 'undefined' ? fetch : isomorphic_unfetch_1.default;
 class AlpacaClient {

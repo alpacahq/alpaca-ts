@@ -147,6 +147,7 @@ export interface ReplaceOrder {
     client_order_id?: string;
 }
 export declare type BarsV1Timeframe = '1Min' | '5Min' | '15Min' | '1Day';
+/** Also supports arbitrary minute, hour, and day values.  E.g., '37Min', '6Hour', '3Day'  */
 export declare type BarsTimeframe = BarsV1Timeframe | '30Min' | '1Hour' | '2Hour' | '4Hour';
 export interface UpdateAccountConfigurations {
     dtbp_check?: string;
