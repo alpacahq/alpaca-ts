@@ -32,7 +32,7 @@ class AlpacaClient {
             minTime: 200,
         });
         // override endpoints if custom provided
-        if ('endpoints' in params) {
+        if ('endpoi.cts' in params) {
             this.baseURLs = Object.assign(endpoints_js_1.default, params.endpoints);
         }
         if (

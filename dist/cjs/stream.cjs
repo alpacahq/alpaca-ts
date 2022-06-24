@@ -25,7 +25,7 @@ class AlpacaStream extends eventemitter3_1.default {
         this.params = params;
         this.baseURLs = endpoints_js_1.default;
         // override endpoints if custom provided
-        if ('endpoints' in params) {
+        if ('endpoi.cts' in params) {
             this.baseURLs = Object.assign(endpoints_js_1.default, params.endpoints);
         }
         if (
