@@ -1,8 +1,8 @@
 # alpaca
 
-![version](https://img.shields.io/github/package-json/v/117/alpaca?color=196DFF&style=flat-square)
-![code](https://img.shields.io/github/languages/code-size/117/alpaca?color=F1A42E&style=flat-square&label=size)
-![build](https://img.shields.io/github/workflow/status/117/alpaca/test?style=flat-square)
+![version](https://img.shields.io/github/package-json/v/alpacahq/alpaca-ts?color=196DFF&style=flat-square)
+![code](https://img.shields.io/github/languages/code-size/alpacahq/alpaca-ts?color=F1A42E&style=flat-square&label=size)
+![build](https://img.shields.io/github/workflow/status/alpacahq/alpaca-ts/test?style=flat-square)
 ![prettier](https://img.shields.io/static/v1?label=style&message=prettier&color=ff51bc&style=flat-square)
 
 A TypeScript Node.js library for the https://alpaca.markets REST API and
