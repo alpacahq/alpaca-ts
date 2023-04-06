@@ -1,75 +1,14 @@
-import qs from 'qs';
-import parse from './parse.js';
-import isofetch from 'isomorphic-unfetch';
-import endpoints from './endpoints.js';
-import Bottleneck from 'bottleneck';
+import * as Types from "./types";
 
-import {
-  RawAccount,
-  Account,
-  Order,
-  Position,
-  Asset,
-  Watchlist,
-  Calendar,
-  Clock,
-  AccountConfigurations,
-  PortfolioHistory,
-  RawOrder,
-  RawPosition,
-  RawActivity,
-  Activity,
-  DefaultCredentials,
-  OAuthCredentials,
-  OrderCancelation,
-  RawOrderCancelation,
-  PageOfTrades,
-  PageOfQuotes,
-  PageOfBars,
-  Bar_v1,
-  LastQuote_v1,
-  LastTrade_v1,
-  Snapshot,
-  NewsPage,
-  LatestTrade,
-  Endpoints,
-} from './entities.js';
+import qs from "qs";
+import isofetch from "isomorphic-unfetch";
+import Bottleneck from "bottleneck";
 
-import {
-  GetOrder,
-  GetOrders,
-  PlaceOrder,
-  ReplaceOrder,
-  CancelOrder,
-  GetPosition,
-  ClosePosition,
-  GetAsset,
-  GetAssets,
-  GetWatchList,
-  CreateWatchList,
-  UpdateWatchList,
-  AddToWatchList,
-  RemoveFromWatchList,
-  DeleteWatchList,
-  GetCalendar,
-  UpdateAccountConfigurations,
-  GetAccountActivities,
-  GetPortfolioHistory,
-  GetBars,
-  GetBars_v1,
-  GetTrades,
-  GetQuotes,
-  GetLastTrade_v1,
-  GetLastQuote_v1,
-  GetSnapshot,
-  GetSnapshots,
-  ClosePositions,
-  GetNews,
-  GetLatestTrade,
-} from './params.js';
+import { Endpoints, endpoints } from "./index";
 
-const unifetch = typeof fetch !== 'undefined' ? fetch : isofetch;
-export class AlpacaClient {
+const unifetch = typeof fetch !== "undefined" ? fetch : isofetch;
+
+export class Client {
   private baseURLs: Endpoints = endpoints;
   private limiter = new Bottleneck({
     reservoir: 200, // initial value
@@ -84,421 +23,298 @@ export class AlpacaClient {
     public params: {
       rate_limit?: boolean;
       endpoints?: Endpoints | Map<keyof Endpoints, any>;
-      credentials?: DefaultCredentials | OAuthCredentials;
-    },
+      credentials?: Types.DefaultCredentials | Types.OAuthCredentials;
+    }
   ) {
     // override endpoints if custom provided
-    if ('endpoints' in params) {
+    if ("endpoints" in params) {
       this.baseURLs = Object.assign(endpoints, params.endpoints);
     }
 
     if (
       // if not specified
-      !('paper' in params.credentials) &&
+      !("paper" in params.credentials) &&
       // and live key isn't already provided
-      !('key' in params.credentials && params.credentials.key.startsWith('A'))
+      !("key" in params.credentials && params.credentials.key.startsWith("A"))
     ) {
-      params.credentials['paper'] = true;
+      params.credentials["paper"] = true;
     }
 
     if (
-      'access_token' in params.credentials &&
-      ('key' in params.credentials || 'secret' in params.credentials)
+      "access_token" in params.credentials &&
+      ("key" in params.credentials || "secret" in params.credentials)
     ) {
       throw new Error(
-        "can't create client with both default and oauth credentials",
+        "can't create client with both default and oauth credentials"
       );
     }
   }
 
   async isAuthenticated(): Promise<boolean> {
     try {
-      await this.getAccount();
+      await this.get.account();
       return true;
     } catch {
       return false;
     }
   }
 
-  async getAccount(): Promise<Account> {
-    return parse.account(
-      await this.request<RawAccount>({
-        method: 'GET',
-        url: `${this.baseURLs.rest.account}/account`,
-      }),
-    );
+  async placeOrder(params: Types.PlaceOrder): Promise<Types.Order> {
+    return await this.request({
+      method: "POST",
+      url: `${this.baseURLs.rest.account}/orders`,
+      data: params,
+    });
   }
 
-  async getOrder(params: GetOrder): Promise<Order> {
-    return parse.order(
-      await this.request<RawOrder>({
-        method: 'GET',
-        url: `${this.baseURLs.rest.account}/orders/${
-          params.order_id || params.client_order_id
-        }`,
-        data: { nested: params.nested },
-      }),
-    );
+  async replaceOrder(params: Types.ReplaceOrder): Promise<Types.Order> {
+    return await this.request({
+      method: "PATCH",
+      url: `${this.baseURLs.rest.account}/orders/${params.order_id}`,
+      data: params,
+    });
   }
 
-  async getOrders(params: GetOrders = {}): Promise<Order[]> {
-    return parse.orders(
-      await this.request<RawOrder[]>({
-        method: 'GET',
-        url: `${this.baseURLs.rest.account}/orders`,
-        data: {
-          ...params,
-          symbols: params.symbols ? params.symbols.join(',') : undefined,
-        },
-      }),
-    );
-  }
-
-  async placeOrder(params: PlaceOrder): Promise<Order> {
-    return parse.order(
-      await this.request<RawOrder>({
-        method: 'POST',
-        url: `${this.baseURLs.rest.account}/orders`,
-        data: params,
-      }),
-    );
-  }
-
-  async replaceOrder(params: ReplaceOrder): Promise<Order> {
-    return parse.order(
-      await this.request<RawOrder>({
-        method: 'PATCH',
-        url: `${this.baseURLs.rest.account}/orders/${params.order_id}`,
-        data: params,
-      }),
-    );
-  }
-
-  cancelOrder(params: CancelOrder): Promise<boolean> {
+  cancelOrder(params: Types.CancelOrder): Promise<boolean> {
     return this.request<boolean>({
-      method: 'DELETE',
+      method: "DELETE",
       url: `${this.baseURLs.rest.account}/orders/${params.order_id}`,
       isJSON: false,
     });
   }
 
-  async cancelOrders(): Promise<OrderCancelation[]> {
-    return parse.canceled_orders(
-      await this.request<RawOrderCancelation[]>({
-        method: 'DELETE',
-        url: `${this.baseURLs.rest.account}/orders`,
-      }),
-    );
-  }
-
-  async getPosition(params: GetPosition): Promise<Position> {
-    return parse.position(
-      await this.request<RawPosition>({
-        method: 'GET',
-        url: `${this.baseURLs.rest.account}/positions/${params.symbol}`,
-      }),
-    );
-  }
-
-  async getPositions(): Promise<Position[]> {
-    return parse.positions(
-      await this.request<RawPosition[]>({
-        method: 'GET',
-        url: `${this.baseURLs.rest.account}/positions`,
-      }),
-    );
-  }
-
-  async closePosition(params: ClosePosition): Promise<Order> {
-    return parse.order(
-      await this.request<RawOrder>({
-        method: 'DELETE',
-        url: `${this.baseURLs.rest.account}/positions/${params.symbol}`,
-        data: params,
-      }),
-    );
-  }
-
-  async closePositions(params: ClosePositions): Promise<Order[]> {
-    return parse.orders(
-      await this.request<RawOrder[]>({
-        method: 'DELETE',
-        url: `${
-          this.baseURLs.rest.account
-        }/positions?cancel_orders=${JSON.stringify(
-          params.cancel_orders ?? false,
-        )}`,
-      }),
-    );
-  }
-
-  getAsset(params: GetAsset): Promise<Asset> {
-    return this.request({
-      method: 'GET',
-      url: `${this.baseURLs.rest.account}/assets/${params.asset_id_or_symbol}`,
+  async cancelOrders(): Promise<Types.OrderCancelation[]> {
+    return await this.request({
+      method: "DELETE",
+      url: `${this.baseURLs.rest.account}/orders`,
     });
   }
 
-  getAssets(params?: GetAssets): Promise<Asset[]> {
-    return this.request({
-      method: 'GET',
-      url: `${this.baseURLs.rest.account}/assets`,
+  async closePosition(params: Types.ClosePosition): Promise<Types.Order> {
+    return await this.request({
+      method: "DELETE",
+      url: `${this.baseURLs.rest.account}/positions/${params.symbol}`,
       data: params,
     });
   }
 
-  getWatchlist(params: GetWatchList): Promise<Watchlist> {
-    return this.request({
-      method: 'GET',
-      url: `${this.baseURLs.rest.account}/watchlists/${params.uuid}`,
+  async closePositions(params: Types.ClosePositions): Promise<Types.Order[]> {
+    return await this.request({
+      method: "DELETE",
+      url: `${
+        this.baseURLs.rest.account
+      }/positions?cancel_orders=${JSON.stringify(
+        params.cancel_orders ?? false
+      )}`,
     });
   }
 
-  getWatchlists(): Promise<Watchlist[]> {
+  createWatchlist(params: Types.CreateWatchList): Promise<Types.Watchlist[]> {
     return this.request({
-      method: 'GET',
-      url: `${this.baseURLs.rest.account}/watchlists`,
-    });
-  }
-
-  createWatchlist(params: CreateWatchList): Promise<Watchlist[]> {
-    return this.request({
-      method: 'POST',
+      method: "POST",
       url: `${this.baseURLs.rest.account}/watchlists`,
       data: params,
     });
   }
 
-  updateWatchlist(params: UpdateWatchList): Promise<Watchlist> {
+  updateWatchlist(params: Types.UpdateWatchList): Promise<Types.Watchlist> {
     return this.request({
-      method: 'PUT',
+      method: "PUT",
       url: `${this.baseURLs.rest.account}/watchlists/${params.uuid}`,
       data: params,
     });
   }
 
-  addToWatchlist(params: AddToWatchList): Promise<Watchlist> {
+  addToWatchlist(params: Types.AddToWatchList): Promise<Types.Watchlist> {
     return this.request({
-      method: 'POST',
+      method: "POST",
       url: `${this.baseURLs.rest.account}/watchlists/${params.uuid}`,
       data: params,
     });
   }
 
-  removeFromWatchlist(params: RemoveFromWatchList): Promise<boolean> {
+  removeFromWatchlist(params: Types.RemoveFromWatchList): Promise<boolean> {
     return this.request<boolean>({
-      method: 'DELETE',
+      method: "DELETE",
       url: `${this.baseURLs.rest.account}/watchlists/${params.uuid}/${params.symbol}`,
     });
   }
 
-  deleteWatchlist(params: DeleteWatchList): Promise<boolean> {
+  deleteWatchlist(params: Types.DeleteWatchList): Promise<boolean> {
     return this.request<boolean>({
-      method: 'DELETE',
+      method: "DELETE",
       url: `${this.baseURLs.rest.account}/watchlists/${params.uuid}`,
     });
   }
 
-  getCalendar(params?: GetCalendar): Promise<Calendar[]> {
-    return this.request({
-      method: 'GET',
-      url: `${this.baseURLs.rest.account}/calendar`,
-      data: params,
-    });
-  }
-
-  getNews(params?: GetNews): Promise<NewsPage> {
-    // transform symbols if necessary
-    if ('symbols' in params && Array.isArray(params.symbols)) {
-      params.symbols = params.symbols.join(',');
-    }
-
-    return this.request({
-      method: 'GET',
-      url: `${this.baseURLs.rest.beta}/news`,
-      data: params,
-    });
-  }
-
-  async getClock(): Promise<Clock> {
-    return parse.clock(
-      await this.request({
-        method: 'GET',
-        url: `${this.baseURLs.rest.account}/clock`,
-      }),
-    );
-  }
-
-  getAccountConfigurations(): Promise<AccountConfigurations> {
-    return this.request({
-      method: 'GET',
-      url: `${this.baseURLs.rest.account}/account/configurations`,
-    });
-  }
-
   updateAccountConfigurations(
-    params: UpdateAccountConfigurations,
-  ): Promise<AccountConfigurations> {
+    params: Types.UpdateAccountConfigurations
+  ): Promise<Types.AccountConfigurations> {
     return this.request({
-      method: 'PATCH',
+      method: "PATCH",
       url: `${this.baseURLs.rest.account}/account/configurations`,
       data: params,
     });
   }
 
-  async getAccountActivities(
-    params: GetAccountActivities,
-  ): Promise<Activity[]> {
-    if (params.activity_types && Array.isArray(params.activity_types)) {
-      params.activity_types = params.activity_types.join(',');
-    }
+  get = {
+    account: async (): Promise<Types.Account> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/account`,
+      });
+    },
+    order: async (params: Types.GetOrder): Promise<Types.Order> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/orders/${
+          params.order_id || params.client_order_id
+        }`,
+        data: { nested: params.nested },
+      });
+    },
+    orders: async (params: Types.GetOrders = {}): Promise<Types.Order[]> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/orders`,
+        data: {
+          ...params,
+          symbols: params.symbols ? params.symbols.join(",") : undefined,
+        },
+      });
+    },
+    positions: async (): Promise<Types.Position[]> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/positions`,
+      });
+    },
+    position: async (params: Types.GetPosition): Promise<Types.Position> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/positions/${params.symbol}`,
+      });
+    },
+    activities: async (
+      params: Types.GetAccountActivities
+    ): Promise<Types.Activity[]> => {
+      if (params.activity_types && Array.isArray(params.activity_types)) {
+        params.activity_types = params.activity_types.join(",");
+      }
 
-    return parse.activities(
-      await this.request<RawActivity[]>({
-        method: 'GET',
+      return await this.request({
+        method: "GET",
         url: `${this.baseURLs.rest.account}/account/activities${
-          params.activity_type ? '/'.concat(params.activity_type) : ''
+          params.activity_type ? "/".concat(params.activity_type) : ""
         }`,
         data: { ...params, activity_type: undefined },
-      }),
-    );
-  }
-
-  getPortfolioHistory(params?: GetPortfolioHistory): Promise<PortfolioHistory> {
-    return this.request({
-      method: 'GET',
-      url: `${this.baseURLs.rest.account}/account/portfolio/history`,
-      data: params,
-    });
-  }
-
-  /** @deprecated Alpaca Data API v2 is currently in public beta. */
-  async getBars_v1(
-    params: GetBars_v1,
-  ): Promise<{ [symbol: string]: Bar_v1[] }> {
-    const transformed: Omit<GetBars_v1, 'symbols'> & { symbols: string } = {
-      ...params,
-      symbols: params.symbols.join(','),
-    };
-
-    return await this.request({
-      method: 'GET',
-      url: `${this.baseURLs.rest.market_data_v1}/bars/${params.timeframe}`,
-      data: transformed,
-    });
-  }
-
-  /** @deprecated Alpaca Data API v2 is currently in public beta. */
-  async getLastTrade_v1(params: GetLastTrade_v1): Promise<LastTrade_v1> {
-    return await this.request({
-      method: 'GET',
-      url: `${this.baseURLs.rest.market_data_v1}/last/stocks/${params.symbol}`,
-    });
-  }
-
-  /** @deprecated Alpaca Data API v2 is currently in public beta. */
-  async getLastQuote_v1(params: GetLastQuote_v1): Promise<LastQuote_v1> {
-    return await this.request({
-      method: 'GET',
-      url: `${this.baseURLs.rest.market_data_v1}/last_quote/stocks/${params.symbol}`,
-    });
-  }
-
-  async getTrades(params: GetTrades): Promise<PageOfTrades> {
-    return parse.pageOfTrades(
-      await this.request({
-        method: 'GET',
-        url: `${this.baseURLs.rest.market_data_v2}/stocks/${params.symbol}/trades`,
-        data: { ...params, symbol: undefined },
-      }),
-    );
-  }
-
-  async getQuotes(params: GetQuotes): Promise<PageOfQuotes> {
-    return parse.pageOfQuotes(
-      await this.request({
-        method: 'GET',
-        url: `${this.baseURLs.rest.market_data_v2}/stocks/${params.symbol}/quotes`,
-        data: { ...params, symbol: undefined },
-      }),
-    );
-  }
-
-  async getBars(params: GetBars): Promise<PageOfBars> {
-    return parse.pageOfBars(
-      await this.request({
-        method: 'GET',
+      });
+    },
+    calendar: async (params?: Types.GetCalendar): Promise<Types.Calendar[]> => {
+      return this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/calendar`,
+        data: params,
+      });
+    },
+    clock: async (): Promise<Types.Clock> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/clock`,
+      });
+    },
+    assets: async (params?: Types.GetAssets): Promise<Types.Asset[]> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/assets`,
+        data: params,
+      });
+    },
+    asset: async (params: Types.GetAsset): Promise<Types.Asset> => {
+      return this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/assets/${params.asset_id_or_symbol}`,
+      });
+    },
+    watchlists: async (): Promise<Types.Watchlist[]> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/watchlists`,
+      });
+    },
+    watchlist: async (params: Types.GetWatchList): Promise<Types.Watchlist> => {
+      return this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/watchlists/${params.uuid}`,
+      });
+    },
+    bars: async (params: Types.GetBars): Promise<Types.PageOfBars> => {
+      return await this.request({
+        method: "GET",
         url: `${this.baseURLs.rest.market_data_v2}/stocks/${params.symbol}/bars`,
         data: { ...params, symbol: undefined },
-      }),
-    );
-  }
-
-  async getLatestTrade({
-    symbol,
-    feed,
-    limit,
-  }: GetLatestTrade): Promise<LatestTrade> {
-    let query = '';
-
-    if (feed || limit) {
-      query = '?'.concat(qs.stringify({ feed, limit }));
-    }
-
-    return parse.latestTrade(
-      await this.request({
-        method: 'GET',
-        url: `${this.baseURLs.rest.market_data_v2}/stocks/${symbol}/trades/latest`.concat(
-          query,
-        ),
-      }),
-    );
-  }
-
-  async getSnapshot(params: GetSnapshot): Promise<Snapshot> {
-    return parse.snapshot(
-      await this.request({
-        method: 'GET',
-        url: `${this.baseURLs.rest.market_data_v2}/stocks/${params.symbol}/snapshot`,
-      }),
-    );
-  }
-
-  async getSnapshots(
-    params: GetSnapshots,
-  ): Promise<{ [key: string]: Snapshot }> {
-    return parse.snapshots(
-      await this.request({
-        method: 'GET',
-        url: `${
-          this.baseURLs.rest.market_data_v2
-        }/stocks/snapshots?symbols=${params.symbols.join(',')}`,
-      }),
-    );
-  }
+      });
+    },
+    trades: async (params: Types.GetTrades): Promise<Types.PageOfTrades> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.market_data_v2}/stocks/${params.symbol}/trades`,
+        data: { ...params, symbol: undefined },
+      });
+    },
+    quotes: async (params: Types.GetQuotes): Promise<Types.PageOfQuotes> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.market_data_v2}/stocks/${params.symbol}/quotes`,
+        data: { ...params, symbol: undefined },
+      });
+    },
+    portfolioHistory: async (
+      params: Types.GetPortfolioHistory
+    ): Promise<Types.PortfolioHistory> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/account/portfolio/history`,
+        data: params,
+      });
+    },
+    accountConfigurations: async (): Promise<Types.AccountConfigurations> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/account/configurations`,
+      });
+    },
+    news: async (params: Types.GetNews): Promise<Types.NewsPage> => {
+      return await this.request({
+        method: "GET",
+        url: `${this.baseURLs.rest.account}/account/news`,
+        data: params,
+      });
+    },
+  };
 
   private async request<T = any>(params: {
-    method: 'GET' | 'DELETE' | 'PUT' | 'PATCH' | 'POST';
+    method: "GET" | "DELETE" | "PUT" | "PATCH" | "POST";
     url: string;
     data?: { [key: string]: any };
     isJSON?: boolean;
   }): Promise<T> {
     let headers: any = {};
 
-    if ('access_token' in this.params.credentials) {
+    if ("access_token" in this.params.credentials) {
       headers[
-        'Authorization'
+        "Authorization"
       ] = `Bearer ${this.params.credentials.access_token}`;
     } else {
-      headers['APCA-API-KEY-ID'] = this.params.credentials.key;
-      headers['APCA-API-SECRET-KEY'] = this.params.credentials.secret;
+      headers["APCA-API-KEY-ID"] = this.params.credentials.key;
+      headers["APCA-API-SECRET-KEY"] = this.params.credentials.secret;
     }
 
     if (this.params.credentials.paper) {
-      params.url = params.url.replace('api.', 'paper-api.');
+      params.url = params.url.replace("api.", "paper-api.");
     }
 
-    let query = '';
+    let query = "";
 
     if (params.data) {
       // translate dates to ISO strings
@@ -509,8 +325,8 @@ export class AlpacaClient {
       }
 
       // build query
-      if (!['POST', 'PATCH', 'PUT'].includes(params.method)) {
-        query = '?'.concat(qs.stringify(params.data));
+      if (!["POST", "PATCH", "PUT"].includes(params.method)) {
+        query = "?".concat(qs.stringify(params.data));
         params.data = undefined;
       }
     }
@@ -541,10 +357,12 @@ export class AlpacaClient {
       throw result;
     }
 
-    if ('code' in result || 'message' in result) {
+    if ("code" in result || "message" in result) {
       throw result;
     }
 
     return result as any;
   }
 }
+
+export default Client;

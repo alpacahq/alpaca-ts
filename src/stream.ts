@@ -1,8 +1,7 @@
-import isBlob from 'is-blob';
-import parse from './parse.js';
-import WebSocket from 'isomorphic-ws';
-import endpoints from './endpoints.js';
-import EventEmitter from 'eventemitter3';
+import isBlob from "is-blob";
+import WebSocket from "isomorphic-ws";
+import endpoints from "./endpoints.js";
+import EventEmitter from "eventemitter3";
 
 import {
   Bar,
@@ -14,7 +13,7 @@ import {
   TradeUpdate,
   Message,
   Endpoints,
-} from './entities.js';
+} from "./entities.js";
 
 export declare interface Events {
   open: (stream: AlpacaStream) => void;
@@ -48,40 +47,40 @@ export class AlpacaStream extends EventEmitter<string | symbol | any> {
   constructor(
     protected params: {
       credentials: DefaultCredentials;
-      type: 'account' | 'market_data';
+      type: "account" | "market_data";
       source?: DataSource;
       endpoints?: Endpoints | Map<keyof Endpoints, any>;
-    },
+    }
   ) {
     // construct EventEmitter
     super();
 
     // override endpoints if custom provided
-    if ('endpoints' in params) {
+    if ("endpoints" in params) {
       this.baseURLs = Object.assign(endpoints, params.endpoints);
     }
 
     if (
       // if not specified
-      !('paper' in params.credentials) &&
+      !("paper" in params.credentials) &&
       // and live key isn't already provided
-      !('key' in params.credentials && params.credentials.key.startsWith('A'))
+      !("key" in params.credentials && params.credentials.key.startsWith("A"))
     ) {
-      params.credentials['paper'] = true;
+      params.credentials["paper"] = true;
     }
 
     // assign the host we will connect to
     switch (params.type) {
-      case 'account':
+      case "account":
         this.host = params.credentials.paper
-          ? this.baseURLs.websocket.account.replace('api.', 'paper-api.')
+          ? this.baseURLs.websocket.account.replace("api.", "paper-api.")
           : this.baseURLs.websocket.account;
         break;
-      case 'market_data':
+      case "market_data":
         this.host = this.baseURLs.websocket.market_data(this.params.source);
         break;
       default:
-        this.host = 'unknown';
+        this.host = "unknown";
     }
 
     this.connection = new WebSocket(this.host);
@@ -89,29 +88,29 @@ export class AlpacaStream extends EventEmitter<string | symbol | any> {
       let message = {};
 
       switch (this.params.type) {
-        case 'account':
+        case "account":
           message = {
-            action: 'authenticate',
+            action: "authenticate",
             data: {
               key_id: params.credentials.key,
               secret_key: params.credentials.secret,
             },
           };
           break;
-        case 'market_data':
+        case "market_data":
           // {"action":"auth","key":"PK*****","secret":"*************"}
-          message = { action: 'auth', ...params.credentials };
+          message = { action: "auth", ...params.credentials };
           break;
       }
 
       this.connection.send(JSON.stringify(message));
 
       // pass through
-      this.emit('open', this);
+      this.emit("open", this);
     };
 
     // pass through
-    this.connection.onclose = () => this.emit('close', this);
+    this.connection.onclose = () => this.emit("close", this);
 
     this.connection.onmessage = async (event: any) => {
       let data = event.data;
@@ -123,47 +122,48 @@ export class AlpacaStream extends EventEmitter<string | symbol | any> {
       }
 
       let parsed = JSON.parse(data),
-        messages = this.params.type == 'account' ? [parsed] : parsed;
+        messages = this.params.type == "account" ? [parsed] : parsed;
 
       messages.forEach((message: any) => {
         // pass the message
-        this.emit('message', message);
+        this.emit("message", message);
 
         // pass authenticated event
-        if ('T' in message && message.msg == 'authenticated') {
+        if ("T" in message && message.msg == "authenticated") {
           this.authenticated = true;
-          this.emit('authenticated', this);
-        } else if ('stream' in message && message.stream == 'authorization') {
-          if (message.data.status == 'authorized') {
+          this.emit("authenticated", this);
+        } else if ("stream" in message && message.stream == "authorization") {
+          if (message.data.status == "authorized") {
             this.authenticated = true;
-            this.emit('authenticated', this);
+            this.emit("authenticated", this);
           }
         }
 
         // pass trade_updates event
-        if ('stream' in message && message.stream == 'trade_updates') {
-          this.emit('trade_updates', parse.trade_update(message.data));
+        if ("stream" in message && message.stream == "trade_updates") {
+          // todo: parse message data
+          this.emit("trade_updates", message.data);
         }
 
         // pass trade, quote, bar event
         const x: { [index: string]: keyof Events } = {
-          success: 'success',
-          subscription: 'subscription',
-          error: 'error',
-          t: 'trade',
-          q: 'quote',
-          b: 'bar',
+          success: "success",
+          subscription: "subscription",
+          error: "error",
+          t: "trade",
+          q: "quote",
+          b: "bar",
         };
 
-        if ('T' in message) {
-          this.emit(x[message.T.split('.')[0]], message);
+        if ("T" in message) {
+          this.emit(x[message.T.split(".")[0]], message);
         }
       });
     };
 
     // pass the error
     this.connection.onerror = (err: WebSocket.ErrorEvent) => {
-      this.emit('error', err);
+      this.emit("error", err);
     };
   }
 
@@ -184,15 +184,15 @@ export class AlpacaStream extends EventEmitter<string | symbol | any> {
    */
   subscribe(channel: Channel, symbols: string[] = []) {
     switch (this.params.type) {
-      case 'account':
+      case "account":
         // {"action":"listen","data":{"streams":["trade_updates"]}}
         this.send(
-          JSON.stringify({ action: 'listen', data: { streams: [channel] } }),
+          JSON.stringify({ action: "listen", data: { streams: [channel] } })
         );
         break;
-      case 'market_data':
+      case "market_data":
         // {"action":"subscribe","trades":["AAPL"],"quotes":["AMD","CLDR"],"bars":["AAPL","VOO"]}
-        let message: any = { action: 'subscribe' };
+        let message: any = { action: "subscribe" };
         message[channel] = symbols;
         this.send(JSON.stringify(message));
         break;
@@ -208,15 +208,15 @@ export class AlpacaStream extends EventEmitter<string | symbol | any> {
    */
   unsubscribe(channel: Channel, symbols: string[] = []) {
     switch (this.params.type) {
-      case 'account':
+      case "account":
         // {"action":"unlisten","data":{"streams":["trade_updates"]}}
         this.send(
-          JSON.stringify({ action: 'unlisten', data: { streams: [channel] } }),
+          JSON.stringify({ action: "unlisten", data: { streams: [channel] } })
         );
         break;
-      case 'market_data':
+      case "market_data":
         // {"action":"unsubscribe","trades":["AAPL"],"quotes":["AMD","CLDR"],"bars":["AAPL","VOO"]}
-        let message: any = { action: 'unsubscribe' };
+        let message: any = { action: "unsubscribe" };
         message[channel] = symbols;
         this.send(JSON.stringify(message));
         break;
@@ -228,11 +228,11 @@ export class AlpacaStream extends EventEmitter<string | symbol | any> {
   private send(message: any) {
     // don't bother if we aren't authenticated
     if (!this.authenticated) {
-      throw new Error('not authenticated');
+      throw new Error("not authenticated");
     }
 
     // if the message is in object form, stringify it for the user
-    if (typeof message == 'object') {
+    if (typeof message == "object") {
       message = JSON.stringify(message);
     }
 
