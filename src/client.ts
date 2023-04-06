@@ -50,91 +50,10 @@ export class Client {
     }
   }
 
-  /**
-  replaceOrder = (params: Types.ReplaceOrder): Promise<Types.Order> =>
-    this.request({
-      method: "PATCH",
-      url: this.buildURL(this.baseURLs.rest.v2, "orders", params.order_id),
-      data: params,
-    });
-
-  cancelOrder(params: Types.CancelOrder): Promise<boolean> {
-    return this.request<boolean>({
-      method: "DELETE",
-      url: this.buildURL(this.baseURLs.rest.v2, "orders", params.order_id),
-      isJSON: false,
-    });
-  }
-
-  async cancelOrders(): Promise<Types.OrderCancelation[]> {
-    return await this.request({
-      method: "DELETE",
-      url: this.buildURL(this.baseURLs.rest.v2, "orders"),
-    });
-  }
-
-  async closePosition(params: Types.ClosePosition): Promise<Types.Order> {
-    return await this.request({
-      method: "DELETE",
-      url: this.buildURL(this.baseURLs.rest.v2, "positions", params.symbol),
-      data: params,
-    });
-  }
-
-  async closePositions(params: Types.ClosePositions): Promise<Types.Order[]> {
-    return await this.request({
-      method: "DELETE",
-      url: this.buildURL(
-        this.baseURLs.rest.v2,
-        "positions",
-        "?cancel_orders=",
-        JSON.stringify(params.cancel_orders ?? false)
-      ),
-    });
-  }
-
-  updateWatchlist(params: Types.UpdateWatchList): Promise<Types.Watchlist> {
-    return this.request({
-      method: "PUT",
-      url: this.buildURL(this.baseURLs.rest.v2, "watchlists", params.uuid),
-      data: params,
-    });
-  }
-
-  removeFromWatchlist(params: Types.RemoveFromWatchList): Promise<boolean> {
-    return this.request<boolean>({
-      method: "DELETE",
-      url: this.buildURL(
-        this.baseURLs.rest.v2,
-        "watchlists",
-        params.uuid,
-        params.symbol
-      ),
-    });
-  }
-
-  deleteWatchlist(params: Types.DeleteWatchList): Promise<boolean> {
-    return this.request<boolean>({
-      method: "DELETE",
-      url: this.buildURL(this.baseURLs.rest.v2, "watchlists", params.uuid),
-    });
-  }
-
-  updateAccountConfigurations(
-    params: Types.UpdateAccountConfigurations
-  ): Promise<Types.AccountConfigurations> {
-    return this.request({
-      method: "PATCH",
-      url: this.baseURLs.rest.v2.concat("/account/configurations"),
-      data: params,
-    });
-  }
-   **/
-
   v2 = {
     account: {
-      activities: {
-        get: async (
+      activity: {
+        list: async (
           params: Types.GetAccountActivities
         ): Promise<Types.Activity[]> => {
           if (params.activity_types && Array.isArray(params.activity_types)) {
@@ -157,11 +76,19 @@ export class Client {
           .get()
           .then(() => true)
           .catch(() => false),
-      configurations: {
+      configuration: {
         get: (): Promise<Types.AccountConfigurations> =>
           this.request({
             method: "GET",
             url: this.buildURL(this.baseURLs.rest.v2, "account/configurations"),
+          }),
+        update: (
+          params: Types.UpdateAccountConfigurations
+        ): Promise<Types.AccountConfigurations> =>
+          this.request({
+            method: "PATCH",
+            url: this.baseURLs.rest.v2.concat("/account/configurations"),
+            data: params,
           }),
       },
       get: (): Promise<Types.Account> =>
@@ -169,7 +96,7 @@ export class Client {
           method: "GET",
           url: this.buildURL(this.baseURLs.rest.v2, "account"),
         }),
-      orders: {
+      order: {
         create: (params: Types.PlaceOrder): Promise<Types.Order> =>
           this.request({
             method: "POST",
@@ -195,6 +122,31 @@ export class Client {
               symbols: params.symbols ? params.symbols.join(",") : undefined,
             },
           }),
+        cancel: (params: Types.CancelOrder): Promise<boolean> =>
+          this.request<boolean>({
+            method: "DELETE",
+            url: this.buildURL(
+              this.baseURLs.rest.v2,
+              "orders",
+              params.order_id
+            ),
+            isJSON: false,
+          }),
+        cancel_all: (): Promise<Types.OrderCancelation[]> =>
+          this.request({
+            method: "DELETE",
+            url: this.buildURL(this.baseURLs.rest.v2, "orders"),
+          }),
+        replace: (params: Types.ReplaceOrder): Promise<Types.Order> =>
+          this.request({
+            method: "PATCH",
+            url: this.buildURL(
+              this.baseURLs.rest.v2,
+              "orders",
+              params.order_id
+            ),
+            data: params,
+          }),
       },
       portfolio: {
         history: (
@@ -209,7 +161,27 @@ export class Client {
             ),
           }),
       },
-      positions: {
+      position: {
+        close: (params: Types.ClosePosition): Promise<Types.Order> =>
+          this.request({
+            method: "DELETE",
+            url: this.buildURL(
+              this.baseURLs.rest.v2,
+              "positions",
+              params.symbol
+            ),
+            data: params,
+          }),
+        close_all: (params: Types.ClosePositions): Promise<Types.Order[]> =>
+          this.request({
+            method: "DELETE",
+            url: this.buildURL(
+              this.baseURLs.rest.v2,
+              "positions",
+              "?cancel_orders=",
+              JSON.stringify(params.cancel_orders ?? false)
+            ),
+          }),
         get: async (params: Types.GetPosition): Promise<Types.Position> =>
           this.request({
             method: "GET",
@@ -225,7 +197,30 @@ export class Client {
             url: this.buildURL(this.baseURLs.rest.v2, "positions"),
           }),
       },
-      watchlists: {
+      watchlist: {
+        add: (params: Types.AddToWatchList): Promise<Types.Watchlist> =>
+          this.request({
+            method: "POST",
+            url: `${this.baseURLs.rest.v2}/watchlists/${params.uuid}`,
+            data: params,
+          }),
+        create: async (
+          params: Types.CreateWatchList
+        ): Promise<Types.Watchlist[]> =>
+          this.request({
+            method: "POST",
+            url: `${this.baseURLs.rest.v2}/watchlists`,
+            data: params,
+          }),
+        delete: (params: Types.DeleteWatchList): Promise<boolean> =>
+          this.request<boolean>({
+            method: "DELETE",
+            url: this.buildURL(
+              this.baseURLs.rest.v2,
+              "watchlists",
+              params.uuid
+            ),
+          }),
         get: async (params: Types.GetWatchList): Promise<Types.Watchlist> =>
           this.request({
             method: "GET",
@@ -240,18 +235,29 @@ export class Client {
             method: "GET",
             url: this.buildURL(this.baseURLs.rest.v2, "watchlists"),
           }),
-        create: async (
-          params: Types.CreateWatchList
-        ): Promise<Types.Watchlist[]> =>
+        remove: (params: Types.RemoveFromWatchList): Promise<boolean> =>
+          this.request<boolean>({
+            method: "DELETE",
+            url: this.buildURL(
+              this.baseURLs.rest.v2,
+              "watchlists",
+              params.uuid,
+              params.symbol
+            ),
+          }),
+        update: (params: Types.UpdateWatchList): Promise<Types.Watchlist> =>
           this.request({
-            method: "POST",
-            url: `${this.baseURLs.rest.v2}/watchlists`,
+            method: "PUT",
+            url: this.buildURL(
+              this.baseURLs.rest.v2,
+              "watchlists",
+              params.uuid
+            ),
             data: params,
           }),
       },
     },
-
-    assets: {
+    asset: {
       get: (params: Types.GetAsset): Promise<Types.Asset> =>
         this.request({
           method: "GET",
@@ -292,16 +298,6 @@ export class Client {
       },
     },
   };
-
-  /**
-  addToWatchlist(params: Types.AddToWatchList): Promise<Types.Watchlist> {
-    return this.request({
-      method: "POST",
-      url: `${this.baseURLs.rest.account}/watchlists/${params.uuid}`,
-      data: params,
-    });
-  }
-   **/
 
   private buildURL = (base: string, ...parts: string[]): string => {
     return [base, ...parts].join("/");
