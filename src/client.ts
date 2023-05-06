@@ -307,6 +307,122 @@ export class Client {
           }),
       },
     },
+    market_data: {
+      stocks: {
+        trades: {
+          symbol: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/trades`,
+              data: params,
+            }),
+          get: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/trades`,
+              data: params,
+            }),
+          latest: {
+            symbol: (params: any): Promise<any> =>
+              this.request({
+                method: "GET",
+                url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/trades/latest`,
+                data: params,
+              }),
+            get: (params: any): Promise<any> =>
+              this.request({
+                method: "GET",
+                url: `${this.baseURLs.rest.v2}/stocks/trades/latest`,
+                data: params,
+              }),
+          },
+        },
+        quotes: {
+          symbol: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/quotes`,
+              data: params,
+            }),
+          get: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/quotes`,
+              data: params,
+            }),
+          latest: {
+            symbol: (params: any): Promise<any> =>
+              this.request({
+                method: "GET",
+                url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/quotes/latest`,
+                data: params,
+              }),
+            get: (params: any): Promise<any> =>
+              this.request({
+                method: "GET",
+                url: `${this.baseURLs.rest.v2}/stocks/quotes/latest`,
+                data: params,
+              }),
+          },
+        },
+        bars: {
+          symbol: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/bars`,
+              data: params,
+            }),
+          get: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/bars`,
+              data: params,
+            }),
+          latest: {
+            symbol: (params: any): Promise<any> =>
+              this.request({
+                method: "GET",
+                url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/bars/latest`,
+                data: params,
+              }),
+            get: (params: any): Promise<any> =>
+              this.request({
+                method: "GET",
+                url: `${this.baseURLs.rest.v2}/stocks/bars/latest`,
+                data: params,
+              }),
+          },
+        },
+        snapshot: {
+          symbol: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/snapshot`,
+              data: params,
+            }),
+          get: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/snapshots`,
+              data: params,
+            }),
+        },
+        auctions: {
+          symbol: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/auctions`,
+              data: params,
+            }),
+          get: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/auctions`,
+              data: params,
+            }),
+        },
+      },
+    },
   };
 
   private buildURL = (base: string, ...parts: string[]): string => {
