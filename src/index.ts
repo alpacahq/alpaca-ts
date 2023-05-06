@@ -9,7 +9,7 @@ export interface Endpoints {
     v2: string;
     data_v2: string;
     data_v1: string;
-    data_v1beta3_crypto: string;
+    data_v1beta3: string;
   };
   websocket: {
     api: string;
@@ -23,7 +23,7 @@ export const endpoints: Endpoints = {
     v2: "https://api.alpaca.markets/v2",
     data_v2: "https://data.alpaca.markets/v2",
     data_v1: "https://data.alpaca.markets/v1",
-    data_v1beta3_crypto: "https://data.alpaca.markets/v1beta3/crypto",
+    data_v1beta3: "https://data.alpaca.markets/v1beta3/crypto",
   },
   websocket: {
     api: "wss://api.alpaca.markets/stream",

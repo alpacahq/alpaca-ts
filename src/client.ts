@@ -422,6 +422,68 @@ export class Client {
             }),
         },
       },
+      crypto: {
+        us: {
+          trades: {
+            get: (params: any): Promise<any> =>
+              this.request({
+                method: "GET",
+                url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/trades`,
+                data: params,
+              }),
+          },
+          latest: {
+            trades: {
+              get: (params: any): Promise<any> =>
+                this.request({
+                  method: "GET",
+                  url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/latest/trades`,
+                  data: params,
+                }),
+            },
+            quotes: {
+              get: (params: any): Promise<any> =>
+                this.request({
+                  method: "GET",
+                  url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/latest/quotes`,
+                  data: params,
+                }),
+            },
+            bars: {
+              get: (params: any): Promise<any> =>
+                this.request({
+                  method: "GET",
+                  url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/latest/bars`,
+                  data: params,
+                }),
+            },
+          },
+          bars: {
+            get: (params: any): Promise<any> =>
+              this.request({
+                method: "GET",
+                url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/bars`,
+                data: params,
+              }),
+          },
+          snapshots: {
+            get: (params: any): Promise<any> =>
+              this.request({
+                method: "GET",
+                url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/snapshots`,
+                data: params,
+              }),
+          },
+          latest_orderbooks: {
+            get: (params: any): Promise<any> =>
+              this.request({
+                method: "GET",
+                url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/latest/orderbooks`,
+                data: params,
+              }),
+          },
+        },
+      },
     },
   };
 
