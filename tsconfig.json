@@ -15,6 +15,6 @@
     "typeRoots": ["./node_modules/@types/"]
   },
   "include": ["src/*.ts"],
-  "exclude": ["node_modules", "dist", "test", "conf", "example"],
+  "exclude": ["node_modules", "dist"],
   "compileOnSave": false
 }

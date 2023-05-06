@@ -51,51 +51,114 @@ export class Client {
   }
 
   v2 = {
-    account: {
-      activity: {
-        list: async (
-          params: Types.GetAccountActivities
-        ): Promise<Types.Activity[]> => {
-          if (params.activity_types && Array.isArray(params.activity_types)) {
-            params.activity_types = params["activity_types"].join(",");
-          }
+    trading: {
+      account: {
+        activity: {
+          list: async (
+            params: Types.GetAccountActivities
+          ): Promise<Types.Activity[]> => {
+            if (params.activity_types && Array.isArray(params.activity_types)) {
+              params.activity_types = params["activity_types"].join(",");
+            }
 
-          return await this.request({
+            return await this.request({
+              method: "GET",
+              data: { ...params, activity_type: undefined },
+              url: this.buildURL(
+                this.baseURLs.rest.v2,
+                "account/activities",
+                params.activity_type ? "/".concat(params.activity_type) : ""
+              ),
+            });
+          },
+        },
+        authenticated: async (): Promise<boolean> =>
+          this.v2.trading.account
+            .get()
+            .then(() => true)
+            .catch(() => false),
+        configuration: {
+          get: (): Promise<Types.AccountConfigurations> =>
+            this.request({
+              method: "GET",
+              url: this.buildURL(
+                this.baseURLs.rest.v2,
+                "account/configurations"
+              ),
+            }),
+          update: (
+            params: Types.UpdateAccountConfigurations
+          ): Promise<Types.AccountConfigurations> =>
+            this.request({
+              method: "PATCH",
+              url: this.baseURLs.rest.v2.concat("/account/configurations"),
+              data: params,
+            }),
+        },
+        get: (): Promise<Types.Account> =>
+          this.request({
             method: "GET",
-            data: { ...params, activity_type: undefined },
-            url: this.buildURL(
-              this.baseURLs.rest.v2,
-              "account/activities",
-              params.activity_type ? "/".concat(params.activity_type) : ""
-            ),
-          });
+            url: this.buildURL(this.baseURLs.rest.v2, "account"),
+          }),
+        portfolio: {
+          history: (
+            params: Types.GetPortfolioHistory
+          ): Promise<Types.PortfolioHistory> =>
+            this.request({
+              method: "GET",
+              data: params,
+              url: this.buildURL(
+                this.baseURLs.rest.v2,
+                "account/portfolio/history"
+              ),
+            }),
         },
       },
-      authenticated: async (): Promise<boolean> =>
-        this.v2.account
-          .get()
-          .then(() => true)
-          .catch(() => false),
-      configuration: {
-        get: (): Promise<Types.AccountConfigurations> =>
+      asset: {
+        get: (params: Types.GetAsset): Promise<Types.Asset> =>
           this.request({
             method: "GET",
-            url: this.buildURL(this.baseURLs.rest.v2, "account/configurations"),
+            url: this.buildURL(
+              this.baseURLs.rest.v2,
+              "assets",
+              params.asset_id_or_symbol
+            ),
           }),
-        update: (
-          params: Types.UpdateAccountConfigurations
-        ): Promise<Types.AccountConfigurations> =>
+        list: (params?: Types.GetAssets): Promise<Types.Asset[]> =>
           this.request({
-            method: "PATCH",
-            url: this.baseURLs.rest.v2.concat("/account/configurations"),
+            method: "GET",
+            url: this.buildURL(this.baseURLs.rest.v2, "assets"),
             data: params,
           }),
       },
-      get: (): Promise<Types.Account> =>
-        this.request({
-          method: "GET",
-          url: this.buildURL(this.baseURLs.rest.v2, "account"),
-        }),
+      market: {
+        news: (params: Types.GetNews): Promise<Types.NewsPage> =>
+          this.request({
+            method: "GET",
+            url: this.buildURL(this.baseURLs.rest.v2, "account/news"),
+            data: params,
+          }),
+        /**
+             announcements: (
+             params: Types.GetAnnouncements
+             ): Promise<Types.Announcement[]> => null,
+             **/
+        calendar: async (
+          params?: Types.GetCalendar
+        ): Promise<Types.Calendar[]> => {
+          return this.request({
+            method: "GET",
+            url: this.buildURL(this.baseURLs.rest.v2, "/calendar"),
+            data: params,
+          });
+        },
+        clock: async (): Promise<Types.Clock> => {
+          return await this.request({
+            method: "GET",
+            url: this.buildURL(this.baseURLs.rest.v2, "/clock"),
+          });
+        },
+      },
       order: {
         create: (params: Types.PlaceOrder): Promise<Types.Order> =>
           this.request({
@@ -146,19 +209,6 @@ export class Client {
               params.order_id
             ),
             data: params,
-          }),
-      },
-      portfolio: {
-        history: (
-          params: Types.GetPortfolioHistory
-        ): Promise<Types.PortfolioHistory> =>
-          this.request({
-            method: "GET",
-            data: params,
-            url: this.buildURL(
-              this.baseURLs.rest.v2,
-              "account/portfolio/history"
-            ),
           }),
       },
       position: {
@@ -255,46 +305,6 @@ export class Client {
             ),
             data: params,
           }),
-      },
-    },
-    asset: {
-      get: (params: Types.GetAsset): Promise<Types.Asset> =>
-        this.request({
-          method: "GET",
-          url: this.buildURL(
-            this.baseURLs.rest.v2,
-            "assets",
-            params.asset_id_or_symbol
-          ),
-        }),
-      list: (params?: Types.GetAssets): Promise<Types.Asset[]> =>
-        this.request({
-          method: "GET",
-          url: this.buildURL(this.baseURLs.rest.v2, "assets"),
-          data: params,
-        }),
-    },
-    market: {
-      news: (params: Types.GetNews): Promise<Types.NewsPage> =>
-        this.request({
-          method: "GET",
-          url: this.buildURL(this.baseURLs.rest.v2, "account/news"),
-          data: params,
-        }),
-      calendar: async (
-        params?: Types.GetCalendar
-      ): Promise<Types.Calendar[]> => {
-        return this.request({
-          method: "GET",
-          url: `${this.baseURLs.rest.v2}/calendar`,
-          data: params,
-        });
-      },
-      clock: async (): Promise<Types.Clock> => {
-        return await this.request({
-          method: "GET",
-          url: `${this.baseURLs.rest.v2}/clock`,
-        });
       },
     },
   };
