@@ -341,6 +341,11 @@ export interface Asset {
   symbol: string;
 
   /**
+   * Asset name
+   */
+  name: string;  
+
+  /**
    * active or inactive
    */
   status: AssetStatus;
@@ -354,6 +359,11 @@ export interface Asset {
    * Asset is marginable or not
    */
   marginable: boolean;
+
+  /**
+   * Margin requirement for maintenance of the asset
+   */
+  maintenance_margin_requirement: number;
 
   /**
    * Asset is shortable or not
