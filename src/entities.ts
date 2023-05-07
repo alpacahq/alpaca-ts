@@ -303,6 +303,8 @@ export interface AggregateMinute {
   e: number;
 }
 
+export type AssetAttributes = [] | ['ptp_no_exception'] | ['ptp_with_exception']
+ 
 export type AssetExchange =
   | 'AMEX'
   | 'ARCA'
@@ -380,6 +382,11 @@ export interface Asset {
    * Asset is fractionable or not.
    */
   fractionable: boolean;
+
+  /**
+   * One of ptp_no_exception or ptp_with_exception if available, empty otherwise
+   */
+  attributes: AssetAttributes
 }
 
 /**
