@@ -1,20 +1,22 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "rootDir": "./src",
-    "noImplicitThis": true,
-    "esModuleInterop": true,
-    "removeComments": false,
-    "noImplicitAny": true,
-    "allowJs": true,
-    "noUnusedLocals": true,
+    "incremental": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": false,
-    "typeRoots": ["./node_modules/@types/"]
+    "declaration": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "lib": ["ES2016", "DOM", "ESNext"],
+    "types": ["node"],
+    "module": "ES6",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES6",
+    "baseUrl": "src"
   },
-  "include": ["src/*.ts"],
-  "exclude": ["node_modules", "dist"],
-  "compileOnSave": false
+  "include": ["src"]
 }

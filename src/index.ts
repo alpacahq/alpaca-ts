@@ -1,5 +1,4 @@
 export * from "./client";
-export * from "./stream";
 
 export type DataSource = "iex" | "sip";
 

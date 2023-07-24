@@ -1,8 +1,8 @@
 import * as Types from "./types";
 
 import qs from "qs";
-import isofetch from "isomorphic-unfetch";
 import Bottleneck from "bottleneck";
+import isofetch from "isomorphic-unfetch";
 
 import { Endpoints, endpoints } from "./index";
 
@@ -26,6 +26,15 @@ export class Client {
       credentials?: Types.DefaultCredentials | Types.OAuthCredentials;
     }
   ) {
+    // fill dummy credentials if not provided
+    if (params.credentials == undefined) {
+      params.credentials = {
+        key: "",
+        secret: "",
+        paper: false,
+      };
+    }
+
     // override endpoints if custom provided
     if ("endpoints" in params) {
       this.baseURLs = Object.assign(endpoints, params.endpoints);
@@ -487,7 +496,10 @@ export class Client {
     },
   };
 
-  private buildURL = (base: string, ...parts: string[]): string => {
+  private buildURL = (
+    base: string,
+    ...parts: (string | undefined)[]
+  ): string => {
     return [base, ...parts].join("/");
   };
 
@@ -498,17 +510,16 @@ export class Client {
     isJSON?: boolean;
   }): Promise<T> {
     let headers: any = {};
+    let credentials = this.params.credentials || ({} as any);
 
-    if ("access_token" in this.params.credentials) {
-      headers[
-        "Authorization"
-      ] = `Bearer ${this.params.credentials.access_token}`;
+    if ("access_token" in credentials) {
+      headers["Authorization"] = `Bearer ${credentials.access_token}`;
     } else {
-      headers["APCA-API-KEY-ID"] = this.params.credentials.key;
-      headers["APCA-API-SECRET-KEY"] = this.params.credentials.secret;
+      headers["APCA-API-KEY-ID"] = credentials.key;
+      headers["APCA-API-SECRET-KEY"] = credentials.secret;
     }
 
-    if (this.params.credentials.paper) {
+    if (credentials.paper) {
       params.url = params.url.replace("api.", "paper-api.");
     }
 

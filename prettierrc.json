@@ -15,5 +15,6 @@
   "htmlWhitespaceSensitivity": "css",
   "endOfLine": "lf",
   "embeddedLanguageFormatting": "auto",
-  "singleAttributePerLine": false
+  "singleAttributePerLine": false,
+  "pluginSearchDirs": false
 }
