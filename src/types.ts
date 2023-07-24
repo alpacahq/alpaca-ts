@@ -1,4 +1,4 @@
-import { DataSource } from "./index";
+import { DataSource } from "./index.js";
 
 export interface CancelOrder {
   order_id: string;

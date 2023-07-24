@@ -4,7 +4,7 @@ import qs from "qs";
 import Bottleneck from "bottleneck";
 import fetch from "isomorphic-unfetch";
 
-import { Endpoints, endpoints } from "./index";
+import { Endpoints, endpoints } from "./index.js";
 
 export class Client {
   private baseURLs: Endpoints = endpoints;

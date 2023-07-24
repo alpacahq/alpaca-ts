@@ -1,4 +1,4 @@
-export * from "./client";
+export * from "./client.js";
 
 export type DataSource = "iex" | "sip";
 
