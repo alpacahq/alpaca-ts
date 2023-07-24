@@ -1,5 +1,3 @@
-import { DataSource } from "./index.js";
-
 export interface CancelOrder {
   order_id: string;
 }
@@ -48,56 +46,10 @@ export interface GetCalendar {
   end?: Date;
 }
 
-export interface GetTrades {
-  symbol: string;
-  start: Date;
-  end: Date;
-  limit?: number;
-  page_token?: string;
-}
-
-export interface GetQuotes {
-  symbol: string;
-  start: Date;
-  end: Date;
-  limit?: number;
-  page_token?: string;
-}
-
-export interface GetSnapshot {
-  symbol: string;
-}
-
-export interface GetSnapshots {
-  symbols: string[];
-}
-
-export interface GetBars {
-  symbol: string;
-  start: Date;
-  end: Date;
-  limit?: number;
-  page_token?: string;
-  timeframe: BarsTimeframe;
-  adjustment?: "all" | "dividend" | "raw" | "split";
-}
-
-export interface GetBars_v1 {
-  timeframe: BarsV1Timeframe;
-  symbols: string[];
-  limit?: number;
-  start?: Date;
-  end?: Date;
-  after?: Date;
-  until?: Date;
-}
-
-export interface GetLastQuote_v1 {
-  symbol: string;
-}
-
-export interface GetLastTrade_v1 {
-  symbol: string;
+export interface OrderCancellation {
+  id: string;
+  status: number;
+  order: Order;
 }
 
 export interface GetOrders {
@@ -162,27 +114,11 @@ export interface ReplaceOrder {
   client_order_id?: string;
 }
 
-export type BarsV1Timeframe = "1Min" | "5Min" | "15Min" | "1Day";
-
-/** Also supports arbitrary minute, hour, and day values.  E.g., '37Min', '6Hour', '3Day'  */
-export type BarsTimeframe =
-  | BarsV1Timeframe
-  | "30Min"
-  | "1Hour"
-  | "2Hour"
-  | "4Hour";
-
 export interface UpdateAccountConfigurations {
   dtbp_check?: string;
   no_shorting?: boolean;
   suspend_trade?: boolean;
   trade_confirm_email?: string;
-}
-
-export interface GetLatestTrade {
-  symbol: string;
-  feed?: DataSource;
-  limit?: number;
 }
 
 export interface UpdateWatchList {
@@ -202,14 +138,6 @@ export interface GetNews {
   page_token?: string;
 }
 
-export interface GetCryptoTrades {
-  symbols: string;
-  start: Date;
-  end: Date;
-  limit?: number;
-  page_token?: string;
-}
-
 export interface DefaultCredentials {
   key: string;
   secret: string;
@@ -218,34 +146,6 @@ export interface DefaultCredentials {
 export interface OAuthCredentials {
   access_token: String;
   paper?: boolean;
-}
-export interface RawAccount {
-  account_blocked: boolean;
-  account_number: string;
-  buying_power: string;
-  cash: string;
-  created_at: string;
-  currency: string;
-  daytrade_count: number;
-  daytrading_buying_power: string;
-  equity: string;
-  id: string;
-  initial_margin: string;
-  last_equity: string;
-  last_maintenance_margin: string;
-  long_market_value: string;
-  maintenance_margin: string;
-  multiplier: string;
-  pattern_day_trader: boolean;
-  portfolio_value: string;
-  regt_buying_power: string;
-  short_market_value: string;
-  shorting_enabled: boolean;
-  sma: string;
-  status: string;
-  trade_suspended_by_user: boolean;
-  trading_blocked: boolean;
-  transfers_blocked: boolean;
 }
 export type AccountStatus =
   | "ONBOARDING"
@@ -291,33 +191,6 @@ export interface AccountConfigurations {
   trade_confirm_email: "all" | "none";
 }
 
-export interface AccountUpdate {
-  id: string;
-  created_at: string;
-  updated_at: string;
-  deleted_at: any;
-  status: string;
-  currency: string;
-  cash: string;
-  cash_withdrawable: string;
-}
-
-export interface AggregateMinute {
-  ev: string;
-  T: string;
-  v: number;
-  av: number;
-  op: number;
-  vw: number;
-  o: number;
-  c: number;
-  h: number;
-  l: number;
-  a: number;
-  s: number;
-  e: number;
-}
-
 export type AssetExchange =
   | "AMEX"
   | "ARCA"
@@ -345,308 +218,11 @@ export interface Calendar {
   close: string;
 }
 
-export interface RawClock {
-  timestamp: string;
-  is_open: boolean;
-  next_open: string;
-  next_close: string;
-}
 export interface Clock {
-  raw(): RawClock;
   timestamp: Date;
   is_open: boolean;
   next_open: Date;
   next_close: Date;
-}
-export interface RawTrade {
-  S: string;
-  t: string;
-  x: string;
-  p: number;
-  s: number;
-  c: string[];
-  i: number;
-  z: string;
-}
-export interface RawPageOfTrades {
-  trades: RawTrade[];
-  symbol: string;
-  next_page_token: string;
-}
-export interface Trade {
-  raw(): RawTrade;
-  S: string;
-  t: Date;
-  x: string;
-  p: number;
-  s: number;
-  c: string[];
-  i: number;
-  z: string;
-}
-export interface PageOfTrades {
-  raw(): RawPageOfTrades;
-  trades: Trade[];
-  symbol: string;
-  next_page_token: string;
-}
-export interface CryptoTrade {
-  raw(): RawCryptoTrade;
-  t: Date;
-  p: number;
-  s: number;
-  tks: string;
-  i: number;
-}
-
-export interface RawCryptoTrade {
-  t: string;
-  p: number;
-  s: number;
-  tks: string;
-  i: number;
-}
-export interface PageOfCryptoTrades {
-  raw(): RawPageOfTrades;
-  trades: Trade[];
-  symbol: string;
-  next_page_token: string;
-}
-export interface RawQuote {
-  S: string;
-  t: string;
-  ax: string;
-  ap: number;
-  as: number;
-  bx: string;
-  bp: number;
-  bs: number;
-  c: string[];
-}
-export interface RawPageOfQuotes {
-  quotes: RawQuote[];
-  symbol: string;
-  next_page_token: string;
-}
-export interface Quote {
-  raw(): RawQuote;
-  S: string;
-  t: Date;
-  ax: string;
-  ap: number;
-  as: number;
-  bx: string;
-  bp: number;
-  bs: number;
-  c: string[];
-}
-export interface PageOfQuotes {
-  raw(): RawPageOfQuotes;
-  quotes: Quote[];
-  symbol: string;
-  next_page_token: string;
-}
-export interface RawBar {
-  S: string;
-  t: string;
-  o: number;
-  h: number;
-  l: number;
-  c: number;
-  v: number;
-}
-export interface RawPageOfBars {
-  bars: RawBar[];
-  symbol: string;
-  next_page_token: string;
-}
-export interface Bar {
-  raw(): RawBar;
-  S: string;
-  t: Date;
-  o: number;
-  h: number;
-  l: number;
-  c: number;
-  v: number;
-}
-export interface PageOfBars {
-  raw(): RawPageOfBars;
-  bars: Bar[];
-  symbol: string;
-  next_page_token: string;
-}
-export interface OrderCancelation {
-  id: string;
-  status: number;
-  order: Order;
-}
-export interface RawOrderCancelation {
-  id: string;
-  status: number;
-  body: RawOrder;
-}
-export interface RawOrder {
-  id: string;
-  client_order_id: string;
-  created_at: string;
-  updated_at: string;
-  submitted_at: string;
-  filled_at: string;
-  expired_at: string;
-  canceled_at: string;
-  failed_at: string;
-  replaced_at: string;
-  replaced_by: string;
-  replaces: string;
-  asset_id: string;
-  symbol: string;
-  asset_class: string;
-  qty: string;
-  filled_qty: string;
-  type: string;
-  side: string;
-  time_in_force: string;
-  limit_price: string;
-  stop_price: string;
-  filled_avg_price: string;
-  status: string;
-  extended_hours: boolean;
-  legs: RawOrder[];
-  trail_price: string;
-  trail_percent: string;
-  hwm: string;
-  order_class?: OrderClass;
-}
-export interface Bar_v1 {
-  t: number;
-  o: number;
-  h: number;
-  l: number;
-  c: number;
-  v: number;
-}
-export interface LastQuote_v1 {
-  status: string;
-  symbol: string;
-  last: {
-    askprice: number;
-    asksize: number;
-    askexchange: number;
-    bidprice: number;
-    bidsize: number;
-    bidexchange: number;
-    timestamp: number;
-  };
-}
-export interface LastTrade_v1 {
-  status: string;
-  symbol: string;
-  last: {
-    price: number;
-    size: number;
-    exchange: number;
-    cond1: number;
-    cond2: number;
-    cond3: number;
-    cond4: number;
-    timestamp: number;
-  };
-}
-
-export interface RawSnapshot {
-  symbol: string;
-  latestTrade: {
-    t: string;
-    x: string;
-    p: number;
-    s: number;
-    c?: string[] | null;
-    i: number;
-    z: string;
-  };
-  latestQuote: {
-    t: string;
-    ax: string;
-    ap: number;
-    as: number;
-    bx: string;
-    bp: number;
-    bs: number;
-    c?: string[] | null;
-  };
-  minuteBar: {
-    t: string;
-    o: number;
-    h: number;
-    l: number;
-    c: number;
-    v: number;
-  };
-  dailyBar: {
-    t: string;
-    o: number;
-    h: number;
-    l: number;
-    c: number;
-    v: number;
-  };
-  prevDailyBar: {
-    t: string;
-    o: number;
-    h: number;
-    l: number;
-    c: number;
-    v: number;
-  };
-}
-
-export interface Snapshot {
-  raw(): RawSnapshot;
-  symbol: string;
-  latestTrade: {
-    t: Date;
-    x: string;
-    p: number;
-    s: number;
-    c?: string[] | null;
-    i: number;
-    z: string;
-  };
-  latestQuote: {
-    t: Date;
-    ax: string;
-    ap: number;
-    as: number;
-    bx: string;
-    bp: number;
-    bs: number;
-    c?: string[] | null;
-  };
-  minuteBar: {
-    t: Date;
-    o: number;
-    h: number;
-    l: number;
-    c: number;
-    v: number;
-  };
-  dailyBar: {
-    t: Date;
-    o: number;
-    h: number;
-    l: number;
-    c: number;
-    v: number;
-  };
-  prevDailyBar: {
-    t: Date;
-    o: number;
-    h: number;
-    l: number;
-    c: number;
-    v: number;
-  };
 }
 
 export type OrderType =
@@ -680,34 +256,7 @@ export type OrderStatus =
   | "suspended"
   | "calculated";
 
-export interface RawLatestTrade {
-  symbol: string;
-  trade: {
-    t: string;
-    x: string;
-    p: number;
-    s: number;
-    c: string[];
-    i: number;
-    z: string;
-  };
-}
-
-export interface LatestTrade {
-  raw(): RawLatestTrade;
-  symbol: string;
-  trade: {
-    t: Date;
-    x: string;
-    p: number;
-    s: number;
-    c: string[];
-    i: number;
-    z: string;
-  };
-}
 export interface Order {
-  raw(): RawOrder;
   id: string;
   client_order_id: string;
   created_at: Date;
@@ -747,28 +296,9 @@ export interface PortfolioHistory {
   base_value: number;
   timeframe: "1Min" | "5Min" | "15Min" | "1H" | "1D";
 }
-export interface RawPosition {
-  asset_id: string;
-  symbol: string;
-  exchange: string;
-  asset_class: string;
-  avg_entry_price: string;
-  qty: string;
-  side: string;
-  market_value: string | null;
-  cost_basis: string;
-  unrealized_pl: string | null;
-  unrealized_plpc: string | null;
-  unrealized_intraday_pl: string | null;
-  unrealized_intraday_plpc: string | null;
-  current_price: string | null;
-  lastday_price: string | null;
-  change_today: string | null;
-}
 
 export type PositionSide = "long" | "short";
 export interface Position {
-  raw(): RawPosition;
   asset_id: string;
   symbol: string;
   exchange: string;
@@ -822,35 +352,10 @@ export type ActivityType =
   | "SSO"
   | "SSP";
 
-export interface RawTradeActivity {
-  activity_type: Extract<ActivityType, "FILL">;
-  cum_qty: string;
-  id: string;
-  leaves_qty: string;
-  price: string;
-  qty: string;
-  side: string;
-  symbol: string;
-  transaction_time: string;
-  order_id: string;
-  type: string;
-}
-
-export interface RawNonTradeActivity {
-  activity_type: Exclude<ActivityType, "FILL">;
-  id: string;
-  date: string;
-  net_amount: string;
-  symbol: string;
-  qty: string;
-  per_share_amount: string;
-}
-
 export type TradeActivityType = "fill" | "partial_fill";
 export type TradeActivitySide = "buy" | "sell";
 
 export interface TradeActivity {
-  raw(): RawTradeActivity;
   activity_type: Extract<ActivityType, "FILL">;
   cum_qty: number;
   id: string;
@@ -865,7 +370,6 @@ export interface TradeActivity {
 }
 
 export interface NonTradeActivity {
-  raw(): RawNonTradeActivity;
   activity_type: Exclude<ActivityType, "FILL">;
   id: string;
   date: string;
@@ -875,51 +379,7 @@ export interface NonTradeActivity {
   per_share_amount: number;
 }
 
-export type RawActivity = RawTradeActivity | RawNonTradeActivity;
-
 export type Activity = TradeActivity | NonTradeActivity;
-export type TradeUpdateEvent =
-  | "new"
-  | "fill"
-  | "partial_fill"
-  | "canceled"
-  | "expired"
-  | "done_for_day"
-  | "replaced"
-  | "rejected"
-  | "pending_new"
-  | "stopped"
-  | "pending_cancel"
-  | "pending_replace"
-  | "calculated"
-  | "suspended"
-  | "order_replace_rejected"
-  | "order_cancel_rejected";
-
-export interface RawTradeUpdate {
-  event: TradeUpdateEvent;
-  execution_id: string;
-  order: RawOrder;
-  event_id?: string;
-  at?: string;
-  timestamp?: string;
-  position_qty?: string;
-  price?: string;
-  qty?: string;
-}
-
-export interface TradeUpdate {
-  raw: () => RawTradeUpdate;
-  event: TradeUpdateEvent;
-  execution_id: string;
-  event_id?: number;
-  order: Order;
-  at?: Date;
-  timestamp?: Date;
-  position_qty?: number;
-  price?: number;
-  qty?: number;
-}
 
 export interface Watchlist {
   account_id: string;
@@ -946,15 +406,6 @@ export interface News {
 export interface NewsPage {
   news: News[];
   next_page_token: string;
-}
-
-export type Channel = "trades" | "quotes" | "bars" | "trade_updates";
-
-export interface Message {
-  T: "success" | "error" | "subscription";
-  code?: number;
-  msg: string;
-  [key: string]: any;
 }
 
 export interface AddToWatchList {

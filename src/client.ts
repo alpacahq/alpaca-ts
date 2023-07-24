@@ -194,7 +194,7 @@ export class Client {
           url: this.buildURL(this.baseURLs.rest.v2, "orders", params.order_id),
           isJSON: false,
         }),
-      cancel_all: (): Promise<Types.OrderCancelation[]> =>
+      cancel_all: (): Promise<Types.OrderCancellation[]> =>
         this.request({
           method: "DELETE",
           url: this.buildURL(this.baseURLs.rest.v2, "orders"),

@@ -18,5 +18,6 @@
     "baseUrl": "src",
     "declarationDir": "dist/@types"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
