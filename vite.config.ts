@@ -4,14 +4,14 @@ export default defineConfig({
   build: {
     lib: {
       entry: "./src/index.ts",
-      name: "@alpacahq/alpaca-ts",
+      name: "@master-chief/alpaca-ts",
     },
     rollupOptions: {
-      external: ["@alpacahq/alpaca-ts"],
+      external: ["@master-chief/alpaca-ts"],
       output: {
         exports: "named",
         globals: {
-          "@alpacahq/alpaca-ts": "AlpacaTS",
+          "@master-chief": "AlpacaTS",
         },
       },
     },

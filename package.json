@@ -1,5 +1,5 @@
 {
-  "name": "@alpacahq/alpaca-ts",
+  "name": "@master-chief/alpaca-ts",
   "version": "7.0.0",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "author": "117",
@@ -43,7 +43,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/117/alpaca"
+    "url": "https://github.com/alpacahq/alpaca-ts"
   },
   "scripts": {
     "prepublishOnly": "npm run build",
