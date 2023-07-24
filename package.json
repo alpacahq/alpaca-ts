@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca-ts",
-  "version": "7.0.0",
+  "version": "7.0.0-alpha",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "author": "117",
   "contributors": [
@@ -47,7 +47,7 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "rimraf dist && vite build && tsc --build"
+    "build": "rimraf dist && tsc --build"
   },
   "dependencies": {
     "abort-controller": "^3.0.0",
@@ -57,6 +57,7 @@
     "is-blob": "^2.1.0",
     "isomorphic-unfetch": "^3.1.0",
     "isomorphic-ws": "^4.0.1",
+    "node-fetch": "^3.3.1",
     "qs": "^6.9.6",
     "utf-8-validate": "^5.0.4",
     "ws": "^7.5.0"

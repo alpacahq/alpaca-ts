@@ -2,11 +2,9 @@ import * as Types from "./types";
 
 import qs from "qs";
 import Bottleneck from "bottleneck";
-import isofetch from "isomorphic-unfetch";
+import fetch from "isomorphic-unfetch";
 
 import { Endpoints, endpoints } from "./index";
-
-const unifetch = typeof fetch !== "undefined" ? fetch : isofetch;
 
 export class Client {
   private baseURLs: Endpoints = endpoints;
@@ -60,437 +58,402 @@ export class Client {
   }
 
   v2 = {
-    trading: {
-      account: {
-        activity: {
-          list: async (
-            params: Types.GetAccountActivities
-          ): Promise<Types.Activity[]> => {
-            if (params.activity_types && Array.isArray(params.activity_types)) {
-              params.activity_types = params["activity_types"].join(",");
-            }
+    account: {
+      activity: {
+        list: async (
+          params: Types.GetAccountActivities
+        ): Promise<Types.Activity[]> => {
+          if (params.activity_types && Array.isArray(params.activity_types)) {
+            params.activity_types = params["activity_types"].join(",");
+          }
 
-            return await this.request({
-              method: "GET",
-              data: { ...params, activity_type: undefined },
-              url: this.buildURL(
-                this.baseURLs.rest.v2,
-                "account/activities",
-                params.activity_type ? "/".concat(params.activity_type) : ""
-              ),
-            });
-          },
-        },
-        authenticated: async (): Promise<boolean> =>
-          this.v2.trading.account
-            .get()
-            .then(() => true)
-            .catch(() => false),
-        configuration: {
-          get: (): Promise<Types.AccountConfigurations> =>
-            this.request({
-              method: "GET",
-              url: this.buildURL(
-                this.baseURLs.rest.v2,
-                "account/configurations"
-              ),
-            }),
-          update: (
-            params: Types.UpdateAccountConfigurations
-          ): Promise<Types.AccountConfigurations> =>
-            this.request({
-              method: "PATCH",
-              url: this.baseURLs.rest.v2.concat("/account/configurations"),
-              data: params,
-            }),
-        },
-        get: (): Promise<Types.Account> =>
-          this.request({
+          return await this.request({
             method: "GET",
-            url: this.buildURL(this.baseURLs.rest.v2, "account"),
-          }),
-        portfolio: {
-          history: (
-            params: Types.GetPortfolioHistory
-          ): Promise<Types.PortfolioHistory> =>
-            this.request({
-              method: "GET",
-              data: params,
-              url: this.buildURL(
-                this.baseURLs.rest.v2,
-                "account/portfolio/history"
-              ),
-            }),
-        },
-      },
-      asset: {
-        get: (params: Types.GetAsset): Promise<Types.Asset> =>
-          this.request({
-            method: "GET",
+            data: { ...params, activity_type: undefined },
             url: this.buildURL(
               this.baseURLs.rest.v2,
-              "assets",
-              params.asset_id_or_symbol
+              "account/activities",
+              params.activity_type ? "/".concat(params.activity_type) : ""
             ),
-          }),
-        list: (params?: Types.GetAssets): Promise<Types.Asset[]> =>
+          });
+        },
+      },
+      authenticated: async (): Promise<boolean> =>
+        this.v2.account
+          .get()
+          .then(() => true)
+          .catch(() => false),
+      configuration: {
+        get: (): Promise<Types.AccountConfigurations> =>
           this.request({
             method: "GET",
-            url: this.buildURL(this.baseURLs.rest.v2, "assets"),
+            url: this.buildURL(this.baseURLs.rest.v2, "account/configurations"),
+          }),
+        update: (
+          params: Types.UpdateAccountConfigurations
+        ): Promise<Types.AccountConfigurations> =>
+          this.request({
+            method: "PATCH",
+            url: this.baseURLs.rest.v2.concat("/account/configurations"),
             data: params,
           }),
       },
-      market: {
-        news: (params: Types.GetNews): Promise<Types.NewsPage> =>
+      get: (): Promise<Types.Account> =>
+        this.request({
+          method: "GET",
+          url: this.buildURL(this.baseURLs.rest.v2, "account"),
+        }),
+      portfolio: {
+        history: (
+          params: Types.GetPortfolioHistory
+        ): Promise<Types.PortfolioHistory> =>
           this.request({
             method: "GET",
-            url: this.buildURL(this.baseURLs.rest.v2, "account/news"),
             data: params,
+            url: this.buildURL(
+              this.baseURLs.rest.v2,
+              "account/portfolio/history"
+            ),
           }),
-        /**
+      },
+    },
+    asset: {
+      get: (params: Types.GetAsset): Promise<Types.Asset> =>
+        this.request({
+          method: "GET",
+          url: this.buildURL(
+            this.baseURLs.rest.v2,
+            "assets",
+            params.asset_id_or_symbol
+          ),
+        }),
+      list: (params?: Types.GetAssets): Promise<Types.Asset[]> =>
+        this.request({
+          method: "GET",
+          url: this.buildURL(this.baseURLs.rest.v2, "assets"),
+          data: params,
+        }),
+    },
+    market: {
+      news: (params: Types.GetNews): Promise<Types.NewsPage> =>
+        this.request({
+          method: "GET",
+          url: this.buildURL(this.baseURLs.rest.v2, "account/news"),
+          data: params,
+        }),
+      /**
              announcements: (
              params: Types.GetAnnouncements
              ): Promise<Types.Announcement[]> => null,
              **/
-        calendar: async (
-          params?: Types.GetCalendar
-        ): Promise<Types.Calendar[]> => {
-          return this.request({
+      calendar: async (
+        params?: Types.GetCalendar
+      ): Promise<Types.Calendar[]> => {
+        return this.request({
+          method: "GET",
+          url: this.buildURL(this.baseURLs.rest.v2, "/calendar"),
+          data: params,
+        });
+      },
+      clock: async (): Promise<Types.Clock> => {
+        return await this.request({
+          method: "GET",
+          url: this.buildURL(this.baseURLs.rest.v2, "/clock"),
+        });
+      },
+    },
+    order: {
+      create: (params: Types.PlaceOrder): Promise<Types.Order> =>
+        this.request({
+          method: "POST",
+          url: `${this.baseURLs.rest.v2}/orders`,
+          data: params,
+        }),
+      get: (params: Types.GetOrder): Promise<Types.Order> =>
+        this.request({
+          method: "GET",
+          url: this.buildURL(
+            this.baseURLs.rest.v2,
+            "orders",
+            params.order_id || params.client_order_id
+          ),
+          data: { nested: params.nested },
+        }),
+      list: async (params: Types.GetOrders = {}): Promise<Types.Order[]> =>
+        this.request({
+          method: "GET",
+          url: this.buildURL(this.baseURLs.rest.v2, "orders"),
+          data: {
+            ...params,
+            symbols: params.symbols ? params.symbols.join(",") : undefined,
+          },
+        }),
+      cancel: (params: Types.CancelOrder): Promise<boolean> =>
+        this.request<boolean>({
+          method: "DELETE",
+          url: this.buildURL(this.baseURLs.rest.v2, "orders", params.order_id),
+          isJSON: false,
+        }),
+      cancel_all: (): Promise<Types.OrderCancelation[]> =>
+        this.request({
+          method: "DELETE",
+          url: this.buildURL(this.baseURLs.rest.v2, "orders"),
+        }),
+      replace: (params: Types.ReplaceOrder): Promise<Types.Order> =>
+        this.request({
+          method: "PATCH",
+          url: this.buildURL(this.baseURLs.rest.v2, "orders", params.order_id),
+          data: params,
+        }),
+    },
+    position: {
+      close: (params: Types.ClosePosition): Promise<Types.Order> =>
+        this.request({
+          method: "DELETE",
+          url: this.buildURL(this.baseURLs.rest.v2, "positions", params.symbol),
+          data: params,
+        }),
+      close_all: (params: Types.ClosePositions): Promise<Types.Order[]> =>
+        this.request({
+          method: "DELETE",
+          url: this.buildURL(
+            this.baseURLs.rest.v2,
+            "positions",
+            "?cancel_orders=",
+            JSON.stringify(params.cancel_orders ?? false)
+          ),
+        }),
+      get: async (params: Types.GetPosition): Promise<Types.Position> =>
+        this.request({
+          method: "GET",
+          url: this.buildURL(this.baseURLs.rest.v2, "positions", params.symbol),
+        }),
+      list: async (): Promise<Types.Position[]> =>
+        this.request({
+          method: "GET",
+          url: this.buildURL(this.baseURLs.rest.v2, "positions"),
+        }),
+    },
+    watchlist: {
+      add: (params: Types.AddToWatchList): Promise<Types.Watchlist> =>
+        this.request({
+          method: "POST",
+          url: `${this.baseURLs.rest.v2}/watchlists/${params.uuid}`,
+          data: params,
+        }),
+      create: async (
+        params: Types.CreateWatchList
+      ): Promise<Types.Watchlist[]> =>
+        this.request({
+          method: "POST",
+          url: `${this.baseURLs.rest.v2}/watchlists`,
+          data: params,
+        }),
+      delete: (params: Types.DeleteWatchList): Promise<boolean> =>
+        this.request<boolean>({
+          method: "DELETE",
+          url: this.buildURL(this.baseURLs.rest.v2, "watchlists", params.uuid),
+        }),
+      get: async (params: Types.GetWatchList): Promise<Types.Watchlist> =>
+        this.request({
+          method: "GET",
+          url: this.buildURL(this.baseURLs.rest.v2, "watchlists", params.uuid),
+        }),
+      list: async (): Promise<Types.Watchlist[]> =>
+        await this.request({
+          method: "GET",
+          url: this.buildURL(this.baseURLs.rest.v2, "watchlists"),
+        }),
+      remove: (params: Types.RemoveFromWatchList): Promise<boolean> =>
+        this.request<boolean>({
+          method: "DELETE",
+          url: this.buildURL(
+            this.baseURLs.rest.v2,
+            "watchlists",
+            params.uuid,
+            params.symbol
+          ),
+        }),
+      update: (params: Types.UpdateWatchList): Promise<Types.Watchlist> =>
+        this.request({
+          method: "PUT",
+          url: this.buildURL(this.baseURLs.rest.v2, "watchlists", params.uuid),
+          data: params,
+        }),
+    },
+    stocks: {
+      trades: {
+        symbol: (params: any): Promise<any> =>
+          this.request({
             method: "GET",
-            url: this.buildURL(this.baseURLs.rest.v2, "/calendar"),
+            url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/trades`,
             data: params,
-          });
+          }),
+        get: (params: any): Promise<any> =>
+          this.request({
+            method: "GET",
+            url: `${this.baseURLs.rest.v2}/stocks/trades`,
+            data: params,
+          }),
+        latest: {
+          symbol: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/trades/latest`,
+              data: params,
+            }),
+          get: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/trades/latest`,
+              data: params,
+            }),
         },
-        clock: async (): Promise<Types.Clock> => {
-          return await this.request({
+      },
+      quotes: {
+        symbol: (params: any): Promise<any> =>
+          this.request({
             method: "GET",
-            url: this.buildURL(this.baseURLs.rest.v2, "/clock"),
-          });
+            url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/quotes`,
+            data: params,
+          }),
+        get: (params: any): Promise<any> =>
+          this.request({
+            method: "GET",
+            url: `${this.baseURLs.rest.v2}/stocks/quotes`,
+            data: params,
+          }),
+        latest: {
+          symbol: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/quotes/latest`,
+              data: params,
+            }),
+          get: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/quotes/latest`,
+              data: params,
+            }),
         },
       },
-      order: {
-        create: (params: Types.PlaceOrder): Promise<Types.Order> =>
+      bars: {
+        symbol: (params: any): Promise<any> =>
           this.request({
-            method: "POST",
-            url: `${this.baseURLs.rest.v2}/orders`,
+            method: "GET",
+            url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/bars`,
             data: params,
           }),
-        get: (params: Types.GetOrder): Promise<Types.Order> =>
+        get: (params: any): Promise<any> =>
           this.request({
             method: "GET",
-            url: this.buildURL(
-              this.baseURLs.rest.v2,
-              "orders",
-              params.order_id || params.client_order_id
-            ),
-            data: { nested: params.nested },
+            url: `${this.baseURLs.rest.v2}/stocks/bars`,
+            data: params,
           }),
-        list: async (params: Types.GetOrders = {}): Promise<Types.Order[]> =>
+        latest: {
+          symbol: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/bars/latest`,
+              data: params,
+            }),
+          get: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.v2}/stocks/bars/latest`,
+              data: params,
+            }),
+        },
+      },
+      snapshot: {
+        symbol: (params: any): Promise<any> =>
           this.request({
             method: "GET",
-            url: this.buildURL(this.baseURLs.rest.v2, "orders"),
-            data: {
-              ...params,
-              symbols: params.symbols ? params.symbols.join(",") : undefined,
-            },
+            url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/snapshot`,
+            data: params,
           }),
-        cancel: (params: Types.CancelOrder): Promise<boolean> =>
-          this.request<boolean>({
-            method: "DELETE",
-            url: this.buildURL(
-              this.baseURLs.rest.v2,
-              "orders",
-              params.order_id
-            ),
-            isJSON: false,
-          }),
-        cancel_all: (): Promise<Types.OrderCancelation[]> =>
+        get: (params: any): Promise<any> =>
           this.request({
-            method: "DELETE",
-            url: this.buildURL(this.baseURLs.rest.v2, "orders"),
-          }),
-        replace: (params: Types.ReplaceOrder): Promise<Types.Order> =>
-          this.request({
-            method: "PATCH",
-            url: this.buildURL(
-              this.baseURLs.rest.v2,
-              "orders",
-              params.order_id
-            ),
+            method: "GET",
+            url: `${this.baseURLs.rest.v2}/stocks/snapshots`,
             data: params,
           }),
       },
-      position: {
-        close: (params: Types.ClosePosition): Promise<Types.Order> =>
+      auctions: {
+        symbol: (params: any): Promise<any> =>
           this.request({
-            method: "DELETE",
-            url: this.buildURL(
-              this.baseURLs.rest.v2,
-              "positions",
-              params.symbol
-            ),
+            method: "GET",
+            url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/auctions`,
             data: params,
           }),
-        close_all: (params: Types.ClosePositions): Promise<Types.Order[]> =>
-          this.request({
-            method: "DELETE",
-            url: this.buildURL(
-              this.baseURLs.rest.v2,
-              "positions",
-              "?cancel_orders=",
-              JSON.stringify(params.cancel_orders ?? false)
-            ),
-          }),
-        get: async (params: Types.GetPosition): Promise<Types.Position> =>
+        get: (params: any): Promise<any> =>
           this.request({
             method: "GET",
-            url: this.buildURL(
-              this.baseURLs.rest.v2,
-              "positions",
-              params.symbol
-            ),
-          }),
-        list: async (): Promise<Types.Position[]> =>
-          this.request({
-            method: "GET",
-            url: this.buildURL(this.baseURLs.rest.v2, "positions"),
-          }),
-      },
-      watchlist: {
-        add: (params: Types.AddToWatchList): Promise<Types.Watchlist> =>
-          this.request({
-            method: "POST",
-            url: `${this.baseURLs.rest.v2}/watchlists/${params.uuid}`,
-            data: params,
-          }),
-        create: async (
-          params: Types.CreateWatchList
-        ): Promise<Types.Watchlist[]> =>
-          this.request({
-            method: "POST",
-            url: `${this.baseURLs.rest.v2}/watchlists`,
-            data: params,
-          }),
-        delete: (params: Types.DeleteWatchList): Promise<boolean> =>
-          this.request<boolean>({
-            method: "DELETE",
-            url: this.buildURL(
-              this.baseURLs.rest.v2,
-              "watchlists",
-              params.uuid
-            ),
-          }),
-        get: async (params: Types.GetWatchList): Promise<Types.Watchlist> =>
-          this.request({
-            method: "GET",
-            url: this.buildURL(
-              this.baseURLs.rest.v2,
-              "watchlists",
-              params.uuid
-            ),
-          }),
-        list: async (): Promise<Types.Watchlist[]> =>
-          await this.request({
-            method: "GET",
-            url: this.buildURL(this.baseURLs.rest.v2, "watchlists"),
-          }),
-        remove: (params: Types.RemoveFromWatchList): Promise<boolean> =>
-          this.request<boolean>({
-            method: "DELETE",
-            url: this.buildURL(
-              this.baseURLs.rest.v2,
-              "watchlists",
-              params.uuid,
-              params.symbol
-            ),
-          }),
-        update: (params: Types.UpdateWatchList): Promise<Types.Watchlist> =>
-          this.request({
-            method: "PUT",
-            url: this.buildURL(
-              this.baseURLs.rest.v2,
-              "watchlists",
-              params.uuid
-            ),
+            url: `${this.baseURLs.rest.v2}/stocks/auctions`,
             data: params,
           }),
       },
     },
-    market_data: {
-      stocks: {
+    crypto: {
+      us: {
         trades: {
-          symbol: (params: any): Promise<any> =>
-            this.request({
-              method: "GET",
-              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/trades`,
-              data: params,
-            }),
           get: (params: any): Promise<any> =>
             this.request({
               method: "GET",
-              url: `${this.baseURLs.rest.v2}/stocks/trades`,
-              data: params,
-            }),
-          latest: {
-            symbol: (params: any): Promise<any> =>
-              this.request({
-                method: "GET",
-                url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/trades/latest`,
-                data: params,
-              }),
-            get: (params: any): Promise<any> =>
-              this.request({
-                method: "GET",
-                url: `${this.baseURLs.rest.v2}/stocks/trades/latest`,
-                data: params,
-              }),
-          },
-        },
-        quotes: {
-          symbol: (params: any): Promise<any> =>
-            this.request({
-              method: "GET",
-              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/quotes`,
-              data: params,
-            }),
-          get: (params: any): Promise<any> =>
-            this.request({
-              method: "GET",
-              url: `${this.baseURLs.rest.v2}/stocks/quotes`,
-              data: params,
-            }),
-          latest: {
-            symbol: (params: any): Promise<any> =>
-              this.request({
-                method: "GET",
-                url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/quotes/latest`,
-                data: params,
-              }),
-            get: (params: any): Promise<any> =>
-              this.request({
-                method: "GET",
-                url: `${this.baseURLs.rest.v2}/stocks/quotes/latest`,
-                data: params,
-              }),
-          },
-        },
-        bars: {
-          symbol: (params: any): Promise<any> =>
-            this.request({
-              method: "GET",
-              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/bars`,
-              data: params,
-            }),
-          get: (params: any): Promise<any> =>
-            this.request({
-              method: "GET",
-              url: `${this.baseURLs.rest.v2}/stocks/bars`,
-              data: params,
-            }),
-          latest: {
-            symbol: (params: any): Promise<any> =>
-              this.request({
-                method: "GET",
-                url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/bars/latest`,
-                data: params,
-              }),
-            get: (params: any): Promise<any> =>
-              this.request({
-                method: "GET",
-                url: `${this.baseURLs.rest.v2}/stocks/bars/latest`,
-                data: params,
-              }),
-          },
-        },
-        snapshot: {
-          symbol: (params: any): Promise<any> =>
-            this.request({
-              method: "GET",
-              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/snapshot`,
-              data: params,
-            }),
-          get: (params: any): Promise<any> =>
-            this.request({
-              method: "GET",
-              url: `${this.baseURLs.rest.v2}/stocks/snapshots`,
+              url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/trades`,
               data: params,
             }),
         },
-        auctions: {
-          symbol: (params: any): Promise<any> =>
-            this.request({
-              method: "GET",
-              url: `${this.baseURLs.rest.v2}/stocks/${params.symbol}/auctions`,
-              data: params,
-            }),
-          get: (params: any): Promise<any> =>
-            this.request({
-              method: "GET",
-              url: `${this.baseURLs.rest.v2}/stocks/auctions`,
-              data: params,
-            }),
-        },
-      },
-      crypto: {
-        us: {
+        latest: {
           trades: {
             get: (params: any): Promise<any> =>
               this.request({
                 method: "GET",
-                url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/trades`,
+                url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/latest/trades`,
                 data: params,
               }),
           },
-          latest: {
-            trades: {
-              get: (params: any): Promise<any> =>
-                this.request({
-                  method: "GET",
-                  url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/latest/trades`,
-                  data: params,
-                }),
-            },
-            quotes: {
-              get: (params: any): Promise<any> =>
-                this.request({
-                  method: "GET",
-                  url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/latest/quotes`,
-                  data: params,
-                }),
-            },
-            bars: {
-              get: (params: any): Promise<any> =>
-                this.request({
-                  method: "GET",
-                  url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/latest/bars`,
-                  data: params,
-                }),
-            },
+          quotes: {
+            get: (params: any): Promise<any> =>
+              this.request({
+                method: "GET",
+                url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/latest/quotes`,
+                data: params,
+              }),
           },
           bars: {
             get: (params: any): Promise<any> =>
               this.request({
                 method: "GET",
-                url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/bars`,
+                url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/latest/bars`,
                 data: params,
               }),
           },
-          snapshots: {
-            get: (params: any): Promise<any> =>
-              this.request({
-                method: "GET",
-                url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/snapshots`,
-                data: params,
-              }),
-          },
-          latest_orderbooks: {
-            get: (params: any): Promise<any> =>
-              this.request({
-                method: "GET",
-                url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/latest/orderbooks`,
-                data: params,
-              }),
-          },
+        },
+        bars: {
+          get: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/bars`,
+              data: params,
+            }),
+        },
+        snapshots: {
+          get: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/snapshots`,
+              data: params,
+            }),
+        },
+        latest_orderbooks: {
+          get: (params: any): Promise<any> =>
+            this.request({
+              method: "GET",
+              url: `${this.baseURLs.rest.data_v1beta3}/crypto/us/latest/orderbooks`,
+              data: params,
+            }),
         },
       },
     },
@@ -541,7 +504,7 @@ export class Client {
     }
 
     const call = () =>
-        unifetch(params.url.concat(query), {
+        fetch(params.url.concat(query), {
           method: params.method,
           headers,
           body: JSON.stringify(params.data),
@@ -554,7 +517,9 @@ export class Client {
     try {
       resp = await func();
 
-      if (!(params.isJSON == undefined ? true : params.isJSON)) {
+      const { isJSON } = params;
+
+      if (!(params.isJSON != undefined ? isJSON : true)) {
         return resp.ok as any;
       }
 
