@@ -1,4 +1,4 @@
-name: Prettify
+name: Prettier Check
 on:
   pull_request:
     branches: [main]
@@ -19,7 +19,7 @@ jobs:
           node-version: 16
       - name: Install dependencies
         run: npm ci
-      - name: Format code
+      - name: Check code
         uses: creyD/prettier_action@v4.2
         with:
           dry: true
