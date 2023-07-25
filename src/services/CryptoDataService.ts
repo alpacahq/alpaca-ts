@@ -16,7 +16,6 @@ import type { MultiBarsResponse } from "../models/MultiBarsResponse.js";
 import type { MultiQuotesReponse } from "../models/MultiQuotesReponse.js";
 import type { MultiSnapshotResponse } from "../models/MultiSnapshotResponse.js";
 import type { MultiTradesResponse } from "../models/MultiTradesResponse.js";
-import type { QuotesResponse } from "../models/QuotesResponse.js";
 import type { Snapshot } from "../models/Snapshot.js";
 import type { TradesResponse } from "../models/TradesResponse.js";
 import type { CancelablePromise } from "../core/CancelablePromise.js";
@@ -73,7 +72,7 @@ export class CryptoDataService {
   }): CancelablePromise<MultiTradesResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/trades",
+      url: "/v1beta3/crypto/us/trades",
       query: {
         start: start,
         end: end,
@@ -106,7 +105,7 @@ export class CryptoDataService {
   }): CancelablePromise<LatestMultiTradesResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/trades/latest",
+      url: "/v1beta3/crypto/us/trades/latest",
       query: {
         symbols: symbols,
         exchange: exchange,
@@ -155,7 +154,7 @@ export class CryptoDataService {
   }): CancelablePromise<TradesResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/{symbol}/trades",
+      url: "/v1beta3/crypto/us/{symbol}/trades",
       path: {
         symbol: symbol,
       },
@@ -190,7 +189,7 @@ export class CryptoDataService {
   }): CancelablePromise<LatestTradeResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/{symbol}/trades/latest",
+      url: "/v1beta3/crypto/us/{symbol}/trades/latest",
       path: {
         symbol: symbol,
       },
@@ -250,7 +249,7 @@ export class CryptoDataService {
   }): CancelablePromise<MultiBarsResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/bars",
+      url: "/v1beta3/crypto/us/bars",
       query: {
         symbols: symbols,
         start: start,
@@ -284,7 +283,7 @@ export class CryptoDataService {
   }): CancelablePromise<LatestMultiBarsResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/bars/latest",
+      url: "/v1beta3/crypto/us/bars/latest",
       query: {
         symbols: symbols,
         exchange: exchange,
@@ -338,7 +337,7 @@ export class CryptoDataService {
   }): CancelablePromise<BarsResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/{symbol}/bars",
+      url: "/v1beta3/crypto/us/{symbol}/bars",
       path: {
         symbol: symbol,
       },
@@ -374,7 +373,7 @@ export class CryptoDataService {
   }): CancelablePromise<LatestBarResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/{symbol}/bars/latest",
+      url: "/v1beta3/crypto/us/{symbol}/bars/latest",
       path: {
         symbol: symbol,
       },
@@ -429,7 +428,7 @@ export class CryptoDataService {
   }): CancelablePromise<MultiQuotesReponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/quotes",
+      url: "/v1beta3/crypto/us/quotes",
       query: {
         start: start,
         end: end,
@@ -462,65 +461,10 @@ export class CryptoDataService {
   }): CancelablePromise<LatestMultiQuotesResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/quotes/latest",
+      url: "/v1beta3/crypto/us/latest/quotes",
       query: {
         symbols: symbols,
         exchange: exchange,
-      },
-    });
-  }
-
-  /**
-   * Get Quotes for crypto symbol
-   * The Quotes API provides quotes for a given crypto symbol at a specified date. Returns quotes for the queried crypto symbol
-   * @returns QuotesResponse Successful response
-   * @throws ApiError
-   */
-  public getQuotesForCryptoSymbol({
-    symbol,
-    start,
-    end,
-    exchanges,
-    limit,
-    pageToken,
-  }: {
-    /**
-     * The crypto symbol to query for. Note, currently all crypto symbols must be appended with "USD", ie "BTCUSD" would be how you query for BTC.
-     */
-    symbol: string;
-    /**
-     * Filter data equal to or after this time in RFC-3339 format. Fractions of a second are not accepted.
-     */
-    start?: string;
-    /**
-     * Filter data equal to or before this time in RFC-3339 format. Fractions of a second are not accepted.
-     */
-    end?: string;
-    /**
-     * A comma separated list of which crypto exchanges to pull the data from. Alpaca currently supports `ERSX`, `CBSE`, and `FTXU`
-     */
-    exchanges?: string;
-    /**
-     * Number of data points to return. Must be in range 1-10000, defaults to 1000.
-     */
-    limit?: number;
-    /**
-     * Pagination token to continue from. The value to pass here is returned in specific requests when more data is available than the request limit allows.
-     */
-    pageToken?: string;
-  }): CancelablePromise<QuotesResponse> {
-    return this.httpRequest.request({
-      method: "GET",
-      url: "/v1beta1/crypto/{symbol}/quotes",
-      path: {
-        symbol: symbol,
-      },
-      query: {
-        start: start,
-        end: end,
-        exchanges: exchanges,
-        limit: limit,
-        page_token: pageToken,
       },
     });
   }
@@ -536,7 +480,7 @@ export class CryptoDataService {
     exchange,
   }: {
     /**
-     * The crypto symbol to query for. Note, currently all crypto symbols must be appended with "USD", ie "BTCUSD" would be how you query for BTC.
+     * The comma-separated list of crypto symbols to query for. Note, currently all crypto symbols must be appended with "USD", ie "BTCUSD,ETHUSD" would get both BTC and ETH
      */
     symbol: string;
     /**
@@ -546,11 +490,9 @@ export class CryptoDataService {
   }): CancelablePromise<LatestQuoteResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/{symbol}/quotes/latest",
-      path: {
-        symbol: symbol,
-      },
+      url: "/v1beta3/crypto/us/latest/quotes",
       query: {
+        symbols: [symbol],
         exchange: exchange,
       },
     });
@@ -577,7 +519,7 @@ export class CryptoDataService {
   }): CancelablePromise<MultiSnapshotResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/snapshots",
+      url: "/v1beta3/crypto/us/snapshots",
       query: {
         exchange: exchange,
         symbols: symbols,
@@ -606,7 +548,7 @@ export class CryptoDataService {
   }): CancelablePromise<Snapshot> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/{symbol}/snapshot",
+      url: "/v1beta3/crypto/us/{symbol}/snapshot",
       path: {
         symbol: symbol,
       },
@@ -637,7 +579,7 @@ export class CryptoDataService {
   }): CancelablePromise<LatestMultiXBBOResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/xbbos/latest",
+      url: "/v1beta3/crypto/us/xbbos/latest",
       query: {
         symbols: symbols,
         exchanges: exchanges,
@@ -666,7 +608,7 @@ export class CryptoDataService {
   }): CancelablePromise<LatestXBBOResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/{symbol}/xbbo/latest",
+      url: "/v1beta3/crypto/us/{symbol}/xbbo/latest",
       path: {
         symbol: symbol,
       },
@@ -685,7 +627,7 @@ export class CryptoDataService {
   public getCryptoMetaSpreads(): CancelablePromise<CryptoSpreadsResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta1/crypto/meta/spreads",
+      url: "/v1beta3/crypto/us/meta/spreads",
     });
   }
 }
