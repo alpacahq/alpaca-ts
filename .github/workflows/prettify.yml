@@ -22,6 +22,6 @@ jobs:
       - name: Format code
         uses: creyD/prettier_action@v4.2
         with:
-          dry: false
+          dry: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          prettier_options: --write ./src
+          prettier_options: --check ./src
