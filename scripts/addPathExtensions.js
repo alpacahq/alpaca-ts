@@ -6,16 +6,12 @@ import glob from "glob";
 // directory where the files are located
 const directoryPath = "./src";
 
-console.log(`Looking for .ts files in: ${directoryPath}`);
-
 // use glob to find all .ts files in the directory
 glob(`${directoryPath}/**/*.ts`, {}, (err, files) => {
   if (err) {
     console.error(err);
     process.exit(1);
   }
-
-  console.log(`Found ${files.length} files.`);
 
   // loop through each file
   files.forEach((filePath) => {
@@ -43,8 +39,6 @@ glob(`${directoryPath}/**/*.ts`, {}, (err, files) => {
           console.error(err);
           process.exit(1);
         }
-
-        console.log(`Updated: ${filePath}`);
       });
     });
   });

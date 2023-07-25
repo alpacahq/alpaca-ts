@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca-ts",
-  "version": "7.0.4-alpha",
+  "version": "7.0.5-alpha",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "author": "117",
   "contributors": [
@@ -46,7 +46,8 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "rimraf dist && tsc --build"
+    "build": "rimraf dist && npm run extensions && tsc --build",
+    "extensions": "node ./scripts/addPathExtensions.js"
   },
   "dependencies": {
     "abort-controller": "^3.0.0",

@@ -97,16 +97,17 @@ export const getQueryString = (params: Record<string, any>): string => {
 };
 
 const getUrl = (config: OpenAPIConfig, options: ApiRequestOptions): string => {
-  const encoder = config.ENCODE_PATH || encodeURI;
+  const encoder = encodeURI;
 
-  const path = options.url
-    .replace("{api-version}", config.VERSION)
-    .replace(/{(.*?)}/g, (substring: string, group: string) => {
+  const path = options.url.replace(
+    /{(.*?)}/g,
+    (substring: string, group: string) => {
       if (options.path?.hasOwnProperty(group)) {
         return encoder(String(options.path[group]));
       }
       return substring;
-    });
+    }
+  );
 
   const url = `${config.BASE}${path}`;
   if (options.query) {
@@ -161,7 +162,7 @@ export const getHeaders = async (
   options: ApiRequestOptions,
   formData?: FormData
 ): Promise<Record<string, string>> => {
-  const token = await resolve(options, config.TOKEN);
+  const token = await resolve(options);
   const additionalHeaders = await resolve(options, config.HEADERS);
   const formHeaders =
     (typeof formData?.getHeaders === "function" && formData?.getHeaders()) ||
@@ -225,7 +226,6 @@ export const sendRequest = async <T>(
     headers,
     data: body ?? formData,
     method: options.method,
-    withCredentials: config.WITH_CREDENTIALS,
     cancelToken: source.token,
   };
 
