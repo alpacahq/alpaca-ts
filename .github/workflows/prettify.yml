@@ -1,20 +1,19 @@
 name: Prettify
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
+    branches: [main]
 jobs:
-  format:
+  prettier:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
+          fetch-depth: 0
           ref: ${{ github.head_ref }}
+          persist-credentials: false
       - name: Format code
-        uses: creyD/prettier_action@v4.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: creyD/prettier_action@v4.2
+        with:
+          dry: True
+          github_token: ${{ secrets.GITHUB_TOKEN }}
