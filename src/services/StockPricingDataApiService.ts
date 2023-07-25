@@ -314,7 +314,6 @@ export class StockPricingDataApiService {
    */
   public getTradesForStockSymbol({
     symbol,
-    symbol,
     start,
     end,
     limit,
@@ -323,10 +322,6 @@ export class StockPricingDataApiService {
   }: {
     /**
      * The stock ticker symbol to query for.
-     */
-    symbol: string;
-    /**
-     * The symbol to query for
      */
     symbol: string;
     /**
@@ -355,7 +350,6 @@ export class StockPricingDataApiService {
       url: "/v2/stocks/{symbol}/trades",
       path: {
         symbol: symbol,
-        symbol: symbol,
       },
       query: {
         start: start,
@@ -375,15 +369,10 @@ export class StockPricingDataApiService {
    */
   public getLatestTradeForStockSymbol({
     symbol,
-    symbol,
     feed,
   }: {
     /**
      * The stock ticker symbol to query for.
-     */
-    symbol: string;
-    /**
-     * The symbol to query for
      */
     symbol: string;
     /**
@@ -395,7 +384,6 @@ export class StockPricingDataApiService {
       method: "GET",
       url: "/v2/stocks/{symbol}/trades/latest",
       path: {
-        symbol: symbol,
         symbol: symbol,
       },
       query: {
@@ -499,7 +487,6 @@ export class StockPricingDataApiService {
    */
   public getQuotesForStockSymbol({
     symbol,
-    symbol,
     start,
     end,
     limit,
@@ -508,10 +495,6 @@ export class StockPricingDataApiService {
   }: {
     /**
      * The stock ticker symbol to query for.
-     */
-    symbol: string;
-    /**
-     * The symbol to query for
      */
     symbol: string;
     /**
@@ -540,7 +523,6 @@ export class StockPricingDataApiService {
       url: "/v2/stocks/{symbol}/quotes",
       path: {
         symbol: symbol,
-        symbol: symbol,
       },
       query: {
         start: start,
@@ -560,15 +542,10 @@ export class StockPricingDataApiService {
    */
   public getLatestQuoteForStockSymbol({
     symbol,
-    symbol,
     feed,
   }: {
     /**
      * The stock ticker symbol to query for.
-     */
-    symbol: string;
-    /**
-     * The symbol to query for
      */
     symbol: string;
     /**
@@ -580,7 +557,6 @@ export class StockPricingDataApiService {
       method: "GET",
       url: "/v2/stocks/{symbol}/quotes/latest",
       path: {
-        symbol: symbol,
         symbol: symbol,
       },
       query: {
@@ -626,15 +602,10 @@ export class StockPricingDataApiService {
    */
   public getSnapshotForStockSymbol({
     symbol,
-    symbol,
     feed,
   }: {
     /**
      * The stock ticker symbol to query for.
-     */
-    symbol: string;
-    /**
-     * The symbol to query for
      */
     symbol: string;
     /**
@@ -646,7 +617,6 @@ export class StockPricingDataApiService {
       method: "GET",
       url: "/v2/stocks/{symbol}/snapshot",
       path: {
-        symbol: symbol,
         symbol: symbol,
       },
       query: {
