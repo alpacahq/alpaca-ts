@@ -3,15 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BarsResponse } from "../models/BarsResponse.js";
-import type { CryptoSpreadsResponse } from "../models/CryptoSpreadsResponse.js";
 import type { LatestBarResponse } from "../models/LatestBarResponse.js";
 import type { LatestMultiBarsResponse } from "../models/LatestMultiBarsResponse.js";
 import type { LatestMultiQuotesResponse } from "../models/LatestMultiQuotesResponse.js";
 import type { LatestMultiTradesResponse } from "../models/LatestMultiTradesResponse.js";
-import type { LatestMultiXBBOResponse } from "../models/LatestMultiXBBOResponse.js";
 import type { LatestQuoteResponse } from "../models/LatestQuoteResponse.js";
 import type { LatestTradeResponse } from "../models/LatestTradeResponse.js";
-import type { LatestXBBOResponse } from "../models/LatestXBBOResponse.js";
 import type { MultiBarsResponse } from "../models/MultiBarsResponse.js";
 import type { MultiQuotesReponse } from "../models/MultiQuotesReponse.js";
 import type { MultiSnapshotResponse } from "../models/MultiSnapshotResponse.js";
@@ -37,7 +34,7 @@ export class CryptoDataService {
    * @returns MultiTradesResponse Successful response
    * @throws ApiError
    */
-  public getTradesForMultipleCryptoSymbols({
+  public getTradesForMultipleSymbols({
     symbols,
     start,
     end,
@@ -90,7 +87,7 @@ export class CryptoDataService {
    * @returns LatestMultiTradesResponse OK
    * @throws ApiError
    */
-  public getLatestTradesForMultipleCryptoSymbols({
+  public getLatestTradesForMultipleSymbols({
     symbols,
     exchange,
   }: {
@@ -107,8 +104,8 @@ export class CryptoDataService {
       method: "GET",
       url: "/v1beta3/crypto/us/trades/latest",
       query: {
-        symbols: symbols,
-        exchange: exchange,
+        symbols,
+        exchange,
       },
     });
   }
@@ -119,7 +116,7 @@ export class CryptoDataService {
    * @returns TradesResponse Successful response
    * @throws ApiError
    */
-  public getTradesForCryptoSymbol({
+  public getTradesForSymbol({
     symbol,
     start,
     end,
@@ -154,11 +151,9 @@ export class CryptoDataService {
   }): CancelablePromise<TradesResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta3/crypto/us/{symbol}/trades",
-      path: {
-        symbol: symbol,
-      },
+      url: "/v1beta3/crypto/us/trades",
       query: {
+        symbols: symbol,
         start: start,
         end: end,
         exchanges: exchanges,
@@ -174,7 +169,7 @@ export class CryptoDataService {
    * @returns LatestTradeResponse Successful response
    * @throws ApiError
    */
-  public getLatestTradesForCryptoSymbol({
+  public getLatestTradesForSymbol({
     symbol,
     exchange,
   }: {
@@ -189,11 +184,9 @@ export class CryptoDataService {
   }): CancelablePromise<LatestTradeResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta3/crypto/us/{symbol}/trades/latest",
-      path: {
-        symbol: symbol,
-      },
+      url: "/v1beta3/crypto/us/latest/trades",
       query: {
+        symbols: symbol,
         exchange: exchange,
       },
     });
@@ -209,7 +202,7 @@ export class CryptoDataService {
    * @returns MultiBarsResponse Successful response
    * @throws ApiError
    */
-  public getBarsForMultipleCryptoSymbols({
+  public getBarsForMultipleSymbols({
     symbols,
     timeframe,
     start,
@@ -268,7 +261,7 @@ export class CryptoDataService {
    * @returns LatestMultiBarsResponse OK
    * @throws ApiError
    */
-  public getLatestBarsForMultipleCryptoSymbols({
+  public getLatestBarsForMultipleSymbols({
     symbols,
     exchange,
   }: {
@@ -285,8 +278,8 @@ export class CryptoDataService {
       method: "GET",
       url: "/v1beta3/crypto/us/bars/latest",
       query: {
-        symbols: symbols,
-        exchange: exchange,
+        symbols,
+        exchange,
       },
     });
   }
@@ -297,7 +290,7 @@ export class CryptoDataService {
    * @returns BarsResponse Successful response
    * @throws ApiError
    */
-  public getBarsForCryptoSymbol({
+  public getBarsForSymbol({
     symbol,
     timeframe,
     start,
@@ -337,11 +330,9 @@ export class CryptoDataService {
   }): CancelablePromise<BarsResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta3/crypto/us/{symbol}/bars",
-      path: {
-        symbol: symbol,
-      },
+      url: "/v1beta3/crypto/us/bars",
       query: {
+        symbols: symbol,
         start: start,
         end: end,
         timeframe: timeframe,
@@ -358,7 +349,7 @@ export class CryptoDataService {
    * @returns LatestBarResponse OK
    * @throws ApiError
    */
-  public getLatestBarsForCryptoSymbol({
+  public getLatestBarsForSymbol({
     symbol,
     exchange,
   }: {
@@ -373,11 +364,9 @@ export class CryptoDataService {
   }): CancelablePromise<LatestBarResponse> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta3/crypto/us/{symbol}/bars/latest",
-      path: {
-        symbol: symbol,
-      },
+      url: "/v1beta3/crypto/us/latest/bars",
       query: {
+        symbols: symbol,
         exchange: exchange,
       },
     });
@@ -393,7 +382,7 @@ export class CryptoDataService {
    * @returns MultiQuotesReponse Successful response
    * @throws ApiError
    */
-  public getQuotesForMultipleCryptoSymbols({
+  public getQuotesForMultipleSymbols({
     symbols,
     start,
     end,
@@ -446,7 +435,7 @@ export class CryptoDataService {
    * @returns LatestMultiQuotesResponse OK
    * @throws ApiError
    */
-  public getLatestQuotesForMultipleCryptoSymbols({
+  public getLatestQuotesForMultipleSymbols({
     symbols,
     exchange,
   }: {
@@ -475,7 +464,7 @@ export class CryptoDataService {
    * @returns LatestQuoteResponse Successful response
    * @throws ApiError
    */
-  public getLatestQuoteForCryptoSymbol({
+  public getLatestQuoteForSymbol({
     symbol,
     exchange,
   }: {
@@ -492,7 +481,7 @@ export class CryptoDataService {
       method: "GET",
       url: "/v1beta3/crypto/us/latest/quotes",
       query: {
-        symbols: [symbol],
+        symbols: symbol,
         exchange: exchange,
       },
     });
@@ -504,7 +493,7 @@ export class CryptoDataService {
    * @returns MultiSnapshotResponse Successful response
    * @throws ApiError
    */
-  public getSnapshotsForMultipleCryptoSymbols({
+  public getSnapshotsForMultipleSymbols({
     exchange,
     symbols,
   }: {
@@ -533,7 +522,7 @@ export class CryptoDataService {
    * @returns Snapshot Successful response
    * @throws ApiError
    */
-  public getSnapshotForCryptoSymbol({
+  public getSnapshotForSymbol({
     symbol,
     exchange,
   }: {
@@ -548,86 +537,11 @@ export class CryptoDataService {
   }): CancelablePromise<Snapshot> {
     return this.httpRequest.request({
       method: "GET",
-      url: "/v1beta3/crypto/us/{symbol}/snapshot",
-      path: {
-        symbol: symbol,
-      },
+      url: "/v1beta3/crypto/us/snapshot",
       query: {
+        symbols: symbol,
         exchange: exchange,
       },
-    });
-  }
-
-  /**
-   * Get Latest XBBO for multiple crypto symbols
-   * Returns the latest XBBO for a given list crypto symbols that calculates the Best Bid and Offer across multiple exchanges. If exchanges is not specified then only the exchanges that can be traded on Alpaca are included in the calculation.
-   * @returns LatestMultiXBBOResponse OK
-   * @throws ApiError
-   */
-  public getLatestXbboForMultipleCryptoSymbols({
-    symbols,
-    exchanges,
-  }: {
-    /**
-     * The comma-separated list of crypto symbols to query for. Note, currently all crypto symbols must be appended with "USD", ie "BTCUSD,ETHUSD" would get both BTC and ETH
-     */
-    symbols: string;
-    /**
-     * A comma separated list of which crypto exchanges to pull the data from. Alpaca currently supports `ERSX`, `CBSE`, and `FTXU`
-     */
-    exchanges?: string;
-  }): CancelablePromise<LatestMultiXBBOResponse> {
-    return this.httpRequest.request({
-      method: "GET",
-      url: "/v1beta3/crypto/us/xbbos/latest",
-      query: {
-        symbols: symbols,
-        exchanges: exchanges,
-      },
-    });
-  }
-
-  /**
-   * Get Latest XBBO for a single crypto symbol
-   * Returns the XBBO for a crypto symbol that calculates the Best Bid and Offer across multiple exchanges. If exchanges is not specified then only the exchanges that can be traded on Alpaca are included in the calculation.
-   * @returns LatestXBBOResponse Successful response
-   * @throws ApiError
-   */
-  public getLatestXbboForCryptoSymbol({
-    symbol,
-    exchanges,
-  }: {
-    /**
-     * The crypto symbol to query for. Note, currently all crypto symbols must be appended with "USD", ie "BTCUSD" would be how you query for BTC.
-     */
-    symbol: string;
-    /**
-     * A comma separated list of which crypto exchanges to pull the data from. Alpaca currently supports `ERSX`, `CBSE`, and `FTXU`
-     */
-    exchanges?: string;
-  }): CancelablePromise<LatestXBBOResponse> {
-    return this.httpRequest.request({
-      method: "GET",
-      url: "/v1beta3/crypto/us/{symbol}/xbbo/latest",
-      path: {
-        symbol: symbol,
-      },
-      query: {
-        exchanges: exchanges,
-      },
-    });
-  }
-
-  /**
-   * Get list of crypto spreads per exchange
-   * Get list of crypto spreads for the different exchanges Alpaca supports in basis points.
-   * @returns CryptoSpreadsResponse OK
-   * @throws ApiError
-   */
-  public getCryptoMetaSpreads(): CancelablePromise<CryptoSpreadsResponse> {
-    return this.httpRequest.request({
-      method: "GET",
-      url: "/v1beta3/crypto/us/meta/spreads",
     });
   }
 }

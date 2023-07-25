@@ -14,7 +14,6 @@ import type { MultiBarsResponse } from "../models/MultiBarsResponse.js";
 import type { MultiQuotesReponse } from "../models/MultiQuotesReponse.js";
 import type { MultiSnapshotResponse } from "../models/MultiSnapshotResponse.js";
 import type { MultiTradesResponse } from "../models/MultiTradesResponse.js";
-import type { QuotesResponse } from "../models/QuotesResponse.js";
 import type { Snapshot } from "../models/Snapshot.js";
 import type { TradesResponse } from "../models/TradesResponse.js";
 
@@ -520,7 +519,7 @@ export class StockDataService {
      * Which feed to pull market data from. This is either `iex` or `sip`. `sip` and `otc` are only available to those with a subscription
      */
     feed?: "iex" | "sip" | "otc";
-  }): CancelablePromise<QuotesResponse> {
+  }): CancelablePromise<MultiQuotesReponse> {
     return this.httpRequest.request({
       method: "GET",
       url: "/v2/stocks/{symbol}/quotes",
