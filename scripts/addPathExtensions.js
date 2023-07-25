@@ -1,12 +1,14 @@
+// we need this to map the import/export statements to .js
+
 import fs from "fs";
 import glob from "glob";
 
-// Directory where the files are located
+// directory where the files are located
 const directoryPath = "./src";
 
 console.log(`Looking for .ts files in: ${directoryPath}`);
 
-// Use glob to find all .ts files in the directory
+// use glob to find all .ts files in the directory
 glob(`${directoryPath}/**/*.ts`, {}, (err, files) => {
   if (err) {
     console.error(err);
@@ -15,16 +17,16 @@ glob(`${directoryPath}/**/*.ts`, {}, (err, files) => {
 
   console.log(`Found ${files.length} files.`);
 
-  // Loop through each file
+  // loop through each file
   files.forEach((filePath) => {
-    // Read the file
+    // read the file
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         console.error(err);
         process.exit(1);
       }
 
-      // Use a regular expression to replace import/export statements without .js with .js
+      // replace import/export statements without .js with .js
       const updatedData = data.replace(
         /(from\s+['"])([^'"]+)(['"])/g,
         (match, prePath, importPath, postPath) => {
@@ -35,7 +37,7 @@ glob(`${directoryPath}/**/*.ts`, {}, (err, files) => {
         }
       );
 
-      // Write the updated content back to the file
+      // write the updated content back to the file
       fs.writeFile(filePath, updatedData, "utf8", (err) => {
         if (err) {
           console.error(err);
