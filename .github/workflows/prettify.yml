@@ -24,3 +24,4 @@ jobs:
         with:
           dry: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          prettier_options: --write ./src
