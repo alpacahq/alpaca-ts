@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export { OpenAPIClient } from "./OpenAPIClient.js";
+export { Client } from "./Client";
 
 export { ApiError } from "./core/ApiError.js";
 export { BaseHttpRequest } from "./core/BaseHttpRequest.js";

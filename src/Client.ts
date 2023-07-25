@@ -17,10 +17,19 @@ import { LogoService } from "./services/LogoService.js";
 import { NewsService } from "./services/NewsService.js";
 import { ScreenerService } from "./services/ScreenerService.js";
 import { StockDataService } from "./services/StockDataService.js";
+import { BaseURL } from "./BaseURL";
 
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 
-export class OpenAPIClient {
+interface ClientOptions {
+  baseURL: typeof BaseURL | string;
+  credentials: {
+    key: string;
+    secret: string;
+  };
+}
+
+export class Client {
   public readonly calendar: CalendarService;
   public readonly clock: ClockService;
   public readonly assets: AssetsService;
@@ -41,17 +50,21 @@ export class OpenAPIClient {
   };
 
   constructor(
-    config?: Partial<OpenAPIConfig>,
+    options?: ClientOptions,
     HttpRequest: HttpRequestConstructor = AxiosHttpRequest
   ) {
     this.request = new HttpRequest({
       BASE: config?.BASE ?? "https://paper-api.alpaca.markets",
       VERSION: config?.VERSION ?? "2.0.0",
       WITH_CREDENTIALS: config?.WITH_CREDENTIALS ?? false,
-      CREDENTIALS: config?.CREDENTIALS ?? "include",
-      TOKEN: config?.TOKEN,
-      HEADERS: config?.HEADERS,
-      ENCODE_PATH: config?.ENCODE_PATH,
+      CREDENTIALS: options?.CREDENTIALS ?? "include",
+      TOKEN: options?.TOKEN,
+      HEADERS: !!options?.credentials
+        ? {
+            "APCA-API-KEY-ID": options.credentials.key,
+            "APCA-API-SECRET-KEY": options.credentials.secret,
+          }
+        : undefined,
     });
 
     this.account = {

@@ -19,7 +19,6 @@ import type { MultiTradesResponse } from "../models/MultiTradesResponse.js";
 import type { QuotesResponse } from "../models/QuotesResponse.js";
 import type { Snapshot } from "../models/Snapshot.js";
 import type { TradesResponse } from "../models/TradesResponse.js";
-
 import type { CancelablePromise } from "../core/CancelablePromise.js";
 import type { BaseHttpRequest } from "../core/BaseHttpRequest.js";
 
