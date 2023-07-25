@@ -3,9 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Quote } from './Quote';
+import type { Quote } from "./Quote";
 
 export type LatestMultiQuotesResponse = {
-    quotes: Record<string, Quote>;
+  quotes: Record<string, Quote>;
 };
-

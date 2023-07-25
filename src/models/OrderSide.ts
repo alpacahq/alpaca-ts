@@ -10,6 +10,6 @@
  * - sell
  */
 export enum OrderSide {
-    BUY = 'buy',
-    SELL = 'sell',
+  BUY = "buy",
+  SELL = "sell",
 }

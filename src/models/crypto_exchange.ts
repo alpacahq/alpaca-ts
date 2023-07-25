@@ -7,7 +7,7 @@
  * Which crypto exchange to pull the data from. Alpaca currently supports `ERSX`, `CBSE`, and `FTXU`
  */
 export enum crypto_exchange {
-    ERSX = 'ERSX',
-    CBSE = 'CBSE',
-    FTXU = 'FTXU',
+  ERSX = "ERSX",
+  CBSE = "CBSE",
+  FTXU = "FTXU",
 }

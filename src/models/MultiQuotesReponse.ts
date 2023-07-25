@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Quote } from './Quote';
+import type { Quote } from "./Quote";
 
 /**
  * A model representing the result of hitting the Multi Quotes api; represents multiple Quotes for multiple symbols.
@@ -14,10 +14,9 @@ import type { Quote } from './Quote';
  *
  */
 export type MultiQuotesReponse = {
-    quotes: Record<string, Array<Quote>>;
-    /**
-     * pass this token with your request again to get the next page of results
-     */
-    next_page_token?: string | null;
+  quotes: Record<string, Array<Quote>>;
+  /**
+   * pass this token with your request again to get the next page of results
+   */
+  next_page_token?: string | null;
 };
-

@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Trade } from './Trade';
+import type { Trade } from "./Trade";
 
 /**
  * A model representing the result of hitting the Multi Trades api; represents multiple trades for multiple symbols.
@@ -14,7 +14,6 @@ import type { Trade } from './Trade';
  *
  */
 export type MultiTradesResponse = {
-    trades: Record<string, Array<Trade>>;
-    next_page_token?: string | null;
+  trades: Record<string, Array<Trade>>;
+  next_page_token?: string | null;
 };
-

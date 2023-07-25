@@ -3,9 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { XBBO } from './XBBO';
+import type { XBBO } from "./XBBO";
 
 export type LatestMultiXBBOResponse = {
-    xbbos: Record<string, XBBO>;
+  xbbos: Record<string, XBBO>;
 };
-

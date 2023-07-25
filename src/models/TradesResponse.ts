@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Trade } from './Trade';
+import type { Trade } from "./Trade";
 
 /**
  * A model representing the result of hitting the Trades api.
@@ -11,17 +11,16 @@ import type { Trade } from './Trade';
  * Represents multiple Trades for a single symbol with support for paging.
  */
 export type TradesResponse = {
-    /**
-     * Array of trades
-     */
-    trades: Array<Trade>;
-    /**
-     * Symbol that was queried
-     */
-    symbol: string;
-    /**
-     * Token that can be used to query the next page
-     */
-    next_page_token?: string | null;
+  /**
+   * Array of trades
+   */
+  trades: Array<Trade>;
+  /**
+   * Symbol that was queried
+   */
+  symbol: string;
+  /**
+   * Token that can be used to query the next page
+   */
+  next_page_token?: string | null;
 };
-

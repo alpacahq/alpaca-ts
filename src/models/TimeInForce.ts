@@ -27,10 +27,10 @@
  * A Fill or Kill (FOK) order is only executed if the entire order quantity can be filled, otherwise the order is canceled. Only available with API v2.
  */
 export enum TimeInForce {
-    DAY = 'day',
-    GTC = 'gtc',
-    OPG = 'opg',
-    CLS = 'cls',
-    IOC = 'ioc',
-    FOK = 'fok',
+  DAY = "day",
+  GTC = "gtc",
+  OPG = "opg",
+  CLS = "cls",
+  IOC = "ioc",
+  FOK = "fok",
 }

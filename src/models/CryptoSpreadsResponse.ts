@@ -4,6 +4,5 @@
 /* eslint-disable */
 
 export type CryptoSpreadsResponse = {
-    spreads: Record<string, number>;
+  spreads: Record<string, number>;
 };
-

@@ -15,11 +15,11 @@
  * - OTC
  */
 export enum Exchange {
-    AMEX = 'AMEX',
-    ARCA = 'ARCA',
-    BATS = 'BATS',
-    NYSE = 'NYSE',
-    NASDAQ = 'NASDAQ',
-    NYSEARCA = 'NYSEARCA',
-    OTC = 'OTC',
+  AMEX = "AMEX",
+  ARCA = "ARCA",
+  BATS = "BATS",
+  NYSE = "NYSE",
+  NASDAQ = "NASDAQ",
+  NYSEARCA = "NYSEARCA",
+  OTC = "OTC",
 }

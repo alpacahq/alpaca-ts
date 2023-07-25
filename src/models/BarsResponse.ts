@@ -3,17 +3,16 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Bar } from './Bar';
+import type { Bar } from "./Bar";
 
 export type BarsResponse = {
-    /**
-     * The array of Bar data
-     */
-    bars: Array<Bar>;
-    /**
-     * the stock ticker or crypto symbol this set of bar data is for
-     */
-    symbol: string;
-    next_page_token: string | null;
+  /**
+   * The array of Bar data
+   */
+  bars: Array<Bar>;
+  /**
+   * the stock ticker or crypto symbol this set of bar data is for
+   */
+  symbol: string;
+  next_page_token: string | null;
 };
-

@@ -3,13 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { News } from './News';
+import type { News } from "./News";
 
 export type GetNewsResponse = {
-    news?: Array<News>;
-    /**
-     * Pagination token for next page
-     */
-    next_page_token?: string;
+  news?: Array<News>;
+  /**
+   * Pagination token for next page
+   */
+  next_page_token?: string;
 };
-

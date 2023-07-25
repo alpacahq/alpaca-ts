@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Bar } from './Bar';
+import type { Bar } from "./Bar";
 
 /**
  * A model representing the result of hitting the Multi Bars api; represents multiple Bars for multiple symbols.
@@ -14,7 +14,6 @@ import type { Bar } from './Bar';
  *
  */
 export type MultiBarsResponse = {
-    bars: Record<string, Array<Bar>>;
-    next_page_token?: string | null;
+  bars: Record<string, Array<Bar>>;
+  next_page_token?: string | null;
 };
-

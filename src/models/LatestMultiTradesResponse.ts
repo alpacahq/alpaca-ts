@@ -3,9 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Trade } from './Trade';
+import type { Trade } from "./Trade";
 
 export type LatestMultiTradesResponse = {
-    trades: Record<string, Trade>;
+  trades: Record<string, Trade>;
 };
-
