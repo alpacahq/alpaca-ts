@@ -36,7 +36,7 @@ export class StockDataService {
    * @returns MultiBarsResponse Successful response
    * @throws ApiError
    */
-  public getBarsForMultipleStockSymbols({
+  public getBarsForMultipleSymbols({
     symbols,
     timeframe,
     start,
@@ -101,7 +101,7 @@ export class StockDataService {
    * @returns LatestMultiBarsResponse OK
    * @throws ApiError
    */
-  public getLatestBarsForMultipleStockSymbols({
+  public getLatestBarsForMultipleSymbols({
     symbols,
     feed,
   }: {
@@ -130,7 +130,7 @@ export class StockDataService {
    * @returns BarsResponse Successful response
    * @throws ApiError
    */
-  public getBarsForStockSymbol({
+  public getBarsForSymbol({
     symbol,
     timeframe,
     start,
@@ -197,7 +197,7 @@ export class StockDataService {
    * @returns LatestBarResponse OK
    * @throws ApiError
    */
-  public getLatestBarForStockSymbol({
+  public getLatestBarForSymbol({
     symbol,
     feed,
   }: {
@@ -232,7 +232,7 @@ export class StockDataService {
    * @returns MultiTradesResponse Successful response
    * @throws ApiError
    */
-  public getTradesForMultipleStockSymbols({
+  public getTradesForMultipleSymbols({
     symbols,
     start,
     end,
@@ -285,7 +285,7 @@ export class StockDataService {
    * @returns LatestMultiTradesResponse OK
    * @throws ApiError
    */
-  public getLatestTradesForMultipleStockSymbols({
+  public getLatestTradesForMultipleSymbols({
     symbols,
     feed,
   }: {
@@ -314,7 +314,7 @@ export class StockDataService {
    * @returns TradesResponse Successful response
    * @throws ApiError
    */
-  public getTradesForStockSymbol({
+  public getTradesForSymbol({
     symbol,
     start,
     end,
@@ -369,7 +369,7 @@ export class StockDataService {
    * @returns LatestTradeResponse Successful response
    * @throws ApiError
    */
-  public getLatestTradeForStockSymbol({
+  public getLatestTradeForSymbol({
     symbol,
     feed,
   }: {
@@ -405,7 +405,7 @@ export class StockDataService {
    *
    * @throws ApiError
    */
-  public getQuotesForMultipleStockSymbols({
+  public getQuotesForMultipleSymbols({
     symbols,
     start,
     end,
@@ -458,7 +458,7 @@ export class StockDataService {
    * @returns LatestMultiQuotesResponse OK
    * @throws ApiError
    */
-  public getLatestQuotesForMultipleStockSymbols({
+  public getLatestQuotesForMultipleSymbols({
     symbols,
     feed,
   }: {
@@ -487,7 +487,7 @@ export class StockDataService {
    * @returns QuotesResponse Successful response
    * @throws ApiError
    */
-  public getQuotesForStockSymbol({
+  public getQuotesForSymbol({
     symbol,
     start,
     end,
@@ -542,7 +542,7 @@ export class StockDataService {
    * @returns LatestQuoteResponse Successful response
    * @throws ApiError
    */
-  public getLatestQuoteForStockSymbol({
+  public getLatestQuoteForSymbol({
     symbol,
     feed,
   }: {
@@ -573,7 +573,7 @@ export class StockDataService {
    * @returns MultiSnapshotResponse Successful response
    * @throws ApiError
    */
-  public getSnapshotsForMultipleStockSymbols({
+  public getSnapshotsForMultipleSymbols({
     symbols,
     feed,
   }: {
@@ -602,7 +602,7 @@ export class StockDataService {
    * @returns Snapshot Successful response
    * @throws ApiError
    */
-  public getSnapshotForStockSymbol({
+  public getSnapshotForSymbol({
     symbol,
     feed,
   }: {
