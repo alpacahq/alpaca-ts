@@ -1,5 +1,4 @@
-name: Pretty Formatting
-
+name: Prettify
 on:
   push:
     branches:
@@ -7,12 +6,13 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   format:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
       - name: Prettier Action
         uses: creyD/prettier_action@v4.3
