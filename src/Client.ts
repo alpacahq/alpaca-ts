@@ -48,6 +48,8 @@ class AccountServices extends AccountService {
 }
 
 export class Client {
+  private readonly request: BaseHttpRequest;
+
   public readonly calendar: CalendarService;
   public readonly clock: ClockService;
   public readonly assets: AssetsService;
@@ -57,7 +59,6 @@ export class Client {
   public readonly screener: ScreenerService;
   public readonly stocks: StockDataService;
   public readonly watchlists: WatchlistsService;
-  public readonly request: BaseHttpRequest;
   public readonly account: AccountServices;
 
   constructor(

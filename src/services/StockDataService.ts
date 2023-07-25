@@ -22,7 +22,10 @@ import type { CancelablePromise } from "../core/CancelablePromise.js";
 import type { BaseHttpRequest } from "../core/BaseHttpRequest.js";
 
 export class StockDataService {
-  constructor(public readonly httpRequest: BaseHttpRequest) {}
+  constructor(public readonly httpRequest: BaseHttpRequest) {
+    // change the baseURL to data.alpaca.markets
+    this.httpRequest.config.BASE = "https://data.alpaca.markets";
+  }
 
   /**
    * Get Bar data for multiple stock symbols

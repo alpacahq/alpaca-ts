@@ -23,7 +23,10 @@ import type { CancelablePromise } from "../core/CancelablePromise.js";
 import type { BaseHttpRequest } from "../core/BaseHttpRequest.js";
 
 export class CryptoDataService {
-  constructor(public readonly httpRequest: BaseHttpRequest) {}
+  constructor(public readonly httpRequest: BaseHttpRequest) {
+    // change the baseURL to data.alpaca.markets
+    this.httpRequest.config.BASE = "https://data.alpaca.markets";
+  }
 
   /**
    * Get Trade data for multiple crypto symbols
