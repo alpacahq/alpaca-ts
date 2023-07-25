@@ -2,8 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import { OpenAPIClient } from "./OpenAPIClient";
-
 export { OpenAPIClient } from "./OpenAPIClient";
 
 export { ApiError } from "./core/ApiError";
@@ -40,10 +38,10 @@ export type { Watchlist } from "./models/Watchlist";
 
 export { AccountActivitiesService } from "./services/AccountActivitiesService";
 export { AccountConfigurationsService } from "./services/AccountConfigurationsService";
-export { AccountsService } from "./services/AccountsService";
+export { AccountService } from "./services/AccountService";
 export { CalendarService } from "./services/CalendarService";
 export { ClockService } from "./services/ClockService";
-export { DefaultService } from "./services/DefaultService";
+export { AssetsService } from "./services/AssetsService";
 export { OrdersService } from "./services/OrdersService";
 export { PortfolioHistoryService } from "./services/PortfolioHistoryService";
 export { PositionsService } from "./services/PositionsService";
