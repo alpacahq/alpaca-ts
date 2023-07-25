@@ -50,8 +50,6 @@ export class OpenAPIClient {
       WITH_CREDENTIALS: config?.WITH_CREDENTIALS ?? false,
       CREDENTIALS: config?.CREDENTIALS ?? "include",
       TOKEN: config?.TOKEN,
-      USERNAME: config?.USERNAME,
-      PASSWORD: config?.PASSWORD,
       HEADERS: config?.HEADERS,
       ENCODE_PATH: config?.ENCODE_PATH,
     });
