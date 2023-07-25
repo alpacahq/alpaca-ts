@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Bar } from "./Bar";
+import type { Bar } from "./Bar.js";
 
 /**
  * A model representing the result of hitting the Multi Bars api; represents multiple Bars for multiple symbols.

@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Snapshot } from "./Snapshot";
+import type { Snapshot } from "./Snapshot.js";
 
 /**
  * A model representing the result of hitting the Multi Snapshots api; represents Snapshots for multiple symbols.

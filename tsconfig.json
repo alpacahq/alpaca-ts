@@ -12,11 +12,12 @@
     "noImplicitAny": false,
     "noUnusedLocals": true,
     "outDir": "dist",
-    "sourceMap": false,
+    "sourceMap": true,
     "strict": true,
     "target": "ES6",
     "baseUrl": "src",
-    "declarationDir": "dist/@types"
+    "sourceRoot": "src",
+    "declarationDir": "dist"
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

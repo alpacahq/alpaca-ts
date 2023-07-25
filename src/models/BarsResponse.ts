@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Bar } from "./Bar";
+import type { Bar } from "./Bar.js";
 
 export type BarsResponse = {
   /**

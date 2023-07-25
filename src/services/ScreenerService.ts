@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { MarketMoversResponse } from "../models/MarketMoversResponse";
+import type { MarketMoversResponse } from "../models/MarketMoversResponse.js";
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import type { BaseHttpRequest } from "../core/BaseHttpRequest";
+import type { CancelablePromise } from "../core/CancelablePromise.js";
+import type { BaseHttpRequest } from "../core/BaseHttpRequest.js";
 
 export class ScreenerService {
   constructor(public readonly httpRequest: BaseHttpRequest) {}

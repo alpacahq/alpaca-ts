@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { XBBO } from "./XBBO";
+import type { XBBO } from "./XBBO.js";
 
 /**
  * Represents the Latest XBBO for a crypto symbol that calculates the Best Bid and Offer across multiple exchanges.

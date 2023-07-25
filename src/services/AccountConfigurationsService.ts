@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AccountConfigurations } from "../models/AccountConfigurations";
+import type { AccountConfigurations } from "../models/AccountConfigurations.js";
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import type { BaseHttpRequest } from "../core/BaseHttpRequest";
+import type { CancelablePromise } from "../core/CancelablePromise.js";
+import type { BaseHttpRequest } from "../core/BaseHttpRequest.js";
 
 export class AccountConfigurationsService {
   constructor(public readonly httpRequest: BaseHttpRequest) {}

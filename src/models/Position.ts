@@ -3,8 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { AssetClass } from "./AssetClass";
-import type { Exchange } from "./Exchange";
+import type { AssetClass } from "./AssetClass.js";
+import type { Exchange } from "./Exchange.js";
 
 /**
  * The positions API provides information about an account’s current open positions. The response will include information such as cost basis, shares traded, and market value, which will be updated live as price information is updated. Once a position is closed, it will no longer be queryable through this API.

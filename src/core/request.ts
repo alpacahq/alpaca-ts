@@ -11,12 +11,12 @@ import type {
 } from "axios";
 import FormData from "form-data";
 
-import { ApiError } from "./ApiError";
-import type { ApiRequestOptions } from "./ApiRequestOptions";
-import type { ApiResult } from "./ApiResult";
-import { CancelablePromise } from "./CancelablePromise";
-import type { OnCancel } from "./CancelablePromise";
-import type { OpenAPIConfig } from "./OpenAPI";
+import { ApiError } from "./ApiError.js";
+import type { ApiRequestOptions } from "./ApiRequestOptions.js";
+import type { ApiResult } from "./ApiResult.js";
+import { CancelablePromise } from "./CancelablePromise.js";
+import type { OnCancel } from "./CancelablePromise.js";
+import type { OpenAPIConfig } from "./OpenAPI.js";
 
 export const isDefined = <T>(
   value: T | null | undefined
@@ -162,8 +162,6 @@ export const getHeaders = async (
   formData?: FormData
 ): Promise<Record<string, string>> => {
   const token = await resolve(options, config.TOKEN);
-  const username = await resolve(options, config.USERNAME);
-  const password = await resolve(options, config.PASSWORD);
   const additionalHeaders = await resolve(options, config.HEADERS);
   const formHeaders =
     (typeof formData?.getHeaders === "function" && formData?.getHeaders()) ||
@@ -186,11 +184,6 @@ export const getHeaders = async (
 
   if (isStringWithValue(token)) {
     headers["Authorization"] = `Bearer ${token}`;
-  }
-
-  if (isStringWithValue(username) && isStringWithValue(password)) {
-    const credentials = base64(`${username}:${password}`);
-    headers["Authorization"] = `Basic ${credentials}`;
   }
 
   if (options.body) {

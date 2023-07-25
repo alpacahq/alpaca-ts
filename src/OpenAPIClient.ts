@@ -1,22 +1,22 @@
-import type { BaseHttpRequest } from "./core/BaseHttpRequest";
-import type { OpenAPIConfig } from "./core/OpenAPI";
+import type { BaseHttpRequest } from "./core/BaseHttpRequest.js";
+import type { OpenAPIConfig } from "./core/OpenAPI.js";
 
-import { AxiosHttpRequest } from "./core/AxiosHttpRequest";
-import { AccountActivitiesService } from "./services/AccountActivitiesService";
-import { AccountConfigurationsService } from "./services/AccountConfigurationsService";
-import { AccountService } from "./services/AccountService";
-import { CalendarService } from "./services/CalendarService";
-import { ClockService } from "./services/ClockService";
-import { AssetsService } from "./services/AssetsService";
-import { OrdersService } from "./services/OrdersService";
-import { PortfolioHistoryService } from "./services/PortfolioHistoryService";
-import { PositionsService } from "./services/PositionsService";
-import { WatchlistsService } from "./services/WatchlistsService";
-import { CryptoPricingDataApiService } from "./services/CryptoPricingDataApiService";
-import { LogoService } from "./services/LogoService";
-import { NewsService } from "./services/NewsService";
-import { ScreenerService } from "./services/ScreenerService";
-import { StockPricingDataApiService } from "./services/StockPricingDataApiService";
+import { AxiosHttpRequest } from "./core/AxiosHttpRequest.js";
+import { AccountActivitiesService } from "./services/AccountActivitiesService.js";
+import { AccountConfigurationsService } from "./services/AccountConfigurationsService.js";
+import { AccountService } from "./services/AccountService.js";
+import { CalendarService } from "./services/CalendarService.js";
+import { ClockService } from "./services/ClockService.js";
+import { AssetsService } from "./services/AssetsService.js";
+import { OrdersService } from "./services/OrdersService.js";
+import { PortfolioHistoryService } from "./services/PortfolioHistoryService.js";
+import { PositionsService } from "./services/PositionsService.js";
+import { WatchlistsService } from "./services/WatchlistsService.js";
+import { CryptoDataService } from "./services/CryptoDataService.js";
+import { LogoService } from "./services/LogoService.js";
+import { NewsService } from "./services/NewsService.js";
+import { ScreenerService } from "./services/ScreenerService.js";
+import { StockDataService } from "./services/StockDataService.js";
 
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 
@@ -24,11 +24,11 @@ export class OpenAPIClient {
   public readonly calendar: CalendarService;
   public readonly clock: ClockService;
   public readonly assets: AssetsService;
-  public readonly crypto: CryptoPricingDataApiService;
+  public readonly crypto: CryptoDataService;
   public readonly logo: LogoService;
   public readonly news: NewsService;
   public readonly screener: ScreenerService;
-  public readonly stocks: StockPricingDataApiService;
+  public readonly stocks: StockDataService;
   public readonly watchlists: WatchlistsService;
   public readonly request: BaseHttpRequest;
   public readonly account: {
@@ -67,10 +67,10 @@ export class OpenAPIClient {
     this.calendar = new CalendarService(this.request);
     this.clock = new ClockService(this.request);
     this.assets = new AssetsService(this.request);
-    this.crypto = new CryptoPricingDataApiService(this.request);
+    this.crypto = new CryptoDataService(this.request);
     this.logo = new LogoService(this.request);
     this.news = new NewsService(this.request);
     this.screener = new ScreenerService(this.request);
-    this.stocks = new StockPricingDataApiService(this.request);
+    this.stocks = new StockDataService(this.request);
   }
 }

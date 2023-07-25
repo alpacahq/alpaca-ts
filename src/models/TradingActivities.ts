@@ -3,8 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ActivityType } from "./ActivityType";
-import type { OrderStatus } from "./OrderStatus";
+import type { ActivityType } from "./ActivityType.js";
+import type { OrderStatus } from "./OrderStatus.js";
 
 export type TradingActivities = {
   activity_type?: ActivityType;

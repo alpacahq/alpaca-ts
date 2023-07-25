@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Quote } from "./Quote";
+import type { Quote } from "./Quote.js";
 
 /**
  * A model representing the result of hitting the Latest Quote api.

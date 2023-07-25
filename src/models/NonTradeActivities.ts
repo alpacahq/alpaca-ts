@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ActivityType } from "./ActivityType";
+import type { ActivityType } from "./ActivityType.js";
 
 export type NonTradeActivities = {
   activity_type?: ActivityType;

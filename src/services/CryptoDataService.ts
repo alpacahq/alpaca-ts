@@ -2,28 +2,28 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { BarsResponse } from "../models/BarsResponse";
-import type { CryptoSpreadsResponse } from "../models/CryptoSpreadsResponse";
-import type { LatestBarResponse } from "../models/LatestBarResponse";
-import type { LatestMultiBarsResponse } from "../models/LatestMultiBarsResponse";
-import type { LatestMultiQuotesResponse } from "../models/LatestMultiQuotesResponse";
-import type { LatestMultiTradesResponse } from "../models/LatestMultiTradesResponse";
-import type { LatestMultiXBBOResponse } from "../models/LatestMultiXBBOResponse";
-import type { LatestQuoteResponse } from "../models/LatestQuoteResponse";
-import type { LatestTradeResponse } from "../models/LatestTradeResponse";
-import type { LatestXBBOResponse } from "../models/LatestXBBOResponse";
-import type { MultiBarsResponse } from "../models/MultiBarsResponse";
-import type { MultiQuotesReponse } from "../models/MultiQuotesReponse";
-import type { MultiSnapshotResponse } from "../models/MultiSnapshotResponse";
-import type { MultiTradesResponse } from "../models/MultiTradesResponse";
-import type { QuotesResponse } from "../models/QuotesResponse";
-import type { Snapshot } from "../models/Snapshot";
-import type { TradesResponse } from "../models/TradesResponse";
+import type { BarsResponse } from "../models/BarsResponse.js";
+import type { CryptoSpreadsResponse } from "../models/CryptoSpreadsResponse.js";
+import type { LatestBarResponse } from "../models/LatestBarResponse.js";
+import type { LatestMultiBarsResponse } from "../models/LatestMultiBarsResponse.js";
+import type { LatestMultiQuotesResponse } from "../models/LatestMultiQuotesResponse.js";
+import type { LatestMultiTradesResponse } from "../models/LatestMultiTradesResponse.js";
+import type { LatestMultiXBBOResponse } from "../models/LatestMultiXBBOResponse.js";
+import type { LatestQuoteResponse } from "../models/LatestQuoteResponse.js";
+import type { LatestTradeResponse } from "../models/LatestTradeResponse.js";
+import type { LatestXBBOResponse } from "../models/LatestXBBOResponse.js";
+import type { MultiBarsResponse } from "../models/MultiBarsResponse.js";
+import type { MultiQuotesReponse } from "../models/MultiQuotesReponse.js";
+import type { MultiSnapshotResponse } from "../models/MultiSnapshotResponse.js";
+import type { MultiTradesResponse } from "../models/MultiTradesResponse.js";
+import type { QuotesResponse } from "../models/QuotesResponse.js";
+import type { Snapshot } from "../models/Snapshot.js";
+import type { TradesResponse } from "../models/TradesResponse.js";
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import type { BaseHttpRequest } from "../core/BaseHttpRequest";
+import type { CancelablePromise } from "../core/CancelablePromise.js";
+import type { BaseHttpRequest } from "../core/BaseHttpRequest.js";
 
-export class CryptoPricingDataApiService {
+export class CryptoDataService {
   constructor(public readonly httpRequest: BaseHttpRequest) {}
 
   /**

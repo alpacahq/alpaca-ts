@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { MarketMoverAsset } from "./MarketMoverAsset";
+import type { MarketMoverAsset } from "./MarketMoverAsset.js";
 
 /**
  * Contains list of market movers

@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { News } from "./News";
+import type { News } from "./News.js";
 
 export type GetNewsResponse = {
   news?: Array<News>;

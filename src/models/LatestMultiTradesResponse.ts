@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Trade } from "./Trade";
+import type { Trade } from "./Trade.js";
 
 export type LatestMultiTradesResponse = {
   trades: Record<string, Trade>;

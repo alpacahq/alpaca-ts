@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Trade } from "./Trade";
+import type { Trade } from "./Trade.js";
 
 /**
  * A model representing the result of hitting the Latest Trade api.

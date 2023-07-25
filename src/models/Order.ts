@@ -3,12 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { AssetClass } from "./AssetClass";
-import type { OrderClass } from "./OrderClass";
-import type { OrderSide } from "./OrderSide";
-import type { OrderStatus } from "./OrderStatus";
-import type { OrderType } from "./OrderType";
-import type { TimeInForce } from "./TimeInForce";
+import type { AssetClass } from "./AssetClass.js";
+import type { OrderClass } from "./OrderClass.js";
+import type { OrderSide } from "./OrderSide.js";
+import type { OrderStatus } from "./OrderStatus.js";
+import type { OrderType } from "./OrderType.js";
+import type { TimeInForce } from "./TimeInForce.js";
 
 /**
  * The Orders API allows a user to monitor, place and cancel their orders with Alpaca.

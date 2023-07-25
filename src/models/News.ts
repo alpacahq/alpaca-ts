@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { NewsImage } from "./NewsImage";
+import type { NewsImage } from "./NewsImage.js";
 
 /**
  * Model representing a news article from the Alpaca Market Data API

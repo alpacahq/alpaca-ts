@@ -3,8 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { AssetClass } from "./AssetClass";
-import type { Exchange } from "./Exchange";
+import type { AssetClass } from "./AssetClass.js";
+import type { Exchange } from "./Exchange.js";
 
 /**
  * The assets API serves as the master list of assets available for trade and data consumption from Alpaca. Assets are sorted by asset class, exchange and symbol. Some assets are only available for data consumption via Polygon, and are not tradable with Alpaca. These assets will be marked with the flag tradable=false.

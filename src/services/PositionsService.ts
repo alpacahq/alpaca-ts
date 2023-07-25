@@ -2,12 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Order } from "../models/Order";
-import type { Position } from "../models/Position";
-import type { PositionClosedReponse } from "../models/PositionClosedReponse";
+import type { Order } from "../models/Order.js";
+import type { Position } from "../models/Position.js";
+import type { PositionClosedReponse } from "../models/PositionClosedReponse.js";
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import type { BaseHttpRequest } from "../core/BaseHttpRequest";
+import type { CancelablePromise } from "../core/CancelablePromise.js";
+import type { BaseHttpRequest } from "../core/BaseHttpRequest.js";
 
 export class PositionsService {
   constructor(public readonly httpRequest: BaseHttpRequest) {}

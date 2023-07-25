@@ -2,12 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CanceledOrderResponse } from "../models/CanceledOrderResponse";
-import type { Order } from "../models/Order";
-import type { PatchOrderRequest } from "../models/PatchOrderRequest";
+import type { CanceledOrderResponse } from "../models/CanceledOrderResponse.js";
+import type { Order } from "../models/Order.js";
+import type { PatchOrderRequest } from "../models/PatchOrderRequest.js";
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import type { BaseHttpRequest } from "../core/BaseHttpRequest";
+import type { CancelablePromise } from "../core/CancelablePromise.js";
+import type { BaseHttpRequest } from "../core/BaseHttpRequest.js";
 
 export class OrdersService {
   constructor(public readonly httpRequest: BaseHttpRequest) {}

@@ -2,11 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { NonTradeActivities } from "../models/NonTradeActivities";
-import type { TradingActivities } from "../models/TradingActivities";
+import type { NonTradeActivities } from "../models/NonTradeActivities.js";
+import type { TradingActivities } from "../models/TradingActivities.js";
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import type { BaseHttpRequest } from "../core/BaseHttpRequest";
+import type { CancelablePromise } from "../core/CancelablePromise.js";
+import type { BaseHttpRequest } from "../core/BaseHttpRequest.js";
 
 export class AccountActivitiesService {
   constructor(public readonly httpRequest: BaseHttpRequest) {}

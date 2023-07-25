@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Quote } from "./Quote";
+import type { Quote } from "./Quote.js";
 
 /**
  * The Quotes API provides NBBO quotes for a given ticker symbol at a specified date.

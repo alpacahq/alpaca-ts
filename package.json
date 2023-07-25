@@ -1,6 +1,6 @@
 {
   "name": "@master-chief/alpaca-ts",
-  "version": "7.0.2-alpha",
+  "version": "7.0.3-alpha",
   "description": "A TypeScript Node.js library for the https://alpaca.markets REST API and WebSocket streams.",
   "author": "117",
   "contributors": [
@@ -30,16 +30,15 @@
     "stock"
   ],
   "type": "module",
-  "types": "./@types/index.d.ts",
-  "typings": "./@types/index.d.ts",
+  "types": "./dist/index.d.ts",
+  "typings": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "engines": {
     "node": ">=14"
   },
   "files": [
     "src/",
-    "dist/",
-    "@types/"
+    "dist/"
   ],
   "repository": {
     "type": "git",

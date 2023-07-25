@@ -2,10 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { PortfolioHistory } from "../models/PortfolioHistory";
+import type { PortfolioHistory } from "../models/PortfolioHistory.js";
 
-import type { CancelablePromise } from "../core/CancelablePromise";
-import type { BaseHttpRequest } from "../core/BaseHttpRequest";
+import type { CancelablePromise } from "../core/CancelablePromise.js";
+import type { BaseHttpRequest } from "../core/BaseHttpRequest.js";
 
 export class PortfolioHistoryService {
   constructor(public readonly httpRequest: BaseHttpRequest) {}

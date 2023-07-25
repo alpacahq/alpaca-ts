@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { TimeInForce } from "./TimeInForce";
+import type { TimeInForce } from "./TimeInForce.js";
 
 /**
  * Represents a request to patch an order.
