@@ -1,23 +1,35 @@
-import type { OpenAPIConfig } from "./core/OpenAPI.js";
-import type { BaseHttpRequest } from "./core/BaseHttpRequest.js";
+import type { BaseHttpRequest } from "./rest/BaseHttpRequest";
+import type { ApiRequestOptions } from "./rest/ApiRequestOptions";
 
-import { AxiosHttpRequest } from "./core/AxiosHttpRequest.js";
+import { AxiosHttpRequest } from "./rest/AxiosHttpRequest";
+import { Logos } from "./paths/logos";
+import { News } from "./paths/news";
+import { Clock } from "./paths/clock";
+import { Orders } from "./paths/orders";
+import { Assets } from "./paths/assets";
+import { AccountService } from "./paths/AccountService.js";
+import { Calendar } from "./paths/calendar";
+import { Crypto } from "./paths/crypto";
+import { Stocks } from "./paths/stocks";
+import { Screener } from "./paths/screener";
+import { Positions } from "./paths/positions";
+import { Watchlists } from "./paths/watchlists";
+import { Account } from "./paths/account";
+import { PortfolioHistoryService } from "./paths/PortfolioHistoryService.js";
+import { AccountConfigurations } from "./paths/AccountConfigurations";
 
-import { LogoService } from "./services/LogoService.js";
-import { NewsService } from "./services/NewsService.js";
-import { ClockService } from "./services/ClockService.js";
-import { OrdersService } from "./services/OrdersService.js";
-import { AssetsService } from "./services/AssetsService.js";
-import { AccountService } from "./services/AccountService.js";
-import { CalendarService } from "./services/CalendarService.js";
-import { CryptoDataService } from "./services/CryptoDataService.js";
-import { StockDataService } from "./services/StockDataService.js";
-import { ScreenerService } from "./services/ScreenerService.js";
-import { PositionsService } from "./services/PositionsService.js";
-import { WatchlistsService } from "./services/WatchlistsService.js";
-import { AccountActivitiesService } from "./services/AccountActivitiesService.js";
-import { PortfolioHistoryService } from "./services/PortfolioHistoryService.js";
-import { AccountConfigurationsService } from "./services/AccountConfigurationsService.js";
+type Resolver<T> = (options: ApiRequestOptions) => Promise<T>;
+type Headers = Record<string, string>;
+
+export type OpenAPIConfig = {
+  BASE: string;
+  HEADERS?: Headers | Resolver<Headers> | undefined;
+};
+
+export const OpenAPI: OpenAPIConfig = {
+  BASE: "https://paper-api.alpaca.markets",
+  HEADERS: undefined,
+};
 
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 
@@ -31,18 +43,18 @@ interface ClientOptions {
 
 // bundle all account services into one class for convenience
 class AccountServices extends AccountService {
-  activities: AccountActivitiesService;
-  configurations: AccountConfigurationsService;
-  positions: PositionsService;
-  orders: OrdersService;
+  activities: Account;
+  configurations: AccountConfigurations;
+  positions: Positions;
+  orders: Orders;
   portfolioHistory: PortfolioHistoryService;
 
   constructor(httpRequest: BaseHttpRequest) {
     super(httpRequest);
-    this.activities = new AccountActivitiesService(httpRequest);
-    this.configurations = new AccountConfigurationsService(httpRequest);
-    this.positions = new PositionsService(httpRequest);
-    this.orders = new OrdersService(httpRequest);
+    this.activities = new Account(httpRequest);
+    this.configurations = new AccountConfigurations(httpRequest);
+    this.positions = new Positions(httpRequest);
+    this.orders = new Orders(httpRequest);
     this.portfolioHistory = new PortfolioHistoryService(httpRequest);
   }
 }
@@ -50,15 +62,15 @@ class AccountServices extends AccountService {
 export class Client {
   private readonly request: BaseHttpRequest;
 
-  public readonly calendar: CalendarService;
-  public readonly clock: ClockService;
-  public readonly assets: AssetsService;
-  public readonly crypto: CryptoDataService;
-  public readonly logo: LogoService;
-  public readonly news: NewsService;
-  public readonly screener: ScreenerService;
-  public readonly stocks: StockDataService;
-  public readonly watchlists: WatchlistsService;
+  public readonly calendar: Calendar;
+  public readonly clock: Clock;
+  public readonly assets: Assets;
+  public readonly crypto: Crypto;
+  public readonly logo: Logos;
+  public readonly news: News;
+  public readonly screener: Screener;
+  public readonly stocks: Stocks;
+  public readonly watchlists: Watchlists;
   public readonly account: AccountServices;
 
   constructor(
@@ -81,14 +93,14 @@ export class Client {
     });
 
     this.account = new AccountServices(this.request);
-    this.watchlists = new WatchlistsService(this.request);
-    this.calendar = new CalendarService(this.request);
-    this.clock = new ClockService(this.request);
-    this.assets = new AssetsService(this.request);
-    this.crypto = new CryptoDataService(this.request);
-    this.logo = new LogoService(this.request);
-    this.news = new NewsService(this.request);
-    this.screener = new ScreenerService(this.request);
-    this.stocks = new StockDataService(this.request);
+    this.watchlists = new Watchlists(this.request);
+    this.calendar = new Calendar(this.request);
+    this.clock = new Clock(this.request);
+    this.assets = new Assets(this.request);
+    this.crypto = new Crypto(this.request);
+    this.logo = new Logos(this.request);
+    this.news = new News(this.request);
+    this.screener = new Screener(this.request);
+    this.stocks = new Stocks(this.request);
   }
 }
