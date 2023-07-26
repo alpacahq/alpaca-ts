@@ -1,22 +1,8 @@
 import type { BaseHttpRequest } from "./rest/BaseHttpRequest";
 import type { ApiRequestOptions } from "./rest/ApiRequestOptions";
-
+import account from "./api/account";
 import { AxiosHttpRequest } from "./rest/AxiosHttpRequest";
-import { Logos } from "./paths/logos";
-import { News } from "./paths/news";
-import { Clock } from "./paths/clock";
-import { Orders } from "./paths/orders";
-import { Assets } from "./paths/assets";
-import { AccountService } from "./paths/AccountService.js";
-import { Calendar } from "./paths/calendar";
-import { Crypto } from "./paths/crypto";
-import { Stocks } from "./paths/stocks";
-import { Screener } from "./paths/screener";
-import { Positions } from "./paths/positions";
-import { Watchlists } from "./paths/watchlists";
-import { Account } from "./paths/account";
-import { PortfolioHistoryService } from "./paths/PortfolioHistoryService.js";
-import { AccountConfigurations } from "./paths/AccountConfigurations";
+import { prewrap } from "./rest/prewrap";
 
 type Resolver<T> = (options: ApiRequestOptions) => Promise<T>;
 type Headers = Record<string, string>;
@@ -41,37 +27,8 @@ interface ClientOptions {
   };
 }
 
-// bundle all account services into one class for convenience
-class AccountServices extends AccountService {
-  activities: Account;
-  configurations: AccountConfigurations;
-  positions: Positions;
-  orders: Orders;
-  portfolioHistory: PortfolioHistoryService;
-
-  constructor(httpRequest: BaseHttpRequest) {
-    super(httpRequest);
-    this.activities = new Account(httpRequest);
-    this.configurations = new AccountConfigurations(httpRequest);
-    this.positions = new Positions(httpRequest);
-    this.orders = new Orders(httpRequest);
-    this.portfolioHistory = new PortfolioHistoryService(httpRequest);
-  }
-}
-
 export class Client {
-  private readonly request: BaseHttpRequest;
-
-  public readonly calendar: Calendar;
-  public readonly clock: Clock;
-  public readonly assets: Assets;
-  public readonly crypto: Crypto;
-  public readonly logo: Logos;
-  public readonly news: News;
-  public readonly screener: Screener;
-  public readonly stocks: Stocks;
-  public readonly watchlists: Watchlists;
-  public readonly account: AccountServices;
+  private readonly baseHttpRequest: BaseHttpRequest;
 
   constructor(
     options?: ClientOptions,
@@ -79,7 +36,9 @@ export class Client {
   ) {
     const { paper, credentials } = options ?? {};
 
-    this.request = new HttpRequest({
+    // base request object for all requests
+    // changes based on paper/live mode and/or data endpoints
+    this.baseHttpRequest = new HttpRequest({
       BASE:
         paper === true || paper === undefined
           ? "https://paper-api.alpaca.markets"
@@ -91,16 +50,19 @@ export class Client {
           }
         : undefined,
     });
+  }
 
-    this.account = new AccountServices(this.request);
-    this.watchlists = new Watchlists(this.request);
-    this.calendar = new Calendar(this.request);
-    this.clock = new Clock(this.request);
-    this.assets = new Assets(this.request);
-    this.crypto = new Crypto(this.request);
-    this.logo = new Logos(this.request);
-    this.news = new News(this.request);
-    this.screener = new Screener(this.request);
-    this.stocks = new Stocks(this.request);
+  get account() {
+    return prewrap(account, this.baseHttpRequest.config);
+  }
+
+  get assets() {
+    return prewrap(assets, this.baseHttpRequest.config);
   }
 }
+
+const client = new Client();
+
+client.account.get().then((account) => {
+  console.log(account);
+});
