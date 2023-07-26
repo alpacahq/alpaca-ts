@@ -25,15 +25,14 @@ const activities = {
        */
       activityTypes?: "trade_activity" | "non_trade_activity";
     }
-  ): CancelablePromise<Array<TradingActivities | NonTradeActivities>> => {
-    return httpRequest.request({
+  ): CancelablePromise<Array<TradingActivities | NonTradeActivities>> =>
+    httpRequest.request({
       method: "GET",
       url: "/v2/account/activities",
       query: {
         activity_types: activityTypes,
       },
-    });
-  },
+    }),
   /**
    * Get account activities of one type
    * Returns account activity entries for a specific type of activity.
@@ -85,8 +84,8 @@ const activities = {
        */
       category?: string;
     }
-  ): CancelablePromise<Array<TradingActivities | NonTradeActivities>> => {
-    return httpRequest.request({
+  ): CancelablePromise<Array<TradingActivities | NonTradeActivities>> =>
+    httpRequest.request({
       method: "GET",
       url: "/v2/account/activities/{activity_type}",
       path: {
@@ -101,8 +100,7 @@ const activities = {
         page_token: pageToken,
         category: category,
       },
-    });
-  },
+    }),
 };
 
 /**
@@ -111,12 +109,11 @@ const activities = {
  * @returns Account OK
  * @throws ApiError
  */
-function get(httpRequest: BaseHttpRequest): CancelablePromise<Account> {
-  return httpRequest.request({
+const get = (httpRequest: BaseHttpRequest): CancelablePromise<Account> =>
+  httpRequest.request({
     method: "GET",
     url: "/v2/account",
   });
-}
 
 /**
  * Account Portfolio History
@@ -124,7 +121,7 @@ function get(httpRequest: BaseHttpRequest): CancelablePromise<Account> {
  * @returns PortfolioHistory Successful response
  * @throws ApiError
  */
-function portfolioHistory(
+const portfolioHistory = (
   httpRequest: BaseHttpRequest,
   {
     period,
@@ -149,8 +146,8 @@ function portfolioHistory(
      */
     extendedHours?: string;
   }
-): CancelablePromise<PortfolioHistory> {
-  return httpRequest.request({
+): CancelablePromise<PortfolioHistory> =>
+  httpRequest.request({
     method: "GET",
     url: "/v2/account/portfolio/history",
     query: {
@@ -160,7 +157,6 @@ function portfolioHistory(
       extended_hours: extendedHours,
     },
   });
-}
 
 const config = {
   /**
@@ -171,33 +167,31 @@ const config = {
    */
   get: (
     httpRequest: BaseHttpRequest
-  ): CancelablePromise<AccountConfigurations> => {
-    return httpRequest.request({
+  ): CancelablePromise<AccountConfigurations> =>
+    httpRequest.request({
       method: "GET",
       url: "/v2/account/configurations",
-    });
-  },
+    }),
   /**
    * Account Configurations
    * Updates and returns the current account configuration values
    * @returns AccountConfigurations Successful response
    * @throws ApiError
    */
-  patch: (
+  update: (
     httpRequest: BaseHttpRequest,
     {
       requestBody,
     }: {
       requestBody?: AccountConfigurations;
     }
-  ): CancelablePromise<AccountConfigurations> => {
-    return httpRequest.request({
+  ): CancelablePromise<AccountConfigurations> =>
+    httpRequest.request({
       method: "PATCH",
       url: "/v2/account/configurations",
       body: requestBody,
       mediaType: "application/json",
-    });
-  },
+    }),
 };
 
 export default {

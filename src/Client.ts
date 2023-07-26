@@ -1,8 +1,10 @@
 import type { BaseHttpRequest } from "./rest/BaseHttpRequest";
 import type { ApiRequestOptions } from "./rest/ApiRequestOptions";
-import account from "./api/account";
-import { AxiosHttpRequest } from "./rest/AxiosHttpRequest";
+
 import { prewrap } from "./rest/prewrap";
+import { AxiosHttpRequest } from "./rest/AxiosHttpRequest";
+
+import { account, assets, clock, calendar } from "./api";
 
 type Resolver<T> = (options: ApiRequestOptions) => Promise<T>;
 type Headers = Record<string, string>;
@@ -59,10 +61,18 @@ export class Client {
   get assets() {
     return prewrap(assets, this.baseHttpRequest.config);
   }
+
+  get clock() {
+    return prewrap(clock, this.baseHttpRequest.config);
+  }
+
+  get calendar() {
+    return prewrap(calendar, this.baseHttpRequest.config);
+  }
 }
 
 const client = new Client();
 
-client.account.get().then((account) => {
-  console.log(account);
+client.assets.list({}).then((assets) => {
+  console.log(assets);
 });

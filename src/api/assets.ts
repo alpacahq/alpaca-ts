@@ -1,5 +1,6 @@
 import type { Assets } from "../entities/Assets.js";
 import type { CancelablePromise } from "../rest/CancelablePromise";
+
 import { BaseHttpRequest } from "../rest/BaseHttpRequest";
 
 /**
@@ -8,7 +9,7 @@ import { BaseHttpRequest } from "../rest/BaseHttpRequest";
  * @returns Assets An array of asset objects
  * @throws ApiError
  */
-function get(
+const list = (
   httpRequest: BaseHttpRequest,
   {
     status,
@@ -33,8 +34,8 @@ function get(
      */
     attributes?: string;
   }
-): CancelablePromise<Array<Assets>> {
-  return httpRequest.request({
+): CancelablePromise<Array<Assets>> =>
+  httpRequest.request({
     method: "GET",
     url: "/v2/assets",
     query: {
@@ -44,7 +45,6 @@ function get(
       attributes: attributes,
     },
   });
-}
 
 /**
  * Get an Asset by ID or Symbol
@@ -56,7 +56,7 @@ function get(
  * @returns Assets An Asset object
  * @throws ApiError
  */
-function getBySymbolOrAssetId(
+const getBySymbolOrAssetId = (
   httpRequest: BaseHttpRequest,
   {
     symbolOrAssetId,
@@ -66,8 +66,8 @@ function getBySymbolOrAssetId(
      */
     symbolOrAssetId: string;
   }
-): CancelablePromise<Assets> {
-  return httpRequest.request({
+): CancelablePromise<Assets> =>
+  httpRequest.request({
     method: "GET",
     url: "/v2/assets/{symbol_or_asset_id}",
     path: {
@@ -77,9 +77,8 @@ function getBySymbolOrAssetId(
       404: `Not Found`,
     },
   });
-}
 
 export default {
-  get,
+  list,
   getBySymbolOrAssetId,
 };
