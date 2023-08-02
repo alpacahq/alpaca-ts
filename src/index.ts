@@ -3,8 +3,8 @@ export { Client } from "./Client.js";
 export { ApiError } from "./rest/ApiError";
 export { BaseHttpRequest } from "./rest/BaseHttpRequest";
 export { CancelablePromise, CancelError } from "./rest/CancelablePromise";
-export { OpenAPI } from "./OpenAPI";
-export type { OpenAPIConfig } from "./OpenAPI";
+export { OpenAPI } from "./Client";
+export type { OpenAPIConfig } from "./Client";
 
 export type { Account } from "./entities/Account.js";
 export { AccountConfigurations } from "./entities/AccountConfigurations.js";
@@ -31,17 +31,6 @@ export { TimeInForce } from "./entities/TimeInForce.js";
 export { TradingActivities } from "./entities/TradingActivities.js";
 export type { UpdateWatchlistRequest } from "./entities/UpdateWatchlistRequest.js";
 export type { Watchlist } from "./entities/Watchlist.js";
-
-export { Account } from "./api/account";
-export { AccountConfigurations } from "./api/AccountConfigurations";
-export { AccountService } from "./api/AccountService.js";
-export { Calendar } from "./api/calendar";
-export { Clock } from "./api/clock";
-export { Assets } from "./api/assets";
-export { Orders } from "./api/orders";
-export { PortfolioHistoryService } from "./api/PortfolioHistoryService.js";
-export { Positions } from "./api/positions";
-export { Watchlists } from "./api/watchlists";
 
 export { adjustment } from "./entities/adjustment.js";
 export { Bar } from "./entities/Bar.js";
@@ -79,9 +68,3 @@ export type { timeframe } from "./entities/timeframe.js";
 export type { Trade } from "./entities/Trade.js";
 export type { TradesResponse } from "./entities/TradesResponse.js";
 export type { XBBO } from "./entities/XBBO.js";
-
-export { Crypto } from "./api/crypto";
-export { Logos } from "./api/logos";
-export { News } from "./api/news";
-export { Screener } from "./api/screener";
-export { Stocks } from "./api/stocks";
