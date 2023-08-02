@@ -1,7 +1,7 @@
 import type { ApiRequestOptions } from "./ApiRequestOptions";
 import { BaseHttpRequest } from "./BaseHttpRequest";
 import type { CancelablePromise } from "./CancelablePromise";
-import type { OpenAPIConfig } from "../OpenAPI";
+import type { OpenAPIConfig } from "../Client";
 import { request as __request } from "./request";
 
 export class AxiosHttpRequest extends BaseHttpRequest {

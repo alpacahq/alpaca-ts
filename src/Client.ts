@@ -21,8 +21,20 @@ export const OpenAPI: OpenAPIConfig = {
 
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 
+export enum BaseURL {
+    BROKER_SANDBOX = "https://broker-api.sandbox.alpaca.markets",
+    BROKER_PRODUCTION = "https://broker-api.alpaca.markets",
+    TRADING_PAPER = "https://paper-api.alpaca.markets",
+    TRADING_LIVE = "https://api.alpaca.markets",
+    DATA = "https://data.alpaca.markets",
+    MARKET_DATA_STREAM = "wss://stream.data.alpaca.markets",
+    TRADING_STREAM_PAPER = "wss://paper-api.alpaca.markets/stream",
+    TRADING_STREAM_LIVE = "wss://api.alpaca.markets/stream",
+}
+
 interface ClientOptions {
   paper: boolean;
+  baseURL?: BaseURL;
   credentials: {
     key: string;
     secret: string;
@@ -36,15 +48,17 @@ export class Client {
     options?: ClientOptions,
     HttpRequest: HttpRequestConstructor = AxiosHttpRequest
   ) {
-    const { paper, credentials } = options ?? {};
+    const { paper, baseURL, credentials } = options ?? {};
 
     // base request object for all requests
     // changes based on paper/live mode and/or data endpoints
     this.baseHttpRequest = new HttpRequest({
       BASE:
+        baseURL ? baseURL :
         paper === true || paper === undefined
-          ? "https://paper-api.alpaca.markets"
-          : "https://api.alpaca.markets",
+          ? BaseURL.TRADING_PAPER
+          : BaseURL.TRADING_LIVE,
+      // TODO: need to implement credentials accordingly
       HEADERS: !!credentials
         ? {
             "APCA-API-KEY-ID": credentials.key,
@@ -55,19 +69,19 @@ export class Client {
   }
 
   get account() {
-    return prewrap(account, this.baseHttpRequest.config);
+    return prewrap(account, this.baseHttpRequest);
   }
 
   get assets() {
-    return prewrap(assets, this.baseHttpRequest.config);
+    return prewrap(assets, this.baseHttpRequest);
   }
 
   get clock() {
-    return prewrap(clock, this.baseHttpRequest.config);
+    return prewrap(clock, this.baseHttpRequest);
   }
 
   get calendar() {
-    return prewrap(calendar, this.baseHttpRequest.config);
+    return prewrap(calendar, this.baseHttpRequest);
   }
 }
 

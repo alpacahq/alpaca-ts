@@ -12,7 +12,7 @@ import type { ApiRequestOptions } from "./ApiRequestOptions";
 import type { ApiResult } from "./ApiResult";
 import { CancelablePromise } from "./CancelablePromise";
 import type { OnCancel } from "./CancelablePromise";
-import type { OpenAPIConfig } from "../OpenAPI";
+import type { OpenAPIConfig } from "../Client";
 
 export const isDefined = <T>(
   value: T | null | undefined
