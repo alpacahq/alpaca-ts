@@ -7,12 +7,12 @@ import type {
 } from "axios";
 import FormData from "form-data";
 
-import { ApiError } from "./ApiError";
-import type { ApiRequestOptions } from "./ApiRequestOptions";
-import type { ApiResult } from "./ApiResult";
-import { CancelablePromise } from "./CancelablePromise";
-import type { OnCancel } from "./CancelablePromise";
-import type { OpenAPIConfig } from "../OpenAPI";
+import { ApiError } from "./ApiError.js";
+import type { ApiRequestOptions } from "./ApiRequestOptions.js";
+import type { ApiResult } from "./ApiResult.js";
+import { CancelablePromise } from "./CancelablePromise.js";
+import type { OnCancel } from "./CancelablePromise.js";
+import { Config } from "../Client.js";
 
 export const isDefined = <T>(
   value: T | null | undefined
@@ -92,7 +92,7 @@ export const getQueryString = (params: Record<string, any>): string => {
   return "";
 };
 
-const getUrl = (config: OpenAPIConfig, options: ApiRequestOptions): string => {
+const getUrl = (config: Config, options: ApiRequestOptions): string => {
   const encoder = encodeURI;
 
   const path = options.url.replace(
@@ -154,7 +154,7 @@ export const resolve = async <T>(
 };
 
 export const getHeaders = async (
-  config: OpenAPIConfig,
+  config: Config,
   options: ApiRequestOptions,
   formData?: FormData
 ): Promise<Record<string, string>> => {
@@ -206,7 +206,7 @@ export const getRequestBody = (options: ApiRequestOptions): any => {
 };
 
 export const sendRequest = async <T>(
-  config: OpenAPIConfig,
+  config: Config,
   options: ApiRequestOptions,
   url: string,
   body: any,
@@ -306,7 +306,7 @@ export const catchErrorCodes = (
  * @throws ApiError
  */
 export const request = <T>(
-  config: OpenAPIConfig,
+  config: Config,
   options: ApiRequestOptions,
   axiosClient: AxiosInstance = axios
 ): CancelablePromise<T> => {

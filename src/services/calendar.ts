@@ -1,7 +1,7 @@
 import type { Calendar } from "../entities/Calendar.js";
-import type { CancelablePromise } from "../rest/CancelablePromise";
+import type { CancelablePromise } from "../rest/CancelablePromise.js";
 
-import { BaseHttpRequest } from "../rest/BaseHttpRequest";
+import { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
 
 /**
  * Get Market Calendar info
@@ -11,7 +11,7 @@ import { BaseHttpRequest } from "../rest/BaseHttpRequest";
  * @returns Calendar OK
  * @throws ApiError
  */
-const get = (
+export const getCalendar = (
   httpRequest: BaseHttpRequest,
   {
     start,
@@ -41,7 +41,3 @@ const get = (
       date_type: dateType,
     },
   });
-
-export default {
-  get,
-};

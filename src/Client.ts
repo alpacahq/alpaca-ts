@@ -1,25 +1,20 @@
-import type { BaseHttpRequest } from "./rest/BaseHttpRequest";
-import type { ApiRequestOptions } from "./rest/ApiRequestOptions";
+import services from "./services/index.js";
 
-import { prewrap } from "./rest/prewrap";
-import { AxiosHttpRequest } from "./rest/AxiosHttpRequest";
+import type { BaseHttpRequest } from "./rest/BaseHttpRequest.js";
+import type { ApiRequestOptions } from "./rest/ApiRequestOptions.js";
 
-import { account, assets, clock, calendar } from "./api";
+import { prewrap } from "./rest/prewrap.js";
+import { AxiosHttpRequest } from "./rest/AxiosHttpRequest.js";
 
 type Resolver<T> = (options: ApiRequestOptions) => Promise<T>;
 type Headers = Record<string, string>;
 
-export type OpenAPIConfig = {
+export type Config = {
   BASE: string;
   HEADERS?: Headers | Resolver<Headers> | undefined;
 };
 
-export const OpenAPI: OpenAPIConfig = {
-  BASE: "https://paper-api.alpaca.markets",
-  HEADERS: undefined,
-};
-
-type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
+type HttpRequestConstructor = new (config: Config) => BaseHttpRequest;
 
 interface ClientOptions {
   paper: boolean;
@@ -54,25 +49,38 @@ export class Client {
     });
   }
 
-  get account() {
-    return prewrap(account, this.baseHttpRequest.config);
+  get v2() {
+    const { account, assets, clock, calendar, orders, positions, watchlists } =
+      services;
+
+    return prewrap(
+      {
+        ...account,
+        ...assets,
+        ...clock,
+        ...calendar,
+        ...orders,
+        ...positions,
+        ...watchlists,
+      },
+      this.baseHttpRequest
+    );
   }
 
-  get assets() {
-    return prewrap(assets, this.baseHttpRequest.config);
+  get v1beta3() {
+    const { crypto } = services;
+    return prewrap(crypto, this.baseHttpRequest);
   }
 
-  get clock() {
-    return prewrap(clock, this.baseHttpRequest.config);
-  }
-
-  get calendar() {
-    return prewrap(calendar, this.baseHttpRequest.config);
+  get v1beta1() {
+    const { news, screener, logos } = services;
+    return prewrap(
+      {
+        ...news,
+        ...screener,
+        ...logos,
+      },
+      this.baseHttpRequest
+    );
   }
 }
-
-const client = new Client();
-
-client.assets.list({}).then((assets) => {
-  console.log(assets);
-});

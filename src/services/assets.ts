@@ -1,7 +1,7 @@
 import type { Assets } from "../entities/Assets.js";
-import type { CancelablePromise } from "../rest/CancelablePromise";
+import type { CancelablePromise } from "../rest/CancelablePromise.js";
 
-import { BaseHttpRequest } from "../rest/BaseHttpRequest";
+import { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
 
 /**
  * Get Assets
@@ -9,7 +9,7 @@ import { BaseHttpRequest } from "../rest/BaseHttpRequest";
  * @returns Assets An array of asset objects
  * @throws ApiError
  */
-const list = (
+export const getAssets = (
   httpRequest: BaseHttpRequest,
   {
     status,
@@ -56,7 +56,7 @@ const list = (
  * @returns Assets An Asset object
  * @throws ApiError
  */
-const getBySymbolOrAssetId = (
+export const getBySymbolOrAssetId = (
   httpRequest: BaseHttpRequest,
   {
     symbolOrAssetId,
@@ -77,8 +77,3 @@ const getBySymbolOrAssetId = (
       404: `Not Found`,
     },
   });
-
-export default {
-  list,
-  getBySymbolOrAssetId,
-};

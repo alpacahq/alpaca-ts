@@ -1,4 +1,4 @@
-import { BaseHttpRequest } from "./BaseHttpRequest";
+import { BaseHttpRequest } from "./BaseHttpRequest.js";
 
 type OmitFirstArg<F> = F extends (x: any, ...args: infer A) => infer R
   ? (...args: A) => R

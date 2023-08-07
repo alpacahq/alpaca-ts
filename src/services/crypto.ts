@@ -1,18 +1,12 @@
-import type { BarsResponse } from "../entities/BarsResponse.js";
-import type { LatestBarResponse } from "../entities/LatestBarResponse.js";
 import type { LatestMultiBarsResponse } from "../entities/LatestMultiBarsResponse.js";
 import type { LatestMultiQuotesResponse } from "../entities/LatestMultiQuotesResponse.js";
 import type { LatestMultiTradesResponse } from "../entities/LatestMultiTradesResponse.js";
-import type { LatestQuoteResponse } from "../entities/LatestQuoteResponse.js";
-import type { LatestTradeResponse } from "../entities/LatestTradeResponse.js";
 import type { MultiBarsResponse } from "../entities/MultiBarsResponse.js";
 import type { MultiQuotesReponse } from "../entities/MultiQuotesReponse.js";
 import type { MultiSnapshotResponse } from "../entities/MultiSnapshotResponse.js";
 import type { MultiTradesResponse } from "../entities/MultiTradesResponse.js";
-import type { Snapshot } from "../entities/Snapshot.js";
-import type { TradesResponse } from "../entities/TradesResponse.js";
-import type { CancelablePromise } from "../rest/CancelablePromise";
-import type { BaseHttpRequest } from "../rest/BaseHttpRequest";
+import type { CancelablePromise } from "../rest/CancelablePromise.js";
+import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
 
 /**
  * Get Trade data for multiple crypto symbols
@@ -24,7 +18,7 @@ import type { BaseHttpRequest } from "../rest/BaseHttpRequest";
  * @returns MultiTradesResponse Successful response
  * @throws ApiError
  */
-const getTradesForMultipleSymbols = (
+export const getTrades = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -79,7 +73,7 @@ const getTradesForMultipleSymbols = (
  * @returns LatestMultiTradesResponse OK
  * @throws ApiError
  */
-const getLatestTradesForMultipleSymbols = (
+export const getLatestTrades = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -105,92 +99,6 @@ const getLatestTradesForMultipleSymbols = (
   });
 
 /**
- * Get Trade data for a crypto symbol
- * The Trades API provides historical trade data for a given crypto symbol on a specified date. Returns trades for the queried crypto symbol
- * @returns TradesResponse Successful response
- * @throws ApiError
- */
-const getTradesForSymbol = (
-  httpRequest: BaseHttpRequest,
-  {
-    symbol,
-    start,
-    end,
-    exchanges,
-    limit,
-    pageToken,
-  }: {
-    /**
-     * The crypto symbol to query for. Note, currently all crypto symbols must be appended with "USD", ie "BTCUSD" would be how you query for BTC.
-     */
-    symbol: string;
-    /**
-     * Filter data equal to or after this time in RFC-3339 format. Fractions of a second are not accepted.
-     */
-    start?: string;
-    /**
-     * Filter data equal to or before this time in RFC-3339 format. Fractions of a second are not accepted.
-     */
-    end?: string;
-    /**
-     * A comma separated list of which crypto exchanges to pull the data from. Alpaca currently supports `ERSX`, `CBSE`, and `FTXU`
-     */
-    exchanges?: string;
-    /**
-     * Number of data points to return. Must be in range 1-10000, defaults to 1000.
-     */
-    limit?: number;
-    /**
-     * Pagination token to continue from. The value to pass here is returned in specific requests when more data is available than the request limit allows.
-     */
-    pageToken?: string;
-  }
-): CancelablePromise<TradesResponse> =>
-  httpRequest.request({
-    method: "GET",
-    url: "/v1beta3/crypto/us/trades",
-    query: {
-      symbols: symbol,
-      start: start,
-      end: end,
-      exchanges: exchanges,
-      limit: limit,
-      page_token: pageToken,
-    },
-  });
-
-/**
- * Latest Trades
- * The Latest Trades API provides the latest historical trade data for a given crypto symbol. Returns trades for the queried crypto symbol.
- * @returns LatestTradeResponse Successful response
- * @throws ApiError
- */
-const getLatestTradesForSymbol = (
-  httpRequest: BaseHttpRequest,
-  {
-    symbol,
-    exchange,
-  }: {
-    /**
-     * The crypto symbol to query for. Note, currently all crypto symbols must be appended with "USD", ie "BTCUSD" would be how you query for BTC.
-     */
-    symbol: string;
-    /**
-     * Which crypto exchange to pull the data from. Alpaca currently supports `ERSX`, `CBSE`, and `FTXU`
-     */
-    exchange: "ERSX" | "CBSE" | "FTXU";
-  }
-): CancelablePromise<LatestTradeResponse> =>
-  httpRequest.request({
-    method: "GET",
-    url: "/v1beta3/crypto/us/latest/trades",
-    query: {
-      symbols: symbol,
-      exchange: exchange,
-    },
-  });
-
-/**
  * Get Bars for multiple Crypto symbols
  * returns aggregate historical data for the requested crypto symbols.
  *
@@ -200,7 +108,7 @@ const getLatestTradesForSymbol = (
  * @returns MultiBarsResponse Successful response
  * @throws ApiError
  */
-const getBarsForMultipleSymbols = (
+export const getBars = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -261,7 +169,7 @@ const getBarsForMultipleSymbols = (
  * @returns LatestMultiBarsResponse OK
  * @throws ApiError
  */
-const getLatestBarsForMultipleSymbols = (
+export const getLatestBars = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -287,98 +195,6 @@ const getLatestBarsForMultipleSymbols = (
   });
 
 /**
- * Get Bar data for a crypto symbol
- * The Bars API returns aggregate historical data for the requested securities.. Returns bars for the queried crypto symbol
- * @returns BarsResponse Successful response
- * @throws ApiError
- */
-const getBarsForSymbol = (
-  httpRequest: BaseHttpRequest,
-  {
-    symbol,
-    timeframe,
-    start,
-    end,
-    exchanges,
-    limit,
-    pageToken,
-  }: {
-    /**
-     * The crypto symbol to query for. Note, currently all crypto symbols must be appended with "USD", ie "BTCUSD" would be how you query for BTC.
-     */
-    symbol: string;
-    /**
-     * Timeframe for the aggregation. Values are customizeable, frequently used examples: 1Min, 15Min, 1Hour, 1Day. Limits: 1Min-59Min, 1Hour-23Hour.
-     */
-    timeframe: string;
-    /**
-     * Filter data equal to or after this time in RFC-3339 format. Fractions of a second are not accepted.
-     */
-    start?: string;
-    /**
-     * Filter data equal to or before this time in RFC-3339 format. Fractions of a second are not accepted.
-     */
-    end?: string;
-    /**
-     * A comma separated list of which crypto exchanges to pull the data from. Alpaca currently supports `ERSX`, `CBSE`, and `FTXU`
-     */
-    exchanges?: string;
-    /**
-     * Number of data points to return. Must be in range 1-10000, defaults to 1000.
-     */
-    limit?: number;
-    /**
-     * Pagination token to continue from. The value to pass here is returned in specific requests when more data is available than the request limit allows.
-     */
-    pageToken?: string;
-  }
-): CancelablePromise<BarsResponse> =>
-  httpRequest.request({
-    method: "GET",
-    url: "/v1beta3/crypto/us/bars",
-    query: {
-      symbols: symbol,
-      start: start,
-      end: end,
-      timeframe: timeframe,
-      exchanges: exchanges,
-      limit: limit,
-      page_token: pageToken,
-    },
-  });
-
-/**
- * Get Latest Bar data for a Crypto symbol
- * Gets latest historical bar data for the requested crypto symbol for a specific exchange
- * @returns LatestBarResponse OK
- * @throws ApiError
- */
-const getLatestBarsForSymbol = (
-  httpRequest: BaseHttpRequest,
-  {
-    symbol,
-    exchange,
-  }: {
-    /**
-     * The crypto symbol to query for. Note, currently all crypto symbols must be appended with "USD", ie "BTCUSD" would be how you query for BTC.
-     */
-    symbol: string;
-    /**
-     * Which crypto exchange to pull the data from. Alpaca currently supports `ERSX`, `CBSE`, and `FTXU`
-     */
-    exchange: "ERSX" | "CBSE" | "FTXU";
-  }
-): CancelablePromise<LatestBarResponse> =>
-  httpRequest.request({
-    method: "GET",
-    url: "/v1beta3/crypto/us/latest/bars",
-    query: {
-      symbols: symbol,
-      exchange: exchange,
-    },
-  });
-
-/**
  * Get Quotes for multiple crypto symbols
  * The Multi Quotes API provides quotes for a list of given crypto symbols at a specified date. Returns quotes for each of  the queried crypto symbols.
  *
@@ -388,7 +204,7 @@ const getLatestBarsForSymbol = (
  * @returns MultiQuotesReponse Successful response
  * @throws ApiError
  */
-const getQuotesForMultipleSymbols = (
+export const getQuotes = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -443,7 +259,7 @@ const getQuotesForMultipleSymbols = (
  * @returns LatestMultiQuotesResponse OK
  * @throws ApiError
  */
-const getLatestQuotesForMultipleSymbols = (
+export const getLatestQuotes = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -469,43 +285,12 @@ const getLatestQuotesForMultipleSymbols = (
   });
 
 /**
- * Latest Quote
- * Returns latest quote for the queried crypto symbol
- * @returns LatestQuoteResponse Successful response
- * @throws ApiError
- */
-const getLatestQuoteForSymbol = (
-  httpRequest: BaseHttpRequest,
-  {
-    symbol,
-    exchange,
-  }: {
-    /**
-     * The comma-separated list of crypto symbols to query for. Note, currently all crypto symbols must be appended with "USD", ie "BTCUSD,ETHUSD" would get both BTC and ETH
-     */
-    symbol: string;
-    /**
-     * Which crypto exchange to pull the data from. Alpaca currently supports `ERSX`, `CBSE`, and `FTXU`
-     */
-    exchange: "ERSX" | "CBSE" | "FTXU";
-  }
-): CancelablePromise<LatestQuoteResponse> =>
-  httpRequest.request({
-    method: "GET",
-    url: "/v1beta3/crypto/us/latest/quotes",
-    query: {
-      symbols: symbol,
-      exchange: exchange,
-    },
-  });
-
-/**
  * Get Snapshots for multiple crypto symbols
  * The Multi Snapshot API returns the latest trade, latest quote, minute bar daily bar, and previous daily bar data for list of given crypto symbols.
  * @returns MultiSnapshotResponse Successful response
  * @throws ApiError
  */
-const getSnapshotsForMultipleSymbols = (
+export const getSnapshots = (
   httpRequest: BaseHttpRequest,
   {
     exchange,
@@ -527,36 +312,5 @@ const getSnapshotsForMultipleSymbols = (
     query: {
       exchange: exchange,
       symbols: symbols,
-    },
-  });
-
-/**
- * Get a Snapshot for a crypto symbol
- * The Snapshot API returns the latest trade, latest quote, minute bar daily bar, and previous daily bar data for a given crypto symbol.
- * @returns Snapshot Successful response
- * @throws ApiError
- */
-const getSnapshotForSymbol = (
-  httpRequest: BaseHttpRequest,
-  {
-    symbol,
-    exchange,
-  }: {
-    /**
-     * The crypto symbol to query for. Note, currently all crypto symbols must be appended with "USD", ie "BTCUSD" would be how you query for BTC.
-     */
-    symbol: string;
-    /**
-     * Which crypto exchange to pull the data from. Alpaca currently supports `ERSX`, `CBSE`, and `FTXU`
-     */
-    exchange: "ERSX" | "CBSE" | "FTXU";
-  }
-): CancelablePromise<Snapshot> =>
-  httpRequest.request({
-    method: "GET",
-    url: "/v1beta3/crypto/us/snapshot",
-    query: {
-      symbols: symbol,
-      exchange: exchange,
     },
   });

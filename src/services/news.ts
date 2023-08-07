@@ -1,18 +1,17 @@
 import type { GetNewsResponse } from "../entities/GetNewsResponse.js";
 
-import type { CancelablePromise } from "../rest/CancelablePromise";
-import type { BaseHttpRequest } from "../rest/BaseHttpRequest";
+import type { CancelablePromise } from "../rest/CancelablePromise.js";
+import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
 
-export class News {
-  constructor(public readonly httpRequest: BaseHttpRequest) {}
-
-  /**
-   * News API
-   * Returns latest news articles across stocks and crypto. By default returns latest 10 news articles.
-   * @returns GetNewsResponse Successful response
-   * @throws ApiError
-   */
-  public getNews({
+/**
+ * News API
+ * Returns latest news articles across stocks and crypto. By default returns latest 10 news articles.
+ * @returns GetNewsResponse Successful response
+ * @throws ApiError
+ */
+export const getNews = (
+  httpRequest: BaseHttpRequest,
+  {
     symbols,
     start,
     end,
@@ -54,20 +53,20 @@ export class News {
      * Pagination token to continue from. The value to pass here is returned in specific requests when more data is available than the request limit allows.
      */
     pageToken?: string;
-  }): CancelablePromise<GetNewsResponse> {
-    return this.httpRequest.request({
-      method: "GET",
-      url: "/v1beta1/news",
-      query: {
-        start: start,
-        end: end,
-        symbols: symbols,
-        limit: limit,
-        sort: sort,
-        include_content: includeContent,
-        exclude_contentless: excludeContentless,
-        page_token: pageToken,
-      },
-    });
   }
-}
+): CancelablePromise<GetNewsResponse> => {
+  return httpRequest.request({
+    method: "GET",
+    url: "/v1beta1/news",
+    query: {
+      start: start,
+      end: end,
+      symbols: symbols,
+      limit: limit,
+      sort: sort,
+      include_content: includeContent,
+      exclude_contentless: excludeContentless,
+      page_token: pageToken,
+    },
+  });
+};

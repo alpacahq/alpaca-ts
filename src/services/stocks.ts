@@ -13,8 +13,8 @@ import type { MultiTradesResponse } from "../entities/MultiTradesResponse.js";
 import type { Snapshot } from "../entities/Snapshot.js";
 import type { TradesResponse } from "../entities/TradesResponse.js";
 
-import type { CancelablePromise } from "../rest/CancelablePromise";
-import type { BaseHttpRequest } from "../rest/BaseHttpRequest";
+import type { CancelablePromise } from "../rest/CancelablePromise.js";
+import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
 
 export class Stocks {
   constructor(public readonly httpRequest: BaseHttpRequest) {}

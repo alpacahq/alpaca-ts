@@ -1,7 +1,7 @@
 import type { Clock } from "../entities/Clock.js";
-import type { CancelablePromise } from "../rest/CancelablePromise";
+import type { CancelablePromise } from "../rest/CancelablePromise.js";
 
-import { BaseHttpRequest } from "../rest/BaseHttpRequest";
+import { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
 
 /**
  * Get Market Clock info
@@ -11,12 +11,10 @@ import { BaseHttpRequest } from "../rest/BaseHttpRequest";
  * @returns Clock OK
  * @throws ApiError
  */
-const get = (httpRequest: BaseHttpRequest): CancelablePromise<Clock> =>
+export const getClock = (
+  httpRequest: BaseHttpRequest
+): CancelablePromise<Clock> =>
   httpRequest.request({
     method: "GET",
     url: "/v2/clock",
   });
-
-export default {
-  get,
-};
