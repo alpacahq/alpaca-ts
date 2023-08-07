@@ -1,65 +1,70 @@
 export { Client } from "./Client.js";
 
+// rest
 export { ApiError } from "./rest/ApiError.js";
 export { BaseHttpRequest } from "./rest/BaseHttpRequest.js";
 export { CancelablePromise, CancelError } from "./rest/CancelablePromise.js";
 
-export { AccountStatus } from "./entities/AccountStatus.js";
-export { ActivityType } from "./entities/ActivityType.js";
-export type { AddAssetToWatchlistRequest } from "./entities/AddAssetToWatchlistRequest.js";
-export { AssetClass } from "./entities/AssetClass.js";
-export type { CanceledOrderResponse } from "./entities/CanceledOrderResponse.js";
-export { Exchange } from "./entities/Exchange.js";
-export type { NonTradeActivities } from "./entities/NonTradeActivities.js";
-export type { Order } from "./entities/Order.js";
-export { OrderClass } from "./entities/OrderClass.js";
-export { OrderSide } from "./entities/OrderSide.js";
-export { OrderStatus } from "./entities/OrderStatus.js";
-export { OrderType } from "./entities/OrderType.js";
-export type { PatchOrderRequest } from "./entities/PatchOrderRequest.js";
-export type { PortfolioHistory } from "./entities/PortfolioHistory.js";
-export type { Position } from "./entities/Position.js";
-export type { PositionClosedReponse } from "./entities/PositionClosedReponse.js";
-export { TimeInForce } from "./entities/TimeInForce.js";
-export { TradingActivities } from "./entities/TradingActivities.js";
-export type { UpdateWatchlistRequest } from "./entities/UpdateWatchlistRequest.js";
-export type { Watchlist } from "./entities/Watchlist.js";
+// entity types
+export type {
+  AddAssetToWatchlistRequest,
+  CanceledOrderResponse,
+  NonTradeActivities,
+  Order,
+  PatchOrderRequest,
+  PortfolioHistory,
+  Position,
+  PositionClosedReponse,
+  UpdateWatchlistRequest,
+  Watchlist,
+  BarsResponse,
+  crypto_exchanges,
+  crypto_symbol,
+  crypto_symbols,
+  end,
+  ExchangesResponse,
+  GetNewsResponse,
+  LatestBarResponse,
+  LatestMultiBarsResponse,
+  LatestMultiQuotesResponse,
+  LatestMultiTradesResponse,
+  LatestQuoteResponse,
+  LatestTradeResponse,
+  limit,
+  MarketMoverAsset,
+  MultiBarsResponse,
+  MultiQuotesReponse,
+  MultiSnapshotResponse,
+  MultiTradesResponse,
+  News,
+  page_token,
+  Quote,
+  Snapshot,
+  start,
+  stock_symbol,
+  stock_symbols,
+  timeframe,
+  Trade,
+  TradesResponse,
+  XBBO,
+} from "./entities/index.js";
 
-export { adjustment } from "./entities/adjustment.js";
-export { Bar } from "./entities/Bar.js";
-export type { BarsResponse } from "./entities/BarsResponse.js";
-export { crypto_exchange } from "./entities/crypto_exchange.js";
-export type { crypto_exchanges } from "./entities/crypto_exchanges.js";
-export type { crypto_symbol } from "./entities/crypto_symbol.js";
-export type { crypto_symbols } from "./entities/crypto_symbols.js";
-export type { end } from "./entities/end.js";
-export type { ExchangesResponse } from "./entities/ExchangesResponse.js";
-export { feed } from "./entities/feed.js";
-export type { GetNewsResponse } from "./entities/GetNewsResponse.js";
-export type { LatestBarResponse } from "./entities/LatestBarResponse.js";
-export type { LatestMultiBarsResponse } from "./entities/LatestMultiBarsResponse.js";
-export type { LatestMultiQuotesResponse } from "./entities/LatestMultiQuotesResponse.js";
-export type { LatestMultiTradesResponse } from "./entities/LatestMultiTradesResponse.js";
-export type { LatestQuoteResponse } from "./entities/LatestQuoteResponse.js";
-export type { LatestTradeResponse } from "./entities/LatestTradeResponse.js";
-export type { limit } from "./entities/limit.js";
-export type { MarketMoverAsset } from "./entities/MarketMoverAsset.js";
-export { MarketMoversResponse } from "./entities/MarketMoversResponse.js";
-export type { MultiBarsResponse } from "./entities/MultiBarsResponse.js";
-export type { MultiQuotesReponse } from "./entities/MultiQuotesReponse.js";
-export type { MultiSnapshotResponse } from "./entities/MultiSnapshotResponse.js";
-export type { MultiTradesResponse } from "./entities/MultiTradesResponse.js";
-export type { News } from "./entities/News.js";
-export { NewsImage } from "./entities/NewsImage.js";
-export type { page_token } from "./entities/page_token.js";
-export type { Quote } from "./entities/Quote.js";
-export type { Snapshot } from "./entities/Snapshot.js";
-export type { start } from "./entities/start.js";
-export type { stock_symbol } from "./entities/stock_symbol.js";
-export type { stock_symbols } from "./entities/stock_symbols.js";
-export type { timeframe } from "./entities/timeframe.js";
-export type { Trade } from "./entities/Trade.js";
-export type { TradesResponse } from "./entities/TradesResponse.js";
-export type { XBBO } from "./entities/XBBO.js";
-
-export { Stocks } from "./services/stocks.js";
+// entity constants
+export {
+  AccountStatus,
+  ActivityType,
+  AssetClass,
+  Exchange,
+  OrderClass,
+  OrderSide,
+  OrderStatus,
+  OrderType,
+  TimeInForce,
+  TradingActivities,
+  adjustment,
+  Bar,
+  crypto_exchange,
+  feed,
+  MarketMoversResponse,
+  NewsImage,
+} from "./entities/index.js";
