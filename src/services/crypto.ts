@@ -7,12 +7,15 @@ import type { MultiSnapshotResponse } from "../entities/MultiSnapshotResponse.js
 import type { MultiTradesResponse } from "../entities/MultiTradesResponse.js";
 import type { CancelablePromise } from "../rest/CancelablePromise.js";
 import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
+import { cloneDeep } from "lodash-es";
 
 const BASE = "https://data.alpaca.markets";
 
-const customBase = (httpRequest: BaseHttpRequest) => {
-  httpRequest.config.BASE = BASE;
-  return httpRequest;
+// todo: this is a temporary hack
+const customBase = (httpRequest: BaseHttpRequest): BaseHttpRequest => {
+  const clonedRequest = cloneDeep(httpRequest);
+  clonedRequest.config.BASE = BASE;
+  return clonedRequest;
 };
 
 /**

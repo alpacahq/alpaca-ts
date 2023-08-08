@@ -13,7 +13,7 @@ import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
  * @returns Position Successful response
  * @throws ApiError
  */
-export const getAllOpenPositions = (
+export const getPositions = (
   httpRequest: BaseHttpRequest
 ): CancelablePromise<Array<Position>> => {
   return httpRequest.request({
