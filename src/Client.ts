@@ -50,8 +50,16 @@ export class Client {
   }
 
   get v2() {
-    const { account, assets, clock, calendar, orders, positions, watchlists } =
-      services;
+    const {
+      account,
+      stocks,
+      assets,
+      clock,
+      calendar,
+      orders,
+      positions,
+      watchlists,
+    } = services;
 
     return prewrap(
       {
@@ -60,6 +68,7 @@ export class Client {
         ...clock,
         ...calendar,
         ...orders,
+        ...stocks,
         ...positions,
         ...watchlists,
       },
