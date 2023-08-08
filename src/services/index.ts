@@ -9,10 +9,12 @@ import * as watchlists from "./watchlists.js";
 import * as crypto from "./crypto.js";
 import * as screener from "./screener.js";
 import * as logos from "./logos.js";
+import * as stocks from "./stocks.js";
 
 export default {
   account,
   assets,
+  stocks,
   clock,
   calendar,
   news,

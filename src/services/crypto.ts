@@ -8,6 +8,13 @@ import type { MultiTradesResponse } from "../entities/MultiTradesResponse.js";
 import type { CancelablePromise } from "../rest/CancelablePromise.js";
 import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
 
+const BASE = "https://data.alpaca.markets";
+
+const customBase = (httpRequest: BaseHttpRequest) => {
+  httpRequest.config.BASE = BASE;
+  return httpRequest;
+};
+
 /**
  * Get Trade data for multiple crypto symbols
  * The Multi Trades API provides historical trade data for a list of given crypto symbols on a specified date. Returns trades for the queried crypto symbols.
@@ -18,7 +25,7 @@ import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
  * @returns MultiTradesResponse Successful response
  * @throws ApiError
  */
-export const getTrades = (
+export const getCryptoTrades = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -54,7 +61,7 @@ export const getTrades = (
     pageToken?: string;
   }
 ): CancelablePromise<MultiTradesResponse> =>
-  httpRequest.request({
+  customBase(httpRequest).request({
     method: "GET",
     url: "/v1beta3/crypto/us/trades",
     query: {
@@ -73,7 +80,7 @@ export const getTrades = (
  * @returns LatestMultiTradesResponse OK
  * @throws ApiError
  */
-export const getLatestTrades = (
+export const getCryptoTradesLatest = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -89,7 +96,7 @@ export const getLatestTrades = (
     exchange: "ERSX" | "CBSE" | "FTXU";
   }
 ): CancelablePromise<LatestMultiTradesResponse> =>
-  httpRequest.request({
+  customBase(httpRequest).request({
     method: "GET",
     url: "/v1beta3/crypto/us/trades/latest",
     query: {
@@ -108,7 +115,7 @@ export const getLatestTrades = (
  * @returns MultiBarsResponse Successful response
  * @throws ApiError
  */
-export const getBars = (
+export const getCryptoBars = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -149,7 +156,7 @@ export const getBars = (
     exchanges?: string;
   }
 ): CancelablePromise<MultiBarsResponse> =>
-  httpRequest.request({
+  customBase(httpRequest).request({
     method: "GET",
     url: "/v1beta3/crypto/us/bars",
     query: {
@@ -169,7 +176,7 @@ export const getBars = (
  * @returns LatestMultiBarsResponse OK
  * @throws ApiError
  */
-export const getLatestBars = (
+export const getCryptoBarsLatest = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -185,7 +192,7 @@ export const getLatestBars = (
     exchange: "ERSX" | "CBSE" | "FTXU";
   }
 ): CancelablePromise<LatestMultiBarsResponse> =>
-  httpRequest.request({
+  customBase(httpRequest).request({
     method: "GET",
     url: "/v1beta3/crypto/us/bars/latest",
     query: {
@@ -204,7 +211,7 @@ export const getLatestBars = (
  * @returns MultiQuotesReponse Successful response
  * @throws ApiError
  */
-export const getQuotes = (
+export const getCryptoQuotes = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -240,7 +247,7 @@ export const getQuotes = (
     pageToken?: string;
   }
 ): CancelablePromise<MultiQuotesReponse> =>
-  httpRequest.request({
+  customBase(httpRequest).request({
     method: "GET",
     url: "/v1beta3/crypto/us/quotes",
     query: {
@@ -259,7 +266,7 @@ export const getQuotes = (
  * @returns LatestMultiQuotesResponse OK
  * @throws ApiError
  */
-export const getLatestQuotes = (
+export const getCryptoQuotesLatest = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -275,7 +282,7 @@ export const getLatestQuotes = (
     exchange: "ERSX" | "CBSE" | "FTXU";
   }
 ): CancelablePromise<LatestMultiQuotesResponse> =>
-  httpRequest.request({
+  customBase(httpRequest).request({
     method: "GET",
     url: "/v1beta3/crypto/us/latest/quotes",
     query: {
@@ -290,7 +297,7 @@ export const getLatestQuotes = (
  * @returns MultiSnapshotResponse Successful response
  * @throws ApiError
  */
-export const getSnapshots = (
+export const getCryptoSnapshots = (
   httpRequest: BaseHttpRequest,
   {
     exchange,
@@ -306,7 +313,7 @@ export const getSnapshots = (
     symbols: string;
   }
 ): CancelablePromise<MultiSnapshotResponse> =>
-  httpRequest.request({
+  customBase(httpRequest).request({
     method: "GET",
     url: "/v1beta3/crypto/us/snapshots",
     query: {
