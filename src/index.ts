@@ -17,7 +17,6 @@ export type {
   PositionClosedReponse,
   UpdateWatchlistRequest,
   Watchlist,
-  BarsResponse,
   crypto_exchanges,
   crypto_symbol,
   crypto_symbols,

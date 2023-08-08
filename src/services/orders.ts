@@ -43,7 +43,7 @@ export const postOrder = (
  * An array of Order objects
  * @throws ApiError
  */
-export const getAllOrders = (
+export const getOrders = (
   httpRequest: BaseHttpRequest,
   {
     status,

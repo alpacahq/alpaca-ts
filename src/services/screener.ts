@@ -9,7 +9,7 @@ import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
  * @returns MarketMoversResponse OK
  * @throws ApiError
  */
-export const getTopMoversByMarketType = (
+export const getScreenerMovers = (
   httpRequest: BaseHttpRequest,
   {
     marketType,

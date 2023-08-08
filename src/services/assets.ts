@@ -56,7 +56,7 @@ export const getAssets = (
  * @returns Assets An Asset object
  * @throws ApiError
  */
-export const getBySymbolOrAssetId = (
+export const getAssetBySymbolOrId = (
   httpRequest: BaseHttpRequest,
   {
     symbolOrAssetId,

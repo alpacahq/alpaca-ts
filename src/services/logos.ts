@@ -7,7 +7,7 @@ import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
  * @returns binary Returns the requested logo as an image.
  * @throws ApiError
  */
-export const getLogoForSymbol = (
+export const getLogo = (
   httpRequest: BaseHttpRequest,
   {
     cryptoOrStockSymbol,

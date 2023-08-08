@@ -12,7 +12,7 @@ import { Account } from "../entities/Account.js";
  * @returns any returns an array of Account activities
  * @throws ApiError
  */
-export const getActivities = (
+export const getAccountActivities = (
   httpRequest: BaseHttpRequest,
   {
     activityTypes,
@@ -37,7 +37,7 @@ export const getActivities = (
  * @returns any returns an array of Account activities
  * @throws ApiError
  */
-export const getActivitiesByType = (
+export const getAccountActivitiesByType = (
   httpRequest: BaseHttpRequest,
   {
     activityType,
@@ -120,7 +120,7 @@ export const getAccount = (
  * @returns PortfolioHistory Successful response
  * @throws ApiError
  */
-export const getPortfolioHistory = (
+export const getAccountPortfolioHistory = (
   httpRequest: BaseHttpRequest,
   {
     period,
@@ -163,7 +163,7 @@ export const getPortfolioHistory = (
  * @returns AccountConfigurations Successful response
  * @throws ApiError
  */
-export const getConfig = (
+export const getAccountConfigurations = (
   httpRequest: BaseHttpRequest
 ): CancelablePromise<AccountConfigurations> =>
   httpRequest.request({
@@ -177,7 +177,7 @@ export const getConfig = (
  * @returns AccountConfigurations Successful response
  * @throws ApiError
  */
-export const patchConfig = (
+export const patchAccountConfigurations = (
   httpRequest: BaseHttpRequest,
   {
     requestBody,

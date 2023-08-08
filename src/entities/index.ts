@@ -1,4 +1,3 @@
-// Exporting all types and constants from individual files
 export { Account } from "./Account.js";
 export { AccountConfigurations } from "./AccountConfigurations.js";
 export { AccountStatus } from "./AccountStatus.js";
@@ -7,7 +6,6 @@ export type { AddAssetToWatchlistRequest } from "./AddAssetToWatchlistRequest.js
 export { AssetClass } from "./AssetClass.js";
 export { Assets } from "./Assets.js";
 export { Bar } from "./Bar.js";
-export type { BarsResponse } from "./BarsResponse.js";
 export { Calendar } from "./Calendar.js";
 export type { CanceledOrderResponse } from "./CanceledOrderResponse.js";
 export { Clock } from "./Clock.js";
