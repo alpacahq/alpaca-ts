@@ -197,7 +197,7 @@ export const getCryptoBarsLatest = (
 ): CancelablePromise<LatestMultiBarsResponse> =>
   customBase(httpRequest).request({
     method: "GET",
-    url: "/v1beta3/crypto/us/bars/latest",
+    url: "/v1beta3/crypto/us/latest/bars",
     query: {
       symbols,
       exchange,

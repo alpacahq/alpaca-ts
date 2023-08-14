@@ -1,18 +1,20 @@
 import axios from "axios";
+import FormData from "form-data";
+
 import type {
   AxiosError,
   AxiosRequestConfig,
   AxiosResponse,
   AxiosInstance,
 } from "axios";
-import FormData from "form-data";
 
-import { ApiError } from "./ApiError.js";
-import type { ApiRequestOptions } from "./ApiRequestOptions.js";
-import type { ApiResult } from "./ApiResult.js";
-import { CancelablePromise } from "./CancelablePromise.js";
-import type { OnCancel } from "./CancelablePromise.js";
 import { Config } from "../Client.js";
+import { ApiError } from "./ApiError.js";
+import { CancelablePromise } from "./CancelablePromise.js";
+
+import type { OnCancel } from "./CancelablePromise.js";
+import type { ApiResult } from "./ApiResult.js";
+import type { ApiRequestOptions } from "./ApiRequestOptions.js";
 
 export const isDefined = <T>(
   value: T | null | undefined
