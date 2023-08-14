@@ -30,7 +30,7 @@ const customBase = (httpRequest: BaseHttpRequest): BaseHttpRequest => {
  * @returns MultiBarsResponse Successful response
  * @throws ApiError
  */
-export const getStocksBars = (
+export const getStockBars = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -98,7 +98,7 @@ export const getStocksBars = (
  * @returns LatestMultiBarsResponse OK
  * @throws ApiError
  */
-export const getStocksBarsLatest = (
+export const getStockBarsLatest = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -134,7 +134,7 @@ export const getStocksBarsLatest = (
  * @returns MultiTradesResponse Successful response
  * @throws ApiError
  */
-export const getStocksTrades = (
+export const getStockTrades = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -190,7 +190,7 @@ export const getStocksTrades = (
  * @returns LatestMultiTradesResponse OK
  * @throws ApiError
  */
-export const getStocksTradesLatest = (
+export const getStockTradesLatest = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -227,7 +227,7 @@ export const getStocksTradesLatest = (
  *
  * @throws ApiError
  */
-export const getStocksQuotes = (
+export const getStockQuotes = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -283,7 +283,7 @@ export const getStocksQuotes = (
  * @returns LatestMultiQuotesResponse OK
  * @throws ApiError
  */
-export const getStocksQuotesLatest = (
+export const getStockQuotesLatest = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -315,7 +315,7 @@ export const getStocksQuotesLatest = (
  * @returns MultiSnapshotResponse Successful response
  * @throws ApiError
  */
-export const getStocksSnapshots = (
+export const getStockSnapshots = (
   httpRequest: BaseHttpRequest,
   {
     symbols,
@@ -347,7 +347,7 @@ export const getStocksSnapshots = (
  * @returns ExchangesResponse OK
  * @throws ApiError
  */
-export const getStocksMetaExchanges = (
+export const getStockMetaExchanges = (
   httpRequest: BaseHttpRequest
 ): CancelablePromise<ExchangesResponse> => {
   return customBase(httpRequest).request({
@@ -366,7 +366,7 @@ export const getStocksMetaExchanges = (
  * Response is a JSON object mapping a condition to a plain text description
  * @throws ApiError
  */
-export const getStocksMetaConditions = (
+export const getStockMetaConditions = (
   httpRequest: BaseHttpRequest,
   {
     type,
