@@ -1,9 +1,8 @@
-import type { CanceledOrderResponse } from "../entities/CanceledOrderResponse.js";
 import type { Order } from "../entities/Order.js";
-import type { PatchOrderRequest } from "../entities/PatchOrderRequest.js";
-
-import type { CancelablePromise } from "../rest/CancelablePromise.js";
 import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
+import type { PatchOrderRequest } from "../entities/PatchOrderRequest.js";
+import type { CancelablePromise } from "../rest/CancelablePromise.js";
+import type { CanceledOrderResponse } from "../entities/CanceledOrderResponse.js";
 
 /**
  * Order

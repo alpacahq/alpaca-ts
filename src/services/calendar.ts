@@ -1,7 +1,7 @@
+import { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
+
 import type { Calendar } from "../entities/Calendar.js";
 import type { CancelablePromise } from "../rest/CancelablePromise.js";
-
-import { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
 
 /**
  * Get Market Calendar info

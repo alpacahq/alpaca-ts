@@ -1,10 +1,10 @@
+import { Account } from "../entities/Account.js";
+import { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
+import { PortfolioHistory } from "../entities/PortfolioHistory.js";
+import { CancelablePromise } from "../rest/CancelablePromise.js";
 import { TradingActivities } from "../entities/TradingActivities.js";
 import { NonTradeActivities } from "../entities/NonTradeActivities.js";
-import { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
-import { CancelablePromise } from "../rest/CancelablePromise.js";
 import { AccountConfigurations } from "../entities/AccountConfigurations.js";
-import { PortfolioHistory } from "../entities/PortfolioHistory.js";
-import { Account } from "../entities/Account.js";
 
 /**
  * Get account activities of one type

@@ -1,7 +1,7 @@
+import { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
+
 import type { Clock } from "../entities/Clock.js";
 import type { CancelablePromise } from "../rest/CancelablePromise.js";
-
-import { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
 
 /**
  * Get Market Clock info

@@ -1,9 +1,8 @@
 import type { Order } from "../entities/Order.js";
 import type { Position } from "../entities/Position.js";
-import type { PositionClosedReponse } from "../entities/PositionClosedReponse.js";
-
-import type { CancelablePromise } from "../rest/CancelablePromise.js";
 import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
+import type { CancelablePromise } from "../rest/CancelablePromise.js";
+import type { PositionClosedReponse } from "../entities/PositionClosedReponse.js";
 
 /**
  * All Open Positions

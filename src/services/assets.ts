@@ -1,7 +1,7 @@
+import { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
+
 import type { Assets } from "../entities/Assets.js";
 import type { CancelablePromise } from "../rest/CancelablePromise.js";
-
-import { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
 
 /**
  * Get Assets

@@ -1,7 +1,6 @@
 import type { GetNewsResponse } from "../entities/GetNewsResponse.js";
-
-import type { CancelablePromise } from "../rest/CancelablePromise.js";
 import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
+import type { CancelablePromise } from "../rest/CancelablePromise.js";
 
 /**
  * News API

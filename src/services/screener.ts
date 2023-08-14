@@ -1,7 +1,6 @@
-import type { MarketMoversResponse } from "../entities/MarketMoversResponse.js";
-
-import type { CancelablePromise } from "../rest/CancelablePromise.js";
 import type { BaseHttpRequest } from "../rest/BaseHttpRequest.js";
+import type { CancelablePromise } from "../rest/CancelablePromise.js";
+import type { MarketMoversResponse } from "../entities/MarketMoversResponse.js";
 
 /**
  * Get Top Market Movers by Market type
