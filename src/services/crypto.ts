@@ -190,19 +190,12 @@ export const getCryptoBarsLatest = (
      * The comma-separated list of crypto symbols to query for. Note, currently all crypto symbols must be appended with "USD", ie "BTCUSD,ETHUSD" would get both BTC and ETH
      */
     symbols: string;
-    /**
-     * Which crypto exchange to pull the data from. Alpaca currently supports `ERSX`, `CBSE`, and `FTXU`
-     */
-    exchange: "ERSX" | "CBSE" | "FTXU";
   }
 ): CancelablePromise<LatestMultiBarsResponse> =>
   customBase(httpRequest).request({
     method: "GET",
     url: "/v1beta3/crypto/us/latest/bars",
-    query: {
-      symbols,
-      exchange,
-    },
+    query: { symbols },
   });
 
 /**
