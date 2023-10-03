@@ -21,7 +21,7 @@ export declare interface Events {
   close: (stream: AlpacaStream) => void;
   authenticated: (stream: AlpacaStream) => void;
   success: (message: Message) => void;
-  error: (message: WebSocket.ErrorEvent) => void;
+  error: (message: Message) => void;
   subscription: (message: Message) => void;
   message: (message: Object) => void;
   trade_updates: (update: TradeUpdate) => void;
