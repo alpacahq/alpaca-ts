@@ -123,6 +123,7 @@ export interface GetOrders {
   until?: Date;
   direction?: 'asc' | 'desc';
   nested?: boolean;
+  side?: 'buy' | 'sell';
   symbols?: string[];
 }
 
